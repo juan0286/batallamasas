@@ -127,6 +127,19 @@ public class Recursos {
         return numerosLetras;
     }
 
+    public static void sout(String txt,int extra) {
+
+        if (Recursos.imprimirPorConsola) {
+            System.out.println(txt);
+        }
+        if (extra == 0){
+            System.out.println("-------------------------");
+        }
+        if (extra == 1){
+            System.out.println("\n");
+        }
+    }
+
     // referido a tablas
     public static void verTabla(HashMap<String, HashMap> tabla) {
         for (Map.Entry<String, HashMap> entrySet : tabla.entrySet()) {

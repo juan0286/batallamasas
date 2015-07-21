@@ -61,6 +61,7 @@ public class DeclararAtaques extends javax.swing.JDialog {
 
         int porc = soldado.definirPorcTactica();
         jSpinner_porcAtaque.setValue(porc);
+        controlDistancia();
     }
 
     /**
@@ -119,6 +120,11 @@ public class DeclararAtaques extends javax.swing.JDialog {
         jPanel3.add(jLabel1);
 
         jComboBoxArmas.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxArmas.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBoxArmasItemStateChanged(evt);
+            }
+        });
         jPanel3.add(jComboBoxArmas);
 
         jPanel6.setMaximumSize(new java.awt.Dimension(201, 38));
@@ -239,21 +245,28 @@ public class DeclararAtaques extends javax.swing.JDialog {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         Accion acc = new Accion();
         Arma arm = (Arma) jComboBoxArmas.getSelectedItem();
-
+        int bono = 0;
         int porc = (int) jSpinner_porcAtaque.getValue();
-        int tipoAccion = Accion.TIPO_COMBATE_1_ARMA;
+        int tipoAccion = 0;
         if (arm.getClase() == Arma.CLASE_ARCO_CORTO || arm.getClase() == Arma.CLASE_ARCO_LARGO) {
             tipoAccion = Accion.TIPO_COMBATE_ARCO;
+            bono = bonoSegunDistancia();
         } else if (arm.isdosManos()) {
             tipoAccion = Accion.TIPO_COMBATE_2_ARMAS;
+
         } else if (arm.getClase() == Arma.CLASE_MANO_DESNUDA) {
             tipoAccion = Accion.TIPO_COMBATE_PUÑO;
-        } 
+            bono = (jRadioButton_brazoI.isSelected()) ? -30 : 0;
+        } else {
+            tipoAccion = Accion.TIPO_COMBATE_1_ARMA;
+            bono = (jRadioButton_brazoI.isSelected()) ? -30 : 0;
+        }
+
         acc.setTipo(tipoAccion);
         acc.setDestino((Token) jComboBoxEnemigos.getSelectedItem());
         acc.setEmisor(soldado);
         soldado.setPorcentajeAtque(porc);
-        int bono = (jRadioButton_brazoI.isSelected()) ? -30 : 0;
+
         acc.setMedio(new Object[]{jComboBoxArmas.getSelectedItem(), bono});
 
         CampoDeBatalla.agregarAccion(acc);
@@ -263,6 +276,10 @@ public class DeclararAtaques extends javax.swing.JDialog {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jComboBoxArmasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxArmasItemStateChanged
+        controlDistancia();
+    }//GEN-LAST:event_jComboBoxArmasItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -289,7 +306,40 @@ public class DeclararAtaques extends javax.swing.JDialog {
         } else {
             jPanel_distancia.setVisible(false);
         }
+        this.repaint();
     }
+
+    private int bonoSegunDistancia() {
+        int dist = (Integer) jSpinner_distancia.getValue();
+        int bono = 0;
+        Arma arm = (Arma) jComboBoxArmas.getSelectedItem();
+        if (arm.getClase() == Arma.CLASE_ARCO_CORTO) {
+            if (dist <= 3) {
+                bono = 10;
+            } else if (dist >= 30 && dist <= 40) {
+                bono = -40;
+            } else if (dist >= 40 && dist <= 50) {
+                bono = -70;
+            } else if (dist >= 51) {
+                bono = -100;
+            }
+        } else if (arm.getClase() == Arma.CLASE_ARCO_LARGO) {
+            if (dist <= 3) {
+                bono = 20;
+            } else if (dist >= 30 && dist <= 44) {
+                bono = -30;
+            } else if (dist >= 45 && dist <= 60) {
+                bono = -45;
+            } else if (dist >= 61 && dist <= 119) {
+                bono = -60;
+            } else if (dist >= 120) {
+                bono = -60;
+            }
+
+        }
+        return bono;
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;

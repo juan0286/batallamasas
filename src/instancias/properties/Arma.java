@@ -48,7 +48,7 @@ public class Arma {
 
    
 
-    public Arma(String Nombre, int tipo, int bono, int clase, boolean manos) {
+    public Arma(String Nombre, int clase, int bono,int tipo, boolean manos) {
         this.Nombre = Nombre;
         this.tipo = tipo;
         this.bono = bono;
