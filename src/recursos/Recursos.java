@@ -115,7 +115,8 @@ public class Recursos {
 
     public static String[] separarNumerosDeLetras(String daño) {
         String numerosLetras[] = new String[2];
-
+        numerosLetras[0] = "";
+        numerosLetras[1] = "-";
         for (short indice = 0; indice < daño.length(); indice++) {
             char caracter = daño.charAt(indice);
             if (isNumeric(caracter)) {
@@ -138,6 +139,7 @@ public class Recursos {
         if (extra == 1){
             System.out.println("\n");
         }
+        System.out.println(txt);
     }
 
     // referido a tablas
@@ -203,6 +205,7 @@ public class Recursos {
 
     public static String[] darResultadoGolpe(String tablaArmaName, String valor) {
 
+       
         HashMap<String, String> tablaActual = tablasDaño.get(tablaArmaName);
         String dañoUnido = tablaActual.get(valor);
 

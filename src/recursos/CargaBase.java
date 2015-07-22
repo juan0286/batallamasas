@@ -153,6 +153,7 @@ public class CargaBase {
     }
 
     private static void cargaArmeria() {
+      
         Arma puños = new Arma("Mano Desnuda", Arma.CLASE_MANO_DESNUDA, -50, Arma.TIPO_NORMAL, false);
         Arma arma1 = new Arma("Espada Ancha", Arma.CLASE_ESPADA_ANCHA, 0, Arma.TIPO_NORMAL, false);
         Arma arma2 = new Arma("Espada Alfanje", Arma.CLASE_ALFANJE, 0, Arma.TIPO_NORMAL, false);

@@ -112,7 +112,7 @@ public class Accion {
 
         Arma medioArma = (Arma) medio[0];
         //int tactica = definirTactica();
-        int bonoArm = (Integer) this.medio[2];
+        int bonoArm = (Integer) this.medio[1];
         int boDisponible = emisor.boDisponibleAtaque();
         int boAtque = boDisponible;
         int def = destino.boDisponibleDefensa();
@@ -125,29 +125,14 @@ public class Accion {
                 + bonoArm
                 - def;
 
-        String nombreTabla = Recursos.armasTablas.get(emisor.getManoDER().getArmaEquipada().getTipo());
-        String codigoResultado = atque + "" + destino.getHabilidades().getArmadura();
-        String[] rdo = Recursos.darResultadoGolpe(nombreTabla, codigoResultado);
-
-        // Aplicar el daño
-        int pv = destino.getPuntosVida();
-        destino.setPuntosVida(pv - Integer.parseInt(rdo[0]));
-        destino.updateEstado();
-        // Resolver el critico
-        int dadoCritico = Recursos.aleatorioEntre(1, 100);
-        Critico critic = Recursos.textoCritico(rdo[1], dadoCritico);
-
-        // Aplicar daño del critico
-        destino.aplicarCritico(critic);
-        // }
         Recursos.sout("", 0);
         Recursos.sout("Ataque de " + emisor.getNombre() + "   A   " + destino.getNombre(), 1);
         Recursos.sout("Utiliza un " + medioArma.getNombre(), 2);
         Recursos.sout("Ataque BO = " + boAtque, 2);
         Recursos.sout("Defensa BD = " + def, 2);
         Recursos.sout("Dados = " + dados, 2);
-        Recursos.sout("Resultado = " + atque, 2);
-        Recursos.sout("Critico = \n" + critic, 1);
+
+        avanzarDaño(atque, medioArma);
     }
 
     public void resolverAtaqueArco() {
@@ -166,29 +151,14 @@ public class Accion {
                 + bonoArm
                 - def;
 
-        String nombreTabla = Recursos.armasTablas.get(medioArma.getTipo());
-        String codigoResultado = atque + "" + destino.getHabilidades().getArmadura();
-        String[] rdo = Recursos.darResultadoGolpe(nombreTabla, codigoResultado);
-
-        // Aplicar el daño
-        int pv = destino.getPuntosVida();
-        destino.setPuntosVida(pv - Integer.parseInt(rdo[0]));
-        destino.updateEstado();
-        // Resolver el critico
-        int dadoCritico = Recursos.aleatorioEntre(1, 100);
-        Critico critic = Recursos.textoCritico(rdo[1], dadoCritico);
-
-        // Aplicar daño del critico
-        destino.aplicarCritico(critic);
-        // }
         Recursos.sout("", 0);
         Recursos.sout("Ataque de " + emisor.getNombre() + "   A   " + destino.getNombre(), 1);
         Recursos.sout("Utiliza un " + medioArma.getNombre(), 2);
         Recursos.sout("Ataque BO = " + boAtque, 2);
         Recursos.sout("Defensa BD = " + def, 2);
         Recursos.sout("Dados = " + dados, 2);
-        Recursos.sout("Resultado = " + atque, 2);
-        Recursos.sout("Critico = \n" + critic, 1);
+
+        avanzarDaño(atque, medioArma);
     }
 
     public void resolverAtaqueDosArmas() {
@@ -207,37 +177,21 @@ public class Accion {
                 + bonoArm
                 - def;
 
-        Recursos.sout("Ataque de ", 0);
-
-        String nombreTabla = Recursos.armasTablas.get(medioArma.getTipo());
-        String codigoResultado = atque + "" + destino.getHabilidades().getArmadura();
-        String[] rdo = Recursos.darResultadoGolpe(nombreTabla, codigoResultado);
-
-        // Aplicar el daño
-        int pv = destino.getPuntosVida();
-        destino.setPuntosVida(pv - Integer.parseInt(rdo[0]));
-        destino.updateEstado();
-        // Resolver el critico
-        int dadoCritico = Recursos.aleatorioEntre(1, 100);
-        Critico critic = Recursos.textoCritico(rdo[1], dadoCritico);
-
-        // Aplicar daño del critico
-        destino.aplicarCritico(critic);
-        // }
-
         Recursos.sout("", 0);
         Recursos.sout("Ataque de " + emisor.getNombre() + "   A   " + destino.getNombre(), 1);
         Recursos.sout("Utiliza un " + medioArma.getNombre(), 2);
         Recursos.sout("Ataque BO = " + boAtque, 2);
         Recursos.sout("Defensa BD = " + def, 2);
         Recursos.sout("Dados = " + dados, 2);
-        Recursos.sout("Resultado = " + atque, 2);
-        Recursos.sout("Critico = \n" + critic, 1);
+
+        avanzarDaño(atque, medioArma);
+        // }
 
     }
 
     public void resolverAtaquePuños() {
 
+        Arma medioArma = (Arma) medio[0];
         //int tactica = definirTactica();
         int bonoArm = 0;
         int boDisponible = emisor.boDisponibleAtaque();
@@ -247,12 +201,23 @@ public class Accion {
 
         int atque = boAtque
                 + Recursos.dadoAbiertoArriba()
-                + emisor.getManoDER().getArmaEquipada().getBono()
+                + medioArma.getBono()
                 + bonoArm
                 - def;
 
-        String nombreTabla = Recursos.armasTablas.get(emisor.getManoDER().getArmaEquipada().getTipo());
-        String codigoResultado = atque + "" + destino.getHabilidades().getArmadura();
+        avanzarDaño(atque, medioArma);
+        // }
+
+    }
+
+    private void avanzarDaño(int atque, Arma medioArma) {
+
+        Recursos.sout("Ataque de ", 0);
+        atque = (atque > 150) ? 150 : atque;
+        atque = (atque < 150) ? 0 : atque;
+
+        String nombreTabla = Recursos.armasTablas.get(medioArma.getClase());
+        String codigoResultado = atque + "-" + destino.getHabilidades().getArmadura();
         String[] rdo = Recursos.darResultadoGolpe(nombreTabla, codigoResultado);
 
         // Aplicar el daño
@@ -265,7 +230,9 @@ public class Accion {
 
         // Aplicar daño del critico
         destino.aplicarCritico(critic);
-        // }
+
+        Recursos.sout("Resultado = " + atque, 2);
+        Recursos.sout("Critico = \n" + critic, 1);
 
     }
 
