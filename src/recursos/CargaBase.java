@@ -64,6 +64,7 @@ public class CargaBase {
                             tabla.put(n + "-" + arm, valor);
                             arm--;
                         }
+                        Recursos.sout(n+"", 2);
                         n--;
                     }
                     String nombreTabla = ficheros[x].getName().replace(".csv", "");

@@ -145,6 +145,7 @@ public class principal extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Multiple Battle Simulator");
         setMinimumSize(new java.awt.Dimension(707, 349));
 
         jPanel_General.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));

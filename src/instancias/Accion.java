@@ -212,9 +212,9 @@ public class Accion {
 
     private void avanzarDaño(int atque, Arma medioArma) {
 
-        Recursos.sout("Ataque de ", 0);
+      
         atque = (atque > 150) ? 150 : atque;
-        atque = (atque < 150) ? 0 : atque;
+        atque = (atque < 1) ? 1 : atque;
 
         String nombreTabla = Recursos.armasTablas.get(medioArma.getClase());
         String codigoResultado = atque + "-" + destino.getHabilidades().getArmadura();
@@ -224,15 +224,19 @@ public class Accion {
         int pv = destino.getPuntosVida();
         destino.setPuntosVida(pv - Integer.parseInt(rdo[0]));
         destino.updateEstado();
-        // Resolver el critico
-        int dadoCritico = Recursos.aleatorioEntre(1, 100);
-        Critico critic = Recursos.textoCritico(rdo[1], dadoCritico);
+        // Resolver el critico 
+        Recursos.sout("Resultado = " + atque, 2);
+        Recursos.sout("Daño = " + rdo[0] + "Pv", 2);
+        if (rdo[1].length() > 0){
+                int dadoCritico = Recursos.aleatorioEntre(1, 100);
+        Critico critic = Recursos.textoCritico(rdo[1].substring(0, 1), dadoCritico);
 
         // Aplicar daño del critico
         destino.aplicarCritico(critic);
-
-        Recursos.sout("Resultado = " + atque, 2);
         Recursos.sout("Critico = \n" + critic, 1);
+        }
+       
+       
 
     }
 

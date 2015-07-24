@@ -325,7 +325,7 @@ public class Token {
         if (manoDER.isHabilitado() && manoDER.getArmaEquipada().getClase() == Arma.CLASE_ESCUDO) {
             return this.manoDER.getArmaEquipada().getBono();
         } else if (manoIZQ.isHabilitado() && manoIZQ.getArmaEquipada().getClase() == Arma.CLASE_ESCUDO) {
-            return this.manoIZQ.getArmaEquipada().getBono();
+            return 25;
 
         } else {
             return 0;

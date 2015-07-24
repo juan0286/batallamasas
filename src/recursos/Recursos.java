@@ -101,7 +101,8 @@ public class Recursos {
     }
 
     public static int porcentajeDe(int porc, int total) {
-        return (total / 100) * porc;
+       // return (total / 100) * porc;
+        return (int) ((float) total / 100.0 *porc);
     }
 
     private static boolean isNumeric(char caracter) {
@@ -116,7 +117,7 @@ public class Recursos {
     public static String[] separarNumerosDeLetras(String daño) {
         String numerosLetras[] = new String[2];
         numerosLetras[0] = "";
-        numerosLetras[1] = "-";
+        numerosLetras[1] = "";
         for (short indice = 0; indice < daño.length(); indice++) {
             char caracter = daño.charAt(indice);
             if (isNumeric(caracter)) {
@@ -195,8 +196,8 @@ public class Recursos {
         String CriticoEn = tipoCritico(cod);
         String tablaCritica = "critico" + CriticoEn;
         String txtCritico = (String) tablasCritico.get(tablaCritica).get(aux + "-" + cod);
-        return new Critico(txtCritico);
-
+        Critico c = new Critico(txtCritico);
+    return c;
     }
 
     public static void dañarConCritico(String txtCritic, Token golpeado) {
