@@ -226,14 +226,15 @@ public class Accion {
         destino.updateEstado();
         // Resolver el critico 
         Recursos.sout("Resultado = " + atque, 2);
-        Recursos.sout("Daño = " + rdo[0] + "Pv", 2);
+        Recursos.sout("Daño = " + rdo[0] + "Pv  " + rdo[1], 2);
         if (rdo[1].length() > 0){
                 int dadoCritico = Recursos.aleatorioEntre(1, 100);
         Critico critic = Recursos.textoCritico(rdo[1].substring(0, 1), dadoCritico);
 
         // Aplicar daño del critico
         destino.aplicarCritico(critic);
-        Recursos.sout("Critico = \n" + critic, 1);
+        Recursos.sout("Critico = "+dadoCritico+"\n" + critic, 1);
+        
         }
        
        

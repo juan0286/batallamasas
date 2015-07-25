@@ -40,7 +40,7 @@ public class Critico {
         }else{
             contabilizar(texto);
         }
-            
+        
         }
         
     
@@ -74,6 +74,20 @@ public class Critico {
             String[] val = Recursos.separarNumerosDeLetras(txtDeDaño);
             this.puntosDaño = Integer.parseInt(val[0]);            
         }
+        aux = " puntos de daño";
+        if (resto.contains(aux)){
+            int comienzaAux = resto.indexOf(aux);
+            int auxPlus = comienzaAux;
+            while (resto.charAt(auxPlus) != '+' || auxPlus < 0){
+                auxPlus--;
+            }           
+            
+            String txtDeDaño = resto.substring(auxPlus, comienzaAux + aux.length());
+            resto = resto.replace(txtDeDaño, "");
+            
+            String[] val = Recursos.separarNumerosDeLetras(txtDeDaño);
+            this.puntosDaño = Integer.parseInt(val[0]);            
+        }
         
         aux = "aturdido y sin poder parar durante ";
         if (resto.contains(aux)){
@@ -86,6 +100,16 @@ public class Critico {
         }
         
         aux = "aturdido durante ";
+        if (resto.contains(aux)){
+            int terminaAtur = resto.indexOf(aux) + aux.length();
+            String txtAtur = resto.substring(resto.indexOf(aux), aux.length()+ 4 + " asalto".length());
+            resto = resto.replace(txtAtur, "");
+            
+            String[] val = Recursos.separarNumerosDeLetras(txtAtur);
+            this.asaltosAturdido = Integer.parseInt(val[0]);            
+        }
+        
+                aux = "aturdes al adversario durante ";
         if (resto.contains(aux)){
             int terminaAtur = resto.indexOf(aux) + aux.length();
             String txtAtur = resto.substring(resto.indexOf(aux), aux.length()+ 4 + " asalto".length());
@@ -219,6 +243,11 @@ public class Critico {
      */
     public void setMasProxAtaque(int masProxAtaque) {
         this.masProxAtaque = masProxAtaque;
+    }
+
+    @Override
+    public String toString() {
+        return "Critico{" + "texto=" + texto + ", \npuntosDa\u00f1o=" + puntosDaño + ",\n asaltosAturdido=" + asaltosAturdido + ", \nasaltosAturdidoSinParar=" + asaltosAturdidoSinParar + ", \nasaltosObligadoParar=" + asaltosObligadoParar + ", \nasaltosYMuere=" + asaltosYMuere + ", \ninconsciente=" + inconsciente + ", \nmasProxAtaque=" + masProxAtaque + ", \nreduccionAct=" + reduccionAct + '}';
     }
     
     

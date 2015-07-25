@@ -101,8 +101,8 @@ public class Recursos {
     }
 
     public static int porcentajeDe(int porc, int total) {
-       // return (total / 100) * porc;
-        return (int) ((float) total / 100.0 *porc);
+
+        return (int) ((float) total / 100.0 * porc);
     }
 
     private static boolean isNumeric(char caracter) {
@@ -129,15 +129,15 @@ public class Recursos {
         return numerosLetras;
     }
 
-    public static void sout(String txt,int extra) {
+    public static void sout(String txt, int extra) {
 
         if (Recursos.imprimirPorConsola) {
             System.out.println(txt);
         }
-        if (extra == 0){
+        if (extra == 0) {
             System.out.println("-------------------------");
         }
-        if (extra == 1){
+        if (extra == 1) {
             System.out.println("\n");
         }
         System.out.println(txt);
@@ -185,19 +185,33 @@ public class Recursos {
         } else if (num == 100) {
             aux = 18;
         } else {
-            for (int n = 1; n < 100; n++) {
-                aux = (n % aux == 0) ? (aux + 1) : aux;
+            for (int n = 1; n < 100; n++) {                
+                //System.out.println("n es "+n);
+                aux = (n  % 5 == 0) ? (aux + 1) : aux;
+               // System.out.println("aux es "+aux);
                 if (num == n) {
                     break;
                 }
             }
+            System.out.println("Fin");
         }
 
+        
         String CriticoEn = tipoCritico(cod);
         String tablaCritica = "critico" + CriticoEn;
-        String txtCritico = (String) tablasCritico.get(tablaCritica).get(aux + "-" + cod);
-        Critico c = new Critico(txtCritico);
-    return c;
+        HashMap tabla = tablasCritico.get(tablaCritica);
+        if (tabla == null){
+            Recursos.informar("No se encontro la tabla de tipo " + tablaCritica);
+        }
+        String txtCritico = (String) tabla.get(aux + "-" + cod);
+        txtCritico =  (txtCritico == null) ? "" : txtCritico;
+        Critico c = null;
+        if (txtCritico != null){
+            c = new Critico(txtCritico);
+        } else {
+            Recursos.informar("El codigo no existe en la tabla" + tablaCritica);
+        }
+        return c;
     }
 
     public static void dañarConCritico(String txtCritic, Token golpeado) {
@@ -205,10 +219,15 @@ public class Recursos {
     }
 
     public static String[] darResultadoGolpe(String tablaArmaName, String valor) {
-
-       
+        String dañoUnido = "0";
         HashMap<String, String> tablaActual = tablasDaño.get(tablaArmaName);
-        String dañoUnido = tablaActual.get(valor);
+        if (tablaActual == null) {
+            
+            Recursos.informar("No esta cargada la tabla para el Arma con la que golpea el personaje");
+            
+        } else {
+            dañoUnido = tablaActual.get(valor);
+        }
 
         return separarNumerosDeLetras(dañoUnido);
     }
