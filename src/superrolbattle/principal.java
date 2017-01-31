@@ -10,6 +10,7 @@ import instancias.Token;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.awt.Point;
 import java.util.Vector;
@@ -41,9 +42,20 @@ public class principal extends javax.swing.JFrame {
      */
     public principal() {
         initComponents();
+        
         setLocationRelativeTo(null);
         principal.ventana = this;
-        tablei = new MyTable(true);
+        JPanelFormToken jpft = new JPanelFormToken(Recursos.soldados.get(0));
+        jPanel_Pnj.add(jpft);
+        JPanelFormToken jpft2 = new JPanelFormToken(Recursos.soldados.get(1));
+        jPanel_Pnj.add(jpft2);
+        JPanelFormToken jpft3 = new JPanelFormToken(Recursos.soldados.get(2));
+        jPanel_Pnj.add(jpft3);
+        JPanelFormToken jpft4 = new JPanelFormToken(Recursos.soldados.get(2));
+        jPanel_Pnj.add(jpft4);
+        jPanel_Pnj.setLayout(new GridLayout(1, 4, 2, 2));
+        this.pack();
+        /* tablei = new MyTable(true);
         tabled = new MyTable(false);
         modeloTI = (MyTableModel) tablei.getModel();
         modeloTD = (MyTableModel) tabled.getModel();
@@ -81,6 +93,7 @@ public class principal extends javax.swing.JFrame {
         this.jScrollPane1.setViewportView(tablei);
         jPanel2.add(tabled);
         this.jScrollPane2.setViewportView(tabled);
+         */
         this.pack();
     }
 
@@ -103,25 +116,9 @@ public class principal extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel_NV = new javax.swing.JLabel();
-        jTextField_NV = new javax.swing.JTextField();
-        jLabel_BO = new javax.swing.JLabel();
-        jTextField_BO = new javax.swing.JTextField();
-        jLabel_BD = new javax.swing.JLabel();
-        jTextField_BD = new javax.swing.JTextField();
-        jLabel_Arm = new javax.swing.JLabel();
-        jTextField_Arm = new javax.swing.JTextField();
-        jPanel_Brazos = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
-        jLabel_bd = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
-        jLabel_bi = new javax.swing.JLabel();
         jPanel_Campo = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jPanel2 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jPanel1 = new javax.swing.JPanel();
+        scrollPane1 = new java.awt.ScrollPane();
+        jPanel_Pnj = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -147,6 +144,7 @@ public class principal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Multiple Battle Simulator");
         setMinimumSize(new java.awt.Dimension(707, 349));
+        setPreferredSize(null);
 
         jPanel_General.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel_General.setAutoscrolls(true);
@@ -194,6 +192,11 @@ public class principal extends javax.swing.JFrame {
         jPanel7.add(jButton4);
 
         jButton1.setText("jButton1");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -203,108 +206,32 @@ public class principal extends javax.swing.JFrame {
 
         jPanel_Acciones.add(jPanel7);
 
-        jPanel3.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel3.setMaximumSize(new java.awt.Dimension(1331, 47));
-        jPanel3.setLayout(new javax.swing.BoxLayout(jPanel3, javax.swing.BoxLayout.LINE_AXIS));
-
-        jLabel_NV.setText("NV");
-        jPanel3.add(jLabel_NV);
-
-        jTextField_NV.setEditable(false);
-        jTextField_NV.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField_NV.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jTextField_NV.setMargin(new java.awt.Insets(5, 5, 5, 5));
-        jTextField_NV.setMaximumSize(new java.awt.Dimension(35, 26));
-        jTextField_NV.setMinimumSize(new java.awt.Dimension(35, 26));
-        jTextField_NV.setPreferredSize(new java.awt.Dimension(35, 26));
-        jPanel3.add(jTextField_NV);
-
-        jLabel_BO.setText("BO");
-        jPanel3.add(jLabel_BO);
-
-        jTextField_BO.setEditable(false);
-        jTextField_BO.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField_BO.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jTextField_BO.setMargin(new java.awt.Insets(5, 5, 5, 5));
-        jTextField_BO.setMaximumSize(new java.awt.Dimension(35, 26));
-        jTextField_BO.setMinimumSize(new java.awt.Dimension(35, 26));
-        jTextField_BO.setPreferredSize(new java.awt.Dimension(35, 26));
-        jPanel3.add(jTextField_BO);
-
-        jLabel_BD.setText("BD");
-        jPanel3.add(jLabel_BD);
-
-        jTextField_BD.setEditable(false);
-        jTextField_BD.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField_BD.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jTextField_BD.setMargin(new java.awt.Insets(5, 5, 5, 5));
-        jTextField_BD.setMaximumSize(new java.awt.Dimension(35, 26));
-        jTextField_BD.setMinimumSize(new java.awt.Dimension(35, 26));
-        jTextField_BD.setPreferredSize(new java.awt.Dimension(35, 26));
-        jPanel3.add(jTextField_BD);
-
-        jLabel_Arm.setText("Arm");
-        jPanel3.add(jLabel_Arm);
-
-        jTextField_Arm.setEditable(false);
-        jTextField_Arm.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField_Arm.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jTextField_Arm.setMargin(new java.awt.Insets(5, 5, 5, 5));
-        jTextField_Arm.setMaximumSize(new java.awt.Dimension(35, 26));
-        jTextField_Arm.setMinimumSize(new java.awt.Dimension(35, 26));
-        jTextField_Arm.setPreferredSize(new java.awt.Dimension(35, 26));
-        jPanel3.add(jTextField_Arm);
-
-        jPanel_Brazos.setMaximumSize(new java.awt.Dimension(1126, 41));
-        jPanel_Brazos.setPreferredSize(new java.awt.Dimension(150, 50));
-        jPanel_Brazos.setLayout(new javax.swing.BoxLayout(jPanel_Brazos, javax.swing.BoxLayout.LINE_AXIS));
-
-        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Brazo D."));
-        jPanel6.setMaximumSize(new java.awt.Dimension(222, 35));
-        jPanel6.setMinimumSize(new java.awt.Dimension(60, 35));
-        jPanel6.setPreferredSize(new java.awt.Dimension(60, 35));
-        jPanel6.setLayout(new java.awt.BorderLayout());
-
-        jLabel_bd.setFont(new java.awt.Font("Times New Roman", 0, 10)); // NOI18N
-        jLabel_bd.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jPanel6.add(jLabel_bd, java.awt.BorderLayout.CENTER);
-
-        jPanel_Brazos.add(jPanel6);
-
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Brazo I."));
-        jPanel5.setMaximumSize(new java.awt.Dimension(222, 35));
-        jPanel5.setMinimumSize(new java.awt.Dimension(60, 35));
-        jPanel5.setPreferredSize(new java.awt.Dimension(60, 35));
-        jPanel5.setLayout(new java.awt.BorderLayout());
-
-        jLabel_bi.setFont(new java.awt.Font("Times New Roman", 0, 10)); // NOI18N
-        jLabel_bi.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel_bi.setText("          ");
-        jPanel5.add(jLabel_bi, java.awt.BorderLayout.CENTER);
-
-        jPanel_Brazos.add(jPanel5);
-
-        jPanel3.add(jPanel_Brazos);
-
-        jPanel_Acciones.add(jPanel3);
-
         jPanel_General.add(jPanel_Acciones, java.awt.BorderLayout.PAGE_START);
 
         jPanel_Campo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel_Campo.setAutoscrolls(true);
-        jPanel_Campo.setLayout(new java.awt.GridLayout(1, 0));
+        jPanel_Campo.setLayout(new javax.swing.BoxLayout(jPanel_Campo, javax.swing.BoxLayout.LINE_AXIS));
 
-        jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.Y_AXIS));
-        jScrollPane1.setViewportView(jPanel2);
+        jPanel_Pnj.setAutoscrolls(true);
 
-        jPanel_Campo.add(jScrollPane1);
+        javax.swing.GroupLayout jPanel_PnjLayout = new javax.swing.GroupLayout(jPanel_Pnj);
+        jPanel_Pnj.setLayout(jPanel_PnjLayout);
+        jPanel_PnjLayout.setHorizontalGroup(
+            jPanel_PnjLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 562, Short.MAX_VALUE)
+        );
+        jPanel_PnjLayout.setVerticalGroup(
+            jPanel_PnjLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 296, Short.MAX_VALUE)
+        );
 
-        jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.Y_AXIS));
-        jScrollPane2.setViewportView(jPanel1);
+        scrollPane1.add(jPanel_Pnj);
 
-        jPanel_Campo.add(jScrollPane2);
+        jPanel_Campo.add(scrollPane1);
 
         jPanel_General.add(jPanel_Campo, java.awt.BorderLayout.CENTER);
+
+        getContentPane().add(jPanel_General, java.awt.BorderLayout.CENTER);
 
         jMenu1.setText("File");
 
@@ -349,17 +276,6 @@ public class principal extends javax.swing.JFrame {
 
         setJMenuBar(jMenuBar1);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel_General, javax.swing.GroupLayout.DEFAULT_SIZE, 779, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel_General, javax.swing.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE)
-        );
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -400,16 +316,27 @@ public class principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBoxMenuItem1StateChanged
 
     private void jCheckBoxMenuItem2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem2ItemStateChanged
-       Recursos.imprimirPorConsola = jCheckBoxMenuItem2.isSelected();
+        Recursos.imprimirPorConsola = jCheckBoxMenuItem2.isSelected();
     }//GEN-LAST:event_jCheckBoxMenuItem2ItemStateChanged
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       CampoDeBatalla.resolverAsalto();
+        if (CampoDeBatalla.puedenComenzarlosAtaques()) {
+            CampoDeBatalla.resolverAsalto();
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      Recursos.informar("HOla Kyoros");
+        int a =jPanel_Pnj.getComponentCount()/4+1;
+        jPanel_Pnj.setLayout(new GridLayout(a, 4, 2, 2));
+        
+        JPanelFormToken jpft = new JPanelFormToken(Recursos.soldados.get(0));
+        jPanel_Pnj.add(jpft);
+        this.pack();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+
+    }//GEN-LAST:event_jButton1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -471,35 +398,19 @@ public class principal extends javax.swing.JFrame {
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel_Arm;
-    private javax.swing.JLabel jLabel_BD;
-    private javax.swing.JLabel jLabel_BO;
-    private javax.swing.JLabel jLabel_NV;
-    private javax.swing.JLabel jLabel_bd;
-    private javax.swing.JLabel jLabel_bi;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel_Acciones;
-    private javax.swing.JPanel jPanel_Brazos;
     private javax.swing.JPanel jPanel_Campo;
     private javax.swing.JPanel jPanel_General;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField_Arm;
-    private javax.swing.JTextField jTextField_BD;
-    private javax.swing.JTextField jTextField_BO;
-    private javax.swing.JTextField jTextField_NV;
+    private javax.swing.JPanel jPanel_Pnj;
+    private java.awt.ScrollPane scrollPane1;
     // End of variables declaration//GEN-END:variables
     private MyTableModel modeloTI;
     private MyTableModel modeloTD;
