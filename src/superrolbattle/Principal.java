@@ -5,6 +5,7 @@
  */
 package superrolbattle;
 
+import instancias.Accion;
 import instancias.CampoDeBatalla;
 import instancias.Token;
 import java.awt.BorderLayout;
@@ -14,10 +15,13 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.awt.Point;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Vector;
 import java.util.concurrent.RecursiveAction;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
@@ -32,6 +36,7 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+import recursos.AbrirGuardar;
 import recursos.CargaBase;
 import recursos.Recursos;
 import static recursos.Recursos.verTabla;
@@ -51,20 +56,12 @@ public class Principal extends javax.swing.JFrame {
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         jLabel_uso_ao.setVisible(false);
         campo = new CampoDeBatalla();
-
+        ag = new AbrirGuardar();
         Principal.ventana = this;
 
-        for (Iterator iterator = Recursos.soldados.iterator(); iterator.hasNext();) {
-            Token next = (Token) iterator.next();
-            JPanelFormToken jpft = new JPanelFormToken(next);
-
-            jPanel_Pnj.add(jpft);
-            JPanelFormToken_Accion jjpfta = new JPanelFormToken_Accion(next, this, 0);
-            jPanel_sinAcciones_tokens.add(jjpfta);
-            campo.agregarTokens(jjpfta);
-        }
+        loadCampoDeBatalla();
         //jPanel_Pnj.setLayout(new GridLayout(jPanel_Pnj.getComponentCount()/4+1, 4, 2, 2));
-        jPanel_sinAcciones_tokens.setLayout(new GridLayout(1, jPanel_sinAcciones_tokens.getComponentCount(), 2, 2));
+        //jPanel_sinAcciones_tokens.setLayout(new GridLayout(1, jPanel_sinAcciones_tokens.getComponentCount(), 2, 2));
         /* tablei = new MyTable(true);
         tabled = new MyTable(false);
         modeloTI = (MyTableModel) tablei.getModel();
@@ -104,7 +101,7 @@ public class Principal extends javax.swing.JFrame {
         jPanel2.add(tabled);
         this.jScrollPane2.setViewportView(tabled);
          */
-        this.repaint();
+
         setLocationRelativeTo(null);
     }
 
@@ -196,12 +193,14 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        jMenu_File = new javax.swing.JMenu();
+        jMenuItem_Abrir = new javax.swing.JMenuItem();
+        jMenuItem_Guardar = new javax.swing.JMenuItem();
+        jMenuItem_guardarComo = new javax.swing.JMenuItem();
+        jMenuItem_Salir = new javax.swing.JMenuItem();
+        jMenu_Edit = new javax.swing.JMenu();
         jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
-        jMenu5 = new javax.swing.JMenu();
+        jMenu_help = new javax.swing.JMenu();
         jCheckBoxMenuItem2 = new javax.swing.JCheckBoxMenuItem();
 
         jLabel1.setText("jLabel1");
@@ -218,7 +217,7 @@ public class Principal extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Multiple Battle Simulator");
+        setTitle("RoleMaster Actions 1.0");
         setMaximumSize(new java.awt.Dimension(1024, 860));
 
         jPanel_General.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -263,7 +262,7 @@ public class Principal extends javax.swing.JFrame {
         });
         jPanel7.add(jButton1);
 
-        jButton_crear_pj.setText("Agregar Pj");
+        jButton_crear_pj.setText("Agregar Personaje");
         jButton_crear_pj.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton_crear_pjMouseClicked(evt);
@@ -659,24 +658,50 @@ public class Principal extends javax.swing.JFrame {
 
         getContentPane().add(jPanel_General, java.awt.BorderLayout.CENTER);
 
-        jMenu1.setText("File");
-
-        jMenuItem1.setText("jMenuItem1");
-        jMenu1.add(jMenuItem1);
-
-        jMenuItem3.setText("salir");
-        jMenuItem3.setName("jMISalir"); // NOI18N
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        jMenu_File.setText("File");
+        jMenu_File.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+                jMenu_FileActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem3);
-        jMenuItem3.getAccessibleContext().setAccessibleDescription("");
 
-        jMenuBar1.add(jMenu1);
+        jMenuItem_Abrir.setText("Abrir...");
+        jMenuItem_Abrir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_AbrirActionPerformed(evt);
+            }
+        });
+        jMenu_File.add(jMenuItem_Abrir);
 
-        jMenu2.setText("Edit");
+        jMenuItem_Guardar.setText("Guardar");
+        jMenuItem_Guardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_GuardarActionPerformed(evt);
+            }
+        });
+        jMenu_File.add(jMenuItem_Guardar);
+
+        jMenuItem_guardarComo.setText("Guardar Como...");
+        jMenuItem_guardarComo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_guardarComoActionPerformed(evt);
+            }
+        });
+        jMenu_File.add(jMenuItem_guardarComo);
+
+        jMenuItem_Salir.setText("Salir");
+        jMenuItem_Salir.setName("jMISalir"); // NOI18N
+        jMenuItem_Salir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_SalirActionPerformed(evt);
+            }
+        });
+        jMenu_File.add(jMenuItem_Salir);
+        jMenuItem_Salir.getAccessibleContext().setAccessibleDescription("");
+
+        jMenuBar1.add(jMenu_File);
+
+        jMenu_Edit.setText("Edit");
 
         jCheckBoxMenuItem1.setText("Atacar al mismo Lado");
         jCheckBoxMenuItem1.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -684,11 +709,11 @@ public class Principal extends javax.swing.JFrame {
                 jCheckBoxMenuItem1StateChanged(evt);
             }
         });
-        jMenu2.add(jCheckBoxMenuItem1);
+        jMenu_Edit.add(jCheckBoxMenuItem1);
 
-        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(jMenu_Edit);
 
-        jMenu5.setText("Ayuda");
+        jMenu_help.setText("Ayuda");
 
         jCheckBoxMenuItem2.setText("Imprimir por Consola");
         jCheckBoxMenuItem2.addItemListener(new java.awt.event.ItemListener() {
@@ -696,18 +721,18 @@ public class Principal extends javax.swing.JFrame {
                 jCheckBoxMenuItem2ItemStateChanged(evt);
             }
         });
-        jMenu5.add(jCheckBoxMenuItem2);
+        jMenu_help.add(jCheckBoxMenuItem2);
 
-        jMenuBar1.add(jMenu5);
+        jMenuBar1.add(jMenu_help);
 
         setJMenuBar(jMenuBar1);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+    private void jMenuItem_SalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_SalirActionPerformed
 
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
+    }//GEN-LAST:event_jMenuItem_SalirActionPerformed
 
     private void jButton_crearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_crearActionPerformed
 
@@ -737,8 +762,13 @@ public class Principal extends javax.swing.JFrame {
         Object[] ObjTk = CrearToken.nuevoToken();
         Token tk = (Token) ObjTk[1];
         Recursos.soldados.add(tk);
+        
         JPanelFormToken jpft = new JPanelFormToken(tk);
         jPanel_Pnj.add(jpft);
+        JPanelFormToken_Accion jpfta = new JPanelFormToken_Accion(tk, this, 0);
+        campo.agregarTokens(jpfta);
+       
+        jPanel_sinAcciones_tokens.add(jpfta);
         this.repaint();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -758,7 +788,12 @@ public class Principal extends javax.swing.JFrame {
 
         JPanelFormToken jpft = new JPanelFormToken(tk);
         jPanel_Pjs.add(jpft);
-
+        
+        JPanelFormToken_Accion jpfta = new JPanelFormToken_Accion(tk, this, 0);
+        jPanel_sinAcciones_tokens.add(jpfta);
+        
+        
+        
         jpft.setVisible(true);
         this.repaint();
 
@@ -780,7 +815,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton_avanzarFaseAsalto1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_avanzarFaseAsalto1ActionPerformed
         JPanel jp = (JPanel) jButton_avanzarFaseAsalto1.getParent().getParent().getComponent(1);
-        if (todosActuaron(jp)) {
+        if (campo.todosActuaron(jp)) {
             avanzarFaseDeAsalto(-1);
         } else {
             JOptionPane.showMessageDialog(this, "Aún hay personajes sin actuar");
@@ -789,7 +824,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton_avanzarFaseAsalto2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_avanzarFaseAsalto2ActionPerformed
         JPanel jp = (JPanel) jButton_avanzarFaseAsalto2.getParent().getParent().getComponent(1);
-        if (todosActuaron(jp)) {
+        if (campo.todosActuaron(jp)) {
             avanzarFaseDeAsalto(-1);
         } else {
             JOptionPane.showMessageDialog(this, "Aún hay personajes sin actuar");
@@ -798,7 +833,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton_avanzarFaseAsalto3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_avanzarFaseAsalto3ActionPerformed
         JPanel jp = (JPanel) jButton_avanzarFaseAsalto3.getParent().getParent().getComponent(1);
-        if (todosActuaron(jp)) {
+        if (campo.todosActuaron(jp)) {
             avanzarFaseDeAsalto(-1);
         } else {
             JOptionPane.showMessageDialog(this, "Aún hay personajes sin actuar");
@@ -807,7 +842,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton_avanzarFaseAsalto4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_avanzarFaseAsalto4ActionPerformed
         JPanel jp = (JPanel) jButton_avanzarFaseAsalto4.getParent().getParent().getComponent(1);
-        if (todosActuaron(jp)) {
+        if (campo.todosActuaron(jp)) {
             avanzarFaseDeAsalto(-1);
         } else {
             JOptionPane.showMessageDialog(this, "Aún hay personajes sin actuar");
@@ -816,7 +851,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton_avanzarFaseAsalto5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_avanzarFaseAsalto5ActionPerformed
         JPanel jp = (JPanel) jButton_avanzarFaseAsalto5.getParent().getParent().getComponent(1);
-        if (todosActuaron(jp)) {
+        if (campo.todosActuaron(jp)) {
             avanzarFaseDeAsalto(-1);
         } else {
             JOptionPane.showMessageDialog(this, "Aún hay personajes sin actuar");
@@ -825,7 +860,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton_avanzarFaseAsalto6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_avanzarFaseAsalto6ActionPerformed
         JPanel jp = (JPanel) jButton_avanzarFaseAsalto6.getParent().getParent().getComponent(1);
-        if (todosActuaron(jp)) {
+        if (campo.todosActuaron(jp)) {
             avanzarFaseDeAsalto(-1);
         } else {
             JOptionPane.showMessageDialog(this, "Aún hay personajes sin actuar");
@@ -834,7 +869,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton_avanzarFaseAsalto7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_avanzarFaseAsalto7ActionPerformed
         JPanel jp = (JPanel) jButton_avanzarFaseAsalto7.getParent().getParent().getComponent(1);
-        if (todosActuaron(jp)) {
+        if (campo.todosActuaron(jp)) {
             avanzarFaseDeAsalto(-1);
         } else {
             JOptionPane.showMessageDialog(this, "Aún hay personajes sin actuar");
@@ -843,7 +878,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton_avanzarFaseAsalto8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_avanzarFaseAsalto8ActionPerformed
         JPanel jp = (JPanel) jButton_avanzarFaseAsalto8.getParent().getParent().getComponent(1);
-        if (todosActuaron(jp)) {
+        if (campo.todosActuaron(jp)) {
             avanzarFaseDeAsalto(-1);
         } else {
             JOptionPane.showMessageDialog(this, "Aún hay personajes sin actuar");
@@ -852,12 +887,71 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton_avanzarFaseAsalto9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_avanzarFaseAsalto9ActionPerformed
         JPanel jp = (JPanel) jButton_avanzarFaseAsalto9.getParent().getParent().getComponent(1);
-        if (todosActuaron(jp)) {
+        if (campo.todosActuaron(jp)) {
             avanzarFaseDeAsalto(-1);
         } else {
             JOptionPane.showMessageDialog(this, "Aún hay personajes sin actuar");
         }
     }//GEN-LAST:event_jButton_avanzarFaseAsalto9ActionPerformed
+
+    private void jMenu_FileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu_FileActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenu_FileActionPerformed
+
+    private void jMenuItem_AbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_AbrirActionPerformed
+        if (Recursos.soldados.size() > 0) {
+            int confirmado = JOptionPane.showConfirmDialog(
+                    this,
+                    "Vas a Cerrar el Campo de batalla Actual y de no haber guardado se perderan los cambios\n"
+                    + "¿Estas de Acuerdo?");
+
+            if (JOptionPane.OK_OPTION == confirmado) {
+                //cerrartodo();
+                abrirArchivo();
+            }
+        } else {
+            abrirArchivo();
+        }
+
+    }//GEN-LAST:event_jMenuItem_AbrirActionPerformed
+
+    private void jMenuItem_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_GuardarActionPerformed
+        // ActualizaUnidades();
+        try {
+            ag.GuardarField(campo);
+        } catch (IOException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenuItem_GuardarActionPerformed
+
+    private void jMenuItem_guardarComoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_guardarComoActionPerformed
+        try {
+            ag.GuardarComoField(campo);
+        } catch (IOException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenuItem_guardarComoActionPerformed
+
+    public void abrirArchivo() {
+        CampoDeBatalla field = null;
+
+        try {
+            field = ag.AbrirField();
+        } catch (IOException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.toString(), "Error Abriendo Archivo", JOptionPane.ERROR_MESSAGE);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.toString(), "Error Abriendo Archivo", JOptionPane.ERROR_MESSAGE);
+        }
+
+        if (field != null) {
+            this.campo = field;
+            loadCampoDeBatalla();
+            this.setTitle(this.getTitle() + " - " + ag.getName());
+        }
+
+    }
 
     /**
      * @param args the command line arguments
@@ -870,7 +964,7 @@ public class Principal extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -895,68 +989,85 @@ public class Principal extends javax.swing.JFrame {
 
     }
 
-    public void moverAccion(JPanelFormToken_Accion token, int destino) {
-        token.getParent().remove(token);
+    private void loadCampoDeBatalla() {
+  
+        jTextField_asalto.setText(""+campo.nAsalto);
+        for (Iterator iterator = campo.getTokens().iterator(); iterator.hasNext();) {
+            
+            JPanelFormToken_Accion next = (JPanelFormToken_Accion) iterator.next();           
+            moverAccion(next,next.getAccion().getTipo());
+            JPanelFormToken jpft = new JPanelFormToken(next.getToken());
+            if (next.getToken().isVisible())
+                jPanel_Pjs.add(jpft);
+            else 
+                jPanel_Pnj.add(jpft);
+        }
+        
+        
+        this.repaint();
+    }
+
+    public void moverAccion(JPanelFormToken_Accion tokenAccion, int destino) {
+        tokenAccion.setVisible(false);
+        tokenAccion.getParent().remove(tokenAccion);
 
         switch (destino) {
             case 0: {
-                jPanel_sinAcciones_tokens.add(token);
+                jPanel_sinAcciones_tokens.add(tokenAccion);
                 break;
             }
             case 1: {
-                jPanel_campo_CargaSortilegios.add(token);
+                jPanel_campo_CargaSortilegios.add(tokenAccion);
                 break;
             }
             case 2: {
-                jPanel_RealizaSortilegios_campo.add(token);
+                jPanel_RealizaSortilegios_campo.add(tokenAccion);
                 break;
             }
             case 3: {
-                jPanel_LanzaProyectiles_campo.add(token);
+                jPanel_LanzaProyectiles_campo.add(tokenAccion);
                 break;
             }
             case 4: {
-                jPanel_CargaProyectiles_campo.add(token);
+                jPanel_CargaProyectiles_campo.add(tokenAccion);
                 break;
             }
             case 5: {
-                jPanel_PararProyectiles_campo.add(token);
+                jPanel_PararProyectiles_campo.add(tokenAccion);
                 break;
             }
             case 6: {
-                jPanel_movimientoYmaniobra_campo.add(token);
+                jPanel_movimientoYmaniobra_campo.add(tokenAccion);
                 break;
             }
             case 7: {
-                jPanel_AtaqueCuerpoaCuerpo_campo.add(token);
+                jPanel_AtaqueCuerpoaCuerpo_campo.add(tokenAccion);
                 break;
             }
             case 8: {
-                jPanel_Movimiento_campo.add(token);
+                jPanel_Movimiento_campo.add(tokenAccion);
                 break;
             }
             case 9: {
-                jPanel_MovimientoEstatic_campo.add(token);
+                jPanel_MovimientoEstatic_campo.add(tokenAccion);
                 break;
             }
             default: {
-                jPanel_campo_CargaSortilegios.add(token);
+                jPanel_campo_CargaSortilegios.add(tokenAccion);
                 break;
             }
         }
-
+        tokenAccion.setVisible(true);
         this.repaint();
 
     }
 
     public void avanzarButtonFase(int fase) {
-        fase = (fase == -1) ? butonFase +1 : fase;
-        butonFase=fase;
-        
-                
-                
+        fase = (fase == -1) ? butonFase + 1 : fase;
+        butonFase = fase;
+
         switch (fase) {
-            case BUTTONFASE_DEFINICION: {               
+            case BUTTONFASE_DEFINICION: {
 
                 jButton_crear_pj.setEnabled(false);
                 jButton_definir.setEnabled(false);
@@ -969,7 +1080,8 @@ public class Principal extends javax.swing.JFrame {
                 break;
             }
             case BUTTONFASE_DESARROLLO: {
-               
+
+                campo.sinAccioneshechos(jPanel_sinAcciones_tokens);
                 jLabel_uso_ao.setVisible(true);
                 jButton_definir.setEnabled(false);
                 jButton_comenzar.setEnabled(false);
@@ -980,7 +1092,7 @@ public class Principal extends javax.swing.JFrame {
                 break;
             }
             case BUTTONFASE_RESULTADOS: {
-               
+
                 jLabel_uso_ao.setVisible(false);
 
                 jButton_definir.setEnabled(true);
@@ -989,10 +1101,34 @@ public class Principal extends javax.swing.JFrame {
                 jButton_crear.setEnabled(false);
                 jButton_crear_pj.setEnabled(true);
 
+                jButton_avanzarFaseAsalto1.setEnabled(false);
+                jPanel_Titulo_cargaSortilegios.setBackground(new java.awt.Color(204, 204, 255));
+                jButton_avanzarFaseAsalto2.setEnabled(false);
+                jPanel_Titulo_RealizaSortilegios.setBackground(new java.awt.Color(204, 204, 255));
+                jButton_avanzarFaseAsalto3.setEnabled(false);
+                jPanel_Titulo_DisparaProyectiles.setBackground(new java.awt.Color(204, 204, 255));
+                jButton_avanzarFaseAsalto4.setEnabled(false);
+                jPanel_Titulo_cargaProyectiles.setBackground(new java.awt.Color(204, 204, 255));
+                jButton_avanzarFaseAsalto5.setEnabled(false);
+                jPanel_Titulo_PararProyectiles.setBackground(new java.awt.Color(204, 204, 255));
+                jButton_avanzarFaseAsalto6.setEnabled(false);
+                jPanel_Titulo_movimientoYmaniobra.setBackground(new java.awt.Color(204, 204, 255));
+                jButton_avanzarFaseAsalto7.setEnabled(false);
+                jPanel_Titulo_AtaqueCuerpoaCuerpo.setBackground(new java.awt.Color(204, 204, 255));
+                jButton_avanzarFaseAsalto8.setEnabled(false);
+                jPanel_Titulo_Movimiento.setBackground(new java.awt.Color(204, 204, 255));
+                jButton_avanzarFaseAsalto9.setEnabled(false);
+                jPanel_Titulo_MovimientoEstatico.setBackground(new java.awt.Color(204, 204, 255));
+                jPanel_Titulo_SinAcciones.setBackground(Color.red);
+
+                jButton_avanzarFaseAsalto1.setEnabled(false);
+
+                jPanel_Titulo_SinAcciones.setBackground(new java.awt.Color(204, 204, 255));
+                avanzarButtonFase(BUTTONFASE_CREACION);
                 break;
             }
             case BUTTONFASE_CREACION: {
-               
+
                 int nuevoAsalto = campo.resolverAsalto();
                 jTextField_asalto.setText("" + nuevoAsalto);
                 break;
@@ -1017,11 +1153,12 @@ public class Principal extends javax.swing.JFrame {
             if (JOptionPane.OK_OPTION == r) {
                 avanzarButtonFase(BUTTONFASE_RESULTADOS);
             } else {
-                asaltoFase = pos = ASALTOFASE_CARGA_SORTILEGIO;
+                pos = ASALTOFASE_CARGA_SORTILEGIO;
             }
 
         }
-        
+        asaltoFase = pos;
+
         switch (pos) {
             case ASALTOFASE_CARGA_SORTILEGIO: {
 
@@ -1029,6 +1166,10 @@ public class Principal extends javax.swing.JFrame {
                 jButton_avanzarFaseAsalto1.setEnabled(true);
                 jPanel_Titulo_cargaSortilegios.setBackground(Color.red);
                 jPanel_Titulo_SinAcciones.setBackground(new java.awt.Color(204, 204, 255));
+                jPanel_Titulo_MovimientoEstatico.setBackground(new java.awt.Color(204, 204, 255));
+                if (jPanel_campo_CargaSortilegios.getComponentCount() == 0) {
+                    avanzarFaseDeAsalto(-1);
+                }
 
                 break;
             }
@@ -1039,7 +1180,9 @@ public class Principal extends javax.swing.JFrame {
                 jPanel_Titulo_RealizaSortilegios.setBackground(Color.red);
                 jPanel_Titulo_cargaSortilegios.setBackground(new java.awt.Color(204, 204, 255));
 
-                resolverTokens();
+                if (jPanel_RealizaSortilegios_campo.getComponentCount() == 0) {
+                    avanzarFaseDeAsalto(-1);
+                }
 
                 break;
             }
@@ -1050,7 +1193,9 @@ public class Principal extends javax.swing.JFrame {
                 jPanel_Titulo_DisparaProyectiles.setBackground(Color.red);
                 jPanel_Titulo_RealizaSortilegios.setBackground(new java.awt.Color(204, 204, 255));
 
-                resolverTokens();
+                if (jPanel_LanzaProyectiles_campo.getComponentCount() == 0) {
+                    avanzarFaseDeAsalto(-1);
+                }
 
                 break;
             }
@@ -1061,7 +1206,9 @@ public class Principal extends javax.swing.JFrame {
                 jPanel_Titulo_cargaProyectiles.setBackground(Color.red);
                 jPanel_Titulo_DisparaProyectiles.setBackground(new java.awt.Color(204, 204, 255));
 
-                resolverTokens();
+                if (jPanel_CargaProyectiles_campo.getComponentCount() == 0) {
+                    avanzarFaseDeAsalto(-1);
+                }
 
                 break;
             }
@@ -1072,7 +1219,9 @@ public class Principal extends javax.swing.JFrame {
                 jPanel_Titulo_PararProyectiles.setBackground(Color.red);
                 jPanel_Titulo_cargaProyectiles.setBackground(new java.awt.Color(204, 204, 255));
 
-                resolverTokens();
+                if (jPanel_PararProyectiles_campo.getComponentCount() == 0) {
+                    avanzarFaseDeAsalto(-1);
+                }
 
                 break;
             }
@@ -1083,7 +1232,9 @@ public class Principal extends javax.swing.JFrame {
                 jPanel_Titulo_movimientoYmaniobra.setBackground(Color.red);
                 jPanel_Titulo_PararProyectiles.setBackground(new java.awt.Color(204, 204, 255));
 
-                resolverTokens();
+                if (jPanel_movimientoYmaniobra_campo.getComponentCount() == 0) {
+                    avanzarFaseDeAsalto(-1);
+                }
 
                 break;
             }
@@ -1094,7 +1245,9 @@ public class Principal extends javax.swing.JFrame {
                 jPanel_Titulo_AtaqueCuerpoaCuerpo.setBackground(Color.red);
                 jPanel_Titulo_movimientoYmaniobra.setBackground(new java.awt.Color(204, 204, 255));
 
-                resolverTokens();
+                if (jPanel_AtaqueCuerpoaCuerpo_campo.getComponentCount() == 0) {
+                    avanzarFaseDeAsalto(-1);
+                }
 
                 break;
             }
@@ -1105,7 +1258,9 @@ public class Principal extends javax.swing.JFrame {
                 jPanel_Titulo_Movimiento.setBackground(Color.red);
                 jPanel_Titulo_AtaqueCuerpoaCuerpo.setBackground(new java.awt.Color(204, 204, 255));
 
-                resolverTokens();
+                if (jPanel_Movimiento_campo.getComponentCount() == 0) {
+                    avanzarFaseDeAsalto(-1);
+                }
 
                 break;
             }
@@ -1116,7 +1271,9 @@ public class Principal extends javax.swing.JFrame {
                 jPanel_Titulo_MovimientoEstatico.setBackground(Color.red);
                 jPanel_Titulo_Movimiento.setBackground(new java.awt.Color(204, 204, 255));
 
-                resolverTokens();
+                if (jPanel_MovimientoEstatic_campo.getComponentCount() == 0) {
+                    avanzarFaseDeAsalto(-1);
+                }
 
                 break;
             }
@@ -1124,7 +1281,7 @@ public class Principal extends javax.swing.JFrame {
 
                 jButton_avanzarFaseAsalto9.setEnabled(false);
                 jButton_avanzarFaseAsalto1.setEnabled(true);
-                jPanel_Titulo_cargaSortilegios.setBackground(Color.red);
+                jPanel_Titulo_SinAcciones.setBackground(Color.red);
                 jPanel_Titulo_MovimientoEstatico.setBackground(new java.awt.Color(204, 204, 255));
 
                 resolverTokens();
@@ -1136,9 +1293,8 @@ public class Principal extends javax.swing.JFrame {
 
                 jButton_avanzarFaseAsalto1.setEnabled(false);
 
-                jPanel_Titulo_cargaSortilegios.setBackground(Color.red);
+                jPanel_Titulo_SinAcciones.setBackground(Color.red);
                 jPanel_Titulo_SinAcciones.setBackground(new java.awt.Color(204, 204, 255));
-
                 resolverTokens();
 
                 break;
@@ -1180,12 +1336,14 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabel_uso_ao;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem_Abrir;
+    private javax.swing.JMenuItem jMenuItem_Guardar;
+    private javax.swing.JMenuItem jMenuItem_Salir;
+    private javax.swing.JMenuItem jMenuItem_guardarComo;
+    private javax.swing.JMenu jMenu_Edit;
+    private javax.swing.JMenu jMenu_File;
+    private javax.swing.JMenu jMenu_help;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel7;
@@ -1242,6 +1400,7 @@ public class Principal extends javax.swing.JFrame {
     public int butonFase = 0;
     public int asaltoFase = 0;
     private CampoDeBatalla campo;
+    private AbrirGuardar ag;
 
     public static final int BUTTONFASE_CREACION = 0;
     public static final int BUTTONFASE_DEFINICION = 1;
@@ -1261,18 +1420,6 @@ public class Principal extends javax.swing.JFrame {
 
     private void resolverTokens() {
         System.out.println("aun no hace nada");
-    }
-
-    private boolean todosActuaron(JPanel jp) {
-        for (int i = 0; i < jp.getComponentCount(); i++) {
-            JPanelFormToken_Accion jpta = (JPanelFormToken_Accion) jp.getComponent(i);
-            if (!jpta.isDone()) {
-                if (!jpta.isAccionDeOportunidad()) {
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 
 }
