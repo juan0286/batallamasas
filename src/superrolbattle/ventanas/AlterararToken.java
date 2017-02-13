@@ -5,6 +5,10 @@
  */
 package superrolbattle.ventanas;
 
+import instancias.properties.Status;
+import java.awt.Color;
+import java.awt.Font;
+
 /**
  *
  * @author Juan
@@ -17,12 +21,62 @@ public class AlterararToken extends javax.swing.JDialog {
     public AlterararToken(java.awt.Frame parent, boolean modal, JPanelFormToken_Accion token) {
         super(parent, modal);
         initComponents();
+
+        this.panel_token = token;
+
+        jTextField_Actual_pv.setText(token.getToken().getpv());
+        jTextField_Actual_pv1.setText(token.getToken().getpv());
         
-       this.token = token;
-       
-       
-       
-       this.setLocationRelativeTo(null);
+        
+        int san = token.getToken().getEstado().getSangradoPorAsalto();
+        jTextField_Actual_sangrado1.setText(String.valueOf(san));
+        jTextField_Actual_sangrado.setText(String.valueOf(san));
+        if (san > 0){
+            jTextField_Actual_sangrado1.setBackground(Color.red);
+            jTextField_Actual_sangrado.setBackground(Color.red);
+        }
+        int at = token.getToken().getEstado().getAturdido();
+        jTextField_Actual_aturdido.setText(String.valueOf(at));        
+        jTextField_Actual_aturdido1.setText(String.valueOf(at));
+        if (at > 0){
+            jTextField_Actual_aturdido.setBackground(Color.yellow);
+            jTextField_Actual_aturdido1.setBackground(Color.yellow);
+        }
+        int atuSP = token.getToken().getEstado().getSinpoderparar();
+        jTextField_Actual_aturdidoSinParar.setText(String.valueOf(atuSP));
+        if (atuSP > 0)
+            jTextField_Actual_aturdidoSinParar.setBackground(Color.red);
+        
+        int hm = token.getToken().getEstado().getAsaltosparamorir();
+        jTextField_Actual_HastaMorir.setText(String.valueOf(hm));
+        if (hm > 0){
+            jTextField_Actual_HastaMorir.setBackground(Color.black);
+            jTextField_Actual_HastaMorir.setForeground(Color.white);
+        }
+            
+        int oap = token.getToken().getEstado().getObligadoParar();
+        jTextField_Actual_obligadoParar.setText(String.valueOf(oap));
+        if (oap > 0)
+            jTextField_Actual_obligadoParar.setBackground(Color.green);
+        
+        
+        jTextField_Actual_bo.setText(String.valueOf(token.getToken().getEstado().getBoModidificada()));
+        jTextField_Actual_Bd.setText(String.valueOf(token.getToken().getEstado().getBdModificada()));
+        jTextField_Actual_MM.setText(String.valueOf(token.getToken().getEstado().getMmActual()));
+        
+        jTextField_Actual_Actividad.setText(String.valueOf(token.getToken().getEstado().getActividadActual()));
+        jTextField_Actual_Actividad1.setText(String.valueOf(token.getToken().getEstado().getActividadActual()));
+
+        jCheckBox_brazo_izq.setSelected(!token.getToken().getManoIZQ().isHabilitado());
+        jCheckBox_brazo_der.setSelected(!token.getToken().getManoDER().isHabilitado());
+        //jCheckBox_brazo_izq.setSelected(!token.getToken().getManoIZQ().isHabilitado());
+        //jCheckBox_brazo_izq.setSelected(!token.getToken().getManoIZQ().isHabilitado());
+
+        jCheckBox_muerto.setSelected(token.getToken().getEstado().getCuerpo() == Status.MUERTO);
+        jCheckBox_inconsciente.setSelected(token.getToken().getEstado().getCuerpo() == Status.INCOSCIENTE);
+        jCheckBox_coma.setSelected(token.getToken().getEstado().getCuerpo() == Status.COMA);
+        jCheckBox_postrado.setSelected(token.getToken().getEstado().isPostrado());
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -35,178 +89,331 @@ public class AlterararToken extends javax.swing.JDialog {
     private void initComponents() {
 
         jPanel10 = new javax.swing.JPanel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jTabbedPane_tipo_Alteracion = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jPanel35 = new javax.swing.JPanel();
         jComboBox_pv = new javax.swing.JComboBox();
+        jTextField_Actual_pv1 = new javax.swing.JTextField();
         jPanel11 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
+        jPanel36 = new javax.swing.JPanel();
         jSpinner_sangrado = new javax.swing.JSpinner();
-        jPanel7 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        jSpinner_obligado_a_parar = new javax.swing.JSpinner();
+        jTextField_Actual_sangrado1 = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
+        jPanel38 = new javax.swing.JPanel();
         jSpinner_Aturdido = new javax.swing.JSpinner();
+        jTextField_Actual_aturdido1 = new javax.swing.JTextField();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jPanel37 = new javax.swing.JPanel();
+        jSpinner_obligado_a_parar = new javax.swing.JSpinner();
+        jTextField_Actual_obligadoParar = new javax.swing.JTextField();
         jPanel8 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
+        jPanel39 = new javax.swing.JPanel();
         jSpinner_AturdidoSinParar = new javax.swing.JSpinner();
+        jTextField_Actual_aturdidoSinParar = new javax.swing.JTextField();
         jPanel9 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
+        jPanel40 = new javax.swing.JPanel();
         jSpinner_asParamoriri = new javax.swing.JSpinner();
+        jTextField_Actual_HastaMorir = new javax.swing.JTextField();
         jPanel25 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
+        jPanel41 = new javax.swing.JPanel();
         jSpinner_penalizacion_Actividad = new javax.swing.JSpinner();
+        jTextField_Actual_Actividad1 = new javax.swing.JTextField();
         jPanel18 = new javax.swing.JPanel();
         jPanel17 = new javax.swing.JPanel();
         jPanel19 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox8 = new javax.swing.JComboBox();
+        jPanel3 = new javax.swing.JPanel();
+        jComboBox_pv1 = new javax.swing.JComboBox();
+        jTextField_Actual_pv = new javax.swing.JTextField();
         jPanel21 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
-        jSpinner_Aturdido2 = new javax.swing.JSpinner();
+        jPanel5 = new javax.swing.JPanel();
+        jSpinner_Sangrado_sanar = new javax.swing.JSpinner();
+        jTextField_Actual_sangrado = new javax.swing.JTextField();
         jPanel20 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
+        jPanel27 = new javax.swing.JPanel();
         jSpinner_Aturdido1 = new javax.swing.JSpinner();
-        jPanel22 = new javax.swing.JPanel();
-        jLabel10 = new javax.swing.JLabel();
-        jSpinner8 = new javax.swing.JSpinner();
+        jTextField_Actual_aturdido = new javax.swing.JTextField();
         jPanel23 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
-        jSpinner7 = new javax.swing.JSpinner();
+        jPanel32 = new javax.swing.JPanel();
+        jSpinner_bonificarBO = new javax.swing.JSpinner();
+        jTextField_Actual_bo = new javax.swing.JTextField();
         jPanel24 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
-        jSpinner6 = new javax.swing.JSpinner();
-        jPanel26 = new javax.swing.JPanel();
-        jLabel14 = new javax.swing.JLabel();
-        jSpinner3 = new javax.swing.JSpinner();
+        jPanel33 = new javax.swing.JPanel();
+        jSpinner_bonificarBD = new javax.swing.JSpinner();
+        jTextField_Actual_Bd = new javax.swing.JTextField();
+        jPanel_BonificarMM = new javax.swing.JPanel();
+        jLabel_mm = new javax.swing.JLabel();
+        jPanel43 = new javax.swing.JPanel();
+        jSpinner_bonificarMm = new javax.swing.JSpinner();
+        jTextField_Actual_MM = new javax.swing.JTextField();
+        jPanel22 = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        jPanel28 = new javax.swing.JPanel();
+        jSpinner_recuperarActividad = new javax.swing.JSpinner();
+        jTextField_Actual_Actividad = new javax.swing.JTextField();
         jPanel3_Status = new javax.swing.JPanel();
         jPanel_Miembros = new javax.swing.JPanel();
         jPanel15 = new javax.swing.JPanel();
-        jCheckBox4 = new javax.swing.JCheckBox();
-        jCheckBox5 = new javax.swing.JCheckBox();
+        jCheckBox_brazo_izq = new javax.swing.JCheckBox();
+        jCheckBox_brazo_der = new javax.swing.JCheckBox();
         jPanel16 = new javax.swing.JPanel();
-        jCheckBox6 = new javax.swing.JCheckBox();
-        jCheckBox7 = new javax.swing.JCheckBox();
+        jCheckBox_pierna_izq = new javax.swing.JCheckBox();
+        jCheckBox_pierna_der = new javax.swing.JCheckBox();
         jPanel29 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        jCheckBox_muerto = new javax.swing.JCheckBox();
         jPanel13 = new javax.swing.JPanel();
-        jCheckBox2 = new javax.swing.JCheckBox();
+        jCheckBox_inconsciente = new javax.swing.JCheckBox();
         jPanel14 = new javax.swing.JPanel();
-        jCheckBox3 = new javax.swing.JCheckBox();
+        jCheckBox_coma = new javax.swing.JCheckBox();
         jPanel31 = new javax.swing.JPanel();
-        jCheckBox11 = new javax.swing.JCheckBox();
+        jCheckBox_postrado = new javax.swing.JCheckBox();
         jPanel30 = new javax.swing.JPanel();
         jPanel_descripcion = new javax.swing.JPanel();
         jScrollPane_Resumen = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jPanel_Aceptar_cancelar = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jButton_aplicar = new javax.swing.JButton();
+        jButton_cancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Alterar Personaje");
+        setResizable(false);
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.PAGE_AXIS));
 
         jPanel10.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel10.setLayout(new javax.swing.BoxLayout(jPanel10, javax.swing.BoxLayout.LINE_AXIS));
+
+        jTabbedPane_tipo_Alteracion.setMaximumSize(new java.awt.Dimension(336, 242));
+        jTabbedPane_tipo_Alteracion.setMinimumSize(new java.awt.Dimension(336, 242));
+        jTabbedPane_tipo_Alteracion.setPreferredSize(new java.awt.Dimension(336, 242));
 
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.LINE_AXIS));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.PAGE_AXIS));
 
+        jPanel4.setMaximumSize(new java.awt.Dimension(520, 30));
+        jPanel4.setMinimumSize(new java.awt.Dimension(120, 30));
+        jPanel4.setOpaque(false);
+        jPanel4.setPreferredSize(new java.awt.Dimension(520, 30));
         jPanel4.setLayout(new java.awt.BorderLayout());
 
         jLabel1.setText("P. V:");
         jPanel4.add(jLabel1, java.awt.BorderLayout.WEST);
 
+        jPanel35.setLayout(new javax.swing.BoxLayout(jPanel35, javax.swing.BoxLayout.LINE_AXIS));
+
         jComboBox_pv.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59", "60", "61", "62", "63", "64", "65", "66", "67", "68", "69", "70", "71", "72", "73", "74", "75" }));
         jComboBox_pv.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jComboBox_pv.setMaximumSize(new java.awt.Dimension(50, 20));
+        jComboBox_pv.setMaximumSize(new java.awt.Dimension(50, 25));
         jComboBox_pv.setMinimumSize(new java.awt.Dimension(50, 20));
-        jComboBox_pv.setPreferredSize(new java.awt.Dimension(50, 20));
-        jPanel4.add(jComboBox_pv, java.awt.BorderLayout.EAST);
+        jComboBox_pv.setPreferredSize(new java.awt.Dimension(50, 25));
+        jPanel35.add(jComboBox_pv);
+
+        jTextField_Actual_pv1.setEditable(false);
+        jTextField_Actual_pv1.setFont(new java.awt.Font("Verdana", 0, 10)); // NOI18N
+        jTextField_Actual_pv1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextField_Actual_pv1.setText("0");
+        jTextField_Actual_pv1.setMaximumSize(new java.awt.Dimension(80, 30));
+        jTextField_Actual_pv1.setMinimumSize(new java.awt.Dimension(80, 30));
+        jTextField_Actual_pv1.setPreferredSize(new java.awt.Dimension(80, 30));
+        jPanel35.add(jTextField_Actual_pv1);
+
+        jPanel4.add(jPanel35, java.awt.BorderLayout.EAST);
 
         jPanel2.add(jPanel4);
 
+        jPanel11.setMaximumSize(new java.awt.Dimension(520, 30));
+        jPanel11.setMinimumSize(new java.awt.Dimension(120, 30));
+        jPanel11.setOpaque(false);
+        jPanel11.setPreferredSize(new java.awt.Dimension(520, 30));
         jPanel11.setLayout(new java.awt.BorderLayout());
 
         jLabel7.setText("Pv Sangrado");
         jPanel11.add(jLabel7, java.awt.BorderLayout.WEST);
 
+        jPanel36.setLayout(new javax.swing.BoxLayout(jPanel36, javax.swing.BoxLayout.LINE_AXIS));
+
         jSpinner_sangrado.setModel(new javax.swing.SpinnerNumberModel(0, 0, 25, 1));
         jSpinner_sangrado.setMinimumSize(new java.awt.Dimension(50, 20));
         jSpinner_sangrado.setPreferredSize(new java.awt.Dimension(50, 20));
-        jPanel11.add(jSpinner_sangrado, java.awt.BorderLayout.EAST);
+        jPanel36.add(jSpinner_sangrado);
+
+        jTextField_Actual_sangrado1.setEditable(false);
+        jTextField_Actual_sangrado1.setFont(new java.awt.Font("Verdana", 0, 10)); // NOI18N
+        jTextField_Actual_sangrado1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextField_Actual_sangrado1.setText("0");
+        jTextField_Actual_sangrado1.setMaximumSize(new java.awt.Dimension(80, 30));
+        jTextField_Actual_sangrado1.setMinimumSize(new java.awt.Dimension(80, 30));
+        jTextField_Actual_sangrado1.setPreferredSize(new java.awt.Dimension(80, 30));
+        jPanel36.add(jTextField_Actual_sangrado1);
+
+        jPanel11.add(jPanel36, java.awt.BorderLayout.EAST);
 
         jPanel2.add(jPanel11);
 
-        jPanel7.setLayout(new java.awt.BorderLayout());
-
-        jLabel4.setText("Asaltos Obligado a Parar");
-        jPanel7.add(jLabel4, java.awt.BorderLayout.WEST);
-
-        jSpinner_obligado_a_parar.setModel(new javax.swing.SpinnerNumberModel(0, 0, 25, 1));
-        jSpinner_obligado_a_parar.setMinimumSize(new java.awt.Dimension(50, 20));
-        jSpinner_obligado_a_parar.setPreferredSize(new java.awt.Dimension(50, 20));
-        jPanel7.add(jSpinner_obligado_a_parar, java.awt.BorderLayout.EAST);
-
-        jPanel2.add(jPanel7);
-
+        jPanel6.setMaximumSize(new java.awt.Dimension(520, 30));
+        jPanel6.setMinimumSize(new java.awt.Dimension(120, 30));
+        jPanel6.setOpaque(false);
+        jPanel6.setPreferredSize(new java.awt.Dimension(520, 30));
         jPanel6.setLayout(new java.awt.BorderLayout());
 
         jLabel3.setText("Asaltos Aturdido");
         jPanel6.add(jLabel3, java.awt.BorderLayout.WEST);
 
+        jPanel38.setLayout(new javax.swing.BoxLayout(jPanel38, javax.swing.BoxLayout.LINE_AXIS));
+
         jSpinner_Aturdido.setModel(new javax.swing.SpinnerNumberModel(0, 0, 25, 1));
         jSpinner_Aturdido.setMinimumSize(new java.awt.Dimension(50, 20));
         jSpinner_Aturdido.setPreferredSize(new java.awt.Dimension(50, 20));
-        jPanel6.add(jSpinner_Aturdido, java.awt.BorderLayout.EAST);
+        jPanel38.add(jSpinner_Aturdido);
+
+        jTextField_Actual_aturdido1.setEditable(false);
+        jTextField_Actual_aturdido1.setFont(new java.awt.Font("Verdana", 0, 10)); // NOI18N
+        jTextField_Actual_aturdido1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextField_Actual_aturdido1.setText("0");
+        jTextField_Actual_aturdido1.setMaximumSize(new java.awt.Dimension(80, 30));
+        jTextField_Actual_aturdido1.setMinimumSize(new java.awt.Dimension(80, 30));
+        jTextField_Actual_aturdido1.setPreferredSize(new java.awt.Dimension(80, 30));
+        jPanel38.add(jTextField_Actual_aturdido1);
+
+        jPanel6.add(jPanel38, java.awt.BorderLayout.EAST);
 
         jPanel2.add(jPanel6);
 
+        jPanel7.setMaximumSize(new java.awt.Dimension(520, 30));
+        jPanel7.setMinimumSize(new java.awt.Dimension(120, 30));
+        jPanel7.setOpaque(false);
+        jPanel7.setPreferredSize(new java.awt.Dimension(520, 30));
+        jPanel7.setLayout(new java.awt.BorderLayout());
+
+        jLabel4.setText("Asaltos Obligado a Parar");
+        jPanel7.add(jLabel4, java.awt.BorderLayout.WEST);
+
+        jPanel37.setLayout(new javax.swing.BoxLayout(jPanel37, javax.swing.BoxLayout.LINE_AXIS));
+
+        jSpinner_obligado_a_parar.setModel(new javax.swing.SpinnerNumberModel(0, 0, 25, 1));
+        jSpinner_obligado_a_parar.setMinimumSize(new java.awt.Dimension(50, 20));
+        jSpinner_obligado_a_parar.setPreferredSize(new java.awt.Dimension(50, 20));
+        jPanel37.add(jSpinner_obligado_a_parar);
+
+        jTextField_Actual_obligadoParar.setEditable(false);
+        jTextField_Actual_obligadoParar.setFont(new java.awt.Font("Verdana", 0, 10)); // NOI18N
+        jTextField_Actual_obligadoParar.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextField_Actual_obligadoParar.setText("0");
+        jTextField_Actual_obligadoParar.setMaximumSize(new java.awt.Dimension(80, 30));
+        jTextField_Actual_obligadoParar.setMinimumSize(new java.awt.Dimension(80, 30));
+        jTextField_Actual_obligadoParar.setPreferredSize(new java.awt.Dimension(80, 30));
+        jPanel37.add(jTextField_Actual_obligadoParar);
+
+        jPanel7.add(jPanel37, java.awt.BorderLayout.EAST);
+
+        jPanel2.add(jPanel7);
+
+        jPanel8.setMaximumSize(new java.awt.Dimension(520, 30));
+        jPanel8.setMinimumSize(new java.awt.Dimension(120, 30));
+        jPanel8.setOpaque(false);
+        jPanel8.setPreferredSize(new java.awt.Dimension(520, 30));
         jPanel8.setLayout(new java.awt.BorderLayout());
 
         jLabel5.setText("As. Aturdido y sin parar");
         jPanel8.add(jLabel5, java.awt.BorderLayout.WEST);
 
+        jPanel39.setLayout(new javax.swing.BoxLayout(jPanel39, javax.swing.BoxLayout.LINE_AXIS));
+
         jSpinner_AturdidoSinParar.setModel(new javax.swing.SpinnerNumberModel(0, 0, 25, 1));
         jSpinner_AturdidoSinParar.setMinimumSize(new java.awt.Dimension(50, 20));
         jSpinner_AturdidoSinParar.setPreferredSize(new java.awt.Dimension(50, 20));
-        jPanel8.add(jSpinner_AturdidoSinParar, java.awt.BorderLayout.EAST);
+        jPanel39.add(jSpinner_AturdidoSinParar);
+
+        jTextField_Actual_aturdidoSinParar.setEditable(false);
+        jTextField_Actual_aturdidoSinParar.setFont(new java.awt.Font("Verdana", 0, 10)); // NOI18N
+        jTextField_Actual_aturdidoSinParar.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextField_Actual_aturdidoSinParar.setText("0");
+        jTextField_Actual_aturdidoSinParar.setMaximumSize(new java.awt.Dimension(80, 30));
+        jTextField_Actual_aturdidoSinParar.setMinimumSize(new java.awt.Dimension(80, 30));
+        jTextField_Actual_aturdidoSinParar.setPreferredSize(new java.awt.Dimension(80, 30));
+        jPanel39.add(jTextField_Actual_aturdidoSinParar);
+
+        jPanel8.add(jPanel39, java.awt.BorderLayout.EAST);
 
         jPanel2.add(jPanel8);
 
+        jPanel9.setMaximumSize(new java.awt.Dimension(520, 30));
+        jPanel9.setMinimumSize(new java.awt.Dimension(120, 30));
+        jPanel9.setOpaque(false);
+        jPanel9.setPreferredSize(new java.awt.Dimension(520, 30));
         jPanel9.setLayout(new java.awt.BorderLayout());
 
         jLabel6.setText("Asaltos para Morir");
         jPanel9.add(jLabel6, java.awt.BorderLayout.WEST);
 
+        jPanel40.setLayout(new javax.swing.BoxLayout(jPanel40, javax.swing.BoxLayout.LINE_AXIS));
+
         jSpinner_asParamoriri.setModel(new javax.swing.SpinnerNumberModel(0, 0, 25, 1));
         jSpinner_asParamoriri.setMinimumSize(new java.awt.Dimension(50, 20));
         jSpinner_asParamoriri.setPreferredSize(new java.awt.Dimension(50, 20));
-        jPanel9.add(jSpinner_asParamoriri, java.awt.BorderLayout.EAST);
+        jPanel40.add(jSpinner_asParamoriri);
+
+        jTextField_Actual_HastaMorir.setEditable(false);
+        jTextField_Actual_HastaMorir.setFont(new java.awt.Font("Verdana", 0, 10)); // NOI18N
+        jTextField_Actual_HastaMorir.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextField_Actual_HastaMorir.setText("0");
+        jTextField_Actual_HastaMorir.setMaximumSize(new java.awt.Dimension(80, 30));
+        jTextField_Actual_HastaMorir.setMinimumSize(new java.awt.Dimension(80, 30));
+        jTextField_Actual_HastaMorir.setPreferredSize(new java.awt.Dimension(80, 30));
+        jPanel40.add(jTextField_Actual_HastaMorir);
+
+        jPanel9.add(jPanel40, java.awt.BorderLayout.EAST);
 
         jPanel2.add(jPanel9);
 
+        jPanel25.setMaximumSize(new java.awt.Dimension(520, 30));
+        jPanel25.setMinimumSize(new java.awt.Dimension(120, 30));
+        jPanel25.setOpaque(false);
+        jPanel25.setPreferredSize(new java.awt.Dimension(520, 30));
         jPanel25.setLayout(new java.awt.BorderLayout());
 
         jLabel13.setText("Penalizacion Actividad");
         jPanel25.add(jLabel13, java.awt.BorderLayout.WEST);
 
-        jSpinner_penalizacion_Actividad.setModel(new javax.swing.SpinnerNumberModel(0, 0, 250, 5));
+        jPanel41.setLayout(new javax.swing.BoxLayout(jPanel41, javax.swing.BoxLayout.LINE_AXIS));
+
+        jSpinner_penalizacion_Actividad.setModel(new javax.swing.SpinnerNumberModel(0, -250, 0, -5));
         jSpinner_penalizacion_Actividad.setMinimumSize(new java.awt.Dimension(50, 20));
         jSpinner_penalizacion_Actividad.setPreferredSize(new java.awt.Dimension(50, 20));
-        jPanel25.add(jSpinner_penalizacion_Actividad, java.awt.BorderLayout.EAST);
+        jPanel41.add(jSpinner_penalizacion_Actividad);
+
+        jTextField_Actual_Actividad1.setEditable(false);
+        jTextField_Actual_Actividad1.setFont(new java.awt.Font("Verdana", 0, 10)); // NOI18N
+        jTextField_Actual_Actividad1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextField_Actual_Actividad1.setText("0");
+        jTextField_Actual_Actividad1.setMaximumSize(new java.awt.Dimension(80, 30));
+        jTextField_Actual_Actividad1.setMinimumSize(new java.awt.Dimension(80, 30));
+        jTextField_Actual_Actividad1.setPreferredSize(new java.awt.Dimension(80, 30));
+        jPanel41.add(jTextField_Actual_Actividad1);
+
+        jPanel25.add(jPanel41, java.awt.BorderLayout.EAST);
 
         jPanel2.add(jPanel25);
 
         jPanel1.add(jPanel2);
 
-        jTabbedPane1.addTab("Daños", jPanel1);
+        jTabbedPane_tipo_Alteracion.addTab("Dañar", jPanel1);
 
         jPanel18.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel18.setLayout(new java.awt.BorderLayout());
@@ -218,12 +425,24 @@ public class AlterararToken extends javax.swing.JDialog {
         jLabel2.setText("Recupera P. V:");
         jPanel19.add(jLabel2, java.awt.BorderLayout.WEST);
 
-        jComboBox8.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59", "60", "61", "62", "63", "64", "65", "66", "67", "68", "69", "70", "71", "72", "73", "74", "75" }));
-        jComboBox8.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jComboBox8.setMaximumSize(new java.awt.Dimension(50, 20));
-        jComboBox8.setMinimumSize(new java.awt.Dimension(50, 20));
-        jComboBox8.setPreferredSize(new java.awt.Dimension(50, 20));
-        jPanel19.add(jComboBox8, java.awt.BorderLayout.EAST);
+        jPanel3.setLayout(new javax.swing.BoxLayout(jPanel3, javax.swing.BoxLayout.LINE_AXIS));
+
+        jComboBox_pv1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59", "60", "61", "62", "63", "64", "65", "66", "67", "68", "69", "70", "71", "72", "73", "74", "75" }));
+        jComboBox_pv1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jComboBox_pv1.setMaximumSize(new java.awt.Dimension(50, 25));
+        jComboBox_pv1.setMinimumSize(new java.awt.Dimension(50, 20));
+        jComboBox_pv1.setPreferredSize(new java.awt.Dimension(50, 25));
+        jPanel3.add(jComboBox_pv1);
+
+        jTextField_Actual_pv.setEditable(false);
+        jTextField_Actual_pv.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextField_Actual_pv.setText("0");
+        jTextField_Actual_pv.setMaximumSize(new java.awt.Dimension(80, 30));
+        jTextField_Actual_pv.setMinimumSize(new java.awt.Dimension(80, 30));
+        jTextField_Actual_pv.setPreferredSize(new java.awt.Dimension(80, 30));
+        jPanel3.add(jTextField_Actual_pv);
+
+        jPanel19.add(jPanel3, java.awt.BorderLayout.EAST);
 
         jPanel17.add(jPanel19);
 
@@ -232,10 +451,22 @@ public class AlterararToken extends javax.swing.JDialog {
         jLabel9.setText("Sana Pv Sangrado");
         jPanel21.add(jLabel9, java.awt.BorderLayout.WEST);
 
-        jSpinner_Aturdido2.setModel(new javax.swing.SpinnerNumberModel(0, 0, 25, 1));
-        jSpinner_Aturdido2.setMinimumSize(new java.awt.Dimension(50, 20));
-        jSpinner_Aturdido2.setPreferredSize(new java.awt.Dimension(50, 20));
-        jPanel21.add(jSpinner_Aturdido2, java.awt.BorderLayout.EAST);
+        jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.LINE_AXIS));
+
+        jSpinner_Sangrado_sanar.setModel(new javax.swing.SpinnerNumberModel(0, 0, 25, 1));
+        jSpinner_Sangrado_sanar.setMinimumSize(new java.awt.Dimension(50, 20));
+        jSpinner_Sangrado_sanar.setPreferredSize(new java.awt.Dimension(50, 20));
+        jPanel5.add(jSpinner_Sangrado_sanar);
+
+        jTextField_Actual_sangrado.setEditable(false);
+        jTextField_Actual_sangrado.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextField_Actual_sangrado.setText("0");
+        jTextField_Actual_sangrado.setMaximumSize(new java.awt.Dimension(80, 30));
+        jTextField_Actual_sangrado.setMinimumSize(new java.awt.Dimension(80, 30));
+        jTextField_Actual_sangrado.setPreferredSize(new java.awt.Dimension(80, 30));
+        jPanel5.add(jTextField_Actual_sangrado);
+
+        jPanel21.add(jPanel5, java.awt.BorderLayout.EAST);
 
         jPanel17.add(jPanel21);
 
@@ -244,34 +475,46 @@ public class AlterararToken extends javax.swing.JDialog {
         jLabel8.setText("Recupera Asaltos Aturdido");
         jPanel20.add(jLabel8, java.awt.BorderLayout.WEST);
 
+        jPanel27.setLayout(new javax.swing.BoxLayout(jPanel27, javax.swing.BoxLayout.LINE_AXIS));
+
         jSpinner_Aturdido1.setModel(new javax.swing.SpinnerNumberModel(0, 0, 25, 1));
         jSpinner_Aturdido1.setMinimumSize(new java.awt.Dimension(50, 20));
         jSpinner_Aturdido1.setPreferredSize(new java.awt.Dimension(50, 20));
-        jPanel20.add(jSpinner_Aturdido1, java.awt.BorderLayout.EAST);
+        jPanel27.add(jSpinner_Aturdido1);
+
+        jTextField_Actual_aturdido.setEditable(false);
+        jTextField_Actual_aturdido.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextField_Actual_aturdido.setText("0");
+        jTextField_Actual_aturdido.setMaximumSize(new java.awt.Dimension(80, 30));
+        jTextField_Actual_aturdido.setMinimumSize(new java.awt.Dimension(80, 30));
+        jTextField_Actual_aturdido.setPreferredSize(new java.awt.Dimension(80, 30));
+        jPanel27.add(jTextField_Actual_aturdido);
+
+        jPanel20.add(jPanel27, java.awt.BorderLayout.EAST);
 
         jPanel17.add(jPanel20);
 
-        jPanel22.setLayout(new java.awt.BorderLayout());
-
-        jLabel10.setText("Recupera o Bon. Actividad");
-        jPanel22.add(jLabel10, java.awt.BorderLayout.WEST);
-
-        jSpinner8.setModel(new javax.swing.SpinnerNumberModel(0, 0, 250, 5));
-        jSpinner8.setMinimumSize(new java.awt.Dimension(50, 20));
-        jSpinner8.setPreferredSize(new java.awt.Dimension(50, 20));
-        jPanel22.add(jSpinner8, java.awt.BorderLayout.EAST);
-
-        jPanel17.add(jPanel22);
-
         jPanel23.setLayout(new java.awt.BorderLayout());
 
-        jLabel11.setText("Bono BD");
+        jLabel11.setText("Bono BO");
         jPanel23.add(jLabel11, java.awt.BorderLayout.WEST);
 
-        jSpinner7.setModel(new javax.swing.SpinnerNumberModel(0, 0, 250, 5));
-        jSpinner7.setMinimumSize(new java.awt.Dimension(50, 20));
-        jSpinner7.setPreferredSize(new java.awt.Dimension(50, 20));
-        jPanel23.add(jSpinner7, java.awt.BorderLayout.EAST);
+        jPanel32.setLayout(new javax.swing.BoxLayout(jPanel32, javax.swing.BoxLayout.LINE_AXIS));
+
+        jSpinner_bonificarBO.setModel(new javax.swing.SpinnerNumberModel(0, 0, 250, 5));
+        jSpinner_bonificarBO.setMinimumSize(new java.awt.Dimension(50, 20));
+        jSpinner_bonificarBO.setPreferredSize(new java.awt.Dimension(50, 20));
+        jPanel32.add(jSpinner_bonificarBO);
+
+        jTextField_Actual_bo.setEditable(false);
+        jTextField_Actual_bo.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextField_Actual_bo.setText("0");
+        jTextField_Actual_bo.setMaximumSize(new java.awt.Dimension(80, 30));
+        jTextField_Actual_bo.setMinimumSize(new java.awt.Dimension(80, 30));
+        jTextField_Actual_bo.setPreferredSize(new java.awt.Dimension(80, 30));
+        jPanel32.add(jTextField_Actual_bo);
+
+        jPanel23.add(jPanel32, java.awt.BorderLayout.EAST);
 
         jPanel17.add(jPanel23);
 
@@ -280,86 +523,137 @@ public class AlterararToken extends javax.swing.JDialog {
         jLabel12.setText("Bono BD");
         jPanel24.add(jLabel12, java.awt.BorderLayout.WEST);
 
-        jSpinner6.setModel(new javax.swing.SpinnerNumberModel(0, 0, 250, 5));
-        jSpinner6.setMinimumSize(new java.awt.Dimension(50, 20));
-        jSpinner6.setPreferredSize(new java.awt.Dimension(50, 20));
-        jPanel24.add(jSpinner6, java.awt.BorderLayout.EAST);
+        jPanel33.setLayout(new javax.swing.BoxLayout(jPanel33, javax.swing.BoxLayout.LINE_AXIS));
+
+        jSpinner_bonificarBD.setModel(new javax.swing.SpinnerNumberModel(0, 0, 250, 5));
+        jSpinner_bonificarBD.setMinimumSize(new java.awt.Dimension(50, 20));
+        jSpinner_bonificarBD.setPreferredSize(new java.awt.Dimension(50, 20));
+        jPanel33.add(jSpinner_bonificarBD);
+
+        jTextField_Actual_Bd.setEditable(false);
+        jTextField_Actual_Bd.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextField_Actual_Bd.setText("0");
+        jTextField_Actual_Bd.setMaximumSize(new java.awt.Dimension(80, 30));
+        jTextField_Actual_Bd.setMinimumSize(new java.awt.Dimension(80, 30));
+        jTextField_Actual_Bd.setPreferredSize(new java.awt.Dimension(80, 30));
+        jPanel33.add(jTextField_Actual_Bd);
+
+        jPanel24.add(jPanel33, java.awt.BorderLayout.EAST);
 
         jPanel17.add(jPanel24);
 
-        jPanel26.setLayout(new java.awt.BorderLayout());
+        jPanel_BonificarMM.setLayout(new java.awt.BorderLayout());
 
-        jLabel14.setText("Bono RT");
-        jPanel26.add(jLabel14, java.awt.BorderLayout.WEST);
+        jLabel_mm.setText("Bono MM");
+        jPanel_BonificarMM.add(jLabel_mm, java.awt.BorderLayout.WEST);
 
-        jSpinner3.setModel(new javax.swing.SpinnerNumberModel(0, 0, 250, 5));
-        jSpinner3.setMinimumSize(new java.awt.Dimension(50, 20));
-        jSpinner3.setPreferredSize(new java.awt.Dimension(50, 20));
-        jPanel26.add(jSpinner3, java.awt.BorderLayout.EAST);
+        jPanel43.setLayout(new javax.swing.BoxLayout(jPanel43, javax.swing.BoxLayout.LINE_AXIS));
 
-        jPanel17.add(jPanel26);
+        jSpinner_bonificarMm.setModel(new javax.swing.SpinnerNumberModel(0, 0, 250, 5));
+        jSpinner_bonificarMm.setMinimumSize(new java.awt.Dimension(50, 20));
+        jSpinner_bonificarMm.setPreferredSize(new java.awt.Dimension(50, 20));
+        jPanel43.add(jSpinner_bonificarMm);
+
+        jTextField_Actual_MM.setEditable(false);
+        jTextField_Actual_MM.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextField_Actual_MM.setText("0");
+        jTextField_Actual_MM.setMaximumSize(new java.awt.Dimension(80, 30));
+        jTextField_Actual_MM.setMinimumSize(new java.awt.Dimension(80, 30));
+        jTextField_Actual_MM.setPreferredSize(new java.awt.Dimension(80, 30));
+        jPanel43.add(jTextField_Actual_MM);
+
+        jPanel_BonificarMM.add(jPanel43, java.awt.BorderLayout.EAST);
+
+        jPanel17.add(jPanel_BonificarMM);
+
+        jPanel22.setLayout(new java.awt.BorderLayout());
+
+        jLabel10.setText("Recupera o Bon. Actividad");
+        jPanel22.add(jLabel10, java.awt.BorderLayout.WEST);
+
+        jPanel28.setLayout(new javax.swing.BoxLayout(jPanel28, javax.swing.BoxLayout.LINE_AXIS));
+
+        jSpinner_recuperarActividad.setModel(new javax.swing.SpinnerNumberModel(0, 0, 250, 5));
+        jSpinner_recuperarActividad.setMinimumSize(new java.awt.Dimension(50, 20));
+        jSpinner_recuperarActividad.setPreferredSize(new java.awt.Dimension(50, 20));
+        jPanel28.add(jSpinner_recuperarActividad);
+
+        jTextField_Actual_Actividad.setEditable(false);
+        jTextField_Actual_Actividad.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextField_Actual_Actividad.setText("0");
+        jTextField_Actual_Actividad.setMaximumSize(new java.awt.Dimension(80, 30));
+        jTextField_Actual_Actividad.setMinimumSize(new java.awt.Dimension(80, 30));
+        jTextField_Actual_Actividad.setPreferredSize(new java.awt.Dimension(80, 30));
+        jPanel28.add(jTextField_Actual_Actividad);
+
+        jPanel22.add(jPanel28, java.awt.BorderLayout.EAST);
+
+        jPanel17.add(jPanel22);
 
         jPanel18.add(jPanel17, java.awt.BorderLayout.CENTER);
 
-        jTabbedPane1.addTab("Recuperacion/buff", jPanel18);
+        jTabbedPane_tipo_Alteracion.addTab("Recuperar/bonificar", jPanel18);
 
-        jPanel10.add(jTabbedPane1);
+        jPanel10.add(jTabbedPane_tipo_Alteracion);
 
         jPanel3_Status.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel3_Status.setLayout(new javax.swing.BoxLayout(jPanel3_Status, javax.swing.BoxLayout.LINE_AXIS));
+        jPanel3_Status.setLayout(new java.awt.GridLayout(2, 1));
 
         jPanel_Miembros.setBorder(javax.swing.BorderFactory.createTitledBorder("Miembros Inutilizados"));
+        jPanel_Miembros.setMaximumSize(new java.awt.Dimension(176, 114));
+        jPanel_Miembros.setPreferredSize(new java.awt.Dimension(176, 114));
         jPanel_Miembros.setLayout(new javax.swing.BoxLayout(jPanel_Miembros, javax.swing.BoxLayout.PAGE_AXIS));
 
         jPanel15.setLayout(new javax.swing.BoxLayout(jPanel15, javax.swing.BoxLayout.PAGE_AXIS));
 
-        jCheckBox4.setText("Brazo Izquierdo");
-        jPanel15.add(jCheckBox4);
+        jCheckBox_brazo_izq.setText("Brazo Izquierdo");
+        jPanel15.add(jCheckBox_brazo_izq);
 
-        jCheckBox5.setText("Brazo Derecho");
-        jPanel15.add(jCheckBox5);
+        jCheckBox_brazo_der.setText("Brazo Derecho");
+        jPanel15.add(jCheckBox_brazo_der);
 
         jPanel_Miembros.add(jPanel15);
 
         jPanel16.setLayout(new javax.swing.BoxLayout(jPanel16, javax.swing.BoxLayout.PAGE_AXIS));
 
-        jCheckBox6.setText("Pierna Izquierda");
-        jPanel16.add(jCheckBox6);
+        jCheckBox_pierna_izq.setText("Pierna Izquierda");
+        jPanel16.add(jCheckBox_pierna_izq);
 
-        jCheckBox7.setText("Pierna Derecha");
-        jPanel16.add(jCheckBox7);
+        jCheckBox_pierna_der.setText("Pierna Derecha");
+        jPanel16.add(jCheckBox_pierna_der);
 
         jPanel_Miembros.add(jPanel16);
 
         jPanel3_Status.add(jPanel_Miembros);
 
+        jPanel29.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel29.setLayout(new javax.swing.BoxLayout(jPanel29, javax.swing.BoxLayout.PAGE_AXIS));
 
         jPanel12.setLayout(new java.awt.GridLayout(1, 2));
 
-        jCheckBox1.setText("Muerto");
-        jPanel12.add(jCheckBox1);
+        jCheckBox_muerto.setText("Muerto");
+        jPanel12.add(jCheckBox_muerto);
 
         jPanel29.add(jPanel12);
 
         jPanel13.setLayout(new java.awt.GridLayout(1, 2));
 
-        jCheckBox2.setText("Inconsciente");
-        jPanel13.add(jCheckBox2);
+        jCheckBox_inconsciente.setText("Inconsciente");
+        jPanel13.add(jCheckBox_inconsciente);
 
         jPanel29.add(jPanel13);
 
         jPanel14.setLayout(new java.awt.GridLayout(1, 2));
 
-        jCheckBox3.setText("Coma");
-        jPanel14.add(jCheckBox3);
+        jCheckBox_coma.setText("Coma");
+        jPanel14.add(jCheckBox_coma);
 
         jPanel29.add(jPanel14);
 
         jPanel31.setLayout(new java.awt.GridLayout(1, 2));
 
-        jCheckBox11.setText("Postrado");
-        jPanel31.add(jCheckBox11);
+        jCheckBox_postrado.setText("Postrado");
+        jPanel31.add(jCheckBox_postrado);
 
         jPanel29.add(jPanel31);
 
@@ -385,16 +679,21 @@ public class AlterararToken extends javax.swing.JDialog {
         jPanel_Aceptar_cancelar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel_Aceptar_cancelar.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-        jButton1.setText("Acptar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButton_aplicar.setText("Aplicar");
+        jButton_aplicar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButton_aplicarActionPerformed(evt);
             }
         });
-        jPanel_Aceptar_cancelar.add(jButton1);
+        jPanel_Aceptar_cancelar.add(jButton_aplicar);
 
-        jButton2.setText("cancelar");
-        jPanel_Aceptar_cancelar.add(jButton2);
+        jButton_cancelar.setText("Cancelar");
+        jButton_cancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_cancelarActionPerformed(evt);
+            }
+        });
+        jPanel_Aceptar_cancelar.add(jButton_cancelar);
 
         jPanel30.add(jPanel_Aceptar_cancelar);
 
@@ -403,33 +702,103 @@ public class AlterararToken extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       
-        
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void jButton_aplicarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_aplicarActionPerformed
 
-    
+        aplicar();
+        this.dispose();
+
+
+    }//GEN-LAST:event_jButton_aplicarActionPerformed
+
+    private void jButton_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_cancelarActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton_cancelarActionPerformed
+
+     private void aplicar() {
+        instancias.Token tok = panel_token.getToken();
+
+        if (jTabbedPane_tipo_Alteracion.getSelectedIndex() == 0) {
+            tok.getEstado().dañarPv(jComboBox_pv.getSelectedIndex());
+            
+            int sangre = (Integer) jSpinner_sangrado.getValue();
+            tok.getEstado().sangrarMas(sangre);
+            
+            int asAturdido = (Integer) jSpinner_Aturdido.getValue();
+            tok.getEstado().aturdir(asAturdido);
+            
+            int oAParar = (Integer) jSpinner_obligado_a_parar.getValue();
+            tok.getEstado().obligarAParar(oAParar);
+            
+            int aturSinParar = (Integer) jSpinner_AturdidoSinParar.getValue();
+            tok.getEstado().aturdirSinParar(aturSinParar);
+            
+            int redAct = (Integer) jSpinner_penalizacion_Actividad.getValue();
+            tok.getEstado().reducirActividad(redAct);
+            
+            int morirEn = (Integer) jSpinner_asParamoriri.getValue();
+            tok.getEstado().morirEn(morirEn);
+            
+            
+            //   tok.getEstado().setActividadReducida(sangre);
+            //  int sangre = (Integer) jSpinner_sangrado.getValue();
+            //  tok.getEstado().setActividadReducida(sangre);
+        } else {
+            tok.getEstado().sanarPv(jComboBox_pv1.getSelectedIndex());              
+            
+            int sangre = (Integer) jSpinner_Sangrado_sanar.getValue();
+            tok.getEstado().sangrarMenos(sangre);
+            
+            int asAturdido = (Integer) jSpinner_Aturdido1.getValue();
+            tok.getEstado().desaturdir(asAturdido);
+            tok.getEstado().desaturdirYpoderParar(asAturdido);
+            tok.getEstado().dejarDeparar(asAturdido);
+                       
+            int bonoBO = (Integer) jSpinner_bonificarBO.getValue();
+            tok.getEstado().bonificarBo(bonoBO);
+            
+            int bonoBd = (Integer) jSpinner_bonificarBD.getValue();
+            tok.getEstado().bonificarBd(bonoBd);
+            
+            int bonoMm = (Integer) jSpinner_bonificarMm.getValue();
+            tok.getEstado().bonificarMm(bonoMm);
+            
+            int act = (Integer) jSpinner_recuperarActividad.getValue();
+            tok.getEstado().recuperarActividad(act);
+
+        }
+        tok.getManoDER().setHabilitado(!jCheckBox_brazo_der.isSelected());
+        tok.getManoIZQ().setHabilitado(!jCheckBox_brazo_izq.isSelected());
+        
+        if (jCheckBox_muerto.isSelected())
+            tok.getEstado().setCuerpo(Status.MUERTO);
+        if (jCheckBox_inconsciente.isSelected())
+            tok.getEstado().setCuerpo(Status.INCOSCIENTE);        
+        if (jCheckBox_coma.isSelected())
+            tok.getEstado().setCuerpo(Status.INCOSCIENTE);
+        if (jCheckBox_postrado.isSelected())
+            tok.getEstado().setPostrado(true);
+        panel_token.update();
+
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox11;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JCheckBox jCheckBox5;
-    private javax.swing.JCheckBox jCheckBox6;
-    private javax.swing.JCheckBox jCheckBox7;
-    private javax.swing.JComboBox jComboBox8;
+    private javax.swing.JButton jButton_aplicar;
+    private javax.swing.JButton jButton_cancelar;
+    private javax.swing.JCheckBox jCheckBox_brazo_der;
+    private javax.swing.JCheckBox jCheckBox_brazo_izq;
+    private javax.swing.JCheckBox jCheckBox_coma;
+    private javax.swing.JCheckBox jCheckBox_inconsciente;
+    private javax.swing.JCheckBox jCheckBox_muerto;
+    private javax.swing.JCheckBox jCheckBox_pierna_der;
+    private javax.swing.JCheckBox jCheckBox_pierna_izq;
+    private javax.swing.JCheckBox jCheckBox_postrado;
     private javax.swing.JComboBox jComboBox_pv;
+    private javax.swing.JComboBox jComboBox_pv1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -438,6 +807,7 @@ public class AlterararToken extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabel_mm;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -456,34 +826,64 @@ public class AlterararToken extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel23;
     private javax.swing.JPanel jPanel24;
     private javax.swing.JPanel jPanel25;
-    private javax.swing.JPanel jPanel26;
+    private javax.swing.JPanel jPanel27;
+    private javax.swing.JPanel jPanel28;
     private javax.swing.JPanel jPanel29;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel30;
     private javax.swing.JPanel jPanel31;
+    private javax.swing.JPanel jPanel32;
+    private javax.swing.JPanel jPanel33;
+    private javax.swing.JPanel jPanel35;
+    private javax.swing.JPanel jPanel36;
+    private javax.swing.JPanel jPanel37;
+    private javax.swing.JPanel jPanel38;
+    private javax.swing.JPanel jPanel39;
     private javax.swing.JPanel jPanel3_Status;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel40;
+    private javax.swing.JPanel jPanel41;
+    private javax.swing.JPanel jPanel43;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JPanel jPanel_Aceptar_cancelar;
+    private javax.swing.JPanel jPanel_BonificarMM;
     private javax.swing.JPanel jPanel_Miembros;
     private javax.swing.JPanel jPanel_descripcion;
     private javax.swing.JScrollPane jScrollPane_Resumen;
-    private javax.swing.JSpinner jSpinner3;
-    private javax.swing.JSpinner jSpinner6;
-    private javax.swing.JSpinner jSpinner7;
-    private javax.swing.JSpinner jSpinner8;
     private javax.swing.JSpinner jSpinner_Aturdido;
     private javax.swing.JSpinner jSpinner_Aturdido1;
-    private javax.swing.JSpinner jSpinner_Aturdido2;
     private javax.swing.JSpinner jSpinner_AturdidoSinParar;
+    private javax.swing.JSpinner jSpinner_Sangrado_sanar;
     private javax.swing.JSpinner jSpinner_asParamoriri;
+    private javax.swing.JSpinner jSpinner_bonificarBD;
+    private javax.swing.JSpinner jSpinner_bonificarBO;
+    private javax.swing.JSpinner jSpinner_bonificarMm;
     private javax.swing.JSpinner jSpinner_obligado_a_parar;
     private javax.swing.JSpinner jSpinner_penalizacion_Actividad;
+    private javax.swing.JSpinner jSpinner_recuperarActividad;
     private javax.swing.JSpinner jSpinner_sangrado;
-    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTabbedPane jTabbedPane_tipo_Alteracion;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextField jTextField_Actual_Actividad;
+    private javax.swing.JTextField jTextField_Actual_Actividad1;
+    private javax.swing.JTextField jTextField_Actual_Bd;
+    private javax.swing.JTextField jTextField_Actual_HastaMorir;
+    private javax.swing.JTextField jTextField_Actual_MM;
+    private javax.swing.JTextField jTextField_Actual_aturdido;
+    private javax.swing.JTextField jTextField_Actual_aturdido1;
+    private javax.swing.JTextField jTextField_Actual_aturdidoSinParar;
+    private javax.swing.JTextField jTextField_Actual_bo;
+    private javax.swing.JTextField jTextField_Actual_obligadoParar;
+    private javax.swing.JTextField jTextField_Actual_pv;
+    private javax.swing.JTextField jTextField_Actual_pv1;
+    private javax.swing.JTextField jTextField_Actual_sangrado;
+    private javax.swing.JTextField jTextField_Actual_sangrado1;
     // End of variables declaration//GEN-END:variables
-    private JPanelFormToken_Accion token;
+    private JPanelFormToken_Accion panel_token;
+
+   
 }

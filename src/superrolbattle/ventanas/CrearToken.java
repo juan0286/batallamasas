@@ -8,14 +8,14 @@ package superrolbattle.ventanas;
 import instancias.Token;
 import instancias.properties.Arma;
 import instancias.properties.Brazo;
-import instancias.properties.Habilidad;
+import instancias.properties.Caracteristicas;
 import instancias.properties.Status;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import recursos.Recursos;
-import superrolbattle.principal;
+import superrolbattle.Principal;
 
 /**
  *
@@ -27,9 +27,9 @@ public class CrearToken extends javax.swing.JDialog {
      * Creates new form CrearToken
      */
     public CrearToken(boolean modal) {
-        super(principal.ventana, modal);
+        super(Principal.ventana, modal);
         initComponents();
-        this.setLocationRelativeTo(principal.ventana);
+        this.setLocationRelativeTo(Principal.ventana);
 
         this.setTitle("Crear Nuevo Personaje");
 
@@ -255,13 +255,13 @@ public class CrearToken extends javax.swing.JDialog {
         jLabel5.setText("BO    ");
         jPanel_caract2.add(jLabel5);
 
-        jSpinner_crearBo.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), null, null, Integer.valueOf(5)));
+        jSpinner_crearBo.setModel(new javax.swing.SpinnerNumberModel(0, null, null, 5));
         jPanel_caract2.add(jSpinner_crearBo);
 
         jLabel8.setText("   BD   ");
         jPanel_caract2.add(jLabel8);
 
-        jSpinner_crearBD.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), null, null, Integer.valueOf(5)));
+        jSpinner_crearBD.setModel(new javax.swing.SpinnerNumberModel(0, null, null, 5));
         jPanel_caract2.add(jSpinner_crearBD);
 
         jLabel9.setText("   Armadura   ");
@@ -427,10 +427,10 @@ public class CrearToken extends javax.swing.JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         newToken = new Token();
-        Habilidad hab = new Habilidad();
+        Caracteristicas hab = new Caracteristicas();
         Brazo izq = new Brazo();
         Brazo der = new Brazo();
-        Status est = new Status();
+        Status est = new Status(hab);
         creacion:
         {
             String n = this.jTextField_crearnombre.getText().trim();
@@ -457,8 +457,8 @@ public class CrearToken extends javax.swing.JDialog {
             der.setHabilitado(this.jCheckBox_crearBDHabilitado.isSelected());
             der.setArmaEquipada(Recursos.armeria.get(this.jComboBox_crearBDArma.getSelectedIndex()));
 
-            hab.setBo((Integer) this.jSpinner_crearBo.getValue());
-            hab.setBd((Integer) this.jSpinner_crearBD.getValue());
+            hab.setBo_pri((Integer) this.jSpinner_crearBo.getValue());
+            //hab.setAgi((Integer) this.jSpinner_crearBD.getValue());
             hab.setArmadura((Integer) this.jSpinner_crearArmadura.getValue());
 
             if (this.jRadioButton_crearEstilo1.isSelected()) {

@@ -5,30 +5,117 @@
  */
 package instancias;
 
-import instancias.properties.Arma;
-import java.util.Objects;
-import recursos.Critico;
-import recursos.Recursos;
+import java.awt.Color;
 
 /**
  *
- * @author Juan
+ * @author TiranoJuan
  */
 public class Accion {
+    
+    public static int TIPO_SIN_ACCION = 0;
+    public static int TIPO_CARGA_SORTILEGIO = 1;
+    public static int TIPO_REALIZA_SORTILEGIO = 2;
+    public static int TIPO_DISPARA_PROYECTIL = 3;
+    public static int TIPO_CARGA_PROYECTIL = 4;
+    public static int TIPO_PARAR_PROYECTIL = 5;
+    public static int TIPO_MOVIMIENTO_Y_MANIOBRA = 6;
+    public static int TIPO_ATAQUE_CUERPO_A_CUERPO = 7;
+    public static int TIPO_DESPLAZAMIENTO = 8;
+    public static int TIPO_MOVIMIENTO_ESTATICO = 9;
+    
+  private int tipo;
+  private final int orden;
+  private int nro_Asalto;
+  private boolean done = false;
+  private boolean accionDeOportunidad = false;
+  
 
-    public static final int TIPO_COMBATE_1_ARMA = 1;
-    public static final int TIPO_COMBATE_2_ARMAS = 2;
-    public static final int TIPO_COMBATE_ARCO = 3;
-    public static final int TIPO_COMBATE_PUÑO = 4;
+    public Accion(int tipo, int nro_Asalto, int orden) {
+        this.tipo = tipo;
+        this.nro_Asalto = nro_Asalto;
+        this.orden = orden;
+    }
 
-    private int tipo;
-    private Token emisor;
-    private Token destino;
-    /*
-     [0] Objeto Arma
-     [1] Bonos extras
-     */
-    private Object[] medio;  // creo que es el Arma
+    public static int getTIPO_SIN_ACCION() {
+        return TIPO_SIN_ACCION;
+    }
+
+    public static void setTIPO_SIN_ACCION(int TIPO_SIN_ACCION) {
+        Accion.TIPO_SIN_ACCION = TIPO_SIN_ACCION;
+    }
+
+    public static int getTIPO_CARGA_SORTILEGIO() {
+        return TIPO_CARGA_SORTILEGIO;
+    }
+
+    public static void setTIPO_CARGA_SORTILEGIO(int TIPO_CARGA_SORTILEGIO) {
+        Accion.TIPO_CARGA_SORTILEGIO = TIPO_CARGA_SORTILEGIO;
+    }
+
+    public static int getTIPO_REALIZA_SORTILEGIO() {
+        return TIPO_REALIZA_SORTILEGIO;
+    }
+
+    public static void setTIPO_REALIZA_SORTILEGIO(int TIPO_REALIZA_SORTILEGIO) {
+        Accion.TIPO_REALIZA_SORTILEGIO = TIPO_REALIZA_SORTILEGIO;
+    }
+
+    public static int getTIPO_DISPARA_PROYECTIL() {
+        return TIPO_DISPARA_PROYECTIL;
+    }
+
+    public static void setTIPO_DISPARA_PROYECTIL(int TIPO_DISPARA_PROYECTIL) {
+        Accion.TIPO_DISPARA_PROYECTIL = TIPO_DISPARA_PROYECTIL;
+    }
+
+    public static int getTIPO_CARGA_PROYECTIL() {
+        return TIPO_CARGA_PROYECTIL;
+    }
+
+    public static void setTIPO_CARGA_PROYECTIL(int TIPO_CARGA_PROYECTIL) {
+        Accion.TIPO_CARGA_PROYECTIL = TIPO_CARGA_PROYECTIL;
+    }
+
+    public static int getTIPO_PARAR_PROYECTIL() {
+        return TIPO_PARAR_PROYECTIL;
+    }
+
+    public static void setTIPO_PARAR_PROYECTIL(int TIPO_PARAR_PROYECTIL) {
+        Accion.TIPO_PARAR_PROYECTIL = TIPO_PARAR_PROYECTIL;
+    }
+
+    public static int getTIPO_MOVIMIENTO_Y_MANIOBRA() {
+        return TIPO_MOVIMIENTO_Y_MANIOBRA;
+    }
+
+    public static void setTIPO_MOVIMIENTO_Y_MANIOBRA(int TIPO_MOVIMIENTO_Y_MANIOBRA) {
+        Accion.TIPO_MOVIMIENTO_Y_MANIOBRA = TIPO_MOVIMIENTO_Y_MANIOBRA;
+    }
+
+    public static int getTIPO_ATAQUE_CUERPO_A_CUERPO() {
+        return TIPO_ATAQUE_CUERPO_A_CUERPO;
+    }
+
+    public static void setTIPO_ATAQUE_CUERPO_A_CUERPO(int TIPO_ATAQUE_CUERPO_A_CUERPO) {
+        Accion.TIPO_ATAQUE_CUERPO_A_CUERPO = TIPO_ATAQUE_CUERPO_A_CUERPO;
+    }
+
+    public static int getTIPO_DESPLAZAMIENTO() {
+        return TIPO_DESPLAZAMIENTO;
+    }
+
+    public static void setTIPO_DESPLAZAMIENTO(int TIPO_DESPLAZAMIENTO) {
+        Accion.TIPO_DESPLAZAMIENTO = TIPO_DESPLAZAMIENTO;
+    }
+
+    public static int getTIPO_MOVIMIENTO_ESTATICO() {
+        return TIPO_MOVIMIENTO_ESTATICO;
+    }
+
+    public static void setTIPO_MOVIMIENTO_ESTATICO(int TIPO_MOVIMIENTO_ESTATICO) {
+        Accion.TIPO_MOVIMIENTO_ESTATICO = TIPO_MOVIMIENTO_ESTATICO;
+    }
 
     public int getTipo() {
         return tipo;
@@ -38,212 +125,30 @@ public class Accion {
         this.tipo = tipo;
     }
 
-    public Token getEmisor() {
-        return emisor;
+    public int getNro_Asalto() {
+        return nro_Asalto;
     }
 
-    public void setEmisor(Token emisor) {
-        this.emisor = emisor;
+    public void setNro_Asalto(int nro_Asalto) {
+        this.nro_Asalto = nro_Asalto;
     }
 
-    public Token getDestino() {
-        return destino;
-    }
-
-    public void setDestino(Token destino) {
-        this.destino = destino;
-    }
-
-    public Object[] getMedio() {
-        return medio;
-    }
-
-    public void setMedio(Object[] medio) {
-        this.medio = medio;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 71 * hash + Objects.hashCode(this.medio);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
+  
+    public void hecho() {
+        if (!done) {
+            this.done = true;            
         }
-        if (getClass() != obj.getClass()) {
-            return false;
+    }
+
+    public void desHecho() {
+        this.done = false;        
+    }
+
+    public void esperarOportunidad() {
+        if (!done) {            
+            this.accionDeOportunidad = true;            
         }
-        final Accion other = (Accion) obj;
-        if (!Objects.equals(this.emisor, other.emisor)) {
-            return false;
-        }
-        return true;
     }
 
-    public void resolverAtaque() {
-        switch (this.getTipo()) {
-
-            case Accion.TIPO_COMBATE_1_ARMA: {
-                resolverAtaqueUnArma();
-                break;
-            }
-            case Accion.TIPO_COMBATE_2_ARMAS: {
-                resolverAtaqueDosArmas();
-                break;
-            }
-            case Accion.TIPO_COMBATE_ARCO: {
-                resolverAtaqueArco();
-                break;
-            }
-            case Accion.TIPO_COMBATE_PUÑO: {
-                resolverAtaqueArco();
-                break;
-            }
-
-        }
-
-    }
-
-    public void resolverAtaqueUnArma() {
-
-        Arma medioArma = (Arma) medio[0];
-        //int tactica = definirTactica();
-        int bonoArm = (Integer) this.medio[1];
-        int boDisponible = emisor.boDisponibleAtaque();
-        int boAtque = boDisponible;
-        int def = destino.boDisponibleDefensa();
-        def += destino.bonoEscudo();
-        int dados = Recursos.dadoAbiertoArriba();
-
-        int atque = boAtque
-                + dados
-                + medioArma.getBono()
-                + bonoArm
-                - def;
-
-        Recursos.sout("", 0);
-        Recursos.sout("Ataque de " + emisor.getNombre() + "   A   " + destino.getNombre(), 1);
-        Recursos.sout("Utiliza un " + medioArma.getNombre(), 2);
-        Recursos.sout("Ataque BO = " + boAtque, 2);
-        Recursos.sout("Defensa BD = " + def, 2);
-        Recursos.sout("Dados = " + dados, 2);
-
-        avanzarDaño(atque, medioArma);
-    }
-
-    public void resolverAtaqueArco() {
-
-        Arma medioArma = (Arma) medio[0];
-        int bonoArm = (Integer) this.medio[1];
-        int boDisponible = emisor.boDisponibleAtaque();
-        int boAtque = boDisponible;
-        int def = destino.boDisponibleDefensa();
-        def += destino.bonoEscudo();
-        int dados = Recursos.dadoAbiertoArriba();
-
-        int atque = boAtque
-                + dados
-                + medioArma.getBono()
-                + bonoArm
-                - def;
-
-        Recursos.sout("", 0);
-        Recursos.sout("Ataque de " + emisor.getNombre() + "   A   " + destino.getNombre(), 1);
-        Recursos.sout("Utiliza un " + medioArma.getNombre(), 2);
-        Recursos.sout("Ataque BO = " + boAtque, 2);
-        Recursos.sout("Defensa BD = " + def, 2);
-        Recursos.sout("Dados = " + dados, 2);
-
-        avanzarDaño(atque, medioArma);
-    }
-
-    public void resolverAtaqueDosArmas() {
-        Arma medioArma = (Arma) medio[0];
-
-        int bonoArm = (Integer) this.medio[1];
-        int boDisponible = emisor.boDisponibleAtaque();
-        int boAtque = boDisponible;
-        int def = destino.boDisponibleDefensa();
-        def += destino.bonoEscudo();
-        int dados = Recursos.dadoAbiertoArriba();
-
-        int atque = boAtque
-                + dados
-                + medioArma.getBono()
-                + bonoArm
-                - def;
-
-        Recursos.sout("", 0);
-        Recursos.sout("Ataque de " + emisor.getNombre() + "   A   " + destino.getNombre(), 1);
-        Recursos.sout("Utiliza un " + medioArma.getNombre(), 2);
-        Recursos.sout("Ataque BO = " + boAtque, 2);
-        Recursos.sout("Defensa BD = " + def, 2);
-        Recursos.sout("Dados = " + dados, 2);
-
-        avanzarDaño(atque, medioArma);
-        // }
-
-    }
-
-    public void resolverAtaquePuños() {
-
-        Arma medioArma = (Arma) medio[0];
-        //int tactica = definirTactica();
-        int bonoArm = 0;
-        int boDisponible = emisor.boDisponibleAtaque();
-        int boAtque = boDisponible / 2;
-        int def = destino.boDisponibleDefensa();
-        def += destino.bonoEscudo();
-
-        int atque = boAtque
-                + Recursos.dadoAbiertoArriba()
-                + medioArma.getBono()
-                + bonoArm
-                - def;
-
-        avanzarDaño(atque, medioArma);
-        // }
-
-    }
-
-    private void avanzarDaño(int atque, Arma medioArma) {
-
-      
-        atque = (atque > 150) ? 150 : atque;
-        atque = (atque < 1) ? 1 : atque;
-
-        String nombreTabla = Recursos.armasTablas.get(medioArma.getClase());
-        String codigoResultado = atque + "-" + destino.getHabilidades().getArmadura();
-        String[] rdo = Recursos.darResultadoGolpe(nombreTabla, codigoResultado);
-
-        // Aplicar el daño
-        int pv = destino.getPuntosVida();
-        destino.setPuntosVida(pv - Integer.parseInt(rdo[0]));
-        destino.updateEstado();
-        // Resolver el critico 
-        Recursos.sout("Resultado = " + atque, 2);
-        Recursos.sout("Daño = " + rdo[0] + "Pv  " + rdo[1], 2);
-        if (rdo[1].length() > 0){
-                int dadoCritico = Recursos.aleatorioEntre(1, 100);
-        Critico critic = Recursos.textoCritico(rdo[1].substring(0, 1), dadoCritico);
-
-        // Aplicar daño del critico
-        destino.aplicarCritico(critic);
-        Recursos.sout("Critico = "+dadoCritico+"\n" + critic, 1);
-        
-        }
-       
-       
-
-    }
-
-    @Override
-    public String toString() {
-        return "Accion{" + "tipo=" + tipo + ", emisor=" + emisor + ", destino=" + destino + ", medio=" + medio + '}';
-    }
-
+  
 }

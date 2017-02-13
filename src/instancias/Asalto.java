@@ -28,7 +28,7 @@ public class Asalto {
     public void resolver() {
 
         for (Accion play : Acciones) {
-            play.resolverAtaque();
+            //play.resolverAtaque();
         }
 
     }

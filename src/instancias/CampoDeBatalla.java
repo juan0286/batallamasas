@@ -5,24 +5,46 @@
  */
 package instancias;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import superrolbattle.ventanas.JPanelFormToken_Accion;
 
 /**
  *
  * @author Juan
  */
-public class CampoDeBatalla {
+public class CampoDeBatalla implements Serializable {
 
     public static ArrayList<Asalto> asaltos = new ArrayList<Asalto>();
 
-    public static int nAsalto= 0;
+    public  int nAsalto= 0;
+    private JTextArea cajaDeRegistro;
+    private  ArrayList<JPanelFormToken_Accion> tokens = new ArrayList<JPanelFormToken_Accion>();
     
-    public static void resolverAsalto() {
+    public int resolverAsalto() {
          
-        Asalto as = asaltos.get(nAsalto);
-         as.resolver();
+       // Asalto as = asaltos.get(nAsalto);
+       //  as.resolver();
+        nAsalto+=1;
+        for (int i = 0; i < tokens.size(); i++) {
+            tokens.get(i).desHecho();
+        }
+       
+       return nAsalto;
+       
     }
 
+    public boolean puedenComenzarlosAtaques() {
+         
+        return (true);
+    }
+
+    public void terminarAsalto(){
+        
+    }
+    
     public static void iniciarCampoDeBatalla() {
        
         Asalto asa = new Asalto();
@@ -43,37 +65,54 @@ public class CampoDeBatalla {
         }
     }
 
-    public static Accion getAccionesDeToken(Token tok) {
 
-        if (asaltoNow() == null) {
-            return null;
-        }
-        for (Accion accion : asaltoNow().getAcciones()) {
-            if (accion.getEmisor().equals(tok)) {
-                return accion;
-            }
-        }
-        return null;
 
+
+    public static void setAsaltos(ArrayList<Asalto> asaltos) {
+        CampoDeBatalla.asaltos = asaltos;
     }
 
-    public static ArrayList<Token> getAtacantesDeToken(Token tok) {
-        if (asaltoNow() == null) {
-            return null;
-        }
-        ArrayList<Token> enemigos = new ArrayList<Token>();
-        for (Accion accion : asaltoNow().getAcciones()) {
-            if (accion.getDestino().equals(tok)
-                    && (accion.getTipo() == accion.TIPO_COMBATE_1_ARMA
-                    || accion.getTipo() == accion.TIPO_COMBATE_2_ARMAS
-                    || accion.getTipo() == accion.TIPO_COMBATE_ARCO
-                    || accion.getTipo() == accion.TIPO_COMBATE_PUÑO)) {
-                enemigos.add(accion.getEmisor());
-            }
-        }
-        return enemigos;
-
+    public void setnAsalto(int nAsalto) {
+        this.nAsalto = nAsalto;
     }
 
-   
+    public void setCajaDeRegistro(JTextArea cajaDeRegistro) {
+        this.cajaDeRegistro = cajaDeRegistro;
+    }
+
+    public void setTokens(ArrayList<JPanelFormToken_Accion> tokens) {
+        this.tokens = tokens;
+    }
+
+    public ArrayList<JPanelFormToken_Accion> getTokens() {
+        return tokens;
+    }
+    
+    
+    
+    
+    public void agregarTokens(JPanelFormToken_Accion ventanaAccionToken) {
+        this.tokens.add(ventanaAccionToken);
+    }
+
+    public void sinAccioneshechos(JPanel jp) {
+        for (int i = 0; i < jp.getComponentCount(); i++) {
+            JPanelFormToken_Accion jpta = (JPanelFormToken_Accion) jp.getComponent(i);
+            jpta.hecho();            
+        }
+       
+    }
+    
+    
+     public boolean todosActuaron(JPanel jp) {
+        for (int i = 0; i < jp.getComponentCount(); i++) {
+            JPanelFormToken_Accion jpta = (JPanelFormToken_Accion) jp.getComponent(i);
+            if (!jpta.isDone()) {
+                if (!jpta.isAccionDeOportunidad()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }

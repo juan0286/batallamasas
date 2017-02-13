@@ -5,13 +5,14 @@
  */
 package recursos;
 
+
 import com.csvreader.CsvReader;
 import instancias.Asalto;
 import instancias.CampoDeBatalla;
 import instancias.Token;
 import instancias.properties.Arma;
 import instancias.properties.Brazo;
-import instancias.properties.Habilidad;
+import instancias.properties.Caracteristicas;
 import instancias.properties.Status;
 import java.io.BufferedReader;
 import java.io.File;
@@ -214,10 +215,10 @@ public class CargaBase {
 
             Token newToken = null;
             newToken = new Token();
-            Habilidad hab = new Habilidad();
+            Caracteristicas hab = new Caracteristicas();
             Brazo izq = new Brazo();
             Brazo der = new Brazo();
-            Status est = new Status();
+            Status est = new Status(hab);
 
             newToken.setNombre((String) Recursos.aleatorioDe(Recursos.nombres));
 
@@ -270,8 +271,16 @@ public class CargaBase {
                 }
             }
 
-            hab.setBo(35 + nivel * 3 + nivel + bonoBo + Recursos.aleatorioEntre(1, 5));
-            hab.setBd(5 * Recursos.aleatorioEntre(1, 8));
+            hab.setBo_pri(35 + nivel * 3 + nivel + bonoBo + Recursos.aleatorioEntre(1, 5));
+            int auxBoSec = (35 + nivel * 3 + nivel + bonoBo + Recursos.aleatorioEntre(1, 5));             
+            auxBoSec = Recursos.porcentajeDe(Recursos.aleatorioEntre(50,75), auxBoSec);
+            
+            hab.setBo_pri_tipo(der.getArmaEquipada().getClase());
+            hab.setBo_sec(auxBoSec);
+            hab.setAgi(5 * Recursos.aleatorioEntre(1, 8));
+            
+            hab.setBo_sec_tipo(izq.getArmaEquipada().getClase());
+            
             hab.setArmadura(Recursos.aleatorioEntre(1, 20));
 
             newToken.setEstilo(Recursos.aleatorioEntre(0, 4));

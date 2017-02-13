@@ -31,14 +31,34 @@ public class Token {
     private int puntosVida;
     private Brazo manoIZQ;
     private Brazo manoDER;
-    private Habilidad habilidades;
+    private Caracteristicas habilidades;
     private ArrayList daños;
     private Status estado;
     private int estilo;
     private boolean ladoIzquierdo;
+    private int armaduraPuesta;
     private int porcentajeAtque = 100;
+    private boolean visible; // Si los jugadores pueden verlos
 
-    public Token(String nombre, int nivel, String grupo, int puntosVida, Brazo manoIZQ, Brazo manoDER, Habilidad habilidades, ArrayList daños, Status estado, int estilo) {
+    private String urlIcon;
+
+    private ArrayList<Accion> acciones = new ArrayList<Accion>();
+
+    public Token(String nombre, int nivel, String grupo, int puntosVida, Brazo manoIZQ, Brazo manoDER, Caracteristicas habilidades, ArrayList daños, Status estado, int estilo, boolean ladoIzquierdo) {
+        this.nombre = nombre;
+        this.nivel = nivel;
+        this.grupo = grupo;
+        this.puntosVida = puntosVida;
+        this.manoIZQ = manoIZQ;
+        this.manoDER = manoDER;
+        this.habilidades = habilidades;
+        this.daños = daños;
+        this.estado = estado;
+        this.estilo = estilo;
+        this.ladoIzquierdo = ladoIzquierdo;
+    }
+
+    public Token(String nombre, int nivel, String grupo, int puntosVida, Brazo manoIZQ, Brazo manoDER, Caracteristicas habilidades, ArrayList daños, Status estado, int estilo) {
         this.nombre = nombre;
         this.nivel = nivel;
         this.grupo = grupo;
@@ -51,7 +71,7 @@ public class Token {
         this.estilo = estilo;
     }
 
-    public Token(String nombre, int nivel, String grupo, int puntosVida, Brazo manoIZQ, Brazo manoDER, Habilidad habilidades, ArrayList daños, Status estado, int estilo, Asalto asalto, boolean lado) {
+    public Token(String nombre, int nivel, String grupo, int puntosVida, Brazo manoIZQ, Brazo manoDER, Caracteristicas habilidades, ArrayList daños, Status estado, int estilo, Asalto asalto, boolean lado) {
         this.nombre = nombre;
         this.nivel = nivel;
         this.grupo = grupo;
@@ -125,11 +145,11 @@ public class Token {
         this.manoDER = manoDER;
     }
 
-    public Habilidad getHabilidades() {
+    public Caracteristicas getHabilidades() {
         return habilidades;
     }
 
-    public void setHabilidades(Habilidad habilidades) {
+    public void setHabilidades(Caracteristicas habilidades) {
         this.habilidades = habilidades;
     }
 
@@ -165,6 +185,53 @@ public class Token {
         this.porcentajeAtque = porcentajeAtque;
     }
 
+    public String getUrlIcon() {
+        return urlIcon;
+    }
+
+    public void setUrlIcon(String urlIcon) {
+        this.urlIcon = urlIcon;
+    }
+
+    public int getArmaduraPuesta() {
+        return armaduraPuesta;
+    }
+
+    public void setArmaduraPuesta(int armaduraPuesta) {
+        this.armaduraPuesta = armaduraPuesta;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+    
+    
+    
+
+    public String vidatxt() {
+        return this.getEstado().getPtsDeVidaPerdidos() + "  /  " + this.getPuntosVida();
+    }
+
+    public int compareTo(Token o) {
+        int resultado = 0;
+        if (this.estado.getMmActual() < o.estado.getMmActual()) {
+            resultado = -1;
+        } else if (this.estado.getMmActual() > o.estado.getMmActual()) {
+            resultado = 1;
+        } else if (this.getArmaduraPuesta() < o.getArmaduraPuesta()) {
+            resultado = 1;
+        } else if (this.getArmaduraPuesta() > o.getArmaduraPuesta()) {
+            resultado = -1;
+        } else {
+            resultado = 0;
+        }
+        return resultado;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -182,39 +249,10 @@ public class Token {
 
     public void updateEstado() {
 
-        estado.update(1, this.getPuntosVida());
+        estado.aplicarAsaltoNuevo();
     }
 
-    public void Atacar(Enemigo enemigo, int porcentaje, int bonoArm) {
-
-        //int tactica = definirTactica();
-        int boDisponible;
-        boDisponible = ((this.habilidades.getBo() - this.estado.getActividadReducida()) > 0) ? (this.habilidades.getBo() - this.estado.getActividadReducida()) : 0;
-        int boAtque = boDisponible;
-        // for (Enemigo enemigo : this.getAsalto().getDefensores()) {
-        int atque
-                = (boAtque / 100 * porcentaje)
-                + Recursos.dadoAbiertoArriba()
-                + this.getManoDER().getArmaEquipada().getBono()
-                + bonoArm
-                - enemigo.getPorcDefensa();
-        String nombreTabla = Recursos.armasTablas.get(this.getManoDER().getArmaEquipada().getTipo());
-        String codigoResultado = atque + "" + enemigo.getHabilidades().getArmadura();
-        String[] rdo = Recursos.darResultadoGolpe(nombreTabla, codigoResultado);
-
-        // Aplicar el daño
-        int pv = enemigo.getPuntosVida();
-        enemigo.setPuntosVida(pv - Integer.parseInt(rdo[0]));
-        enemigo.updateEstado();
-        // Resolver el critico
-        int dadoCritico = Recursos.aleatorioEntre(1, 100);
-        Critico critic = Recursos.textoCritico(rdo[1], dadoCritico);
-
-        // Aplicar daño del critico
-        enemigo.aplicarCritico(critic);
-        // }
-
-    }
+   
 
 //        Brazo d = new Brazo();
 //        Brazo i = new Brazo();
@@ -244,7 +282,7 @@ public class Token {
 
         }
 
-        this.estado.update(1, this.puntosVida);
+        this.estado.update(1);
     }
 
     public int definirPorcTactica() {
@@ -287,10 +325,30 @@ public class Token {
     private int definirTactica() {
 
         // devuelve la cantidad de BO destinada a atacar
-        int boReturn = this.habilidades.getBo();
-        boReturn = (int) ((float) this.habilidades.getBo() / 100.0 * this.definirPorcTactica());
+        int boReturn = this.habilidades.getBo_pri();
+        boReturn = (int) ((float) this.habilidades.getBo_pri() / 100.0 * this.definirPorcTactica());
 
         return boReturn;
+    }
+
+    public ArrayList<Accion> getAcciones() {
+        return acciones;
+    }
+
+    public void setAcciones(ArrayList<Accion> acciones) {
+        this.acciones = acciones;
+    }
+
+    public void AgregarAccion(Accion accion) {
+        this.acciones.add(accion);
+    }
+
+    public Accion ultimaAccion() {
+        return this.acciones.get(acciones.size() - 1);
+    }
+
+    public void formatearAcciones() {
+        this.acciones.clear();
     }
 
     /**
@@ -305,7 +363,7 @@ public class Token {
     }
 
     public int boDisponible() {
-        int boDisponible = ((this.habilidades.getBo() - this.estado.getActividadReducida()) > 0) ? (this.habilidades.getBo() - this.estado.getActividadReducida()) : this.habilidades.getBo();
+        int boDisponible = ((this.habilidades.getBo_pri() - this.estado.getActividadReducida()) > 0) ? (this.habilidades.getBo_pri() - this.estado.getActividadReducida()) : this.habilidades.getBo_pri();
         return boDisponible;
     }
 
@@ -332,11 +390,25 @@ public class Token {
         }
     }
 
+    public String getpv() {
+        return this.estado.getPtsDeVidaPerdidos() + " / " + this.habilidades.getPuntosVida();
+    }
+
+    public String textEstado() {
+
+        return estado.getTextEstado();
+    }
+
     public final static Token nadie() {
         Token nadie = new Token();
         nadie.setNivel(0);
         nadie.setNombre("NADIE");
 
         return nadie;
+    }
+    
+    public Accion getLastAction(){
+        return acciones.get(acciones.size()-1);
+    
     }
 }
