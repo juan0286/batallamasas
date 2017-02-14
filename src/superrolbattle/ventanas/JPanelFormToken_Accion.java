@@ -31,10 +31,11 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
         initComponents();
     }
 
-    public JPanelFormToken_Accion(Token token, Principal principal, int faseAsalto)  {
+    public JPanelFormToken_Accion(Token token, Principal principal) {
         this.token = token;
-        this.faseDeAsalto = faseAsalto;
-        this.principal = principal;       
+        this.faseDeAsalto = token.getLastAction().getTipo();
+        this.accion = token.getLastAction();
+        this.principal = principal;
         initComponents();
 
         jProgressBar_vida.setMinimum(0);
@@ -42,17 +43,10 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
         jProgressBar_vida.setValue(0);
         // UIManager.put("jProgressBar_vida.selectionBackground", Color.RED);
         // jProgressBar_vida.setIgnoreRepaint(true);
-                 
-      update();
+
+        update();
         this.repaint();
     }
-    
-    private Token token;
-    private Principal principal;
-    private Accion accion;
-    private boolean done = false;
-    private boolean accionDeOportunidad = false;
-    private int faseDeAsalto;
 
     public Token getToken() {
         return token;
@@ -62,21 +56,6 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
         this.token = token;
     }
 
-    public boolean isDone() {
-        return done;
-    }
-
-    public void setDone(boolean done) {
-        this.done = done;
-    }
-
-    public boolean isAccionDeOportunidad() {
-        return accionDeOportunidad;
-    }
-
-    public void setAccionDeOportunidad(boolean accionDeOportunidad) {
-        this.accionDeOportunidad = accionDeOportunidad;
-    }
 
     public int getFaseDeAsalto() {
         return faseDeAsalto;
@@ -87,8 +66,8 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
     }
 
     public void hecho() {
-        if (!done) {
-            this.done = true;
+        if (!accion.isDone()) {
+            accion.hecho(this.faseDeAsalto);
             token.updateEstado();
             this.setBackground(Color.GREEN);
             this.repaint();
@@ -96,15 +75,16 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
     }
 
     public void desHecho() {
-        this.done = false;
-        this.setBackground(new java.awt.Color(240, 240, 240));
+        accion.desHecho();
+        if(!accion.isAccionDeOportunidad())
+            this.setBackground(new java.awt.Color(240, 240, 240));
         this.repaint();
     }
 
     public void esperarOportunidad() {
-        if (!done) {
+        if (!accion.isDone()) {
             token.updateEstado();
-            this.accionDeOportunidad = true;
+            accion.esperarOportunidad();
             this.setBackground(Color.YELLOW);
             this.repaint();
         }
@@ -117,22 +97,17 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
     public void setAccion(Accion accion) {
         this.accion = accion;
     }
-    
-    
-    
-    public void setTipoAccion(int a){
-    this.accion.setTipo(a); 
+
+    public void setTipoAccion(int a) {
+        this.accion.setTipo(a);
     }
 
     public void update() {
 
         jProgressBar_vida.setValue(token.getEstado().getPtsDeVidaPerdidos());
 
-       
-      
-
         if (token.getEstado().getCuerpo() == Status.FIRME) {
-            jProgressBar_vida.setForeground(Color.GREEN);           
+            jProgressBar_vida.setForeground(Color.GREEN);
         } else if (token.getEstado().getCuerpo() == Status.CANSADO) {
             jProgressBar_vida.setForeground(Color.YELLOW);
         } else if (token.getEstado().getCuerpo() == Status.EXHAUSTO) {
@@ -143,11 +118,10 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
             jProgressBar_vida.setForeground(Color.BLACK);
             this.setBackground(Color.BLACK);
         }
-        jProgressBar_vida.setStringPainted(true);   
+        jProgressBar_vida.setStringPainted(true);
         jProgressBar_vida.setString(token.vidatxt());
         jProgressBar_vida.repaint();
-        
-        
+
         if (token.getEstado().menteEstado() == Status.MENTE_ATURDIDO) {
             jTextArea_estado.setBackground(Color.YELLOW);
         } else if (token.getEstado().menteEstado() == Status.MENTE_ATURDIDO_Y_SIN_PODER_PARAR) {
@@ -168,7 +142,7 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
                 + "Nivel: " + token.getNivel() + "<br/>"
                 + "Puntos de Vida: " + token.vidatxt() + "<br/>"
                 + "Estado Fisico: " + token.getEstado().cuerpoString() + "<br/>"
-                + "Estado Mental: " + token.getEstado().menteEstado()+ "<br/>"
+                + "Estado Mental: " + token.getEstado().menteEstado() + "<br/>"
                 + "Actividad: " + token.getEstado().getActividadActual() + "<br/>"
                 + "Bo Actual: " + token.boDisponibleAtaque() + "<br/>"
                 + "Bd Actual: " + token.getHabilidades().getAgi() + "<br/>"
@@ -251,7 +225,7 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
             if (evt.isMetaDown()) {
                 AlterararToken dt = new AlterararToken(principal, true, this);
                 dt.setVisible(true);
-                if (token.getEstado().isAturdido() && !done) {
+                if (token.getEstado().isAturdido() && !accion.isDone()) {
                     DeclaraAccion da = new DeclaraAccion(principal, true, this);
                     da.setLocationRelativeTo(null);
                     da.setVisible(true);
@@ -262,14 +236,13 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
                 } else {
                     this.hecho();
                 }
-            } else if (this.isAccionDeOportunidad()) {
+            } else if (accion.isAccionDeOportunidad()) {
                 this.hecho();
             }
         }
 
     }//GEN-LAST:event_formMouseClicked
-    
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel_Nombre;
@@ -279,7 +252,16 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
     private javax.swing.JTextArea jTextArea_estado;
     // End of variables declaration//GEN-END:variables
 
+    private Token token;
+    private Principal principal;
+    private Accion accion;
+    private int faseDeAsalto;
+    /*private boolean done = false;
+    private boolean accionDeOportunidad = false;
+    
+
     void AgregarAccion(Accion acc) {
 
     }
+*/
 }

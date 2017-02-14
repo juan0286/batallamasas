@@ -5,11 +5,13 @@
  */
 package instancias.properties;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Juan
  */
-public class Brazo {
+public class Brazo implements Serializable{
     
     boolean habilitado = true;
     Arma armaEquipada;

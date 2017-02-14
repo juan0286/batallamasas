@@ -5,11 +5,13 @@
  */
 package instancias.properties;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Juan
  */
-public class Caracteristicas {
+public class Caracteristicas implements Serializable{
     
     private int bo_pri;
     private int bo_sec;

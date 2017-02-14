@@ -21,7 +21,7 @@ public class CampoDeBatalla implements Serializable {
 
     public  int nAsalto= 0;
     private JTextArea cajaDeRegistro;
-    private  ArrayList<JPanelFormToken_Accion> tokens = new ArrayList<JPanelFormToken_Accion>();
+    private  ArrayList<Token> tokens = new ArrayList<Token>();
     
     public int resolverAsalto() {
          
@@ -29,7 +29,7 @@ public class CampoDeBatalla implements Serializable {
        //  as.resolver();
         nAsalto+=1;
         for (int i = 0; i < tokens.size(); i++) {
-            tokens.get(i).desHecho();
+            tokens.get(i).getLastAction().desHecho();
         }
        
        return nAsalto;
@@ -76,43 +76,31 @@ public class CampoDeBatalla implements Serializable {
         this.nAsalto = nAsalto;
     }
 
+    public int getnAsalto() {
+        return nAsalto;
+    }
+    
+    
+
     public void setCajaDeRegistro(JTextArea cajaDeRegistro) {
         this.cajaDeRegistro = cajaDeRegistro;
     }
 
-    public void setTokens(ArrayList<JPanelFormToken_Accion> tokens) {
+    public ArrayList<Token> getTokens() {
+        return tokens;
+    }
+
+    public void setTokens(ArrayList<Token> tokens) {
         this.tokens = tokens;
     }
 
-    public ArrayList<JPanelFormToken_Accion> getTokens() {
-        return tokens;
-    }
+  
     
     
     
-    
-    public void agregarTokens(JPanelFormToken_Accion ventanaAccionToken) {
-        this.tokens.add(ventanaAccionToken);
+    public void agregarToken(Token token) {
+        this.tokens.add(token);
     }
 
-    public void sinAccioneshechos(JPanel jp) {
-        for (int i = 0; i < jp.getComponentCount(); i++) {
-            JPanelFormToken_Accion jpta = (JPanelFormToken_Accion) jp.getComponent(i);
-            jpta.hecho();            
-        }
-       
-    }
-    
-    
-     public boolean todosActuaron(JPanel jp) {
-        for (int i = 0; i < jp.getComponentCount(); i++) {
-            JPanelFormToken_Accion jpta = (JPanelFormToken_Accion) jp.getComponent(i);
-            if (!jpta.isDone()) {
-                if (!jpta.isAccionDeOportunidad()) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
+
 }

@@ -6,13 +6,14 @@
 package instancias;
 
 import instancias.properties.Arma;
+import java.io.Serializable;
 import java.util.HashSet;
 
 /**
  *
  * @author Juan
  */
-public class Asalto {
+public class Asalto  implements Serializable{
 
     public static HashSet<Accion> Acciones = new HashSet<Accion>();
 

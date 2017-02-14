@@ -4,7 +4,6 @@
  */
 package recursos;
 
-
 import instancias.CampoDeBatalla;
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,6 +14,7 @@ import java.io.ObjectOutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -48,12 +48,15 @@ public class AbrirGuardar {
             } else {
                 actual = new File(f.getAbsolutePath() + ".fld");
             }
-
-
-            ObjectOutputStream salida = new ObjectOutputStream(new FileOutputStream(actual));
-            salida.writeObject(field);
-            System.out.println("Se supone que se guardo bien\n" + field);
-            GuardarDir(actual.getAbsolutePath().replace(actual.getName(), ""));
+            ObjectOutputStream salida = null;
+            try {
+                salida = new ObjectOutputStream(new FileOutputStream(actual));
+                salida.writeObject(field);
+                System.out.println("Se supone que se guardo bien\n" + field);
+                GuardarDir(actual.getAbsolutePath().replace(actual.getName(), ""));
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, ex.toString(), "Error Abriendo Archivo", JOptionPane.ERROR_MESSAGE);
+            }
             salida.close();
         }
     }
@@ -112,6 +115,5 @@ public class AbrirGuardar {
     public String getName() {
         return name;
     }
-    
-    
+
 }

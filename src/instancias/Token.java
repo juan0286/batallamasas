@@ -7,6 +7,7 @@ package instancias;
 
 import java.util.ArrayList;
 import instancias.properties.*;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Objects;
 import recursos.Critico;
@@ -16,7 +17,7 @@ import recursos.Recursos;
  *
  * @author Juan
  */
-public class Token {
+public class Token implements Serializable{
 
 // estilos
     static final public int DEFENSA_TOTAL = 0;  // 0 - 10 %
@@ -408,7 +409,7 @@ public class Token {
     }
     
     public Accion getLastAction(){
-        return acciones.get(acciones.size()-1);
+        return (Accion)acciones.get(acciones.size()-1);
     
     }
 }

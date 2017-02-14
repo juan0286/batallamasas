@@ -5,11 +5,13 @@
  */
 package instancias.properties;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Juan
  */
-public class Status {
+public class Status implements Serializable{
 
     static final public int FIRME = 0;
     static final public int CANSADO = 1;
@@ -408,7 +410,7 @@ public class Status {
     public String getTextEstado() {
        String resp = "";
        resp+= cuerpoString();
-       resp+= "\n" + menteEstado();
+       resp+= "\n" + menteEstadoTxt();
        resp+= (sangradoPorAsalto > 0) ? "-" + sangradoPorAsalto + "pv/as" :"";
        return resp;
        

@@ -6,12 +6,13 @@
 package instancias;
 
 import java.awt.Color;
+import java.io.Serializable;
 
 /**
  *
  * @author TiranoJuan
  */
-public class Accion {
+public class Accion implements Serializable{
     
     public static int TIPO_SIN_ACCION = 0;
     public static int TIPO_CARGA_SORTILEGIO = 1;
@@ -134,9 +135,10 @@ public class Accion {
     }
 
   
-    public void hecho() {
+    public void hecho(int tipo) {
         if (!done) {
-            this.done = true;            
+            this.done = true; 
+            this.setTipo(tipo);
         }
     }
 
@@ -150,5 +152,14 @@ public class Accion {
         }
     }
 
+    public boolean isDone() {
+        return done;
+    }
+
+    public boolean isAccionDeOportunidad() {
+        return accionDeOportunidad;
+    }
+
+    
   
 }

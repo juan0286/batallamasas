@@ -5,11 +5,13 @@
  */
 package instancias.properties;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Juan
  */
-public class Arma {
+public class Arma implements Serializable{
 
     // CLASE
     static final public int CLASE_MANO_DESNUDA = 0;
