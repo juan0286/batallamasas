@@ -43,7 +43,7 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
         jProgressBar_vida.setValue(0);
         // UIManager.put("jProgressBar_vida.selectionBackground", Color.RED);
         // jProgressBar_vida.setIgnoreRepaint(true);
-
+        
         update();
         this.repaint();
     }
@@ -67,17 +67,23 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
 
     public void hecho() {
         if (!accion.isDone()) {
-            accion.hecho(this.faseDeAsalto);
+            accion.hecho(this.faseDeAsalto);            
             token.updateEstado();
-            this.setBackground(Color.GREEN);
-            this.repaint();
+            updDone();
         }
     }
-
+    
+    private void updDone(){        
+        this.setBackground(Color.GREEN);
+        this.repaint();
+    }
+    
     public void desHecho() {
         accion.desHecho();
         if(!accion.isAccionDeOportunidad())
             this.setBackground(new java.awt.Color(240, 240, 240));
+        else 
+            upAccOportunidad();
         this.repaint();
     }
 
@@ -85,11 +91,15 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
         if (!accion.isDone()) {
             token.updateEstado();
             accion.esperarOportunidad();
-            this.setBackground(Color.YELLOW);
-            this.repaint();
+            upAccOportunidad();            
         }
     }
 
+    private void upAccOportunidad(){
+        this.setBackground(Color.YELLOW);
+        this.repaint();   
+    }
+    
     public Accion getAccion() {
         return accion;
     }
@@ -103,7 +113,12 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
     }
 
     public void update() {
-
+        
+        if (accion.isDone())
+            updDone();
+        if(accion.isAccionDeOportunidad())
+            upAccOportunidad();
+        
         jProgressBar_vida.setValue(token.getEstado().getPtsDeVidaPerdidos());
 
         if (token.getEstado().getCuerpo() == Status.FIRME) {

@@ -138,6 +138,7 @@ public class Accion implements Serializable{
     public void hecho(int tipo) {
         if (!done) {
             this.done = true; 
+            this.accionDeOportunidad = false;
             this.setTipo(tipo);
         }
     }
