@@ -7,10 +7,14 @@ package recursos;
 import instancias.CampoDeBatalla;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import static java.lang.System.in;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -26,6 +30,8 @@ public class AbrirGuardar {
     public JFileChooser jfc;
     public boolean cambios = false;
     String name;
+    public static String directorio = "";
+    
 
     public void GuardarField(CampoDeBatalla field) throws IOException {
         if (actual != null) {
@@ -79,16 +85,12 @@ public class AbrirGuardar {
     }
 
     public AbrirGuardar() {
-        try {
-            jfc = new JFileChooser(directorio());
-        } catch (IOException ex) {
-            Logger.getLogger(AbrirGuardar.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        jfc = new JFileChooser(directorio);
         ExtensionFileFilter filter1 = new ExtensionFileFilter("Campo de Batalla", new String[]{"fld", "FLD"});
         jfc.setFileFilter(filter1);
     }
 
-    String directorio() throws IOException {
+    static public  String directorio() throws IOException {
         File f = new File("Inicio.ini");
         ObjectInputStream entrada = null;
         String dir = null;
@@ -104,11 +106,11 @@ public class AbrirGuardar {
         return dir;
     }
 
-    public void GuardarDir(String dir) throws IOException {
-
+    public static void GuardarDir(String dir) throws IOException {
         ObjectOutputStream salida = new ObjectOutputStream(new FileOutputStream("Inicio.ini"));
         salida.writeObject(dir);
         salida.close();
+        directorio =dir;
 
     }
 
@@ -116,4 +118,5 @@ public class AbrirGuardar {
         return name;
     }
 
+    
 }

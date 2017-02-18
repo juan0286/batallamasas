@@ -10,6 +10,7 @@ import instancias.properties.Arma;
 import instancias.properties.Brazo;
 import instancias.properties.Caracteristicas;
 import instancias.properties.Status;
+import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import javax.swing.DefaultComboBoxModel;
@@ -486,6 +487,7 @@ public class CrearToken extends javax.swing.JDialog {
             newToken.setManoIZQ(izq);
             newToken.setEstado(est);
             newToken.setLadoIzquierdo(jToggleButton_Panel.isSelected());
+            newToken.setColor(Color.BLUE);
             this.dispose();
         }
 

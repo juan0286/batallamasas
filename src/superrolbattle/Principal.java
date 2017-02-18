@@ -55,6 +55,11 @@ public class Principal extends javax.swing.JFrame {
     public Principal() {
         initComponents();
         aws = new ArrayList<JPanelFormToken_Accion>();
+        try {
+            AbrirGuardar.directorio();
+        } catch (IOException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         jLabel_uso_ao.setVisible(false);
         campo = new CampoDeBatalla(); //
@@ -924,7 +929,7 @@ public class Principal extends javax.swing.JFrame {
     private void jMenuItem_guardarComoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_guardarComoActionPerformed
         try {
             ag.GuardarComoField(campo);
-            this.setTitle(this.getTitle() + " - " + ag.getName());
+            this.setTitle(TITULO + " - " + ag.getName());
         } catch (IOException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -969,7 +974,7 @@ public class Principal extends javax.swing.JFrame {
         if (field != null) {
             this.campo = field;
             loadCampoDeBatalla();
-            this.setTitle(this.getTitle() + " - " + ag.getName());
+            this.setTitle(TITULO + " - " + ag.getName());
         }
 
     }
@@ -1206,7 +1211,7 @@ public class Principal extends javax.swing.JFrame {
         Evento evt= new Evento("<br/>--------------<br/>", campo.getnAsalto());
         
         asaltoFase = pos;
-
+       
         switch (pos) {
             case ASALTOFASE_CARGA_SORTILEGIO: {
 
@@ -1278,8 +1283,9 @@ public class Principal extends javax.swing.JFrame {
                 jButton_avanzarFaseAsalto5.setEnabled(false);
                 jButton_avanzarFaseAsalto6.setEnabled(true);
                 jPanel_Titulo_movimientoYmaniobra.setBackground(Color.red);
-                jPanel_Titulo_PararProyectiles.setBackground(new java.awt.Color(204, 204, 255));
-
+                jPanel_Titulo_PararProyectiles.setBackground(new java.awt.Color(204, 204, 255));              
+               
+                
                 if (jPanel_movimientoYmaniobra_campo.getComponentCount() == 0) {
                     avanzarFaseDeAsalto(-1);
                 } else  publicarEvento(evt);
@@ -1305,7 +1311,7 @@ public class Principal extends javax.swing.JFrame {
                 jButton_avanzarFaseAsalto8.setEnabled(true);
                 jPanel_Titulo_Movimiento.setBackground(Color.red);
                 jPanel_Titulo_AtaqueCuerpoaCuerpo.setBackground(new java.awt.Color(204, 204, 255));
-
+                
                 if (jPanel_Movimiento_campo.getComponentCount() == 0) {
                     avanzarFaseDeAsalto(-1);
                 } else  publicarEvento(evt);
@@ -1474,6 +1480,9 @@ public class Principal extends javax.swing.JFrame {
     private CampoDeBatalla campo;
     private ArrayList<JPanelFormToken_Accion> aws;
     private AbrirGuardar ag;
+    
+    public static final String TITULO = "Super Rolmaster Battle";
+    
     private StringBuilder registro;
 
     public static final int BUTTONFASE_CREACION = 0;

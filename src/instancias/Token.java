@@ -19,7 +19,7 @@ import recursos.Recursos;
  *
  * @author Juan
  */
-public class Token implements Serializable{
+public class Token implements Serializable {
 
 // estilos
     static final public int DEFENSA_TOTAL = 0;  // 0 - 10 %
@@ -74,6 +74,7 @@ public class Token implements Serializable{
         this.daños = daños;
         this.estado = estado;
         this.estilo = estilo;
+        this.color = Color.BLUE;
     }
 
     public Token(String nombre, int nivel, String grupo, int puntosVida, Brazo manoIZQ, Brazo manoDER, Caracteristicas habilidades, ArrayList daños, Status estado, int estilo, Asalto asalto, boolean lado) {
@@ -88,13 +89,13 @@ public class Token implements Serializable{
         this.estado = estado;
         this.estilo = estilo;
         this.ladoIzquierdo = lado;
+        this.color = Color.BLUE;
     }
 
     public Token() {
-
+        this.color = Color.BLUE;
     }
 
-    
     public int getEstilo() {
         return estilo;
     }
@@ -102,11 +103,11 @@ public class Token implements Serializable{
     public Color getColor() {
         return color;
     }
-    
-    public String getHexaColor(){
-        return "#"+Integer.toHexString(this.color.getRGB()).substring(2);
+
+    public String getHexaColor() {
+        return "#" + Integer.toHexString(this.color.getRGB()).substring(2);
     }
-    
+
     public void setColor(Color color) {
         this.color = color;
     }
@@ -226,9 +227,6 @@ public class Token implements Serializable{
     public void setVisible(boolean visible) {
         this.visible = visible;
     }
-    
-    
-    
 
     public String vidatxt() {
         return this.getEstado().getPtsDeVidaPerdidos() + "  /  " + this.getPuntosVida();
@@ -269,8 +267,6 @@ public class Token implements Serializable{
 
         estado.aplicarAsaltoNuevo();
     }
-
-   
 
 //        Brazo d = new Brazo();
 //        Brazo i = new Brazo();
@@ -424,17 +420,17 @@ public class Token implements Serializable{
 
         return nadie;
     }
-    
-    public Accion getLastAction(){
-        return (Accion)acciones.get(acciones.size()-1);
-    
+
+    public Accion getLastAction() {
+        return (Accion) acciones.get(acciones.size() - 1);
+
     }
-    
-    public ArrayList<Sortilegio>  getSortilegios(){        
+
+    public ArrayList<Sortilegio> getSortilegios() {
         return habilidades.getSortilegios();
     }
-    
-    public void aprenderSortilegio(Sortilegio sortilegio){        
+
+    public void aprenderSortilegio(Sortilegio sortilegio) {
         habilidades.getSortilegios().add(sortilegio);
     }
 }

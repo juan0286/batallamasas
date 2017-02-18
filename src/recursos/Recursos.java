@@ -7,18 +7,25 @@ package recursos;
 
 import com.csvreader.CsvReader;
 import instancias.Accion;
+import instancias.Evento;
 import instancias.Token;
 import instancias.properties.Arma;
 import instancias.properties.Status;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
@@ -33,7 +40,8 @@ public class Recursos {
     //public static ArrayList<Token> soldadosD = new ArrayList<Token>();
 
     public static boolean imprimirPorConsola = false;
-
+    private static final String dirAvatars= "avatars\\";
+    
     public static HashMap<String, HashMap> tablasDaño = new HashMap();
     public static HashMap<String, HashMap> tablasCritico = new HashMap();
 
@@ -356,4 +364,53 @@ public class Recursos {
         return ret+"</blockquote>";
     }
 
+    public static String evtOportunidad(Token tok){
+        String ret = "<br/><blockquote>";
+        ret += "<span color='"+tok.getHexaColor()+"'> " + tok.getNombre()+" <span>";
+        return ret + " espera una oportunidad para realizar su acción</blockquote>";
+    }
+    public static File copiarIcono(File origen, String name)  {
+        boolean res = false;
+        File destino = new File(newPathFor(origen,name));
+
+        OutputStream out;
+        try {
+            InputStream in = new FileInputStream(origen);
+            out = new FileOutputStream(destino);
+
+            byte[] buf = new byte[1024];
+            int len;
+
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+            in.close();
+            out.close();
+            res = true;
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(AbrirGuardar.class.getName()).log(Level.SEVERE, null, ex);
+            Recursos.sout("Fallo la copia del icono", 0);
+            Recursos.informar("No se pudo cargar el icono en " + origen.toString());
+            
+        } catch (IOException ex){
+        Logger.getLogger(AbrirGuardar.class.getName()).log(Level.SEVERE, null, ex);
+            Recursos.sout("Fallo la copia del icono", 0);
+            Recursos.informar("No se pudo cargar el icono en " + origen.toString());
+           
+        }
+        return (res) ? destino : null;
+    }
+    
+    private static String newPathFor(File f, String name){
+        return dirAvatars + name + "." + getFileExtension(f);
+    }
+    
+    private static String getFileExtension(File file) {
+    String name = file.getName();
+    try {
+        return name.substring(name.lastIndexOf(".") + 1);
+    } catch (Exception e) {
+        return "";
+    }
+}
 }

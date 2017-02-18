@@ -18,6 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JProgressBar;
 import javax.swing.UIManager;
 import superrolbattle.Principal;
+import recursos.Recursos;
 
 /**
  *
@@ -95,7 +96,7 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
         if (!accion.isDone()) {
             token.updateEstado();
             accion.esperarOportunidad();
-            Evento e = new Evento(token.getNombre() + " espera una oportnidad para realizar su acción");
+            Evento e = new Evento(Recursos.evtOportunidad(token));
             principal.publicarEvento(e);
             upAccOportunidad();            
         }

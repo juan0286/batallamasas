@@ -5,6 +5,9 @@
  */
 package superrolbattle.ventanas;
 
+import java.io.File;
+import recursos.AbrirGuardar;
+
 /**
  *
  * @author TiranoJuan
@@ -35,6 +38,8 @@ public class SeleccionarArchivo extends javax.swing.JDialog {
         jfchCargarfoto = new javax.swing.JFileChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jfchCargarfoto.setCurrentDirectory(new File (AbrirGuardar.directorio));
         getContentPane().add(jfchCargarfoto, java.awt.BorderLayout.CENTER);
 
         pack();

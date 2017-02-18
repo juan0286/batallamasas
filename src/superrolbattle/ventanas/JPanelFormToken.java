@@ -10,7 +10,10 @@ import instancias.properties.Status;
 import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -18,6 +21,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import recursos.AbrirGuardar;
+import recursos.Recursos;
 
 /**
  *
@@ -42,8 +47,6 @@ public class JPanelFormToken extends javax.swing.JPanel {
         update();
         this.repaint();
     }
-
-   
 
     public void update() {
 
@@ -81,10 +84,12 @@ public class JPanelFormToken extends javax.swing.JPanel {
                 + "</html>";
         this.setToolTipText(tooltip);
 
+        if (token.getUrlIcon() != null) 
+            iconar(token.getUrlIcon());
     }
 
     public void iconar(String path) {
-
+        /*
         URL url = this.getClass().getResource(path);
         ImageIcon fot = new ImageIcon(url);
         int w = 90;
@@ -92,6 +97,13 @@ public class JPanelFormToken extends javax.swing.JPanel {
         Icon icono = new ImageIcon(fot.getImage().getScaledInstance(w, h, Image.SCALE_DEFAULT));
         jLabel_avatar.setIcon(icono);
         this.repaint();
+         */
+
+        ImageIcon icon = new ImageIcon(path);
+        Icon icono = new ImageIcon(icon.getImage().getScaledInstance(127, 74, Image.SCALE_DEFAULT));
+        token.setUrlIcon(path);
+        jLabel_avatar.setText(null);
+        jLabel_avatar.setIcon(icono);
 
     }
 
@@ -124,7 +136,7 @@ public class JPanelFormToken extends javax.swing.JPanel {
         add(jProgressBar_vida, java.awt.BorderLayout.CENTER);
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 204));
-        jPanel1.setLayout(new java.awt.GridLayout());
+        jPanel1.setLayout(new java.awt.GridLayout(1, 1));
 
         jLabel_avatar.setText("Icono");
         jLabel_avatar.setPreferredSize(new java.awt.Dimension(127, 74));
@@ -153,38 +165,33 @@ public class JPanelFormToken extends javax.swing.JPanel {
     private JFrame principal;
 
     private void cargarArhivo() {
-         File fichero;
 
+        File fichero;
         int resultado;
-
         SeleccionarArchivo ventana = new SeleccionarArchivo(principal, true);
-
         FileNameExtensionFilter filtro = new FileNameExtensionFilter("JPG y PNG", "jpg", "png");
-
         ventana.jfchCargarfoto.setFileFilter(filtro);
-
         resultado = ventana.jfchCargarfoto.showOpenDialog(null);
 
         if (JFileChooser.APPROVE_OPTION == resultado) {
-
+            
             fichero = ventana.jfchCargarfoto.getSelectedFile();
-
             try {
-
-                ImageIcon icon = new ImageIcon(fichero.toString());
-
-                Icon icono = new ImageIcon(icon.getImage().getScaledInstance(jLabel_avatar.getWidth(), jLabel_avatar.getHeight(), Image.SCALE_DEFAULT));
-
-                jLabel_avatar.setText(null);
-
-                jLabel_avatar.setIcon(icono);
-
-            } catch (Exception ex) {
-
-                JOptionPane.showMessageDialog(null, "Error abriendo la                   imagen " + ex);
+                AbrirGuardar.GuardarDir(fichero.getAbsolutePath());
+            } catch (IOException ex) {
+                Logger.getLogger(JPanelFormToken.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            File ficheroNew = Recursos.copiarIcono(fichero, token.getNombre());
+            if (ficheroNew != null) {
+                try {
+                    iconar(ficheroNew.toString());                    
+                } catch (Exception ex) {
+                    Recursos.informar("Error abriendo laimagen " + ex);
+                }
 
             }
 
         }
     }
+
 }
