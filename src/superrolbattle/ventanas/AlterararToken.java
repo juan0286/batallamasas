@@ -21,7 +21,7 @@ public class AlterararToken extends javax.swing.JDialog {
     public AlterararToken(java.awt.Frame parent, boolean modal, JPanelFormToken_Accion token) {
         super(parent, modal);
         initComponents();
-
+         this.setTitle("Altarar a " + token.getToken().getNombre());
         this.panel_token = token;
 
         jTextField_Actual_pv.setText(token.getToken().getpv());

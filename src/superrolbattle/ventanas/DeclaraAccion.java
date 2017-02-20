@@ -36,11 +36,18 @@ public class DeclaraAccion extends javax.swing.JDialog {
         this.principal = parent;
         initComponents();
         Token token = token_accion.getToken();
+        
+        this.setTitle("Acciones de " + token.getNombre());
+        
+        
+        int tipo = token.getLastAction().getTipo();
 
         jComboBox_sotilegios.setModel(new DefaultComboBoxModel(token.getSortilegios().toArray()));
+        jComboBox_sotilegios1.setModel(new DefaultComboBoxModel(token.getSortilegios().toArray()));
 
         if (token.getEstado().isAturdido()) {
             jTabbedPane_SeleccionAccion.setEnabledAt(0, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(1, false);
             jTabbedPane_SeleccionAccion.setEnabledAt(2, false);
             jTabbedPane_SeleccionAccion.setEnabledAt(3, false);
             jTabbedPane_SeleccionAccion.setEnabledAt(8, false);
@@ -50,6 +57,8 @@ public class DeclaraAccion extends javax.swing.JDialog {
             jSlider1.setValue(0);
             jSlider1.setEnabled(false);
 
+        } else if (tipo > Accion.TIPO_SIN_ACCION) {
+            jTabbedPane_SeleccionAccion.setSelectedIndex(tipo - 1);
         }
         if (token.getSortilegios().size() > 0) {
             actualizarSortilegio();
@@ -68,6 +77,8 @@ public class DeclaraAccion extends javax.swing.JDialog {
             jTextField_sort_num_cargas1.setText(cargas + "");
             jTextField_sort_bono.setText(bono + "");
             jTextField_sort_bono1.setText(bono + "");
+            jComboBox_sotilegios.setSelectedItem(s);
+            jComboBox_sotilegios1.setSelectedItem(s);
         }
 
     }
@@ -831,9 +842,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
             jTextField_Dominio_sort.setText(s.getDominioStr());
             jTextField_lv_sort.setText(s.getLv() + "");
             jTextField_alcance_sort.setText(s.getAlcance());
-
         }
-
     }
 
     private void declarar() {

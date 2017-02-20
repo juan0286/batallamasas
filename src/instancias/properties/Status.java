@@ -105,7 +105,7 @@ public class Status implements Serializable{
     }
 
     public boolean isAturdido() {
-        return this.getAturdido() > 0;
+        return menteEstado() >= MENTE_ATURDIDO;
     }
 
     public boolean isSinPoderParar() {
@@ -450,6 +450,12 @@ public class Status implements Serializable{
         if (cargasDelSortilegio == 4)
             return 20;
         else return 0;
+    }
+
+    public void perderLaCarga() {
+        sortilegioCargado = null;
+        cargasDelSortilegio = 0;
+        
     }
 
 }

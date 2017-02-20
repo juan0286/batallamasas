@@ -445,10 +445,18 @@ public class Token implements Serializable {
     }
             
     public void lanzarUnSortilegio(Sortilegio sort_intencion) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        perderLaCarga();
     }
     
     public boolean conoceSortilegio(int id){
         return habilidades.conoceSortilegio(id);
+    }
+
+    public void perderLaCarga() {
+        estado.perderLaCarga();
+    }
+
+    public void intentarSortilegio(Sortilegio s) {
+        getLastAction().setSort_intencion(s);
     }
 }

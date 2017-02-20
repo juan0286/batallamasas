@@ -34,7 +34,7 @@ public class Accion implements Serializable{
   private boolean accionDeOportunidad = false;
   private Sortilegio sortilegio;
   private String Dificultad ;
-          
+          private Sortilegio sort_intencion;
 
     public Accion(int tipo, int nro_Asalto, int orden) {
         this.tipo = tipo;
@@ -106,6 +106,22 @@ public class Accion implements Serializable{
 
     public boolean isAccionDeOportunidad() {
         return accionDeOportunidad;
+    }
+
+    public int getOrden() {
+        return orden;
+    }
+
+    public void setOrden(int orden) {
+        this.orden = orden;
+    }
+
+    public Sortilegio getSort_intencion() {
+        return sort_intencion;
+    }
+
+    public void setSort_intencion(Sortilegio sort_intencion) {
+        this.sort_intencion = sort_intencion;
     }
 
     

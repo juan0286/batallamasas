@@ -114,7 +114,7 @@ public class CrearToken extends javax.swing.JDialog {
         jPanel10 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jPanel11 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
+        jButton_cancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(252, 515));
@@ -396,13 +396,13 @@ public class CrearToken extends javax.swing.JDialog {
 
         jPanel6.add(jPanel11);
 
-        jButton2.setText("Cancelar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jButton_cancelar.setText("Cancelar");
+        jButton_cancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jButton_cancelarActionPerformed(evt);
             }
         });
-        jPanel6.add(jButton2);
+        jPanel6.add(jButton_cancelar);
 
         jPanel7.add(jPanel6);
 
@@ -509,9 +509,10 @@ public class CrearToken extends javax.swing.JDialog {
 
     }
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jButton_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_cancelarActionPerformed
+        newToken = null;
         this.dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jButton_cancelarActionPerformed
 
     private void jComboBox_crearBDArmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_crearBDArmaActionPerformed
 
@@ -588,7 +589,7 @@ public class CrearToken extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton_cancelar;
     private javax.swing.JButton jButton_generaNombreAleatorio;
     private javax.swing.JCheckBox jCheckBox_crearBDHabilitado;
     private javax.swing.JCheckBox jCheckBox_crearBIHabilitado;

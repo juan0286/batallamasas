@@ -24,7 +24,7 @@ public class NuevoSortilegio extends javax.swing.JDialog {
         initComponents();
         this.token = token;
         jComboBox_todosLosSortilegios.setModel(new DefaultComboBoxModel(Principal.getTodosLosSortilegios().toArray()));
-
+         this.setTitle("Nuevo Sortilegio para " + token.getNombre());
     }
 
     /**

@@ -780,21 +780,24 @@ public class Principal extends javax.swing.JFrame {
     private void jButton_crear_pjActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_crear_pjActionPerformed
 
         Object[] ObjTk = CrearToken.nuevoToken();
-        Token tk = (Token) ObjTk[1];
-        tk.setVisible(true);
-        Accion a = new Accion(Accion.TIPO_SIN_ACCION, 0, 0);
-        tk.AgregarAccion(a);
-        Recursos.soldados.add(tk);
-        campo.agregarToken(tk);
+        if (ObjTk[1] != null) {
+            Token tk = (Token) ObjTk[1];
+            tk.setVisible(true);
+            Accion a = new Accion(Accion.TIPO_SIN_ACCION, 0, 0);
+            tk.AgregarAccion(a);
+            Recursos.soldados.add(tk);
+            campo.agregarToken(tk);
 
-        JPanelFormToken jpft = new JPanelFormToken(tk, this);
-        jPanel_Pjs.add(jpft);
+            JPanelFormToken jpft = new JPanelFormToken(tk, this);
+            jPanel_Pjs.add(jpft);
 
-        JPanelFormToken_Accion jpfta = new JPanelFormToken_Accion(tk, this);
-        jPanel_sinAcciones_tokens.add(jpfta);
-        aws.add(jpfta);
-        jpft.setVisible(true);
-        this.repaint();
+            JPanelFormToken_Accion jpfta = new JPanelFormToken_Accion(tk, this);
+            jPanel_sinAcciones_tokens.add(jpfta);
+            aws.add(jpfta);
+            jpft.setVisible(true);
+            this.repaint();
+        }
+
 
     }//GEN-LAST:event_jButton_crear_pjActionPerformed
 
@@ -1133,7 +1136,7 @@ public class Principal extends javax.swing.JFrame {
                 jButton_terminar.setEnabled(false);
                 jButton_crear.setEnabled(false);
                 jLabel_uso_ao.setVisible(false);
-
+                moverAturdidos();
                 //avanzarFaseDeAsalto(0);
                 break;
             }
@@ -1563,16 +1566,25 @@ public class Principal extends javax.swing.JFrame {
         guardarConfig(dataRecursos);
         return ni;
     }
-    
-    public int getAsaltoActual(){
+
+    public int getAsaltoActual() {
         return campo.getnAsalto();
     }
-    
+
     private void deshechoTodos() {
         for (int i = 0; i < aws.size(); i++) {
             JPanelFormToken_Accion next = aws.get(i);
             next.desHecho();
         }
 
+    }
+
+    private void moverAturdidos() {
+       for (int i = 0; i < aws.size(); i++) {
+            JPanelFormToken_Accion jpta = aws.get(i);
+            if (jpta.getToken().getEstado().isAturdido()) {
+                jpta. declararAccion(false);
+            }
+        }
     }
 }

@@ -386,6 +386,15 @@ public class Recursos {
         }
         return ret + "</blockquote>";
     }
+    
+    public static String evtAlteracion(Token tok) {
+        String ret = "<br/><blockquote>";
+        ret += "<span color='" + tok.getColor() + "'> " + tok.getNombre() + " <span>";
+        
+        
+        
+        return ret + "</blockquote>";
+    }
 
     public static String evtOportunidad(Token tok) {
         String ret = "<br/><blockquote>";
