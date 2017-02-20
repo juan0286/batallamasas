@@ -5,12 +5,14 @@
  */
 package instancias.properties;
 
+import javax.xml.bind.annotation.XmlType;
 import recursos.Critico;
 
 /**
  *
  * @author Juan
  */
+@XmlType
 public class Alteracion {
     
     private int duracion;
@@ -27,6 +29,15 @@ public class Alteracion {
     private int mmModificada = 0;
     private int boModidificada = 0;
     private int bdModificada = 0;
+
+    public Alteracion(int duracion, int pv) {
+        this.duracion = duracion;
+        this.pv = pv;
+    }
+
+    public Alteracion() {
+    }
+    
     
     
 }

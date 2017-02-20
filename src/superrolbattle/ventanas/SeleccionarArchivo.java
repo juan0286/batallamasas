@@ -6,7 +6,7 @@
 package superrolbattle.ventanas;
 
 import java.io.File;
-import recursos.AbrirGuardar;
+import superrolbattle.Principal;
 
 /**
  *
@@ -39,7 +39,7 @@ public class SeleccionarArchivo extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jfchCargarfoto.setCurrentDirectory(new File (AbrirGuardar.directorio));
+        jfchCargarfoto.setCurrentDirectory(new File (Principal.dataRecursos.getDirectorio_default()));
         getContentPane().add(jfchCargarfoto, java.awt.BorderLayout.CENTER);
 
         pack();

@@ -6,16 +6,24 @@
 package instancias;
 
 import java.io.Serializable;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
  * @author TiranoJuan
  */
+@XmlType
 public class Bo implements Serializable {
 
     private int tipo;
     private int value;
 
+    public Bo() {
+    }
+
+    
+    
+    
     public int atacarCon(int bo) {
 
         int bd = 0;

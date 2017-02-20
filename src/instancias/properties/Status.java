@@ -5,12 +5,15 @@
  */
 package instancias.properties;
 
+import instancias.Sortilegio;
 import java.io.Serializable;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
  * @author Juan
  */
+@XmlType
 public class Status implements Serializable{
 
     static final public int FIRME = 0;
@@ -41,7 +44,14 @@ public class Status implements Serializable{
     private int boModidificada = 0;
     private int bdModificada = 0;
     private Caracteristicas c;
+    
+    private Sortilegio sortilegioCargado;
+    private int cargasDelSortilegio;
+    
+    public Status() {
+    }
 
+    
     public Status( Caracteristicas c) {
         this.c=c;
     }
@@ -357,9 +367,7 @@ public class Status implements Serializable{
         if (cuerpo == EXHAUSTO)
             act+= -50;
         if (cuerpo == CANSADO)
-            act+= -20;
-        if (aturdido > 0)
-            act+= -20;
+            act+= -50;        
         return act;                
     }
     
@@ -367,8 +375,6 @@ public class Status implements Serializable{
         
         int mmm = mmModificada;
         
-        if (aturdido > 0)
-            mmm+= -30;
         return mmm;                
     }
     
@@ -410,6 +416,40 @@ public class Status implements Serializable{
        resp+= (sangradoPorAsalto > 0) ? "-" + sangradoPorAsalto + "pv/as" :"";
        return resp;
        
+    }
+    
+    public void cargarUnSortilegio(Sortilegio s){
+        if (cargasDelSortilegio > 0 && sortilegioCargado.equals(s))
+            cargasDelSortilegio++;
+        else{
+            sortilegioCargado = s;
+            cargasDelSortilegio = 1;
+        } 
+            
+        cargasDelSortilegio =(cargasDelSortilegio >4) ? 4 : cargasDelSortilegio;
+    }
+    
+    public Object getSortilegioCargado(){    
+        return new Object[]{cargasDelSortilegio,sortilegioCargado,bonoParaSortilegio()};
+    }
+    
+    public boolean isSortiCargado(){
+        return cargasDelSortilegio > 0;
+    }
+    
+    private int bonoParaSortilegio(){
+    
+        if (cargasDelSortilegio == 0)
+            return -30;
+        if (cargasDelSortilegio == 1)
+            return -15;
+        if (cargasDelSortilegio == 2)
+            return 0;
+        if (cargasDelSortilegio == 3)
+            return 10;
+        if (cargasDelSortilegio == 4)
+            return 20;
+        else return 0;
     }
 
 }

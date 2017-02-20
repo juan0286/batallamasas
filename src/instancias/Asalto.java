@@ -5,18 +5,24 @@
  */
 package instancias;
 
-import instancias.properties.Arma;
 import java.io.Serializable;
 import java.util.HashSet;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
  * @author Juan
  */
+@XmlType
 public class Asalto  implements Serializable{
 
     public static HashSet<Accion> Acciones = new HashSet<Accion>();
 
+    public Asalto() {
+    }
+
+    
+    
     void agregarAccion(Accion acc) {
 
         Acciones.add(acc);

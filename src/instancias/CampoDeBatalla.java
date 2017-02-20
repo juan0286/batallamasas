@@ -10,17 +10,19 @@ import java.util.ArrayList;
 import javax.swing.JEditorPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.xml.bind.annotation.XmlRootElement;
 import superrolbattle.ventanas.JPanelFormToken_Accion;
 
 /**
  *
  * @author Juan
  */
+@XmlRootElement
 public class CampoDeBatalla implements Serializable {
 
     public static ArrayList<Asalto> asaltos = new ArrayList<Asalto>();
 
-    public  int nAsalto= 0;
+    private  int nAsalto= 0;
     private JEditorPane cajaDeRegistro;
     private  ArrayList<Token> tokens = new ArrayList<Token>();
     private  ArrayList<Evento> eventos = new ArrayList<Evento>();
@@ -88,7 +90,7 @@ public class CampoDeBatalla implements Serializable {
     }
 
     public int getnAsalto() {
-        return nAsalto;
+        return this.nAsalto;
     }
     
     

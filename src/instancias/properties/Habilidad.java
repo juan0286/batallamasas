@@ -6,11 +6,13 @@
 package instancias.properties;
 
 import java.io.Serializable;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
  * @author Juan
  */
+@XmlType
 public class Habilidad implements Serializable{
     
     private int bo;
@@ -18,6 +20,11 @@ public class Habilidad implements Serializable{
     private int armadura;
     private int puntosVida;
 
+    public Habilidad() {
+    }
+
+    
+    
     /**
      * @return the bo
      */

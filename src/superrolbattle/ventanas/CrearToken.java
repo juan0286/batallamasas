@@ -487,7 +487,7 @@ public class CrearToken extends javax.swing.JDialog {
             newToken.setManoIZQ(izq);
             newToken.setEstado(est);
             newToken.setLadoIzquierdo(jToggleButton_Panel.isSelected());
-            newToken.setColor(Color.BLUE);
+            newToken.setColor(Recursos.getHexaColor(Color.BLUE));
             this.dispose();
         }
 

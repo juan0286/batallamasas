@@ -8,11 +8,13 @@ package instancias.properties;
 import instancias.Sortilegio;
 import java.io.Serializable;
 import java.util.ArrayList;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
  * @author Juan
  */
+@XmlType
 public class Caracteristicas implements Serializable{
     
     private int bo_pri;
@@ -23,15 +25,21 @@ public class Caracteristicas implements Serializable{
     private int armadura;
     private int puntosVida;
     private int agi;
-    private ArrayList<Sortilegio> sortilegios;
+    private ArrayList<Integer> sortilegios = new ArrayList<Integer>();
 
-    public ArrayList<Sortilegio> getSortilegios() {
+    public Caracteristicas() {
+    }
+
+    public ArrayList<Integer> getSortilegios() {
         return sortilegios;
     }
 
-    public void setSortilegios(ArrayList<Sortilegio> sortilegios) {
+    public void setSortilegios(ArrayList<Integer> sortilegios) {
         this.sortilegios = sortilegios;
-    }     
+    }
+
+    
+     
     
     public int getBo_pri() {
         return bo_pri;
@@ -118,6 +126,13 @@ public class Caracteristicas implements Serializable{
         this.agi = agi;
     }
     
+    public void aprenderSortilegio(int s){
+            sortilegios.add(s);
+            
+    }
     
+    public boolean conoceSortilegio(int id){
+        return sortilegios.contains(id);
+    }
     
 }

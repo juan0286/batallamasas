@@ -6,23 +6,32 @@
 package instancias;
 
 import java.io.Serializable;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
  * @author TiranoJuan
  */
-public class Sortilegio implements Serializable{
-    
-    
+@XmlType
+public class Sortilegio implements Serializable {
+
+    public static final int DOMINIO_CANALIZACION = 0;
+    public static final int DOMINIO_ESCENCIA = 1;
+    public static final int DOMINIO_MENTALISMO = 2;
+
+    private int id;
     private int lv;
     private String nombre;
-    private String dominio;
+    private int dominio;
     private String Descp;
     private String alcance;
     private String duracion;
     private int duracoinAs;
     private String profesion;
     private String lista;
+    private boolean consumePP;
+    private boolean regeneraPorDia;
+    private int veces;
 
     public Sortilegio(int lv, String nombre) {
         this.lv = lv;
@@ -48,11 +57,11 @@ public class Sortilegio implements Serializable{
         this.nombre = nombre;
     }
 
-    public String getDominio() {
+    public int getDominio() {
         return dominio;
     }
 
-    public void setDominio(String dominio) {
+    public void setDominio(int dominio) {
         this.dominio = dominio;
     }
 
@@ -106,9 +115,50 @@ public class Sortilegio implements Serializable{
 
     @Override
     public String toString() {
-        return nombre + "(lv "+lv+")";
+        return nombre + "(lv " + lv + ")";
     }
-    
-    
-    
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public boolean isConsumePP() {
+        return consumePP;
+    }
+
+    public void setConsumePP(boolean consumePP) {
+        this.consumePP = consumePP;
+    }
+
+    public boolean isRegeneraPorDia() {
+        return regeneraPorDia;
+    }
+
+    public void setRegeneraPorDia(boolean regeneraPorDia) {
+        this.regeneraPorDia = regeneraPorDia;
+    }
+
+    public int getVeces() {
+        return veces;
+    }
+
+    public void setVeces(int veces) {
+        this.veces = veces;
+    }
+
+    public String getDominioStr() {
+        if (dominio == DOMINIO_CANALIZACION) {
+            return "Canalizacion";
+        }
+        if (dominio == DOMINIO_ESCENCIA) {
+            return "Escencia";
+        } else {
+            return "Mentalismo";
+        }
+    }
+
 }

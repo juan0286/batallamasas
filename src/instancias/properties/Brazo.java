@@ -6,11 +6,13 @@
 package instancias.properties;
 
 import java.io.Serializable;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
  * @author Juan
  */
+@XmlType
 public class Brazo implements Serializable{
     
     boolean habilitado = true;

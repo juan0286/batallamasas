@@ -8,9 +8,11 @@ package recursos;
 import com.csvreader.CsvReader;
 import instancias.Accion;
 import instancias.Evento;
+import instancias.Sortilegio;
 import instancias.Token;
 import instancias.properties.Arma;
 import instancias.properties.Status;
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,6 +31,7 @@ import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
+import superrolbattle.Principal;
 
 /**
  *
@@ -40,8 +43,7 @@ public class Recursos {
     //public static ArrayList<Token> soldadosD = new ArrayList<Token>();
 
     public static boolean imprimirPorConsola = false;
-    private static final String dirAvatars= "avatars\\";
-    
+
     public static HashMap<String, HashMap> tablasDaño = new HashMap();
     public static HashMap<String, HashMap> tablasCritico = new HashMap();
 
@@ -51,6 +53,23 @@ public class Recursos {
     public static ArrayList<String> nombres = new ArrayList<String>();
 
     private static HashMap<String, String> tabCrticsArray = tabCrticsArray();
+
+    public static void iniciarConfig() {
+        File f = new File(DataRecursos.CONFIG_FILE);
+        if (f.exists()) {
+            Object o = AbrirGuardar.cargarXML(f.getAbsolutePath(), "DataRecursos");
+            Principal.dataRecursos = (DataRecursos) o;
+
+        } else {
+            DataRecursos d = new DataRecursos();
+            guardarConfig(d);
+            Principal.dataRecursos = d;
+        }
+    }
+
+    public static void guardarConfig(DataRecursos d) {
+        AbrirGuardar.guardarXML(d, DataRecursos.CONFIG_FILE);        
+    }
 
     public static HashMap<String, String> tabCrticsArray() {
         HashMap<String, String> tCArray = new HashMap<>();
@@ -303,6 +322,10 @@ public class Recursos {
         return obj;
     }
 
+    public static String getHexaColor(Color color) {
+        return "#" + Integer.toHexString(color.getRGB()).substring(2);
+    }
+
     public static String evtAsaltoNuevo(int asa) {
         return "<br/><br/><Strong> Asalto " + asa + "</strong><br/><hr/>";
     }
@@ -313,31 +336,31 @@ public class Recursos {
 
     public static String evtAccion(Accion acc, Token tok) {
         String ret = "<br/><blockquote>";
-        ret += "<span color='"+tok.getHexaColor()+"'> " + tok.getNombre()+" <span>";
+        ret += "<span color='" + tok.getColor() + "'> " + tok.getNombre() + " <span>";
 
         switch (acc.getTipo()) {
             case Accion.TIPO_SIN_ACCION: {
-                ret += "";
+                ret += " No realiza Acciones";
                 break;
             }
             case Accion.TIPO_CARGA_SORTILEGIO: {
-                ret += " <span> Carga sortilegio " + acc.getSortilegio();
+                ret += " <span> Carga sortilegio " + acc.getSortilegio().toString();
                 break;
             }
             case Accion.TIPO_REALIZA_SORTILEGIO: {
-                ret += " <span> Lanza sortilegio " + acc.getSortilegio();
+                ret += " <span> Lanza sortilegio " + acc.getSortilegio().toString();
                 break;
             }
             case Accion.TIPO_DISPARA_PROYECTIL: {
-                ret +=" <span> Dispara Proyectil ";
+                ret += " <span> Dispara Proyectil ";
                 break;
             }
             case Accion.TIPO_CARGA_PROYECTIL: {
-                ret +=" <span> Carga un Proyectil";
+                ret += " <span> Carga un Proyectil";
                 break;
             }
             case Accion.TIPO_PARAR_PROYECTIL: {
-                ret +=" <span> Para un proyectil";
+                ret += " <span> Para un proyectil";
                 break;
             }
             case Accion.TIPO_MOVIMIENTO_Y_MANIOBRA: {
@@ -361,17 +384,18 @@ public class Recursos {
                 break;
             }
         }
-        return ret+"</blockquote>";
+        return ret + "</blockquote>";
     }
 
-    public static String evtOportunidad(Token tok){
+    public static String evtOportunidad(Token tok) {
         String ret = "<br/><blockquote>";
-        ret += "<span color='"+tok.getHexaColor()+"'> " + tok.getNombre()+" <span>";
+        ret += "<span color='" + tok.getColor() + "'> " + tok.getNombre() + " <span>";
         return ret + " espera una oportunidad para realizar su acción</blockquote>";
     }
-    public static File copiarIcono(File origen, String name)  {
+
+    public static File copiarIcono(File origen, String name) {
         boolean res = false;
-        File destino = new File(newPathFor(origen,name));
+        File destino = new File(newPathFor(origen, name));
 
         OutputStream out;
         try {
@@ -391,26 +415,36 @@ public class Recursos {
             Logger.getLogger(AbrirGuardar.class.getName()).log(Level.SEVERE, null, ex);
             Recursos.sout("Fallo la copia del icono", 0);
             Recursos.informar("No se pudo cargar el icono en " + origen.toString());
-            
-        } catch (IOException ex){
-        Logger.getLogger(AbrirGuardar.class.getName()).log(Level.SEVERE, null, ex);
+
+        } catch (IOException ex) {
+            Logger.getLogger(AbrirGuardar.class.getName()).log(Level.SEVERE, null, ex);
             Recursos.sout("Fallo la copia del icono", 0);
             Recursos.informar("No se pudo cargar el icono en " + origen.toString());
-           
+
         }
         return (res) ? destino : null;
     }
-    
-    private static String newPathFor(File f, String name){
-        return dirAvatars + name + "." + getFileExtension(f);
+
+    private static String newPathFor(File f, String name) {
+        return Principal.dataRecursos.getDir_avatars() + name + "." + getFileExtension(f);
     }
-    
+
     private static String getFileExtension(File file) {
-    String name = file.getName();
-    try {
-        return name.substring(name.lastIndexOf(".") + 1);
-    } catch (Exception e) {
-        return "";
+        String name = file.getName();
+        try {
+            return name.substring(name.lastIndexOf(".") + 1);
+        } catch (Exception e) {
+            return "";
+        }
     }
-}
+
+    public static void nuevoSortilegio(Sortilegio s) {
+        Principal.dataRecursos.getListaDeSortilegios().put(s.getId(), s);
+
+    }
+
+    public static int nuevoIndiceSortilegio() {
+        return Principal.dataRecursos.getListaDeSortilegios().size();
+    }
+
 }

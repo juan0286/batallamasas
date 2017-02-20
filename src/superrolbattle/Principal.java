@@ -8,6 +8,7 @@ package superrolbattle;
 import instancias.Accion;
 import instancias.CampoDeBatalla;
 import instancias.Evento;
+import instancias.Sortilegio;
 import instancias.Token;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -39,7 +40,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import recursos.AbrirGuardar;
 import recursos.CargaBase;
+import recursos.DataRecursos;
 import recursos.Recursos;
+import static recursos.Recursos.guardarConfig;
 import static recursos.Recursos.verTabla;
 import superrolbattle.ventanas.*;
 
@@ -54,6 +57,7 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
+        Recursos.iniciarConfig();
         aws = new ArrayList<JPanelFormToken_Accion>();
         try {
             AbrirGuardar.directorio();
@@ -66,7 +70,7 @@ public class Principal extends javax.swing.JFrame {
         registro = new StringBuilder();
         ag = new AbrirGuardar();
         campo.setCajaDeRegistro(jEditorPane_cajaDeRegistro);
-        Principal.ventana = this;        
+        Principal.ventana = this;
         loadCampoDeBatalla();
         setLocationRelativeTo(null);
     }
@@ -811,6 +815,7 @@ public class Principal extends javax.swing.JFrame {
     private void jButton_terminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_terminarActionPerformed
         String str = Recursos.evtFinDeAsalto();
         Evento evto = new Evento(str);
+        evto.setVisible(true);
         publicarEvento(evto);
         avanzarButtonFase(BUTTONFASE_RESULTADOS);
     }//GEN-LAST:event_jButton_terminarActionPerformed
@@ -919,16 +924,20 @@ public class Principal extends javax.swing.JFrame {
 
     private void jMenuItem_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_GuardarActionPerformed
         // ActualizaUnidades();
+
         try {
-            ag.GuardarField(campo);
+            ag.GuardarFieldXML(campo);
+
         } catch (IOException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        //AbrirGuardar.guardarCdg(campo);
     }//GEN-LAST:event_jMenuItem_GuardarActionPerformed
 
     private void jMenuItem_guardarComoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_guardarComoActionPerformed
         try {
-            ag.GuardarComoField(campo);
+            ag.GuardarComoFieldXML(campo);
             this.setTitle(TITULO + " - " + ag.getName());
         } catch (IOException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
@@ -962,13 +971,12 @@ public class Principal extends javax.swing.JFrame {
         CampoDeBatalla field = null;
 
         try {
-            field = ag.AbrirField();
+            field = (CampoDeBatalla) ag.AbrirFieldXML();
+            //field = AbrirGuardar.cargarCDG();
         } catch (IOException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(this, ex.toString(), "Error Abriendo Archivo", JOptionPane.ERROR_MESSAGE);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(this, ex.toString(), "Error Abriendo Archivo", JOptionPane.ERROR_MESSAGE);
         }
 
         if (field != null) {
@@ -1017,7 +1025,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void loadCampoDeBatalla() {
 
-        jTextField_asalto.setText("" + campo.nAsalto);
+        jTextField_asalto.setText("" + campo.getnAsalto());
 
         for (Iterator iterator = campo.getTokens().iterator(); iterator.hasNext();) {
 
@@ -1208,10 +1216,10 @@ public class Principal extends javax.swing.JFrame {
             }
 
         }
-        Evento evt= new Evento("<br/>--------------<br/>", campo.getnAsalto());
-        
+        Evento evt = new Evento("<br/>--------------<br/>", campo.getnAsalto());
+
         asaltoFase = pos;
-       
+
         switch (pos) {
             case ASALTOFASE_CARGA_SORTILEGIO: {
 
@@ -1222,7 +1230,7 @@ public class Principal extends javax.swing.JFrame {
                 jPanel_Titulo_MovimientoEstatico.setBackground(new java.awt.Color(204, 204, 255));
                 if (jPanel_campo_CargaSortilegios.getComponentCount() == 0) {
                     avanzarFaseDeAsalto(-1);
-                } 
+                }
 
                 break;
             }
@@ -1235,7 +1243,9 @@ public class Principal extends javax.swing.JFrame {
 
                 if (jPanel_RealizaSortilegios_campo.getComponentCount() == 0) {
                     avanzarFaseDeAsalto(-1);
-                } else  publicarEvento(evt);
+                } else {
+                    publicarEvento(evt);
+                }
 
                 break;
             }
@@ -1248,7 +1258,9 @@ public class Principal extends javax.swing.JFrame {
 
                 if (jPanel_LanzaProyectiles_campo.getComponentCount() == 0) {
                     avanzarFaseDeAsalto(-1);
-                } else  publicarEvento(evt);
+                } else {
+                    publicarEvento(evt);
+                }
 
                 break;
             }
@@ -1261,7 +1273,9 @@ public class Principal extends javax.swing.JFrame {
 
                 if (jPanel_CargaProyectiles_campo.getComponentCount() == 0) {
                     avanzarFaseDeAsalto(-1);
-                } else  publicarEvento(evt);
+                } else {
+                    publicarEvento(evt);
+                }
 
                 break;
             }
@@ -1274,7 +1288,9 @@ public class Principal extends javax.swing.JFrame {
 
                 if (jPanel_PararProyectiles_campo.getComponentCount() == 0) {
                     avanzarFaseDeAsalto(-1);
-                } else  publicarEvento(evt);
+                } else {
+                    publicarEvento(evt);
+                }
 
                 break;
             }
@@ -1283,12 +1299,13 @@ public class Principal extends javax.swing.JFrame {
                 jButton_avanzarFaseAsalto5.setEnabled(false);
                 jButton_avanzarFaseAsalto6.setEnabled(true);
                 jPanel_Titulo_movimientoYmaniobra.setBackground(Color.red);
-                jPanel_Titulo_PararProyectiles.setBackground(new java.awt.Color(204, 204, 255));              
-               
-                
+                jPanel_Titulo_PararProyectiles.setBackground(new java.awt.Color(204, 204, 255));
+
                 if (jPanel_movimientoYmaniobra_campo.getComponentCount() == 0) {
                     avanzarFaseDeAsalto(-1);
-                } else  publicarEvento(evt);
+                } else {
+                    publicarEvento(evt);
+                }
 
                 break;
             }
@@ -1301,7 +1318,9 @@ public class Principal extends javax.swing.JFrame {
 
                 if (jPanel_AtaqueCuerpoaCuerpo_campo.getComponentCount() == 0) {
                     avanzarFaseDeAsalto(-1);
-                } else  publicarEvento(evt);
+                } else {
+                    publicarEvento(evt);
+                }
 
                 break;
             }
@@ -1311,10 +1330,12 @@ public class Principal extends javax.swing.JFrame {
                 jButton_avanzarFaseAsalto8.setEnabled(true);
                 jPanel_Titulo_Movimiento.setBackground(Color.red);
                 jPanel_Titulo_AtaqueCuerpoaCuerpo.setBackground(new java.awt.Color(204, 204, 255));
-                
+
                 if (jPanel_Movimiento_campo.getComponentCount() == 0) {
                     avanzarFaseDeAsalto(-1);
-                } else  publicarEvento(evt);
+                } else {
+                    publicarEvento(evt);
+                }
 
                 break;
             }
@@ -1327,7 +1348,9 @@ public class Principal extends javax.swing.JFrame {
 
                 if (jPanel_MovimientoEstatic_campo.getComponentCount() == 0) {
                     avanzarFaseDeAsalto(-1);
-                } else  publicarEvento(evt);
+                } else {
+                    publicarEvento(evt);
+                }
 
                 break;
             }
@@ -1354,8 +1377,7 @@ public class Principal extends javax.swing.JFrame {
                 break;
             }
         }
-        
-       
+
         this.repaint();
     }
 
@@ -1480,9 +1502,9 @@ public class Principal extends javax.swing.JFrame {
     private CampoDeBatalla campo;
     private ArrayList<JPanelFormToken_Accion> aws;
     private AbrirGuardar ag;
-    
+    public static DataRecursos dataRecursos;
     public static final String TITULO = "Super Rolmaster Battle";
-    
+
     private StringBuilder registro;
 
     public static final int BUTTONFASE_CREACION = 0;
@@ -1526,6 +1548,26 @@ public class Principal extends javax.swing.JFrame {
 
     }
 
+    public static ArrayList<Sortilegio> getTodosLosSortilegios() {
+        return new ArrayList<Sortilegio>(dataRecursos.getListaDeSortilegios().values());
+    }
+
+    public static Sortilegio getSortielgio(int i) {
+        return dataRecursos.getListaDeSortilegios().get(i);
+    }
+
+    public static int crearSortilegioNuevo(Sortilegio s) {
+        int ni = dataRecursos.getListaDeSortilegios().size();
+        s.setId(ni);
+        dataRecursos.getListaDeSortilegios().put(ni, s);
+        guardarConfig(dataRecursos);
+        return ni;
+    }
+    
+    public int getAsaltoActual(){
+        return campo.getnAsalto();
+    }
+    
     private void deshechoTodos() {
         for (int i = 0; i < aws.size(); i++) {
             JPanelFormToken_Accion next = aws.get(i);

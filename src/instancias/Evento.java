@@ -6,11 +6,13 @@
 package instancias;
 
 import java.io.Serializable;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
  * @author TiranoJuan
  */
+@XmlType
 public class Evento implements Serializable{
     
     
@@ -28,6 +30,10 @@ public class Evento implements Serializable{
         this.asalto = -1;
     }   
 
+    public Evento() {
+    }
+
+    
     public boolean isVisible() {
         return visible;
     }

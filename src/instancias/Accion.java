@@ -7,11 +7,13 @@ package instancias;
 
 import java.awt.Color;
 import java.io.Serializable;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
  * @author TiranoJuan
  */
+@XmlType
 public class Accion implements Serializable{
     
     final public static int TIPO_SIN_ACCION = 0;
@@ -26,7 +28,7 @@ public class Accion implements Serializable{
     final public static int TIPO_MOVIMIENTO_ESTATICO = 9;
     
   private int tipo;
-  private final int orden;
+  private int orden;
   private int nro_Asalto;
   private boolean done = false;
   private boolean accionDeOportunidad = false;
@@ -40,6 +42,10 @@ public class Accion implements Serializable{
         this.orden = orden;
     }
 
+    public Accion() {
+    }
+
+    
     public Sortilegio getSortilegio() {
         return sortilegio;
     }

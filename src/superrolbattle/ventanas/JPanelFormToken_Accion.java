@@ -7,6 +7,7 @@ package superrolbattle.ventanas;
 
 import instancias.Accion;
 import instancias.Evento;
+import instancias.Sortilegio;
 import instancias.Token;
 import instancias.properties.Status;
 import java.awt.Color;
@@ -72,6 +73,7 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
             accion.hecho(this.faseDeAsalto);            
             token.updateEstado();
             updDone();
+            realizarLaAccion();
             Evento evt = new Evento(recursos.Recursos.evtAccion(accion,token));        
             principal.publicarEvento(evt);
         }
@@ -95,7 +97,7 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
     public void esperarOportunidad() {
         if (!accion.isDone()) {
             token.updateEstado();
-            accion.esperarOportunidad();
+            accion.esperarOportunidad();            
             Evento e = new Evento(Recursos.evtOportunidad(token));
             principal.publicarEvento(e);
             upAccOportunidad();            
@@ -164,7 +166,7 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
                 + "Nivel: " + token.getNivel() + "<br/>"
                 + "Puntos de Vida: " + token.vidatxt() + "<br/>"
                 + "Estado Fisico: " + token.getEstado().cuerpoString() + "<br/>"
-                + "Estado Mental: " + token.getEstado().menteEstado() + "<br/>"
+                + "Estado Mental: " + token.getEstado().menteEstadoTxt()+ "<br/>"
                 + "Actividad: " + token.getEstado().getActividadActual() + "<br/>"
                 + "Bo Actual: " + token.boDisponibleAtaque() + "<br/>"
                 + "Bd Actual: " + token.getHabilidades().getAgi() + "<br/>"
@@ -188,6 +190,57 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
 
     }
 
+    public void realizarLaAccion(){
+        switch (accion.getTipo()) {
+            case Accion.TIPO_SIN_ACCION: {
+                
+                break;
+            }
+            case Accion.TIPO_CARGA_SORTILEGIO: {
+                token.cargarUnSortilegio(sort_intencion);
+                accion.setSortilegio(sort_intencion);
+                break;
+            }
+            case Accion.TIPO_REALIZA_SORTILEGIO: {
+                token.lanzarUnSortilegio(sort_intencion);
+                accion.setSortilegio(sort_intencion);
+                break;
+            }
+            case Accion.TIPO_DISPARA_PROYECTIL: {
+               
+                break;
+            }
+            case Accion.TIPO_CARGA_PROYECTIL: {
+                
+                break;
+            }
+            case Accion.TIPO_PARAR_PROYECTIL: {
+                
+                break;
+            }
+            case Accion.TIPO_MOVIMIENTO_Y_MANIOBRA: {
+                
+                break;
+            }
+            case Accion.TIPO_ATAQUE_CUERPO_A_CUERPO: {
+                
+                break;
+            }
+            case Accion.TIPO_DESPLAZAMIENTO: {
+               
+                break;
+            }
+            case Accion.TIPO_MOVIMIENTO_ESTATICO: {
+               
+                break;
+            }
+            default: {
+                
+                break;
+            }
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -264,7 +317,9 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
         }
 
     }//GEN-LAST:event_formMouseClicked
-
+    public void intentarSortilegio(Sortilegio s){
+        sort_intencion = s;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel_Nombre;
@@ -278,6 +333,7 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
     private Principal principal;
     private Accion accion;
     private int faseDeAsalto;
+    private Sortilegio sort_intencion;
     /*private boolean done = false;
     private boolean accionDeOportunidad = false;
     

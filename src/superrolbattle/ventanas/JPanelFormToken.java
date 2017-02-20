@@ -100,7 +100,7 @@ public class JPanelFormToken extends javax.swing.JPanel {
          */
 
         ImageIcon icon = new ImageIcon(path);
-        Icon icono = new ImageIcon(icon.getImage().getScaledInstance(127, 74, Image.SCALE_DEFAULT));
+        Icon icono = new ImageIcon(icon.getImage().getScaledInstance(77, 77, Image.SCALE_DEFAULT));
         token.setUrlIcon(path);
         jLabel_avatar.setText(null);
         jLabel_avatar.setIcon(icono);
