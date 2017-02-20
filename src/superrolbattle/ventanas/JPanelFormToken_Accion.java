@@ -69,10 +69,11 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
 
     public void hecho() {
         if (!accion.isDone()) {
-            accion.hecho(this.faseDeAsalto);
-            token.updateEstado();
+            accion.hecho(this.faseDeAsalto);            
             updDone();
             realizarLaAccion();
+            token.updateEstado();
+            update();
             Evento evt = new Evento(recursos.Recursos.evtAccion(accion, token));
             principal.publicarEvento(evt);
         }

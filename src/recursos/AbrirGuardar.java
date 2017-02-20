@@ -164,7 +164,7 @@ public class AbrirGuardar {
     }
 
     public String getName() {
-        return name;
+        return actual.getName();
     }
 
     private static final String CDG_BKP_DAT_DIR = "Data\\bkp\\";

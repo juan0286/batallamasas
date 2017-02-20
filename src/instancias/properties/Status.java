@@ -161,7 +161,8 @@ public class Status implements Serializable{
         this.desaturdir(1);        
         this.dejarDeparar(1);
         this.desaturdirYpoderParar(1);
-        acercarseALaMuerte();         
+        acercarseALaMuerte(); 
+        
     }
         
     private void pvUpdate(){
