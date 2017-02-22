@@ -1583,7 +1583,7 @@ public class Principal extends javax.swing.JFrame {
        for (int i = 0; i < aws.size(); i++) {
             JPanelFormToken_Accion jpta = aws.get(i);
             if (jpta.getToken().getEstado().isAturdido()) {
-                jpta. declararAccion(false);
+                jpta.declararAccion(false,false);
             }
         }
     }

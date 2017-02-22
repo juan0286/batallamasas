@@ -32,6 +32,7 @@ public class Accion implements Serializable{
   private int nro_Asalto;
   private boolean done = false;
   private boolean accionDeOportunidad = false;
+  private boolean cambioDeAccion = false;
   private Sortilegio sortilegio;
   private String Dificultad ;
           private Sortilegio sort_intencion;
@@ -93,6 +94,12 @@ public class Accion implements Serializable{
     public void desHecho() {
         this.done = false;        
     }
+    
+    public void cambioDeAccion(int tipo){
+        cambioDeAccion =true;
+        this.tipo = tipo;
+    }
+    
 
     public void esperarOportunidad() {
         if (!done) {            

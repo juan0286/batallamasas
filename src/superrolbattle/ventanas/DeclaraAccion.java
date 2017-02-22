@@ -45,7 +45,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jComboBox_sotilegios.setModel(new DefaultComboBoxModel(token.getSortilegios().toArray()));
         jComboBox_sotilegios1.setModel(new DefaultComboBoxModel(token.getSortilegios().toArray()));
 
-        if (token.getEstado().isAturdido()) {
+        if (modo == MODO_ATURDIDO) {
             jTabbedPane_SeleccionAccion.setEnabledAt(0, false);
             jTabbedPane_SeleccionAccion.setEnabledAt(1, false);
             jTabbedPane_SeleccionAccion.setEnabledAt(2, false);
@@ -54,10 +54,35 @@ public class DeclaraAccion extends javax.swing.JDialog {
             jTabbedPane_SeleccionAccion.setSelectedIndex(6);
             jTextField_bono_mm.setText("-50");
             jComboBoxEnemigos.setEnabled(false);
-            jSlider1.setValue(0);
-            jSlider1.setEnabled(false);
+            jSlider_Bo.setValue(0);
+            jSlider_Bo.setEnabled(false);
 
-        } else if (tipo > Accion.TIPO_SIN_ACCION) {
+        } else if (modo == MODO_FUERA_DE_COMBATE){
+            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_SIN_ACCION-1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_CARGA_PROYECTIL-1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_CARGA_SORTILEGIO-1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_ATAQUE_CUERPO_A_CUERPO-1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_DESPLAZAMIENTO-1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_PARAR_PROYECTIL-1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_MOVIMIENTO_Y_MANIOBRA-1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_DISPARA_PROYECTIL-1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_MOVIMIENTO_ESTATICO-1, false);
+            jTabbedPane_SeleccionAccion.setSelectedIndex(1);
+        }if (tipo > Accion.TIPO_SIN_ACCION) {
+        } else if (modo == MODO_CAMBIO_DE_ACCION){            
+            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_CARGA_SORTILEGIO-1, false);            
+            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_REALIZA_SORTILEGIO-1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_DISPARA_PROYECTIL-1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_CARGA_PROYECTIL-1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_PARAR_PROYECTIL-1, false);
+            //jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_MOVIMIENTO_Y_MANIOBRA-1, false);
+            jTextField_bono_mm.setText(""+-30);
+            //jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_ATAQUE_CUERPO_A_CUERPO-1, false);
+            jSlider_Bo.setValue(50);
+            //jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_DESPLAZAMIENTO-1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_MOVIMIENTO_ESTATICO-1, false);            
+            jTabbedPane_SeleccionAccion.setSelectedIndex(Accion.TIPO_ATAQUE_CUERPO_A_CUERPO-1);
+        }if (tipo > Accion.TIPO_SIN_ACCION) {
             jTabbedPane_SeleccionAccion.setSelectedIndex(tipo - 1);
         }
         if (token.getSortilegios().size() > 0) {
@@ -193,7 +218,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jTextField4 = new javax.swing.JTextField();
         jPanel17 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-        jSlider1 = new javax.swing.JSlider();
+        jSlider_Bo = new javax.swing.JSlider();
         jPanel14 = new javax.swing.JPanel();
         jTextField7 = new javax.swing.JTextField();
         jTextField8 = new javax.swing.JTextField();
@@ -680,11 +705,11 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jLabel8.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         jPanel17.add(jLabel8);
 
-        jSlider1.setForeground(new java.awt.Color(102, 102, 102));
-        jSlider1.setMajorTickSpacing(25);
-        jSlider1.setPaintLabels(true);
-        jSlider1.setPaintTicks(true);
-        jPanel17.add(jSlider1);
+        jSlider_Bo.setForeground(new java.awt.Color(102, 102, 102));
+        jSlider_Bo.setMajorTickSpacing(25);
+        jSlider_Bo.setPaintLabels(true);
+        jSlider_Bo.setPaintTicks(true);
+        jPanel17.add(jSlider_Bo);
 
         jPanel14.setLayout(new javax.swing.BoxLayout(jPanel14, javax.swing.BoxLayout.LINE_AXIS));
 
@@ -803,6 +828,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
     private void jButton_crearSortilegioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_crearSortilegioActionPerformed
         int sa = token_accion.getToken().getSortilegios().size();
         NuevoSortilegio ns = new NuevoSortilegio(principal, true, token_accion.getToken());
+        ns.setLocationRelativeTo(null);
         ns.setVisible(true);
         if (token_accion.getToken().getSortilegios().size() > sa) {
             jComboBox_sotilegios.removeAllItems();
@@ -995,7 +1021,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JSlider jSlider1;
+    private javax.swing.JSlider jSlider_Bo;
     private javax.swing.JSpinner jSpinner_distancia;
     private javax.swing.JSpinner jSpinner_distancia1;
     private javax.swing.JSpinner jSpinner_distancia2;
@@ -1026,4 +1052,17 @@ public class DeclaraAccion extends javax.swing.JDialog {
     private javax.swing.JTextField jTextField_sort_num_cargas1;
     // End of variables declaration//GEN-END:variables
 
+    public static final int MODO_NORMAL = 0;
+    public static final int MODO_ATURDIDO = 1;
+    public static final int MODO_FUERA_DE_COMBATE = 2;
+    public static final int MODO_CAMBIO_DE_ACCION = 3;
+        
+    private static Accion accionSeleccionada;
+    private int modo = MODO_NORMAL;
+    public static Accion DeclararAccion(Principal parent, boolean modal,int modo){
+        DeclaraAccion da = new DeclaraAccion(parent, true);
+        da.setLocationRelativeTo(null);
+        da.setVisible(true);
+        return accionSeleccionada;
+    }
 }
