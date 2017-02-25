@@ -68,7 +68,7 @@ public class Recursos {
     }
 
     public static void guardarConfig(DataRecursos d) {
-        AbrirGuardar.guardarXML(d, DataRecursos.CONFIG_FILE);        
+        AbrirGuardar.guardarXML(d, DataRecursos.CONFIG_FILE);
     }
 
     public static HashMap<String, String> tabCrticsArray() {
@@ -326,11 +326,12 @@ public class Recursos {
         return "#" + Integer.toHexString(color.getRGB()).substring(2);
     }
 
-    public static String evtAsaltoNuevo(int asa) {
+    public static String evtAsaltoNuevo(int asa) {        
         return "<br/><br/><Strong> Asalto " + asa + "</strong><br/><hr/>";
     }
 
     public static String evtFinDeAsalto() {
+        System.out.println("dibuje el fin");
         return "<br/><hr/><Strong>Fin del Asalto</strong><br/><hr/>";
     }
 
@@ -344,7 +345,9 @@ public class Recursos {
                 break;
             }
             case Accion.TIPO_CARGA_SORTILEGIO: {
-                ret += " <span> Carga sortilegio " + acc.getSortilegio().toString();
+                int carga = (Integer) ((Object[]) tok.getSortilegioCargado())[0];
+                Sortilegio sort = (Sortilegio) ((Object[]) tok.getSortilegioCargado())[1];
+                ret += " <span> suma " + carga + " Carga(s) del sortilegio " + sort.toString();
                 break;
             }
             case Accion.TIPO_REALIZA_SORTILEGIO: {
@@ -384,15 +387,18 @@ public class Recursos {
                 break;
             }
         }
+        if (acc.getDescp().length() > 0) {
+            ret += "<br/>";
+            ret += "<p>" + acc.getDescp() + "</p>";
+            ret += "<br/>";
+        }
         return ret + "</blockquote>";
     }
-    
+
     public static String evtAlteracion(Token tok) {
         String ret = "<br/><blockquote>";
         ret += "<span color='" + tok.getColor() + "'> " + tok.getNombre() + " <span>";
-        
-        
-        
+
         return ret + "</blockquote>";
     }
 

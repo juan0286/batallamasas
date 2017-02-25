@@ -289,7 +289,7 @@ public class Token implements Serializable {
 
         }
         
-        this.estado.update(1);
+        this.estado.update();
     }
     
     public int definirPorcTactica() {

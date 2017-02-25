@@ -24,7 +24,12 @@ public class Evento implements Serializable{
         this.desc = desc;
         this.asalto = asalto;
     }
-
+    public Evento(String desc, int asalto, boolean visible) {
+        this.desc = desc;
+        this.asalto = asalto;
+        this.visible = visible;    
+    }
+    
     public Evento(String desc) {
         this.desc = desc;
         this.asalto = -1;

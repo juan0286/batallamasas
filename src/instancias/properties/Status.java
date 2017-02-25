@@ -162,7 +162,7 @@ public class Status implements Serializable{
         this.dejarDeparar(1);
         this.desaturdirYpoderParar(1);
         acercarseALaMuerte(); 
-        
+        update();
     }
         
     private void pvUpdate(){
@@ -179,31 +179,9 @@ public class Status implements Serializable{
 
     }
 
-    public void update(int asaltos) {
-
-        pvUpdate();
+    public void update() {
+        pvUpdate();       
         
-        if (this.getAturdido() > 0) {
-            this.setAturdido(aturdido - asaltos);
-        }
-        
-        this.ptsDeVidaPerdidos+= sangradoPorAsalto;
-                
-        if (this.getObligadoParar() > 0) {
-            this.setObligadoparar(obligadoparar - asaltos);
-        }
-
-        if (this.getSinpoderparar() > 0) {
-            this.setSinpoderparar(sinpoderparar - asaltos);
-        }
-
-        if (this.getSinpoderparar() > 0) {
-            this.setSinpoderparar(sinpoderparar - asaltos);
-        }
-
-        if (this.getAsaltosparamorir() == 0) {
-            this.setCuerpo(Status.MUERTO);
-        }
     }
 
     public String cuerpoString() {

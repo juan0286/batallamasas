@@ -35,15 +35,19 @@ public class Accion implements Serializable{
   private boolean cambioDeAccion = false;
   private Sortilegio sortilegio;
   private String Dificultad ;
-          private Sortilegio sort_intencion;
+  private Sortilegio sort_intencion;
+  private String Descp;
+  
 
     public Accion(int tipo, int nro_Asalto, int orden) {
         this.tipo = tipo;
         this.nro_Asalto = nro_Asalto;
         this.orden = orden;
+        this.Descp = "";
     }
 
     public Accion() {
+         this.Descp = "";
     }
 
     
@@ -129,6 +133,22 @@ public class Accion implements Serializable{
 
     public void setSort_intencion(Sortilegio sort_intencion) {
         this.sort_intencion = sort_intencion;
+    }
+
+    public boolean isCambioDeAccion() {
+        return cambioDeAccion;
+    }
+
+    public void setCambioDeAccion(boolean cambioDeAccion) {
+        this.cambioDeAccion = cambioDeAccion;
+    }
+
+    public String getDescp() {
+        return Descp;
+    }
+
+    public void setDescp(String Descp) {
+        this.Descp = Descp;
     }
 
     

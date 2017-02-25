@@ -36,10 +36,9 @@ public class DeclaraAccion extends javax.swing.JDialog {
         this.principal = parent;
         initComponents();
         Token token = token_accion.getToken();
-        
+
         this.setTitle("Acciones de " + token.getNombre());
-        
-        
+
         int tipo = token.getLastAction().getTipo();
 
         jComboBox_sotilegios.setModel(new DefaultComboBoxModel(token.getSortilegios().toArray()));
@@ -57,32 +56,35 @@ public class DeclaraAccion extends javax.swing.JDialog {
             jSlider_Bo.setValue(0);
             jSlider_Bo.setEnabled(false);
 
-        } else if (modo == MODO_FUERA_DE_COMBATE){
-            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_SIN_ACCION-1, false);
-            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_CARGA_PROYECTIL-1, false);
-            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_CARGA_SORTILEGIO-1, false);
-            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_ATAQUE_CUERPO_A_CUERPO-1, false);
-            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_DESPLAZAMIENTO-1, false);
-            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_PARAR_PROYECTIL-1, false);
-            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_MOVIMIENTO_Y_MANIOBRA-1, false);
-            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_DISPARA_PROYECTIL-1, false);
-            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_MOVIMIENTO_ESTATICO-1, false);
+        } else if (modo == MODO_FUERA_DE_COMBATE) {
+            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_SIN_ACCION - 1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_CARGA_PROYECTIL - 1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_CARGA_SORTILEGIO - 1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_ATAQUE_CUERPO_A_CUERPO - 1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_DESPLAZAMIENTO - 1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_PARAR_PROYECTIL - 1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_MOVIMIENTO_Y_MANIOBRA - 1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_DISPARA_PROYECTIL - 1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_MOVIMIENTO_ESTATICO - 1, false);
             jTabbedPane_SeleccionAccion.setSelectedIndex(1);
-        }if (tipo > Accion.TIPO_SIN_ACCION) {
-        } else if (modo == MODO_CAMBIO_DE_ACCION){            
-            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_CARGA_SORTILEGIO-1, false);            
-            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_REALIZA_SORTILEGIO-1, false);
-            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_DISPARA_PROYECTIL-1, false);
-            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_CARGA_PROYECTIL-1, false);
-            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_PARAR_PROYECTIL-1, false);
+        }
+        if (tipo > Accion.TIPO_SIN_ACCION) {
+
+        } else if (modo == MODO_CAMBIO_DE_ACCION) {
+            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_CARGA_SORTILEGIO - 1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_REALIZA_SORTILEGIO - 1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_DISPARA_PROYECTIL - 1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_CARGA_PROYECTIL - 1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_PARAR_PROYECTIL - 1, false);
             //jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_MOVIMIENTO_Y_MANIOBRA-1, false);
-            jTextField_bono_mm.setText(""+-30);
+            jTextField_bono_mm.setText("" + -30);
             //jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_ATAQUE_CUERPO_A_CUERPO-1, false);
             jSlider_Bo.setValue(50);
             //jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_DESPLAZAMIENTO-1, false);
-            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_MOVIMIENTO_ESTATICO-1, false);            
-            jTabbedPane_SeleccionAccion.setSelectedIndex(Accion.TIPO_ATAQUE_CUERPO_A_CUERPO-1);
-        }if (tipo > Accion.TIPO_SIN_ACCION) {
+            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_MOVIMIENTO_ESTATICO - 1, false);
+            jTabbedPane_SeleccionAccion.setSelectedIndex(Accion.TIPO_ATAQUE_CUERPO_A_CUERPO - 1);
+        }
+        if (tipo > Accion.TIPO_SIN_ACCION) {
             jTabbedPane_SeleccionAccion.setSelectedIndex(tipo - 1);
         }
         if (token.getSortilegios().size() > 0) {
@@ -141,9 +143,6 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jCheckBox_consume_sort = new javax.swing.JCheckBox();
         jLabel9 = new javax.swing.JLabel();
         jTextField_alcance_sort = new javax.swing.JTextField();
-        jPanel_desc_Accion = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea_desc = new javax.swing.JTextArea();
         jPanel_Realiza_Sortilegio_tabPanel = new javax.swing.JPanel();
         jPanel21 = new javax.swing.JPanel();
         jPanel34 = new javax.swing.JPanel();
@@ -164,9 +163,6 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jCheckBox_consume_sort1 = new javax.swing.JCheckBox();
         jLabel12 = new javax.swing.JLabel();
         jTextField_alcance_sort1 = new javax.swing.JTextField();
-        jPanel_desc_Accion1 = new javax.swing.JPanel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jTextArea_desc1 = new javax.swing.JTextArea();
         jPanel_Dispara_Proyectil_tabPanel = new javax.swing.JPanel();
         jPanel27 = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
@@ -185,9 +181,6 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jPanel_Carga_Proyectil_tabPanel = new javax.swing.JPanel();
         jPanel_Parar_Proyectil_tabPanel = new javax.swing.JPanel();
         jPanel_Movimiento_Y_maniobra_tabPanel = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
         jPanel6 = new javax.swing.JPanel();
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
@@ -203,37 +196,38 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jTextField_bono_mm = new javax.swing.JTextField();
         jPanel_Ataque_Cuerpo_a_Cuerpo_tabDA = new javax.swing.JPanel();
         jPanel15 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
+        jPanel9 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
         jComboBoxEnemigos = new javax.swing.JComboBox();
-        jLabel7 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jComboBoxArmas = new javax.swing.JComboBox();
         jButton3 = new javax.swing.JButton();
+        jPanel_distancia = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
         jRadioButton_brazoD = new javax.swing.JRadioButton();
         jRadioButton_brazoI = new javax.swing.JRadioButton();
-        jPanel_distancia = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
         jLabel_distancia = new javax.swing.JLabel();
         jSpinner_distancia = new javax.swing.JSpinner();
         jTextField4 = new javax.swing.JTextField();
         jPanel17 = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
-        jSlider_Bo = new javax.swing.JSlider();
         jPanel14 = new javax.swing.JPanel();
         jTextField7 = new javax.swing.JTextField();
         jTextField8 = new javax.swing.JTextField();
+        jPanel1 = new javax.swing.JPanel();
+        jSlider_Bo = new javax.swing.JSlider();
         jPanel_Desplazamiento_tabPanel = new javax.swing.JPanel();
         jPanel_distancia2 = new javax.swing.JPanel();
         jLabel_distancia2 = new javax.swing.JLabel();
         jSpinner_distancia2 = new javax.swing.JSpinner();
         jTextField9 = new javax.swing.JTextField();
         jPanel_Movimiento_Estatico = new javax.swing.JPanel();
-        jPanel7 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
         jPanel22 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton_cancelar = new javax.swing.JButton();
+        jPanel_desc_Accion = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTextArea_desc = new javax.swing.JTextArea();
 
         javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
         jPanel19.setLayout(jPanel19Layout);
@@ -350,17 +344,6 @@ public class DeclaraAccion extends javax.swing.JDialog {
 
         jPanel8.add(jPanel_carga_sort_datos);
 
-        jPanel_desc_Accion.setBorder(javax.swing.BorderFactory.createTitledBorder("Descripcion de la Accion"));
-        jPanel_desc_Accion.setLayout(new javax.swing.BoxLayout(jPanel_desc_Accion, javax.swing.BoxLayout.LINE_AXIS));
-
-        jTextArea_desc.setColumns(20);
-        jTextArea_desc.setRows(5);
-        jScrollPane3.setViewportView(jTextArea_desc);
-
-        jPanel_desc_Accion.add(jScrollPane3);
-
-        jPanel8.add(jPanel_desc_Accion);
-
         jPanel_Carga_Sortilegio_tabPanel1.add(jPanel8);
 
         jTabbedPane_SeleccionAccion.addTab("Carga Sortilegio", jPanel_Carga_Sortilegio_tabPanel1);
@@ -458,17 +441,6 @@ public class DeclaraAccion extends javax.swing.JDialog {
 
         jPanel11.add(jPanel_carga_sort_datos1);
 
-        jPanel_desc_Accion1.setBorder(javax.swing.BorderFactory.createTitledBorder("Descripcion de la Accion"));
-        jPanel_desc_Accion1.setLayout(new javax.swing.BoxLayout(jPanel_desc_Accion1, javax.swing.BoxLayout.LINE_AXIS));
-
-        jTextArea_desc1.setColumns(20);
-        jTextArea_desc1.setRows(5);
-        jScrollPane4.setViewportView(jTextArea_desc1);
-
-        jPanel_desc_Accion1.add(jScrollPane4);
-
-        jPanel11.add(jPanel_desc_Accion1);
-
         jPanel_Realiza_Sortilegio_tabPanel.add(jPanel11);
 
         jTabbedPane_SeleccionAccion.addTab("Realiza Sortilegio", jPanel_Realiza_Sortilegio_tabPanel);
@@ -565,17 +537,6 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jPanel_Movimiento_Y_maniobra_tabPanel.setPreferredSize(new java.awt.Dimension(300, 100));
         jPanel_Movimiento_Y_maniobra_tabPanel.setLayout(new javax.swing.BoxLayout(jPanel_Movimiento_Y_maniobra_tabPanel, javax.swing.BoxLayout.PAGE_AXIS));
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Descripciòn"));
-        jPanel4.setLayout(new java.awt.BorderLayout());
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
-
-        jPanel4.add(jScrollPane1, java.awt.BorderLayout.CENTER);
-
-        jPanel_Movimiento_Y_maniobra_tabPanel.add(jPanel4);
-
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Dificultad"));
         jPanel6.setLayout(new java.awt.GridLayout(3, 3));
 
@@ -637,17 +598,19 @@ public class DeclaraAccion extends javax.swing.JDialog {
 
         jPanel15.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel15.setMaximumSize(new java.awt.Dimension(224, 185));
-        jPanel15.setLayout(new javax.swing.BoxLayout(jPanel15, javax.swing.BoxLayout.PAGE_AXIS));
+        jPanel15.setLayout(new java.awt.BorderLayout());
 
-        jLabel6.setText("Enemigo");
-        jPanel15.add(jLabel6);
+        jPanel9.setLayout(new javax.swing.BoxLayout(jPanel9, javax.swing.BoxLayout.LINE_AXIS));
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Blanco"));
+        jPanel3.setLayout(new javax.swing.BoxLayout(jPanel3, javax.swing.BoxLayout.LINE_AXIS));
 
         jComboBoxEnemigos.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel15.add(jComboBoxEnemigos);
+        jPanel3.add(jComboBoxEnemigos);
 
-        jLabel7.setText("Arma");
-        jPanel15.add(jLabel7);
+        jPanel9.add(jPanel3);
 
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Arma"));
         jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.LINE_AXIS));
 
         jComboBoxArmas.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -661,7 +624,11 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jButton3.setText("+");
         jPanel5.add(jButton3);
 
-        jPanel15.add(jPanel5);
+        jPanel9.add(jPanel5);
+
+        jPanel15.add(jPanel9, java.awt.BorderLayout.NORTH);
+
+        jPanel_distancia.setLayout(new javax.swing.BoxLayout(jPanel_distancia, javax.swing.BoxLayout.LINE_AXIS));
 
         jPanel16.setMaximumSize(new java.awt.Dimension(201, 38));
         jPanel16.setPreferredSize(new java.awt.Dimension(201, 38));
@@ -674,46 +641,38 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jRadioButton_brazoI.setText("Brazo I (-30)");
         jPanel16.add(jRadioButton_brazoI);
 
-        jPanel15.add(jPanel16);
-
-        jPanel_distancia.setLayout(new javax.swing.BoxLayout(jPanel_distancia, javax.swing.BoxLayout.LINE_AXIS));
+        jPanel_distancia.add(jPanel16);
 
         jLabel_distancia.setText("  Distancia  ");
-        jPanel_distancia.add(jLabel_distancia);
+        jPanel4.add(jLabel_distancia);
 
         jSpinner_distancia.setModel(new javax.swing.SpinnerNumberModel(3, 3, null, 3));
-        jPanel_distancia.add(jSpinner_distancia);
+        jPanel4.add(jSpinner_distancia);
 
         jTextField4.setEditable(false);
         jTextField4.setText("mts.");
-        jTextField4.setMaximumSize(new java.awt.Dimension(26, 28));
+        jTextField4.setMaximumSize(new java.awt.Dimension(36, 28));
         jTextField4.setMinimumSize(new java.awt.Dimension(26, 28));
         jTextField4.setName(""); // NOI18N
-        jTextField4.setPreferredSize(new java.awt.Dimension(26, 28));
+        jTextField4.setPreferredSize(new java.awt.Dimension(36, 28));
         jTextField4.setRequestFocusEnabled(false);
-        jPanel_distancia.add(jTextField4);
+        jPanel4.add(jTextField4);
 
-        jPanel15.add(jPanel_distancia);
+        jPanel_distancia.add(jPanel4);
+
+        jPanel15.add(jPanel_distancia, java.awt.BorderLayout.CENTER);
 
         jPanel17.setMaximumSize(new java.awt.Dimension(32767, 159));
         jPanel17.setMinimumSize(new java.awt.Dimension(133, 100));
-        jPanel17.setPreferredSize(new java.awt.Dimension(201, 100));
-        jPanel17.setLayout(new javax.swing.BoxLayout(jPanel17, javax.swing.BoxLayout.PAGE_AXIS));
+        jPanel17.setPreferredSize(new java.awt.Dimension(201, 40));
+        jPanel17.setLayout(new java.awt.GridLayout());
 
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel8.setText("% de bo para el Ataque");
-        jLabel8.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        jPanel17.add(jLabel8);
-
-        jSlider_Bo.setForeground(new java.awt.Color(102, 102, 102));
-        jSlider_Bo.setMajorTickSpacing(25);
-        jSlider_Bo.setPaintLabels(true);
-        jSlider_Bo.setPaintTicks(true);
-        jPanel17.add(jSlider_Bo);
-
+        jPanel14.setMaximumSize(new java.awt.Dimension(72, 100));
+        jPanel14.setPreferredSize(new java.awt.Dimension(70, 40));
         jPanel14.setLayout(new javax.swing.BoxLayout(jPanel14, javax.swing.BoxLayout.LINE_AXIS));
 
         jTextField7.setEditable(false);
+        jTextField7.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField7.setText("Bo 120");
         jTextField7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -723,12 +682,30 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jPanel14.add(jTextField7);
 
         jTextField8.setEditable(false);
+        jTextField8.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField8.setText("Bd 34");
+        jTextField8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField8ActionPerformed(evt);
+            }
+        });
         jPanel14.add(jTextField8);
 
         jPanel17.add(jPanel14);
 
-        jPanel15.add(jPanel17);
+        jPanel1.setPreferredSize(new java.awt.Dimension(100, 40));
+        jPanel1.setLayout(new java.awt.GridLayout());
+
+        jSlider_Bo.setForeground(new java.awt.Color(102, 102, 102));
+        jSlider_Bo.setMajorTickSpacing(25);
+        jSlider_Bo.setPaintLabels(true);
+        jSlider_Bo.setPaintTicks(true);
+        jSlider_Bo.setPreferredSize(new java.awt.Dimension(200, 35));
+        jPanel1.add(jSlider_Bo);
+
+        jPanel17.add(jPanel1);
+
+        jPanel15.add(jPanel17, java.awt.BorderLayout.PAGE_END);
 
         jPanel_Ataque_Cuerpo_a_Cuerpo_tabDA.add(jPanel15, java.awt.BorderLayout.PAGE_START);
 
@@ -738,7 +715,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jPanel_Desplazamiento_tabPanel.setMinimumSize(new java.awt.Dimension(300, 100));
         jPanel_Desplazamiento_tabPanel.setPreferredSize(new java.awt.Dimension(300, 100));
 
-        jPanel_distancia2.setLayout(new javax.swing.BoxLayout(jPanel_distancia2, javax.swing.BoxLayout.LINE_AXIS));
+        jPanel_distancia2.setLayout(new java.awt.GridLayout());
 
         jLabel_distancia2.setText("  Distancia  ");
         jPanel_distancia2.add(jLabel_distancia2);
@@ -747,6 +724,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jPanel_distancia2.add(jSpinner_distancia2);
 
         jTextField9.setEditable(false);
+        jTextField9.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jTextField9.setText("mts.");
         jTextField9.setMaximumSize(new java.awt.Dimension(26, 28));
         jTextField9.setMinimumSize(new java.awt.Dimension(26, 28));
@@ -763,22 +741,9 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jPanel_Movimiento_Estatico.setMinimumSize(new java.awt.Dimension(300, 100));
         jPanel_Movimiento_Estatico.setPreferredSize(new java.awt.Dimension(300, 100));
         jPanel_Movimiento_Estatico.setLayout(null);
-
-        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Descripciòn"));
-        jPanel7.setLayout(new java.awt.BorderLayout());
-
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane2.setViewportView(jTextArea2);
-
-        jPanel7.add(jScrollPane2, java.awt.BorderLayout.CENTER);
-
-        jPanel_Movimiento_Estatico.add(jPanel7);
-        jPanel7.setBounds(0, 0, 270, 110);
-
         jTabbedPane_SeleccionAccion.addTab("Movimiento Estatico", jPanel_Movimiento_Estatico);
 
-        getContentPane().add(jTabbedPane_SeleccionAccion, java.awt.BorderLayout.CENTER);
+        getContentPane().add(jTabbedPane_SeleccionAccion, java.awt.BorderLayout.NORTH);
 
         jPanel22.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel22.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
@@ -801,12 +766,25 @@ public class DeclaraAccion extends javax.swing.JDialog {
 
         getContentPane().add(jPanel22, java.awt.BorderLayout.SOUTH);
 
+        jPanel_desc_Accion.setBorder(javax.swing.BorderFactory.createTitledBorder("Descripcion de la Accion"));
+        jPanel_desc_Accion.setLayout(new javax.swing.BoxLayout(jPanel_desc_Accion, javax.swing.BoxLayout.LINE_AXIS));
+
+        jTextArea_desc.setColumns(20);
+        jTextArea_desc.setRows(5);
+        jScrollPane3.setViewportView(jTextArea_desc);
+
+        jPanel_desc_Accion.add(jScrollPane3);
+
+        getContentPane().add(jPanel_desc_Accion, java.awt.BorderLayout.CENTER);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         declarar();
-        this.dispose();
+        if (accionSeleccionada != null) {
+            this.dispose();
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
@@ -822,20 +800,12 @@ public class DeclaraAccion extends javax.swing.JDialog {
     }//GEN-LAST:event_jComboBoxArmas1ItemStateChanged
 
     private void jButton_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_cancelarActionPerformed
+        accionSeleccionada = null;
         this.dispose();
     }//GEN-LAST:event_jButton_cancelarActionPerformed
 
     private void jButton_crearSortilegioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_crearSortilegioActionPerformed
-        int sa = token_accion.getToken().getSortilegios().size();
-        NuevoSortilegio ns = new NuevoSortilegio(principal, true, token_accion.getToken());
-        ns.setLocationRelativeTo(null);
-        ns.setVisible(true);
-        if (token_accion.getToken().getSortilegios().size() > sa) {
-            jComboBox_sotilegios.removeAllItems();
-            jComboBox_sotilegios.setModel(new DefaultComboBoxModel(token_accion.getToken().getSortilegios().toArray()));
-            jComboBox_sotilegios.setSelectedIndex(token_accion.getToken().getSortilegios().size() - 1);
-            actualizarSortilegio();
-        }
+        nuevoSortilegio();
     }//GEN-LAST:event_jButton_crearSortilegioActionPerformed
 
     private void jComboBox_sotilegiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_sotilegiosActionPerformed
@@ -847,89 +817,130 @@ public class DeclaraAccion extends javax.swing.JDialog {
     }//GEN-LAST:event_jComboBox_sotilegios1ActionPerformed
 
     private void jButton_crearSortilegio1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_crearSortilegio1ActionPerformed
-        // TODO add your handling code here:
+        nuevoSortilegio();
     }//GEN-LAST:event_jButton_crearSortilegio1ActionPerformed
 
     private void jComboBox_sotilegiosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_sotilegiosItemStateChanged
         actualizarSortilegio();
     }//GEN-LAST:event_jComboBox_sotilegiosItemStateChanged
 
-    private void actualizarSortilegio() {
-        if (jComboBox_sotilegios.getItemCount() > 0) {
-            Sortilegio s = (Sortilegio) jComboBox_sotilegios.getSelectedItem();
-            jTextField_Dominio_sort.setText(s.getNombre());
-            jTextField_lv_sort.setText(s.getLv() + "");
-            jPanel_carga_sort_nombre.setToolTipText(s.getDescp());
-            jPanel_carga_sort_datos.setToolTipText(s.getDescp());
-            jPanel_carga_sort_nombre1.setToolTipText(s.getDescp());
-            jPanel_carga_sort_datos1.setToolTipText(s.getDescp());
+    private void jTextField8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField8ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField8ActionPerformed
 
-            jCheckBox_consume_sort.setSelected(s.isConsumePP());
-            jTextField_Dominio_sort.setText(s.getDominioStr());
-            jTextField_lv_sort.setText(s.getLv() + "");
-            jTextField_alcance_sort.setText(s.getAlcance());
+    private void nuevoSortilegio() {
+        int sa = token_accion.getToken().getSortilegios().size();
+        int s = NuevoSortilegio.DeclararAccion(principal, true, token_accion.getToken());
+
+        if (s > -1) {
+            token_accion.getToken().aprenderSortilegio(s);
+        }
+
+        if (token_accion.getToken().getSortilegios().size() > sa) {
+            jComboBox_sotilegios.removeAllItems();
+            jComboBox_sotilegios.setModel(new DefaultComboBoxModel(token_accion.getToken().getSortilegios().toArray()));
+            jComboBox_sotilegios.setSelectedIndex(token_accion.getToken().getSortilegios().size() - 1);
+            jComboBox_sotilegios1.removeAllItems();
+            jComboBox_sotilegios1.setModel(new DefaultComboBoxModel(token_accion.getToken().getSortilegios().toArray()));
+            jComboBox_sotilegios1.setSelectedIndex(token_accion.getToken().getSortilegios().size() - 1);
+            actualizarSortilegio();
         }
     }
 
-    private void declarar() {
+    private void actualizarSortilegio() {
+        if (jComboBox_sotilegios.getItemCount() > 0) {
+            Sortilegio s = (Sortilegio) jComboBox_sotilegios.getSelectedItem();
+            
+            jTextField_Dominio_sort.setText(s.getDominioStr());
+            jTextField_Dominio_sort1.setText(s.getDominioStr());
+            
+            jTextField_lv_sort.setText(s.getLv() + "");
+            jTextField_lv_sort1.setText(s.getLv() + "");
+            
+            jPanel_carga_sort_nombre.setToolTipText(s.getDescp());
+            jPanel_carga_sort_nombre1.setToolTipText(s.getDescp());
+
+            jPanel_carga_sort_datos.setToolTipText(s.getDescp());
+            jPanel_carga_sort_datos1.setToolTipText(s.getDescp());
+
+            jCheckBox_consume_sort.setSelected(s.isConsumePP());
+            jCheckBox_consume_sort1.setSelected(s.isConsumePP());            
+
+            jTextField_alcance_sort.setText(s.getAlcance());
+            jTextField_alcance_sort1.setText(s.getAlcance());
+        }
+    }
+
+    private Accion declarar() {
 
         int tipoAcion = this.jTabbedPane_SeleccionAccion.getSelectedIndex() + 1;
-        Accion acc = new Accion(tipoAcion, principal.getAsaltoActual(), 1);
-        acc.setTipo(tipoAcion);
-
-        switch (acc.getTipo()) {
+        Accion acc = null;
+        int orden = 1;
+        switch (tipoAcion) {
             case Accion.TIPO_SIN_ACCION: {
 
                 break;
             }
             case Accion.TIPO_CARGA_SORTILEGIO: {
                 Sortilegio sort_intencion = (Sortilegio) jComboBox_sotilegios.getSelectedItem();
-                token_accion.intentarSortilegio(sort_intencion);
+                if (sort_intencion == null) {
+                    recursos.Recursos.informar("Debe seleccionar un sortilegio");
+                } else {
+                    acc = new Accion(tipoAcion, principal.getAsaltoActual(), orden);
+                    acc.setSort_intencion(sort_intencion);
+                    //token_accion.intentarSortilegio(sort_intencion);
+                }
                 break;
             }
             case Accion.TIPO_REALIZA_SORTILEGIO: {
                 Sortilegio sort_intencion = (Sortilegio) jComboBox_sotilegios.getSelectedItem();
-                token_accion.intentarSortilegio(sort_intencion);
+                if (sort_intencion == null) {
+                    recursos.Recursos.informar("Debe seleccionar un sortilegio");
+                } else {
+                    acc = new Accion(tipoAcion, principal.getAsaltoActual(), orden);
+                    acc.setSort_intencion(sort_intencion);
+                    //token_accion.intentarSortilegio(sort_intencion);
+                }
                 break;
             }
             case Accion.TIPO_DISPARA_PROYECTIL: {
+                acc = new Accion(tipoAcion, principal.getAsaltoActual(), orden);
 
                 break;
             }
             case Accion.TIPO_CARGA_PROYECTIL: {
+                acc = new Accion(tipoAcion, principal.getAsaltoActual(), orden);
 
                 break;
             }
             case Accion.TIPO_PARAR_PROYECTIL: {
-
+                acc = new Accion(tipoAcion, principal.getAsaltoActual(), orden);
                 break;
             }
             case Accion.TIPO_MOVIMIENTO_Y_MANIOBRA: {
-
+                acc = new Accion(tipoAcion, principal.getAsaltoActual(), orden);
                 break;
             }
             case Accion.TIPO_ATAQUE_CUERPO_A_CUERPO: {
-
+                acc = new Accion(tipoAcion, principal.getAsaltoActual(), orden);
                 break;
             }
             case Accion.TIPO_DESPLAZAMIENTO: {
-
+                acc = new Accion(tipoAcion, principal.getAsaltoActual(), orden);
                 break;
             }
             case Accion.TIPO_MOVIMIENTO_ESTATICO: {
-
+                acc = new Accion(tipoAcion, principal.getAsaltoActual(), orden);
                 break;
             }
             default: {
-
+                acc = new Accion(tipoAcion, principal.getAsaltoActual(), orden);
                 break;
             }
         }
-
-        token_accion.setFaseDeAsalto(tipoAcion);
-        principal.moverAccion(token_accion, tipoAcion);
-
-        //  token.AgregarAccion(acc);
+        acc.setDescp(jTextArea_desc.getText());
+        accionSeleccionada = acc;
+        return accionSeleccionada = acc;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -962,13 +973,11 @@ public class DeclaraAccion extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabel_distancia;
     private javax.swing.JLabel jLabel_distancia1;
     private javax.swing.JLabel jLabel_distancia2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
@@ -980,14 +989,15 @@ public class DeclaraAccion extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel22;
     private javax.swing.JPanel jPanel27;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel32;
     private javax.swing.JPanel jPanel33;
     private javax.swing.JPanel jPanel34;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JPanel jPanel_Ataque_Cuerpo_a_Cuerpo_tabDA;
     private javax.swing.JPanel jPanel_Carga_Proyectil_tabPanel;
     private javax.swing.JPanel jPanel_Carga_Sortilegio_tabPanel1;
@@ -1002,7 +1012,6 @@ public class DeclaraAccion extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel_carga_sort_nombre;
     private javax.swing.JPanel jPanel_carga_sort_nombre1;
     private javax.swing.JPanel jPanel_desc_Accion;
-    private javax.swing.JPanel jPanel_desc_Accion1;
     private javax.swing.JPanel jPanel_distancia;
     private javax.swing.JPanel jPanel_distancia1;
     private javax.swing.JPanel jPanel_distancia2;
@@ -1017,19 +1026,13 @@ public class DeclaraAccion extends javax.swing.JDialog {
     private javax.swing.JRadioButton jRadioButton9;
     private javax.swing.JRadioButton jRadioButton_brazoD;
     private javax.swing.JRadioButton jRadioButton_brazoI;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSlider jSlider_Bo;
     private javax.swing.JSpinner jSpinner_distancia;
     private javax.swing.JSpinner jSpinner_distancia1;
     private javax.swing.JSpinner jSpinner_distancia2;
     private javax.swing.JTabbedPane jTabbedPane_SeleccionAccion;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextArea jTextArea_desc;
-    private javax.swing.JTextArea jTextArea_desc1;
     private javax.swing.JTextField jTextField12;
     private javax.swing.JTextField jTextField19;
     private javax.swing.JTextField jTextField20;
@@ -1056,13 +1059,19 @@ public class DeclaraAccion extends javax.swing.JDialog {
     public static final int MODO_ATURDIDO = 1;
     public static final int MODO_FUERA_DE_COMBATE = 2;
     public static final int MODO_CAMBIO_DE_ACCION = 3;
-        
+
     private static Accion accionSeleccionada;
-    private int modo = MODO_NORMAL;
-    public static Accion DeclararAccion(Principal parent, boolean modal,int modo){
-        DeclaraAccion da = new DeclaraAccion(parent, true);
+    private static int modo = MODO_NORMAL;
+
+    public static Accion DeclararAccion(Principal parent, boolean modal, JPanelFormToken_Accion token_accion, int modo) {
+        accionSeleccionada = null;
+        DeclaraAccion.modo = 0;
+        DeclaraAccion.modo = modo;
+        DeclaraAccion da = new DeclaraAccion(parent, true, token_accion);
+
         da.setLocationRelativeTo(null);
         da.setVisible(true);
+
         return accionSeleccionada;
     }
 }

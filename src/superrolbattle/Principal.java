@@ -803,10 +803,6 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton_comenzarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_comenzarActionPerformed
         jTabbedPane1.setSelectedIndex(1);
-        int nasalto = campo.getnAsalto();
-        String str = Recursos.evtAsaltoNuevo(nasalto);
-        Evento evto = new Evento(str, nasalto);
-        publicarEvento(evto);
         avanzarButtonFase(BUTTONFASE_DESARROLLO);
     }//GEN-LAST:event_jButton_comenzarActionPerformed
 
@@ -816,10 +812,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_definirActionPerformed
 
     private void jButton_terminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_terminarActionPerformed
-        String str = Recursos.evtFinDeAsalto();
-        Evento evto = new Evento(str);
-        evto.setVisible(true);
-        publicarEvento(evto);
+
         avanzarButtonFase(BUTTONFASE_RESULTADOS);
     }//GEN-LAST:event_jButton_terminarActionPerformed
 
@@ -917,6 +910,7 @@ public class Principal extends javax.swing.JFrame {
 
             if (JOptionPane.OK_OPTION == confirmado) //cerrartodo();
             {
+                closeCampoDeBatalla();
                 abrirArchivo();
             }
         } else {
@@ -1143,11 +1137,14 @@ public class Principal extends javax.swing.JFrame {
             case BUTTONFASE_DESARROLLO: {
 
                 sinAccioneshechos(jPanel_sinAcciones_tokens);
+                repetirAccion();
                 jLabel_uso_ao.setVisible(true);
                 jButton_definir.setEnabled(false);
                 jButton_comenzar.setEnabled(false);
                 jButton_terminar.setEnabled(true);
                 jButton_crear.setEnabled(false);
+
+                publicarEvento(creaEvento(Recursos.evtAsaltoNuevo(campo.getnAsalto())));
 
                 avanzarFaseDeAsalto(ASALTOFASE_CARGA_SORTILEGIO);
                 break;
@@ -1185,6 +1182,14 @@ public class Principal extends javax.swing.JFrame {
                 jButton_avanzarFaseAsalto1.setEnabled(false);
 
                 jPanel_Titulo_SinAcciones.setBackground(new java.awt.Color(204, 204, 255));
+
+                String str = Recursos.evtFinDeAsalto();
+
+                Evento evto = new Evento(str);
+                
+                publicarEvento(evto);
+                publicarEvento(creaEvento(Recursos.evtAsaltoNuevo(campo.getnAsalto())));
+
                 deshechoTodos();
                 avanzarButtonFase(BUTTONFASE_CREACION);
                 break;
@@ -1218,8 +1223,7 @@ public class Principal extends javax.swing.JFrame {
                 pos = ASALTOFASE_CARGA_SORTILEGIO;
             }
 
-        }
-        Evento evt = new Evento("<br/>--------------<br/>", campo.getnAsalto());
+        }      
 
         asaltoFase = pos;
 
@@ -1247,7 +1251,7 @@ public class Principal extends javax.swing.JFrame {
                 if (jPanel_RealizaSortilegios_campo.getComponentCount() == 0) {
                     avanzarFaseDeAsalto(-1);
                 } else {
-                    publicarEvento(evt);
+                    publicarEvento(new Evento("<br/>--------------<br/>", campo.getnAsalto(),true));
                 }
 
                 break;
@@ -1262,7 +1266,7 @@ public class Principal extends javax.swing.JFrame {
                 if (jPanel_LanzaProyectiles_campo.getComponentCount() == 0) {
                     avanzarFaseDeAsalto(-1);
                 } else {
-                    publicarEvento(evt);
+                    publicarEvento(new Evento("<br/>--------------<br/>", campo.getnAsalto(),true));
                 }
 
                 break;
@@ -1277,7 +1281,7 @@ public class Principal extends javax.swing.JFrame {
                 if (jPanel_CargaProyectiles_campo.getComponentCount() == 0) {
                     avanzarFaseDeAsalto(-1);
                 } else {
-                    publicarEvento(evt);
+                    publicarEvento(new Evento("<br/>--------------<br/>", campo.getnAsalto(),true));
                 }
 
                 break;
@@ -1292,7 +1296,7 @@ public class Principal extends javax.swing.JFrame {
                 if (jPanel_PararProyectiles_campo.getComponentCount() == 0) {
                     avanzarFaseDeAsalto(-1);
                 } else {
-                    publicarEvento(evt);
+                    publicarEvento(new Evento("<br/>--------------<br/>", campo.getnAsalto(),true));
                 }
 
                 break;
@@ -1307,7 +1311,7 @@ public class Principal extends javax.swing.JFrame {
                 if (jPanel_movimientoYmaniobra_campo.getComponentCount() == 0) {
                     avanzarFaseDeAsalto(-1);
                 } else {
-                    publicarEvento(evt);
+                    publicarEvento(new Evento("<br/>--------------<br/>", campo.getnAsalto(),true));
                 }
 
                 break;
@@ -1322,7 +1326,7 @@ public class Principal extends javax.swing.JFrame {
                 if (jPanel_AtaqueCuerpoaCuerpo_campo.getComponentCount() == 0) {
                     avanzarFaseDeAsalto(-1);
                 } else {
-                    publicarEvento(evt);
+                    publicarEvento(new Evento("<br/>--------------<br/>", campo.getnAsalto(),true));
                 }
 
                 break;
@@ -1337,7 +1341,7 @@ public class Principal extends javax.swing.JFrame {
                 if (jPanel_Movimiento_campo.getComponentCount() == 0) {
                     avanzarFaseDeAsalto(-1);
                 } else {
-                    publicarEvento(evt);
+                    publicarEvento(new Evento("<br/>--------------<br/>", campo.getnAsalto(),true));
                 }
 
                 break;
@@ -1352,7 +1356,7 @@ public class Principal extends javax.swing.JFrame {
                 if (jPanel_MovimientoEstatic_campo.getComponentCount() == 0) {
                     avanzarFaseDeAsalto(-1);
                 } else {
-                    publicarEvento(evt);
+                    publicarEvento(new Evento("<br/>--------------<br/>", campo.getnAsalto(),true));
                 }
 
                 break;
@@ -1530,6 +1534,11 @@ public class Principal extends javax.swing.JFrame {
         System.out.println("aun no hace nada");
     }
 
+    public Evento creaEvento(String mje) {
+        int nasalto = campo.getnAsalto();
+        return new Evento(mje, nasalto,true);
+    }
+
     public void publicarEvento(Evento evt) {
         if (evt.noTieneAsalto()) {
             evt.setAsalto(campo.getnAsalto());
@@ -1580,10 +1589,22 @@ public class Principal extends javax.swing.JFrame {
     }
 
     private void moverAturdidos() {
-       for (int i = 0; i < aws.size(); i++) {
+        for (int i = 0; i < aws.size(); i++) {
             JPanelFormToken_Accion jpta = aws.get(i);
             if (jpta.getToken().getEstado().isAturdido()) {
-                jpta.declararAccion(false,false);
+                jpta.clickAccion(false, false, false);
+            }
+        }
+    }
+
+    private void repetirAccion() {
+        for (int i = 0; i < aws.size(); i++) {
+            JPanelFormToken_Accion jpta = aws.get(i);
+            if (jpta.getToken().getLastAction().getNro_Asalto() != campo.getnAsalto()) {
+                jpta.getToken().AgregarAccion(jpta.getToken().getLastAction());
+                jpta.getToken().getLastAction().desHecho();
+                jpta.getToken().getLastAction().setCambioDeAccion(false);
+                jpta.getToken().getLastAction().setNro_Asalto(campo.getnAsalto());
             }
         }
     }

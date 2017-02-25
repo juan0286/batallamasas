@@ -36,7 +36,7 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
 
     public JPanelFormToken_Accion(Token token, Principal principal) {
         this.token = token;
-        this.faseDeAsalto = token.getLastAction().getTipo();
+        this.tipoDeAccion = token.getLastAction().getTipo();
         this.accion = token.getLastAction();
         this.principal = principal;
         initComponents();
@@ -59,18 +59,18 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
         this.token = token;
     }
 
-    public int getFaseDeAsalto() {
-        return faseDeAsalto;
+    public int getTipoDeAccion() {
+        return tipoDeAccion;
     }
 
-    public void setFaseDeAsalto(int faseDeAsalto) {
-        this.faseDeAsalto = faseDeAsalto;
+    public void setTipoDeAccion(int tipoDeAccion) {
+        this.tipoDeAccion = tipoDeAccion;
     }
 
     public void hecho() {
         if (!accion.isDone()) {
-            accion.hecho(this.faseDeAsalto);
-            updDone();
+            accion.hecho(this.tipoDeAccion);
+           // updDone();
             realizarLaAccion();
             token.updateEstado();
             update();
@@ -78,12 +78,6 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
             principal.publicarEvento(evt);
         }
 
-    }
-
-    public void cambioDeAccion() {
-        Accion acc = DeclaraAccion.DeclararAccion(principal, true, DeclaraAccion.MODO_CAMBIO_DE_ACCION);
-        accion = acc;
-        mover(acc.getTipo());
     }
 
     private void updDone() {
@@ -107,7 +101,7 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
             accion.esperarOportunidad();
             Evento e = new Evento(Recursos.evtOportunidad(token));
             principal.publicarEvento(e);
-            upAccOportunidad();
+            update();
         }
     }
 
@@ -144,7 +138,6 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
         } else if (token.getEstado().getCuerpo() == Status.CANSADO) {
             jProgressBar_vida.setForeground(Color.YELLOW);
         } else if (token.getEstado().getCuerpo() == Status.EXHAUSTO) {
-            dejarFueraDeCombate();
             jProgressBar_vida.setForeground(Color.ORANGE);
         } else if (token.getEstado().getCuerpo() == Status.INCOSCIENTE) {
             jProgressBar_vida.setForeground(Color.RED);
@@ -295,6 +288,7 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
         jPanel_estado.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel_estado.setLayout(new javax.swing.BoxLayout(jPanel_estado, javax.swing.BoxLayout.LINE_AXIS));
 
+        jTextArea_estado.setEditable(false);
         jTextArea_estado.setColumns(20);
         jTextArea_estado.setRows(5);
         jPanel_estado.add(jTextArea_estado);
@@ -305,7 +299,7 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-        declararAccion(evt.isMetaDown(), evt.isControlDown());
+        clickAccion(evt.isShiftDown(), evt.isControlDown(), evt.isMetaDown());
 
     }//GEN-LAST:event_formMouseClicked
 
@@ -313,31 +307,49 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
         token.intentarSortilegio(s);
     }
 
-    public void declararAccion(boolean shift, boolean ctrl) {
+    public void clickAccion(boolean shift, boolean ctrl, boolean clickDerecho) {
+        Accion a = null;
+
         if (principal.faseActual() == principal.BUTTONFASE_CREACION) {
             System.out.println("Fase de Creación");
         } else if (principal.faseActual() == principal.BUTTONFASE_DEFINICION) {
-            DeclaraAccion da = new DeclaraAccion(principal, true, this);
-            da.setLocationRelativeTo(null);
-            da.setVisible(true);
+            if (token.getEstado().isAturdido()) {
+                a = DeclaraAccion.DeclararAccion(principal, true, this, DeclaraAccion.MODO_ATURDIDO);
+            } else {
+                a = DeclaraAccion.DeclararAccion(principal, true, this, DeclaraAccion.MODO_NORMAL);
+            }
         } else if (principal.faseActual() == principal.BUTTONFASE_DESARROLLO) {
 
-            if (shift) {
+            if (ctrl && tipoDeAccion >= principal.asaltoFase && !accion.isDone()) {                
+                if (token.getLastAction().isCambioDeAccion())
+                    recursos.Recursos.informar("Ya se cambio de Accion en este Asalto");
+                else
+                    a = DeclaraAccion.DeclararAccion(principal, true, this, DeclaraAccion.MODO_CAMBIO_DE_ACCION);
+                if (a!= null){
+                    a.setCambioDeAccion(true);
+                    principal.creaEvento(token.getNombre() + " Cambia de Accion");
+                }
+            } else if (clickDerecho) {
                 AlterararToken dt = new AlterararToken(principal, true, this);
                 dt.setVisible(true);
-                if (token.getEstado().isAturdido() && !accion.isDone()) {
-                    DeclaraAccion da = new DeclaraAccion(principal, true, this);
-                    da.setLocationRelativeTo(null);
-                    da.setVisible(true);
+                if (token.getEstado().isAturdido()) 
+                    a = DeclaraAccion.DeclararAccion(principal, true, this, DeclaraAccion.MODO_ATURDIDO);
+                
+            } else if (!accion.isDone() && principal.asaltoFase == this.tipoDeAccion) {
+                if (shift) {
+                    esperarOportunidad();
+                } else {
+                    this.hecho();
                 }
-            } else if (ctrl){ 
-                cambioDeAccion();
-            } else if (principal.asaltoFaseActual() == this.faseDeAsalto) 
+            } else if (accion.isAccionDeOportunidad())
                 this.hecho();
-            
 
         }
-
+        if (a != null) {
+            accion = a;
+            tipoDeAccion = a.getTipo();
+            mover(accion.getTipo());
+        }
     }
 
     public void dejarFueraDeCombate() {
@@ -360,7 +372,7 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
     private Token token;
     private Principal principal;
     private Accion accion;
-    private int faseDeAsalto;
+    private int tipoDeAccion;
 
     /*private boolean done = false;
     private boolean accionDeOportunidad = false;

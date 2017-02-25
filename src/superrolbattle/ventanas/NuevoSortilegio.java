@@ -40,7 +40,7 @@ public class NuevoSortilegio extends javax.swing.JDialog {
         jPanel4 = new javax.swing.JPanel();
         jComboBox_todosLosSortilegios = new javax.swing.JComboBox<>();
         jButton_copiar = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        jButtonAprender = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -79,13 +79,13 @@ public class NuevoSortilegio extends javax.swing.JDialog {
         });
         jPanel4.add(jButton_copiar);
 
-        jButton1.setText("Aprender");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonAprender.setText("Aprender");
+        jButtonAprender.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonAprenderActionPerformed(evt);
             }
         });
-        jPanel4.add(jButton1);
+        jPanel4.add(jButtonAprender);
 
         jPanel5.add(jPanel4);
 
@@ -182,18 +182,19 @@ public class NuevoSortilegio extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton_guardar_sortilegioActionPerformed
 
     private void jButton_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_cancelarActionPerformed
+        sortilegioNuevo = -1;
         this.dispose();
     }//GEN-LAST:event_jButton_cancelarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButtonAprenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAprenderActionPerformed
         int s = jComboBox_todosLosSortilegios.getSelectedIndex();
         if (!token.conoceSortilegio(s)) {
-            token.aprenderSortilegio(s);
+            sortilegioNuevo =  s;            
             this.dispose();
         } else
             recursos.Recursos.informar(token.getNombre() + " ya conoce este Sortilegio");
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButtonAprenderActionPerformed
 
     private void copiarSortilegio() {
         Sortilegio s = (Sortilegio) jComboBox_todosLosSortilegios.getSelectedItem();
@@ -208,7 +209,7 @@ public class NuevoSortilegio extends javax.swing.JDialog {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButtonAprender;
     private javax.swing.JButton jButton_cancelar;
     private javax.swing.JButton jButton_copiar;
     private javax.swing.JButton jButton_guardar_sortilegio;
@@ -234,4 +235,13 @@ public class NuevoSortilegio extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
     private Token token;
 
+    public static int sortilegioNuevo = -1;
+   
+    public static int DeclararAccion(Principal parent, boolean modal,Token token){
+        NuevoSortilegio ns = new NuevoSortilegio(parent, modal, token);
+        ns.setLocationRelativeTo(null);
+        ns.setVisible(true);
+        
+        return sortilegioNuevo;
+    }
 }
