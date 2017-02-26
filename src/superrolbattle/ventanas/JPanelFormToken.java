@@ -37,8 +37,9 @@ public class JPanelFormToken extends javax.swing.JPanel {
         initComponents();
     }
 
-    public JPanelFormToken(Token token, JFrame principal) {
+    public JPanelFormToken(Token token, JFrame principal,JPanelFormToken_Accion jpa) {
         this.token = token;
+        this.jpa = jpa;
         initComponents();
         jProgressBar_vida.setMinimum(0);
         jProgressBar_vida.setMaximum(token.getPuntosVida());
@@ -104,7 +105,7 @@ public class JPanelFormToken extends javax.swing.JPanel {
         token.setUrlIcon(path);
         jLabel_avatar.setText(null);
         jLabel_avatar.setIcon(icono);
-
+        jpa.iconar(path);
     }
 
     /**
@@ -163,6 +164,7 @@ public class JPanelFormToken extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
     private Token token;
     private JFrame principal;
+    private JPanelFormToken_Accion jpa;
 
     private void cargarArhivo() {
 

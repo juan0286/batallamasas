@@ -777,7 +777,7 @@ public class AlterararToken extends javax.swing.JDialog {
             tok.getEstado().setCuerpo(Status.INCOSCIENTE);
         if (jCheckBox_postrado.isSelected())
             tok.getEstado().setPostrado(true);
-        panel_token.update();
+        panel_token.update_jTokenAction();
 
     }
 

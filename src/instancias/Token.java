@@ -47,6 +47,8 @@ public class Token implements Serializable {
     
     private String urlIcon;
     
+    private ArrayList<Arma> armas = new ArrayList<Arma>();
+    
     private ArrayList<Accion> acciones = new ArrayList<Accion>();
     
     public Token(String nombre, int nivel, String grupo, int puntosVida, Brazo manoIZQ, Brazo manoDER, Caracteristicas habilidades, ArrayList daños, Status estado, int estilo, boolean ladoIzquierdo) {

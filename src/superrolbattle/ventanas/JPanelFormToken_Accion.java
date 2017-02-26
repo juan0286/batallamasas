@@ -13,6 +13,8 @@ import instancias.properties.Status;
 import java.awt.Color;
 import java.awt.Image;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -20,6 +22,7 @@ import javax.swing.JProgressBar;
 import javax.swing.UIManager;
 import superrolbattle.Principal;
 import recursos.Recursos;
+import recursos.subprocess.UpdaterProgresBar;
 
 /**
  *
@@ -47,7 +50,7 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
         // UIManager.put("jProgressBar_vida.selectionBackground", Color.RED);
         // jProgressBar_vida.setIgnoreRepaint(true);
 
-        update();
+        update_jTokenAction();
         this.repaint();
     }
 
@@ -70,17 +73,17 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
     public void hecho() {
         if (!accion.isDone()) {
             accion.hecho(this.tipoDeAccion);
-           // updDone();
+            // updDone();
             realizarLaAccion();
             token.updateEstado();
-            update();
+            update_jTokenAction();
             Evento evt = new Evento(recursos.Recursos.evtAccion(accion, token));
             principal.publicarEvento(evt);
         }
 
     }
 
-    private void updDone() {
+    private void verComoDone() {
         this.setBackground(Color.GREEN);
         this.repaint();
     }
@@ -90,7 +93,7 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
         if (!accion.isAccionDeOportunidad()) {
             this.setBackground(new java.awt.Color(240, 240, 240));
         } else {
-            upAccOportunidad();
+            verComoAccOportunidad();
         }
         this.repaint();
     }
@@ -101,11 +104,11 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
             accion.esperarOportunidad();
             Evento e = new Evento(Recursos.evtOportunidad(token));
             principal.publicarEvento(e);
-            update();
+            update_jTokenAction();
         }
     }
 
-    private void upAccOportunidad() {
+    private void verComoAccOportunidad() {
         this.setBackground(Color.YELLOW);
         this.repaint();
     }
@@ -122,16 +125,27 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
         this.accion.setTipo(a);
     }
 
-    public void update() {
+    public void update_jTokenAction() {
 
         if (accion.isDone()) {
-            updDone();
+            verComoDone();
         }
         if (accion.isAccionDeOportunidad()) {
-            upAccOportunidad();
+            verComoAccOportunidad();
         }
-
+        int n = jProgressBar_vida.getValue() - token.getEstado().getPtsDeVidaPerdidos();
+        UpdaterProgresBar up = new UpdaterProgresBar(jProgressBar_vida, n);
+        up.start();
+        jProgressBar_vida.setString(token.vidatxt());
+        
+        /*
+        *   Para version Sin barra Movil usar el siguiente Codigo
+        */
+        /*
         jProgressBar_vida.setValue(token.getEstado().getPtsDeVidaPerdidos());
+        jProgressBar_vida.setStringPainted(true);
+        jProgressBar_vida.setString(token.vidatxt());
+        jProgressBar_vida.repaint();
 
         if (token.getEstado().getCuerpo() == Status.FIRME) {
             jProgressBar_vida.setForeground(Color.GREEN);
@@ -146,12 +160,10 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
             jProgressBar_vida.setForeground(Color.BLACK);
             dejarFueraDeCombate();
             this.setBackground(Color.BLACK);
-
+        } else if (token.getEstado().getCuerpo() != Status.MUERTO) {
+            jTextArea_estado.setBackground(new java.awt.Color(204, 255, 204));
         }
-        jProgressBar_vida.setStringPainted(true);
-        jProgressBar_vida.setString(token.vidatxt());
-        jProgressBar_vida.repaint();
-
+        */
         if (token.getEstado().menteEstado() == Status.MENTE_ATURDIDO) {
             jTextArea_estado.setBackground(Color.YELLOW);
         } else if (token.getEstado().menteEstado() == Status.MENTE_ATURDIDO_Y_SIN_PODER_PARAR) {
@@ -184,14 +196,13 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
         this.repaint();
     }
 
-    public void iconar(String path) {
+    
 
-        URL url = this.getClass().getResource(path);
-        ImageIcon fot = new ImageIcon(url);
-        int w = 90;
-        int h = 27;
-        Icon icono = new ImageIcon(fot.getImage().getScaledInstance(w, h, Image.SCALE_DEFAULT));
-        //jTextPane_estado.setIcon(icono);
+    public void iconar(String path) { 
+        ImageIcon icon = new ImageIcon(path);
+        Icon icono = new ImageIcon(icon.getImage().getScaledInstance(81, 65, Image.SCALE_DEFAULT));
+        jLabel_icono.setText(null);
+        jLabel_icono.setIcon(icono);        
         this.repaint();
 
     }
@@ -260,17 +271,22 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         jLabel_Nombre = new javax.swing.JLabel();
         jProgressBar_vida = new javax.swing.JProgressBar();
         jPanel_general = new javax.swing.JPanel();
         jPanel_estado = new javax.swing.JPanel();
         jTextArea_estado = new javax.swing.JTextArea();
+        jPanel_Icono = new javax.swing.JPanel();
+        jLabel_icono = new javax.swing.JLabel();
+        jPanel_Accion = new javax.swing.JPanel();
+        jTextArea_Desc_accion = new javax.swing.JTextArea();
 
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
         setToolTipText("<html>\nEstado: Incosnciente<br/>\nSalud 15 pv  / 230pv<br/>\nBo: 134<br/>\nBd: 20<br/>\nArmadra: Cota de malla 14<br/>\nArma: Espada Doble Filo\n</html>");
-        setMaximumSize(new java.awt.Dimension(136, 96));
-        setMinimumSize(new java.awt.Dimension(90, 96));
-        setPreferredSize(new java.awt.Dimension(136, 96));
+        setMaximumSize(new java.awt.Dimension(250, 93));
+        setMinimumSize(new java.awt.Dimension(250, 93));
+        setPreferredSize(new java.awt.Dimension(250, 93));
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 formMouseClicked(evt);
@@ -279,8 +295,10 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.PAGE_AXIS));
 
         jLabel_Nombre.setText("Nombre");
-        add(jLabel_Nombre);
-        add(jProgressBar_vida);
+        jPanel1.add(jLabel_Nombre);
+        jPanel1.add(jProgressBar_vida);
+
+        add(jPanel1);
 
         jPanel_general.setBackground(new java.awt.Color(204, 255, 204));
         jPanel_general.setLayout(new java.awt.GridLayout(1, 2, 1, 1));
@@ -290,10 +308,30 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
 
         jTextArea_estado.setEditable(false);
         jTextArea_estado.setColumns(20);
+        jTextArea_estado.setFont(new java.awt.Font("MS PGothic", 0, 10)); // NOI18N
         jTextArea_estado.setRows(5);
         jPanel_estado.add(jTextArea_estado);
 
         jPanel_general.add(jPanel_estado);
+
+        jPanel_Icono.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel_Icono.setLayout(new javax.swing.BoxLayout(jPanel_Icono, javax.swing.BoxLayout.LINE_AXIS));
+
+        jLabel_icono.setText("Icono");
+        jPanel_Icono.add(jLabel_icono);
+
+        jPanel_general.add(jPanel_Icono);
+
+        jPanel_Accion.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel_Accion.setLayout(new javax.swing.BoxLayout(jPanel_Accion, javax.swing.BoxLayout.LINE_AXIS));
+
+        jTextArea_Desc_accion.setEditable(false);
+        jTextArea_Desc_accion.setColumns(20);
+        jTextArea_Desc_accion.setFont(new java.awt.Font("MS PGothic", 0, 10)); // NOI18N
+        jTextArea_Desc_accion.setRows(5);
+        jPanel_Accion.add(jTextArea_Desc_accion);
+
+        jPanel_general.add(jPanel_Accion);
 
         add(jPanel_general);
     }// </editor-fold>//GEN-END:initComponents
@@ -320,34 +358,40 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
             }
         } else if (principal.faseActual() == principal.BUTTONFASE_DESARROLLO) {
 
-            if (ctrl && tipoDeAccion >= principal.asaltoFase && !accion.isDone()) {                
-                if (token.getLastAction().isCambioDeAccion())
+            if (ctrl && tipoDeAccion >= principal.asaltoFase && !accion.isDone()) {
+                if (token.getLastAction().isCambioDeAccion()) {
                     recursos.Recursos.informar("Ya se cambio de Accion en este Asalto");
-                else
+                } else {
                     a = DeclaraAccion.DeclararAccion(principal, true, this, DeclaraAccion.MODO_CAMBIO_DE_ACCION);
-                if (a!= null){
+                }
+                if (a != null) {
                     a.setCambioDeAccion(true);
                     principal.creaEvento(token.getNombre() + " Cambia de Accion");
                 }
             } else if (clickDerecho) {
                 AlterararToken dt = new AlterararToken(principal, true, this);
                 dt.setVisible(true);
-                if (token.getEstado().isAturdido()) 
+                if (token.getEstado().isAturdido() && !accion.isDone()) {
                     a = DeclaraAccion.DeclararAccion(principal, true, this, DeclaraAccion.MODO_ATURDIDO);
-                
+                }
+
             } else if (!accion.isDone() && principal.asaltoFase == this.tipoDeAccion) {
                 if (shift) {
                     esperarOportunidad();
                 } else {
                     this.hecho();
                 }
-            } else if (accion.isAccionDeOportunidad())
+            } else if (accion.isAccionDeOportunidad()) {
                 this.hecho();
+            }
 
         }
         if (a != null) {
             accion = a;
             tipoDeAccion = a.getTipo();
+            jTextArea_Desc_accion.setText(a.getFullDescp());
+            jTextArea_Desc_accion.setToolTipText(a.getFullDescp());
+            
             mover(accion.getTipo());
         }
     }
@@ -363,9 +407,14 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel_Nombre;
+    private javax.swing.JLabel jLabel_icono;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel_Accion;
+    private javax.swing.JPanel jPanel_Icono;
     private javax.swing.JPanel jPanel_estado;
     private javax.swing.JPanel jPanel_general;
     private javax.swing.JProgressBar jProgressBar_vida;
+    private javax.swing.JTextArea jTextArea_Desc_accion;
     private javax.swing.JTextArea jTextArea_estado;
     // End of variables declaration//GEN-END:variables
 

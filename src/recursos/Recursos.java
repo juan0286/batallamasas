@@ -32,6 +32,7 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 import superrolbattle.Principal;
+import superrolbattle.ventanas.JPanelFormToken_Accion;
 
 /**
  *
@@ -320,8 +321,8 @@ public class Recursos {
             }
         }
         return obj;
-    }
-
+    }           
+    
     public static String getHexaColor(Color color) {
         return "#" + Integer.toHexString(color.getRGB()).substring(2);
     }

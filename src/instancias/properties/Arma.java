@@ -32,8 +32,7 @@ public class Arma implements Serializable{
     static final public  int CLASE_MAZA = 13;
     static final public  int CLASE_LANZA_CABALLERIA = 14;
     static final public  int CLASE_ROMPE_CABEZAS = 15;
-    static final public  int CLASE_ESCUDO = 16;
-    
+    static final public  int CLASE_ESCUDO = 16;   
     
    
     //TIPO 
@@ -47,6 +46,8 @@ public class Arma implements Serializable{
     static final public  int ESTADO_DETERIOROADA = 15;
     static final public  int ESTADO_VIEJA = 15;
     static final public  int ESTADO_COMO_nueva = 15;
+    
+    
     public Arma() {
     }
 
@@ -60,13 +61,17 @@ public class Arma implements Serializable{
         this.dosManos = manos;
     }
 
+    public Arma(String Nombre, int tipo, int bono, int clase, boolean dosManos, Bo bo) {
+        this.Nombre = Nombre;
+        this.tipo = tipo;
+        this.bono = bono;
+        this.clase = clase;
+        this.dosManos = dosManos;
+        this.bo = bo;
+    }
+
     
     
-    private String Nombre;
-    private int tipo;
-    private int bono;
-    private int clase;
-    private boolean dosManos;
 
     /**
      * @return the tipo
@@ -125,6 +130,21 @@ public class Arma implements Serializable{
         this.dosManos = manos;
     }
 
+    public void setDosManos(boolean dosManos) {
+        this.dosManos = dosManos;
+    }
+
+    public void setBo(Bo bo) {
+        this.bo = bo;
+    }
+
     
+    
+    private String Nombre;
+    private int tipo;
+    private int bono;
+    private int clase;
+    private boolean dosManos;
+    private Bo bo;
 
 }

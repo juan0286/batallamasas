@@ -115,7 +115,7 @@ public class Sortilegio implements Serializable {
 
     @Override
     public String toString() {
-        return nombre + "(lv " + lv + ")";
+        return nombre + " (lv " + lv + ")";
     }
 
     public int getId() {

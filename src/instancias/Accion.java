@@ -37,6 +37,7 @@ public class Accion implements Serializable{
   private String Dificultad ;
   private Sortilegio sort_intencion;
   private String Descp;
+  private String fullDescp;
   
 
     public Accion(int tipo, int nro_Asalto, int orden) {
@@ -151,6 +152,14 @@ public class Accion implements Serializable{
         this.Descp = Descp;
     }
 
-    
+    public String getFullDescp() {
+        return fullDescp;
+    }
+
+    public void setFullDescp(String fullDescp) {
+        this.fullDescp = fullDescp;
+    }
+
+   
   
 }

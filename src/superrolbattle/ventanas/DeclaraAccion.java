@@ -43,7 +43,9 @@ public class DeclaraAccion extends javax.swing.JDialog {
 
         jComboBox_sotilegios.setModel(new DefaultComboBoxModel(token.getSortilegios().toArray()));
         jComboBox_sotilegios1.setModel(new DefaultComboBoxModel(token.getSortilegios().toArray()));
-
+        
+        jSlider_Bo.setMaximum(token.getHabilidades().getBo_pri());
+        
         if (modo == MODO_ATURDIDO) {
             jTabbedPane_SeleccionAccion.setEnabledAt(0, false);
             jTabbedPane_SeleccionAccion.setEnabledAt(1, false);
@@ -212,7 +214,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jTextField4 = new javax.swing.JTextField();
         jPanel17 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
-        jTextField7 = new javax.swing.JTextField();
+        jTextField_Bo = new javax.swing.JTextField();
         jTextField8 = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jSlider_Bo = new javax.swing.JSlider();
@@ -665,21 +667,21 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jPanel17.setMaximumSize(new java.awt.Dimension(32767, 159));
         jPanel17.setMinimumSize(new java.awt.Dimension(133, 100));
         jPanel17.setPreferredSize(new java.awt.Dimension(201, 40));
-        jPanel17.setLayout(new java.awt.GridLayout());
+        jPanel17.setLayout(new java.awt.GridLayout(1, 0));
 
         jPanel14.setMaximumSize(new java.awt.Dimension(72, 100));
         jPanel14.setPreferredSize(new java.awt.Dimension(70, 40));
         jPanel14.setLayout(new javax.swing.BoxLayout(jPanel14, javax.swing.BoxLayout.LINE_AXIS));
 
-        jTextField7.setEditable(false);
-        jTextField7.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField7.setText("Bo 120");
-        jTextField7.addActionListener(new java.awt.event.ActionListener() {
+        jTextField_Bo.setEditable(false);
+        jTextField_Bo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextField_Bo.setText("Bo 120");
+        jTextField_Bo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField7ActionPerformed(evt);
+                jTextField_BoActionPerformed(evt);
             }
         });
-        jPanel14.add(jTextField7);
+        jPanel14.add(jTextField_Bo);
 
         jTextField8.setEditable(false);
         jTextField8.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -694,13 +696,18 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jPanel17.add(jPanel14);
 
         jPanel1.setPreferredSize(new java.awt.Dimension(100, 40));
-        jPanel1.setLayout(new java.awt.GridLayout());
+        jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
         jSlider_Bo.setForeground(new java.awt.Color(102, 102, 102));
         jSlider_Bo.setMajorTickSpacing(25);
         jSlider_Bo.setPaintLabels(true);
         jSlider_Bo.setPaintTicks(true);
         jSlider_Bo.setPreferredSize(new java.awt.Dimension(200, 35));
+        jSlider_Bo.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSlider_BoStateChanged(evt);
+            }
+        });
         jPanel1.add(jSlider_Bo);
 
         jPanel17.add(jPanel1);
@@ -715,7 +722,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jPanel_Desplazamiento_tabPanel.setMinimumSize(new java.awt.Dimension(300, 100));
         jPanel_Desplazamiento_tabPanel.setPreferredSize(new java.awt.Dimension(300, 100));
 
-        jPanel_distancia2.setLayout(new java.awt.GridLayout());
+        jPanel_distancia2.setLayout(new java.awt.GridLayout(1, 0));
 
         jLabel_distancia2.setText("  Distancia  ");
         jPanel_distancia2.add(jLabel_distancia2);
@@ -787,9 +794,9 @@ public class DeclaraAccion extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
+    private void jTextField_BoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_BoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField7ActionPerformed
+    }//GEN-LAST:event_jTextField_BoActionPerformed
 
     private void jComboBoxArmasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxArmasItemStateChanged
 
@@ -828,6 +835,10 @@ public class DeclaraAccion extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField8ActionPerformed
 
+    private void jSlider_BoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider_BoStateChanged
+       jTextField_Bo.setText("BO: " + jSlider_Bo.getValue());
+    }//GEN-LAST:event_jSlider_BoStateChanged
+
     private void nuevoSortilegio() {
         int sa = token_accion.getToken().getSortilegios().size();
         int s = NuevoSortilegio.DeclararAccion(principal, true, token_accion.getToken());
@@ -850,13 +861,13 @@ public class DeclaraAccion extends javax.swing.JDialog {
     private void actualizarSortilegio() {
         if (jComboBox_sotilegios.getItemCount() > 0) {
             Sortilegio s = (Sortilegio) jComboBox_sotilegios.getSelectedItem();
-            
+
             jTextField_Dominio_sort.setText(s.getDominioStr());
             jTextField_Dominio_sort1.setText(s.getDominioStr());
-            
+
             jTextField_lv_sort.setText(s.getLv() + "");
             jTextField_lv_sort1.setText(s.getLv() + "");
-            
+
             jPanel_carga_sort_nombre.setToolTipText(s.getDescp());
             jPanel_carga_sort_nombre1.setToolTipText(s.getDescp());
 
@@ -864,7 +875,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
             jPanel_carga_sort_datos1.setToolTipText(s.getDescp());
 
             jCheckBox_consume_sort.setSelected(s.isConsumePP());
-            jCheckBox_consume_sort1.setSelected(s.isConsumePP());            
+            jCheckBox_consume_sort1.setSelected(s.isConsumePP());
 
             jTextField_alcance_sort.setText(s.getAlcance());
             jTextField_alcance_sort1.setText(s.getAlcance());
@@ -873,9 +884,26 @@ public class DeclaraAccion extends javax.swing.JDialog {
 
     private Accion declarar() {
 
+        Token token = token_accion.getToken();
+
+        // Busco si tiene sortilegio Cargado
+        int sort_anterior = -1;
+        String str_carga = "";
+
+        if (token.isSortiCargado()) {
+            Object[] o = (Object[]) token.getSortilegioCargado();
+            int cargas = (Integer) o[0];
+            Sortilegio s = (Sortilegio) o[1];
+            sort_anterior = s.getId();
+            int bono = (Integer) o[2];
+            str_carga = "\nCarga " + cargas + " (" + bono + ")";
+        }
+
         int tipoAcion = this.jTabbedPane_SeleccionAccion.getSelectedIndex() + 1;
         Accion acc = null;
         int orden = 1;
+        String fullDesc = "";
+
         switch (tipoAcion) {
             case Accion.TIPO_SIN_ACCION: {
 
@@ -883,12 +911,20 @@ public class DeclaraAccion extends javax.swing.JDialog {
             }
             case Accion.TIPO_CARGA_SORTILEGIO: {
                 Sortilegio sort_intencion = (Sortilegio) jComboBox_sotilegios.getSelectedItem();
-                if (sort_intencion == null) {
-                    recursos.Recursos.informar("Debe seleccionar un sortilegio");
-                } else {
+                if (sort_intencion != null) {
                     acc = new Accion(tipoAcion, principal.getAsaltoActual(), orden);
                     acc.setSort_intencion(sort_intencion);
-                    //token_accion.intentarSortilegio(sort_intencion);
+                    //token_accion.intentarSortilegio(sort_intencion);                   
+
+                    fullDesc += acc.getSort_intencion().toString();
+                    if (sort_intencion.getId() == sort_anterior) {
+                        fullDesc += str_carga + "\n" ;
+                    }
+                    fullDesc += jTextArea_desc.getText();
+
+                } else {
+                    recursos.Recursos.informar("Debe seleccionar un sortilegio");
+
                 }
                 break;
             }
@@ -899,45 +935,58 @@ public class DeclaraAccion extends javax.swing.JDialog {
                 } else {
                     acc = new Accion(tipoAcion, principal.getAsaltoActual(), orden);
                     acc.setSort_intencion(sort_intencion);
-                    //token_accion.intentarSortilegio(sort_intencion);
+                    //token_accion.intentarSortilegio(sort_intencion);                    
+
+                    fullDesc += acc.getSort_intencion().toString();
+                    if (sort_intencion.getId() == sort_anterior) {
+                        fullDesc += str_carga + "\n" ;
+                    }
+                    fullDesc +=  jTextArea_desc.getText();
                 }
                 break;
             }
             case Accion.TIPO_DISPARA_PROYECTIL: {
                 acc = new Accion(tipoAcion, principal.getAsaltoActual(), orden);
-
+                fullDesc +=  jTextArea_desc.getText();
                 break;
             }
             case Accion.TIPO_CARGA_PROYECTIL: {
                 acc = new Accion(tipoAcion, principal.getAsaltoActual(), orden);
-
+                fullDesc +=  jTextArea_desc.getText();
                 break;
             }
             case Accion.TIPO_PARAR_PROYECTIL: {
                 acc = new Accion(tipoAcion, principal.getAsaltoActual(), orden);
+                fullDesc +=  jTextArea_desc.getText();
                 break;
             }
             case Accion.TIPO_MOVIMIENTO_Y_MANIOBRA: {
                 acc = new Accion(tipoAcion, principal.getAsaltoActual(), orden);
+                fullDesc +=  jTextArea_desc.getText();
                 break;
             }
             case Accion.TIPO_ATAQUE_CUERPO_A_CUERPO: {
                 acc = new Accion(tipoAcion, principal.getAsaltoActual(), orden);
+                fullDesc +=  jTextArea_desc.getText();
                 break;
             }
             case Accion.TIPO_DESPLAZAMIENTO: {
                 acc = new Accion(tipoAcion, principal.getAsaltoActual(), orden);
+                fullDesc +=  jTextArea_desc.getText();
                 break;
             }
             case Accion.TIPO_MOVIMIENTO_ESTATICO: {
                 acc = new Accion(tipoAcion, principal.getAsaltoActual(), orden);
+                fullDesc += "\n" + jTextArea_desc.getText();
                 break;
             }
             default: {
                 acc = new Accion(tipoAcion, principal.getAsaltoActual(), orden);
+                fullDesc +=  jTextArea_desc.getText();
                 break;
             }
         }
+        acc.setFullDescp(fullDesc);
         acc.setDescp(jTextArea_desc.getText());
         accionSeleccionada = acc;
         return accionSeleccionada = acc;
@@ -1037,9 +1086,9 @@ public class DeclaraAccion extends javax.swing.JDialog {
     private javax.swing.JTextField jTextField19;
     private javax.swing.JTextField jTextField20;
     private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JTextField jTextField_Bo;
     private javax.swing.JTextField jTextField_Dominio_sort;
     private javax.swing.JTextField jTextField_Dominio_sort1;
     private javax.swing.JTextField jTextField_alcance_sort;
