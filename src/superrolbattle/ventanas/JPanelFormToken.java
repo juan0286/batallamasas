@@ -80,8 +80,8 @@ public class JPanelFormToken extends javax.swing.JPanel {
                 + "Actividad: " + token.getEstado().getActividad() + "<br/>"
                 + "Bo Actual: " + token.boDisponibleAtaque() + "<br/>"
                 + "Bd Actual: " + token.getHabilidades().getBd() + "<br/>"
-                + "Equipo: " + token.getManoDER().getArmaEquipada().getNombre() + "<br/>"
-                + "" + token.getManoIZQ().getArmaEquipada().getNombre() + "<br/>"
+                //+ "Equipo: " + token.getManoDER().getArmaEquipada().getNombre() + "<br/>"
+                //+ "" + token.getManoIZQ().getArmaEquipada().getNombre() + "<br/>"
                 + "</html>";
         this.setToolTipText(tooltip);
 

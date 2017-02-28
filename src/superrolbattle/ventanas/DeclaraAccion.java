@@ -11,6 +11,7 @@ import instancias.Token;
 import java.awt.Color;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
+import recursos.Constantes;
 import superrolbattle.Principal;
 
 /**
@@ -34,18 +35,22 @@ public class DeclaraAccion extends javax.swing.JDialog {
         super(parent, modal);
         this.token_accion = token_accion;
         this.principal = parent;
-        initComponents();
-        Token token = token_accion.getToken();
 
+        Token token = token_accion.getToken();
+        initComponents();
         this.setTitle("Acciones de " + token.getNombre());
 
         int tipo = token.getLastAction().getTipo();
 
         jComboBox_sotilegios.setModel(new DefaultComboBoxModel(token.getSortilegios().toArray()));
         jComboBox_sotilegios1.setModel(new DefaultComboBoxModel(token.getSortilegios().toArray()));
-        
-        jSlider_Bo.setMaximum(token.getHabilidades().getBo_pri());
-        
+
+        jComboBoxArmas.addItem(token.getManoDER().getArmaEquipada().toString());
+        jComboBoxArmas.addItem(token.getManoIZQ().getArmaEquipada().toString());
+        jSlider_Bo.setMaximum(token.boDisponible());
+        jSlider_Bo.setToolTipText("bo Maxima = " + token.getHabilidades().getBo_pri());
+        // jSlider_Bo.setMajorTickSpacing();
+
         if (modo == MODO_ATURDIDO) {
             jTabbedPane_SeleccionAccion.setEnabledAt(0, false);
             jTabbedPane_SeleccionAccion.setEnabledAt(1, false);
@@ -59,34 +64,34 @@ public class DeclaraAccion extends javax.swing.JDialog {
             jSlider_Bo.setEnabled(false);
 
         } else if (modo == MODO_FUERA_DE_COMBATE) {
-            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_SIN_ACCION - 1, false);
-            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_CARGA_PROYECTIL - 1, false);
-            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_CARGA_SORTILEGIO - 1, false);
-            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_ATAQUE_CUERPO_A_CUERPO - 1, false);
-            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_DESPLAZAMIENTO - 1, false);
-            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_PARAR_PROYECTIL - 1, false);
-            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_MOVIMIENTO_Y_MANIOBRA - 1, false);
-            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_DISPARA_PROYECTIL - 1, false);
-            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_MOVIMIENTO_ESTATICO - 1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Constantes.TIPO_ACCION_SIN_ACCION - 1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Constantes.TIPO_ACCION_CARGA_PROYECTIL - 1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Constantes.TIPO_ACCION_CARGA_SORTILEGIO - 1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Constantes.TIPO_ACCION_ATAQUE_CUERPO_A_CUERPO - 1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Constantes.TIPO_ACCION_DESPLAZAMIENTO - 1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Constantes.TIPO_ACCION_PARAR_PROYECTIL - 1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Constantes.TIPO_ACCION_MOVIMIENTO_Y_MANIOBRA - 1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Constantes.TIPO_ACCION_DISPARA_PROYECTIL - 1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Constantes.TIPO_ACCION_MOVIMIENTO_ESTATICO - 1, false);
             jTabbedPane_SeleccionAccion.setSelectedIndex(1);
         }
-        if (tipo > Accion.TIPO_SIN_ACCION) {
+        if (tipo > Constantes.TIPO_ACCION_SIN_ACCION) {
 
         } else if (modo == MODO_CAMBIO_DE_ACCION) {
-            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_CARGA_SORTILEGIO - 1, false);
-            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_REALIZA_SORTILEGIO - 1, false);
-            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_DISPARA_PROYECTIL - 1, false);
-            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_CARGA_PROYECTIL - 1, false);
-            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_PARAR_PROYECTIL - 1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Constantes.TIPO_ACCION_CARGA_SORTILEGIO - 1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Constantes.TIPO_ACCION_REALIZA_SORTILEGIO - 1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Constantes.TIPO_ACCION_DISPARA_PROYECTIL - 1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Constantes.TIPO_ACCION_CARGA_PROYECTIL - 1, false);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Constantes.TIPO_ACCION_PARAR_PROYECTIL - 1, false);
             //jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_MOVIMIENTO_Y_MANIOBRA-1, false);
             jTextField_bono_mm.setText("" + -30);
             //jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_ATAQUE_CUERPO_A_CUERPO-1, false);
             jSlider_Bo.setValue(50);
             //jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_DESPLAZAMIENTO-1, false);
-            jTabbedPane_SeleccionAccion.setEnabledAt(Accion.TIPO_MOVIMIENTO_ESTATICO - 1, false);
-            jTabbedPane_SeleccionAccion.setSelectedIndex(Accion.TIPO_ATAQUE_CUERPO_A_CUERPO - 1);
+            jTabbedPane_SeleccionAccion.setEnabledAt(Constantes.TIPO_ACCION_MOVIMIENTO_ESTATICO - 1, false);
+            jTabbedPane_SeleccionAccion.setSelectedIndex(Constantes.TIPO_ACCION_ATAQUE_CUERPO_A_CUERPO - 1);
         }
-        if (tipo > Accion.TIPO_SIN_ACCION) {
+        if (tipo > Constantes.TIPO_ACCION_SIN_ACCION) {
             jTabbedPane_SeleccionAccion.setSelectedIndex(tipo - 1);
         }
         if (token.getSortilegios().size() > 0) {
@@ -124,6 +129,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel19 = new javax.swing.JPanel();
         buttonGroup2 = new javax.swing.ButtonGroup();
+        buttonGroup3 = new javax.swing.ButtonGroup();
         jTabbedPane_SeleccionAccion = new javax.swing.JTabbedPane();
         jPanel_Carga_Sortilegio_tabPanel1 = new javax.swing.JPanel();
         jPanel20 = new javax.swing.JPanel();
@@ -636,10 +642,12 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jPanel16.setPreferredSize(new java.awt.Dimension(201, 38));
         jPanel16.setLayout(new javax.swing.BoxLayout(jPanel16, javax.swing.BoxLayout.LINE_AXIS));
 
+        buttonGroup3.add(jRadioButton_brazoD);
         jRadioButton_brazoD.setSelected(true);
         jRadioButton_brazoD.setText("Brazo D");
         jPanel16.add(jRadioButton_brazoD);
 
+        buttonGroup3.add(jRadioButton_brazoI);
         jRadioButton_brazoI.setText("Brazo I (-30)");
         jPanel16.add(jRadioButton_brazoI);
 
@@ -649,6 +657,8 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jPanel4.add(jLabel_distancia);
 
         jSpinner_distancia.setModel(new javax.swing.SpinnerNumberModel(3, 3, null, 3));
+        jSpinner_distancia.setMinimumSize(new java.awt.Dimension(61, 20));
+        jSpinner_distancia.setPreferredSize(new java.awt.Dimension(61, 20));
         jPanel4.add(jSpinner_distancia);
 
         jTextField4.setEditable(false);
@@ -675,7 +685,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
 
         jTextField_Bo.setEditable(false);
         jTextField_Bo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField_Bo.setText("Bo 120");
+        jTextField_Bo.setText("BO ");
         jTextField_Bo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField_BoActionPerformed(evt);
@@ -685,7 +695,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
 
         jTextField8.setEditable(false);
         jTextField8.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField8.setText("Bd 34");
+        jTextField8.setText("BD");
         jTextField8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField8ActionPerformed(evt);
@@ -699,7 +709,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
         jSlider_Bo.setForeground(new java.awt.Color(102, 102, 102));
-        jSlider_Bo.setMajorTickSpacing(25);
+        jSlider_Bo.setMajorTickSpacing(token_accion.getToken().getHabilidades().getBo_pri() / 8);
         jSlider_Bo.setPaintLabels(true);
         jSlider_Bo.setPaintTicks(true);
         jSlider_Bo.setPreferredSize(new java.awt.Dimension(200, 35));
@@ -836,7 +846,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
     }//GEN-LAST:event_jTextField8ActionPerformed
 
     private void jSlider_BoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider_BoStateChanged
-       jTextField_Bo.setText("BO: " + jSlider_Bo.getValue());
+        moverBo();
     }//GEN-LAST:event_jSlider_BoStateChanged
 
     private void nuevoSortilegio() {
@@ -905,12 +915,12 @@ public class DeclaraAccion extends javax.swing.JDialog {
         String fullDesc = "";
 
         switch (tipoAcion) {
-            case Accion.TIPO_SIN_ACCION: {
+            case Constantes.TIPO_ACCION_SIN_ACCION: {
 
                 break;
             }
-            case Accion.TIPO_CARGA_SORTILEGIO: {
-                Sortilegio sort_intencion = (Sortilegio) jComboBox_sotilegios.getSelectedItem();
+            case Constantes.TIPO_ACCION_CARGA_SORTILEGIO: {
+                Sortilegio sort_intencion = (Sortilegio) jComboBox_sotilegios1.getSelectedItem();
                 if (sort_intencion != null) {
                     acc = new Accion(tipoAcion, principal.getAsaltoActual(), orden);
                     acc.setSort_intencion(sort_intencion);
@@ -918,7 +928,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
 
                     fullDesc += acc.getSort_intencion().toString();
                     if (sort_intencion.getId() == sort_anterior) {
-                        fullDesc += str_carga + "\n" ;
+                        fullDesc += str_carga + "\n";
                     }
                     fullDesc += jTextArea_desc.getText();
 
@@ -928,7 +938,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
                 }
                 break;
             }
-            case Accion.TIPO_REALIZA_SORTILEGIO: {
+            case Constantes.TIPO_ACCION_REALIZA_SORTILEGIO: {
                 Sortilegio sort_intencion = (Sortilegio) jComboBox_sotilegios.getSelectedItem();
                 if (sort_intencion == null) {
                     recursos.Recursos.informar("Debe seleccionar un sortilegio");
@@ -939,50 +949,52 @@ public class DeclaraAccion extends javax.swing.JDialog {
 
                     fullDesc += acc.getSort_intencion().toString();
                     if (sort_intencion.getId() == sort_anterior) {
-                        fullDesc += str_carga + "\n" ;
+                        fullDesc += str_carga + "\n";
                     }
-                    fullDesc +=  jTextArea_desc.getText();
+                    fullDesc += jTextArea_desc.getText();
                 }
                 break;
             }
-            case Accion.TIPO_DISPARA_PROYECTIL: {
+            case Constantes.TIPO_ACCION_DISPARA_PROYECTIL: {
                 acc = new Accion(tipoAcion, principal.getAsaltoActual(), orden);
-                fullDesc +=  jTextArea_desc.getText();
+                fullDesc += jTextArea_desc.getText();
                 break;
             }
-            case Accion.TIPO_CARGA_PROYECTIL: {
+            case Constantes.TIPO_ACCION_CARGA_PROYECTIL: {
                 acc = new Accion(tipoAcion, principal.getAsaltoActual(), orden);
-                fullDesc +=  jTextArea_desc.getText();
+                fullDesc += jTextArea_desc.getText();
                 break;
             }
-            case Accion.TIPO_PARAR_PROYECTIL: {
+            case Constantes.TIPO_ACCION_PARAR_PROYECTIL: {
                 acc = new Accion(tipoAcion, principal.getAsaltoActual(), orden);
-                fullDesc +=  jTextArea_desc.getText();
+                fullDesc += jTextArea_desc.getText();
                 break;
             }
-            case Accion.TIPO_MOVIMIENTO_Y_MANIOBRA: {
+            case Constantes.TIPO_ACCION_MOVIMIENTO_Y_MANIOBRA: {
                 acc = new Accion(tipoAcion, principal.getAsaltoActual(), orden);
-                fullDesc +=  jTextArea_desc.getText();
+                fullDesc += jTextArea_desc.getText();
                 break;
             }
-            case Accion.TIPO_ATAQUE_CUERPO_A_CUERPO: {
+            case Constantes.TIPO_ACCION_ATAQUE_CUERPO_A_CUERPO: {
                 acc = new Accion(tipoAcion, principal.getAsaltoActual(), orden);
-                fullDesc +=  jTextArea_desc.getText();
+                fullDesc += "Ataca con " + token.getManoDER().getArmaEquipada().toString();
+                fullDesc += "\n" + jTextField_Bo.getText() + " / " + jTextField8.getText();
+                fullDesc += "\n" + jTextArea_desc.getText();
                 break;
             }
-            case Accion.TIPO_DESPLAZAMIENTO: {
+            case Constantes.TIPO_ACCION_DESPLAZAMIENTO: {
                 acc = new Accion(tipoAcion, principal.getAsaltoActual(), orden);
-                fullDesc +=  jTextArea_desc.getText();
+                fullDesc += jTextArea_desc.getText();
                 break;
             }
-            case Accion.TIPO_MOVIMIENTO_ESTATICO: {
+            case Constantes.TIPO_ACCION_MOVIMIENTO_ESTATICO: {
                 acc = new Accion(tipoAcion, principal.getAsaltoActual(), orden);
                 fullDesc += "\n" + jTextArea_desc.getText();
                 break;
             }
             default: {
                 acc = new Accion(tipoAcion, principal.getAsaltoActual(), orden);
-                fullDesc +=  jTextArea_desc.getText();
+                fullDesc += jTextArea_desc.getText();
                 break;
             }
         }
@@ -992,9 +1004,17 @@ public class DeclaraAccion extends javax.swing.JDialog {
         return accionSeleccionada = acc;
     }
 
+    private void moverBo() {
+        jTextField_Bo.setText("BO " + jSlider_Bo.getValue());
+        int paraLaBd = jSlider_Bo.getMaximum() - jSlider_Bo.getValue();
+        jTextField8.setText("BD " + (token_accion.getToken().getHabilidades().getBd() + paraLaBd));
+
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton_cancelar;

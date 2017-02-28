@@ -40,11 +40,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.JViewport;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import recursos.AbrirGuardar;
 import recursos.CargaBase;
+import recursos.Constantes;
 import recursos.DataRecursos;
 import recursos.Recursos;
 import static recursos.Recursos.guardarConfig;
@@ -63,6 +65,17 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
+        jPanel_SinAcciones_panel.getVerticalScrollBar().setUnitIncrement(110);
+        jPanel_SinAcciones_panel1.getVerticalScrollBar().setUnitIncrement(110);
+        jPanel_SinAcciones_panel2.getVerticalScrollBar().setUnitIncrement(110);
+        jPanel_SinAcciones_panel3.getVerticalScrollBar().setUnitIncrement(110);
+        jPanel_SinAcciones_panel4.getVerticalScrollBar().setUnitIncrement(110);
+        jPanel_SinAcciones_panel5.getVerticalScrollBar().setUnitIncrement(110);
+        jPanel_SinAcciones_panel6.getVerticalScrollBar().setUnitIncrement(110);
+        jPanel_SinAcciones_panel7.getVerticalScrollBar().setUnitIncrement(110);
+        jPanel_SinAcciones_panel8.getVerticalScrollBar().setUnitIncrement(110);
+        
+        jScrollPane_asaltos.getHorizontalScrollBar().setUnitIncrement(250);
         Toolkit t = Toolkit.getDefaultToolkit();
         //Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         // int hd = screenSize.width-2;
@@ -130,11 +143,13 @@ public class Principal extends javax.swing.JFrame {
         jPanel_Titulo_cargaSortilegios = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jButton_avanzarFaseAsalto1 = new javax.swing.JButton();
+        jPanel_SinAcciones_panel1 = new javax.swing.JScrollPane();
         jPanel_campo_CargaSortilegios = new javax.swing.JPanel();
         jPanel_RealizaSortilegios = new javax.swing.JPanel();
         jPanel_Titulo_RealizaSortilegios = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jButton_avanzarFaseAsalto2 = new javax.swing.JButton();
+        jPanel_SinAcciones_panel2 = new javax.swing.JScrollPane();
         jPanel_RealizaSortilegios_campo = new javax.swing.JPanel();
         jPanel_LanzaProyectiles = new javax.swing.JPanel();
         jPanel_Titulo_DisparaProyectiles = new javax.swing.JPanel();
@@ -146,31 +161,37 @@ public class Principal extends javax.swing.JFrame {
         jPanel_Titulo_cargaProyectiles = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jButton_avanzarFaseAsalto4 = new javax.swing.JButton();
+        jPanel_SinAcciones_panel3 = new javax.swing.JScrollPane();
         jPanel_CargaProyectiles_campo = new javax.swing.JPanel();
         jPanel_PararProyectiles = new javax.swing.JPanel();
         jPanel_Titulo_PararProyectiles = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jButton_avanzarFaseAsalto5 = new javax.swing.JButton();
+        jPanel_SinAcciones_panel4 = new javax.swing.JScrollPane();
         jPanel_PararProyectiles_campo = new javax.swing.JPanel();
         jPanel_movimientoYmaniobra = new javax.swing.JPanel();
         jPanel_Titulo_movimientoYmaniobra = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jButton_avanzarFaseAsalto6 = new javax.swing.JButton();
+        jPanel_SinAcciones_panel5 = new javax.swing.JScrollPane();
         jPanel_movimientoYmaniobra_campo = new javax.swing.JPanel();
         jPanel_AtaqueCuerpoaCuerpo = new javax.swing.JPanel();
         jPanel_Titulo_AtaqueCuerpoaCuerpo = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jButton_avanzarFaseAsalto7 = new javax.swing.JButton();
+        jPanel_SinAcciones_panel6 = new javax.swing.JScrollPane();
         jPanel_AtaqueCuerpoaCuerpo_campo = new javax.swing.JPanel();
         jPanel_Movimiento = new javax.swing.JPanel();
         jPanel_Titulo_Movimiento = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jButton_avanzarFaseAsalto8 = new javax.swing.JButton();
+        jPanel_SinAcciones_panel7 = new javax.swing.JScrollPane();
         jPanel_Movimiento_campo = new javax.swing.JPanel();
         jPanel_MovimientoEstatico = new javax.swing.JPanel();
         jPanel_Titulo_MovimientoEstatico = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jButton_avanzarFaseAsalto9 = new javax.swing.JButton();
+        jPanel_SinAcciones_panel8 = new javax.swing.JScrollPane();
         jPanel_MovimientoEstatic_campo = new javax.swing.JPanel();
         jPanel_Resumen_tab = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
@@ -309,10 +330,10 @@ public class Principal extends javax.swing.JFrame {
 
         jPanel_center.setMaximumSize(new java.awt.Dimension(1360, 2147483647));
         jPanel_center.setPreferredSize(new java.awt.Dimension(1360, 700));
-        jPanel_center.setLayout(new java.awt.BorderLayout());
+        jPanel_center.setLayout(new javax.swing.BoxLayout(jPanel_center, javax.swing.BoxLayout.LINE_AXIS));
 
-        jTabbedPane1.setMaximumSize(new java.awt.Dimension(1360, 32767));
-        jTabbedPane1.setPreferredSize(new java.awt.Dimension(700, 1300));
+        jTabbedPane1.setMaximumSize(new java.awt.Dimension(7777, 77777));
+        jTabbedPane1.setPreferredSize(null);
 
         jPanel_Campo_tab.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel_Campo_tab.setAutoscrolls(true);
@@ -339,16 +360,24 @@ public class Principal extends javax.swing.JFrame {
         jTabbedPane1.addTab("Campo", jPanel_Campo_tab);
 
         jPanel_Asaltos_tab.setMaximumSize(new java.awt.Dimension(1360, 700));
+        jPanel_Asaltos_tab.setPreferredSize(new java.awt.Dimension(1360, 700));
         jPanel_Asaltos_tab.setLayout(new javax.swing.BoxLayout(jPanel_Asaltos_tab, javax.swing.BoxLayout.PAGE_AXIS));
 
+        jScrollPane_asaltos.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        jScrollPane_asaltos.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         jScrollPane_asaltos.setMaximumSize(new java.awt.Dimension(32767, 700));
+        jScrollPane_asaltos.setPreferredSize(new java.awt.Dimension(130, 700));
 
-        jPanel_Asaltos.setMaximumSize(new java.awt.Dimension(1360, 700));
-        jPanel_Asaltos.setLayout(new javax.swing.BoxLayout(jPanel_Asaltos, javax.swing.BoxLayout.PAGE_AXIS));
+        jPanel_Asaltos.setMaximumSize(new java.awt.Dimension(2790, 600));
+        jPanel_Asaltos.setMinimumSize(new java.awt.Dimension(2590, 600));
+        jPanel_Asaltos.setName(""); // NOI18N
+        jPanel_Asaltos.setPreferredSize(new java.awt.Dimension(2790, 600));
+        jPanel_Asaltos.setLayout(new javax.swing.BoxLayout(jPanel_Asaltos, javax.swing.BoxLayout.LINE_AXIS));
 
         jPanel_SinAcciones.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel_SinAcciones.setMaximumSize(new java.awt.Dimension(1360, 140));
-        jPanel_SinAcciones.setPreferredSize(new java.awt.Dimension(553, 130));
+        jPanel_SinAcciones.setMaximumSize(new java.awt.Dimension(265, 2000));
+        jPanel_SinAcciones.setMinimumSize(new java.awt.Dimension(259, 47));
+        jPanel_SinAcciones.setPreferredSize(new java.awt.Dimension(259, 130));
         jPanel_SinAcciones.setRequestFocusEnabled(false);
         jPanel_SinAcciones.setLayout(new javax.swing.BoxLayout(jPanel_SinAcciones, javax.swing.BoxLayout.PAGE_AXIS));
 
@@ -365,7 +394,7 @@ public class Principal extends javax.swing.JFrame {
         jPanel_SinAcciones.add(jPanel_Titulo_SinAcciones);
 
         jPanel_sinAcciones_tokens.setMaximumSize(new java.awt.Dimension(600, 32767));
-        jPanel_sinAcciones_tokens.setPreferredSize(new java.awt.Dimension(2, 1500));
+        jPanel_sinAcciones_tokens.setPreferredSize(new java.awt.Dimension(2, 32767));
         jPanel_sinAcciones_tokens.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 2, 2));
         jPanel_SinAcciones_panel.setViewportView(jPanel_sinAcciones_tokens);
 
@@ -374,7 +403,8 @@ public class Principal extends javax.swing.JFrame {
         jPanel_Asaltos.add(jPanel_SinAcciones);
 
         jPanel_CargaSortilegios.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel_CargaSortilegios.setMaximumSize(new java.awt.Dimension(1360, 130));
+        jPanel_CargaSortilegios.setMaximumSize(new java.awt.Dimension(265, 2000));
+        jPanel_CargaSortilegios.setMinimumSize(new java.awt.Dimension(259, 103));
         jPanel_CargaSortilegios.setRequestFocusEnabled(false);
         jPanel_CargaSortilegios.setLayout(new javax.swing.BoxLayout(jPanel_CargaSortilegios, javax.swing.BoxLayout.PAGE_AXIS));
 
@@ -398,14 +428,18 @@ public class Principal extends javax.swing.JFrame {
 
         jPanel_CargaSortilegios.add(jPanel_Titulo_cargaSortilegios);
 
-        jPanel_campo_CargaSortilegios.setMinimumSize(new java.awt.Dimension(2, 70));
+        jPanel_campo_CargaSortilegios.setMaximumSize(new java.awt.Dimension(600, 32767));
+        jPanel_campo_CargaSortilegios.setPreferredSize(new java.awt.Dimension(2, 32767));
         jPanel_campo_CargaSortilegios.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 2, 2));
-        jPanel_CargaSortilegios.add(jPanel_campo_CargaSortilegios);
+        jPanel_SinAcciones_panel1.setViewportView(jPanel_campo_CargaSortilegios);
+
+        jPanel_CargaSortilegios.add(jPanel_SinAcciones_panel1);
 
         jPanel_Asaltos.add(jPanel_CargaSortilegios);
 
         jPanel_RealizaSortilegios.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel_RealizaSortilegios.setMaximumSize(new java.awt.Dimension(1360, 130));
+        jPanel_RealizaSortilegios.setMaximumSize(new java.awt.Dimension(265, 2000));
+        jPanel_RealizaSortilegios.setMinimumSize(new java.awt.Dimension(259, 0));
         jPanel_RealizaSortilegios.setRequestFocusEnabled(false);
         jPanel_RealizaSortilegios.setLayout(new javax.swing.BoxLayout(jPanel_RealizaSortilegios, javax.swing.BoxLayout.PAGE_AXIS));
 
@@ -429,13 +463,18 @@ public class Principal extends javax.swing.JFrame {
 
         jPanel_RealizaSortilegios.add(jPanel_Titulo_RealizaSortilegios);
 
+        jPanel_RealizaSortilegios_campo.setMaximumSize(new java.awt.Dimension(600, 32767));
+        jPanel_RealizaSortilegios_campo.setPreferredSize(new java.awt.Dimension(2, 32767));
         jPanel_RealizaSortilegios_campo.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 2, 2));
-        jPanel_RealizaSortilegios.add(jPanel_RealizaSortilegios_campo);
+        jPanel_SinAcciones_panel2.setViewportView(jPanel_RealizaSortilegios_campo);
+
+        jPanel_RealizaSortilegios.add(jPanel_SinAcciones_panel2);
 
         jPanel_Asaltos.add(jPanel_RealizaSortilegios);
 
         jPanel_LanzaProyectiles.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel_LanzaProyectiles.setMaximumSize(new java.awt.Dimension(1360, 130));
+        jPanel_LanzaProyectiles.setMaximumSize(new java.awt.Dimension(265, 2000));
+        jPanel_LanzaProyectiles.setMinimumSize(new java.awt.Dimension(259, 0));
         jPanel_LanzaProyectiles.setRequestFocusEnabled(false);
         jPanel_LanzaProyectiles.setLayout(new javax.swing.BoxLayout(jPanel_LanzaProyectiles, javax.swing.BoxLayout.PAGE_AXIS));
 
@@ -460,7 +499,7 @@ public class Principal extends javax.swing.JFrame {
         jPanel_LanzaProyectiles.add(jPanel_Titulo_DisparaProyectiles);
 
         jPanel_LanzaProyectiles_campo.setMaximumSize(new java.awt.Dimension(1360, 32767));
-        jPanel_LanzaProyectiles_campo.setPreferredSize(new java.awt.Dimension(4, 1500));
+        jPanel_LanzaProyectiles_campo.setPreferredSize(new java.awt.Dimension(4, 32767));
         jPanel_LanzaProyectiles_campo.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 2, 2));
         jPanel_LanzaProyectiles_panel.setViewportView(jPanel_LanzaProyectiles_campo);
 
@@ -469,7 +508,8 @@ public class Principal extends javax.swing.JFrame {
         jPanel_Asaltos.add(jPanel_LanzaProyectiles);
 
         jPanel_CargaProyectiles.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel_CargaProyectiles.setMaximumSize(new java.awt.Dimension(1360, 130));
+        jPanel_CargaProyectiles.setMaximumSize(new java.awt.Dimension(265, 2000));
+        jPanel_CargaProyectiles.setMinimumSize(new java.awt.Dimension(259, 0));
         jPanel_CargaProyectiles.setRequestFocusEnabled(false);
         jPanel_CargaProyectiles.setLayout(new javax.swing.BoxLayout(jPanel_CargaProyectiles, javax.swing.BoxLayout.PAGE_AXIS));
 
@@ -493,13 +533,18 @@ public class Principal extends javax.swing.JFrame {
 
         jPanel_CargaProyectiles.add(jPanel_Titulo_cargaProyectiles);
 
+        jPanel_CargaProyectiles_campo.setMaximumSize(new java.awt.Dimension(600, 32767));
+        jPanel_CargaProyectiles_campo.setPreferredSize(new java.awt.Dimension(2, 32767));
         jPanel_CargaProyectiles_campo.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 2, 2));
-        jPanel_CargaProyectiles.add(jPanel_CargaProyectiles_campo);
+        jPanel_SinAcciones_panel3.setViewportView(jPanel_CargaProyectiles_campo);
+
+        jPanel_CargaProyectiles.add(jPanel_SinAcciones_panel3);
 
         jPanel_Asaltos.add(jPanel_CargaProyectiles);
 
         jPanel_PararProyectiles.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel_PararProyectiles.setMaximumSize(new java.awt.Dimension(1360, 130));
+        jPanel_PararProyectiles.setMaximumSize(new java.awt.Dimension(265, 2000));
+        jPanel_PararProyectiles.setMinimumSize(new java.awt.Dimension(259, 0));
         jPanel_PararProyectiles.setRequestFocusEnabled(false);
         jPanel_PararProyectiles.setLayout(new javax.swing.BoxLayout(jPanel_PararProyectiles, javax.swing.BoxLayout.PAGE_AXIS));
 
@@ -523,13 +568,18 @@ public class Principal extends javax.swing.JFrame {
 
         jPanel_PararProyectiles.add(jPanel_Titulo_PararProyectiles);
 
+        jPanel_PararProyectiles_campo.setMaximumSize(new java.awt.Dimension(600, 32767));
+        jPanel_PararProyectiles_campo.setPreferredSize(new java.awt.Dimension(2, 32767));
         jPanel_PararProyectiles_campo.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 2, 2));
-        jPanel_PararProyectiles.add(jPanel_PararProyectiles_campo);
+        jPanel_SinAcciones_panel4.setViewportView(jPanel_PararProyectiles_campo);
+
+        jPanel_PararProyectiles.add(jPanel_SinAcciones_panel4);
 
         jPanel_Asaltos.add(jPanel_PararProyectiles);
 
         jPanel_movimientoYmaniobra.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel_movimientoYmaniobra.setMaximumSize(new java.awt.Dimension(1360, 130));
+        jPanel_movimientoYmaniobra.setMaximumSize(new java.awt.Dimension(265, 2000));
+        jPanel_movimientoYmaniobra.setMinimumSize(new java.awt.Dimension(259, 0));
         jPanel_movimientoYmaniobra.setRequestFocusEnabled(false);
         jPanel_movimientoYmaniobra.setLayout(new javax.swing.BoxLayout(jPanel_movimientoYmaniobra, javax.swing.BoxLayout.PAGE_AXIS));
 
@@ -553,13 +603,18 @@ public class Principal extends javax.swing.JFrame {
 
         jPanel_movimientoYmaniobra.add(jPanel_Titulo_movimientoYmaniobra);
 
+        jPanel_movimientoYmaniobra_campo.setMaximumSize(new java.awt.Dimension(600, 32767));
+        jPanel_movimientoYmaniobra_campo.setPreferredSize(new java.awt.Dimension(2, 32767));
         jPanel_movimientoYmaniobra_campo.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 2, 2));
-        jPanel_movimientoYmaniobra.add(jPanel_movimientoYmaniobra_campo);
+        jPanel_SinAcciones_panel5.setViewportView(jPanel_movimientoYmaniobra_campo);
+
+        jPanel_movimientoYmaniobra.add(jPanel_SinAcciones_panel5);
 
         jPanel_Asaltos.add(jPanel_movimientoYmaniobra);
 
         jPanel_AtaqueCuerpoaCuerpo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel_AtaqueCuerpoaCuerpo.setMaximumSize(new java.awt.Dimension(1360, 130));
+        jPanel_AtaqueCuerpoaCuerpo.setMaximumSize(new java.awt.Dimension(265, 2000));
+        jPanel_AtaqueCuerpoaCuerpo.setMinimumSize(new java.awt.Dimension(259, 0));
         jPanel_AtaqueCuerpoaCuerpo.setRequestFocusEnabled(false);
         jPanel_AtaqueCuerpoaCuerpo.setLayout(new javax.swing.BoxLayout(jPanel_AtaqueCuerpoaCuerpo, javax.swing.BoxLayout.PAGE_AXIS));
 
@@ -583,13 +638,18 @@ public class Principal extends javax.swing.JFrame {
 
         jPanel_AtaqueCuerpoaCuerpo.add(jPanel_Titulo_AtaqueCuerpoaCuerpo);
 
+        jPanel_AtaqueCuerpoaCuerpo_campo.setMaximumSize(new java.awt.Dimension(600, 32767));
+        jPanel_AtaqueCuerpoaCuerpo_campo.setPreferredSize(new java.awt.Dimension(2, 32767));
         jPanel_AtaqueCuerpoaCuerpo_campo.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 2, 2));
-        jPanel_AtaqueCuerpoaCuerpo.add(jPanel_AtaqueCuerpoaCuerpo_campo);
+        jPanel_SinAcciones_panel6.setViewportView(jPanel_AtaqueCuerpoaCuerpo_campo);
+
+        jPanel_AtaqueCuerpoaCuerpo.add(jPanel_SinAcciones_panel6);
 
         jPanel_Asaltos.add(jPanel_AtaqueCuerpoaCuerpo);
 
         jPanel_Movimiento.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel_Movimiento.setMaximumSize(new java.awt.Dimension(1360, 130));
+        jPanel_Movimiento.setMaximumSize(new java.awt.Dimension(265, 2000));
+        jPanel_Movimiento.setMinimumSize(new java.awt.Dimension(259, 0));
         jPanel_Movimiento.setRequestFocusEnabled(false);
         jPanel_Movimiento.setLayout(new javax.swing.BoxLayout(jPanel_Movimiento, javax.swing.BoxLayout.PAGE_AXIS));
 
@@ -613,13 +673,18 @@ public class Principal extends javax.swing.JFrame {
 
         jPanel_Movimiento.add(jPanel_Titulo_Movimiento);
 
+        jPanel_Movimiento_campo.setMaximumSize(new java.awt.Dimension(600, 32767));
+        jPanel_Movimiento_campo.setPreferredSize(new java.awt.Dimension(2, 32767));
         jPanel_Movimiento_campo.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 2, 2));
-        jPanel_Movimiento.add(jPanel_Movimiento_campo);
+        jPanel_SinAcciones_panel7.setViewportView(jPanel_Movimiento_campo);
+
+        jPanel_Movimiento.add(jPanel_SinAcciones_panel7);
 
         jPanel_Asaltos.add(jPanel_Movimiento);
 
         jPanel_MovimientoEstatico.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel_MovimientoEstatico.setMaximumSize(new java.awt.Dimension(1360, 130));
+        jPanel_MovimientoEstatico.setMaximumSize(new java.awt.Dimension(265, 2000));
+        jPanel_MovimientoEstatico.setMinimumSize(new java.awt.Dimension(259, 0));
         jPanel_MovimientoEstatico.setRequestFocusEnabled(false);
         jPanel_MovimientoEstatico.setLayout(new javax.swing.BoxLayout(jPanel_MovimientoEstatico, javax.swing.BoxLayout.PAGE_AXIS));
 
@@ -643,8 +708,12 @@ public class Principal extends javax.swing.JFrame {
 
         jPanel_MovimientoEstatico.add(jPanel_Titulo_MovimientoEstatico);
 
+        jPanel_MovimientoEstatic_campo.setMaximumSize(new java.awt.Dimension(600, 32767));
+        jPanel_MovimientoEstatic_campo.setPreferredSize(new java.awt.Dimension(2, 32767));
         jPanel_MovimientoEstatic_campo.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 2, 2));
-        jPanel_MovimientoEstatico.add(jPanel_MovimientoEstatic_campo);
+        jPanel_SinAcciones_panel8.setViewportView(jPanel_MovimientoEstatic_campo);
+
+        jPanel_MovimientoEstatico.add(jPanel_SinAcciones_panel8);
 
         jPanel_Asaltos.add(jPanel_MovimientoEstatico);
 
@@ -676,7 +745,7 @@ public class Principal extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Resumen", jPanel_Resumen_tab);
 
-        jPanel_center.add(jTabbedPane1, java.awt.BorderLayout.CENTER);
+        jPanel_center.add(jTabbedPane1);
 
         jPanel_General.add(jPanel_center, java.awt.BorderLayout.CENTER);
 
@@ -794,7 +863,7 @@ public class Principal extends javax.swing.JFrame {
         Object[] ObjTk = CrearToken.nuevoToken();
         Token tk = (Token) ObjTk[1];
         tk.setVisible(false);
-        Accion a = new Accion(Accion.TIPO_SIN_ACCION, 0, 0);
+        Accion a = new Accion(Constantes.TIPO_ACCION_SIN_ACCION, 0, 0);
         tk.AgregarAccion(a);
         // Recursos.soldados.add(tk);
         JPanelFormToken_Accion jpfta = new JPanelFormToken_Accion(tk, this);
@@ -824,7 +893,7 @@ public class Principal extends javax.swing.JFrame {
         if (ObjTk[1] != null) {
             Token tk = (Token) ObjTk[1];
             tk.setVisible(true);
-            Accion a = new Accion(Accion.TIPO_SIN_ACCION, 0, 0);
+            Accion a = new Accion(Constantes.TIPO_ACCION_SIN_ACCION, 0, 0);
             tk.AgregarAccion(a);
             Recursos.soldados.add(tk);
             campo.agregarToken(tk);
@@ -858,84 +927,39 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_terminarActionPerformed
 
     private void jButton_avanzarFaseAsalto1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_avanzarFaseAsalto1ActionPerformed
-        JPanel jp = (JPanel) jButton_avanzarFaseAsalto1.getParent().getParent().getComponent(1);
-        if (todosActuaron(jp)) {
-            avanzarFaseDeAsalto(-1);
-        } else {
-            JOptionPane.showMessageDialog(this, "Aún hay personajes sin actuar");
-        }
+        actuaronTodos(jButton_avanzarFaseAsalto1);
     }//GEN-LAST:event_jButton_avanzarFaseAsalto1ActionPerformed
 
     private void jButton_avanzarFaseAsalto2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_avanzarFaseAsalto2ActionPerformed
-        JPanel jp = (JPanel) jButton_avanzarFaseAsalto2.getParent().getParent().getComponent(1);
-        if (todosActuaron(jp)) {
-            avanzarFaseDeAsalto(-1);
-        } else {
-            JOptionPane.showMessageDialog(this, "Aún hay personajes sin actuar");
-        }
+        actuaronTodos(jButton_avanzarFaseAsalto2);
     }//GEN-LAST:event_jButton_avanzarFaseAsalto2ActionPerformed
 
     private void jButton_avanzarFaseAsalto3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_avanzarFaseAsalto3ActionPerformed
-        JPanel jp = (JPanel) jButton_avanzarFaseAsalto3.getParent().getParent().getComponent(1);
-        if (todosActuaron(jp)) {
-            avanzarFaseDeAsalto(-1);
-        } else {
-            JOptionPane.showMessageDialog(this, "Aún hay personajes sin actuar");
-        }
+        actuaronTodos(jButton_avanzarFaseAsalto3);
     }//GEN-LAST:event_jButton_avanzarFaseAsalto3ActionPerformed
 
     private void jButton_avanzarFaseAsalto4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_avanzarFaseAsalto4ActionPerformed
-        JPanel jp = (JPanel) jButton_avanzarFaseAsalto4.getParent().getParent().getComponent(1);
-        if (todosActuaron(jp)) {
-            avanzarFaseDeAsalto(-1);
-        } else {
-            JOptionPane.showMessageDialog(this, "Aún hay personajes sin actuar");
-        }
+        actuaronTodos(jButton_avanzarFaseAsalto4);
     }//GEN-LAST:event_jButton_avanzarFaseAsalto4ActionPerformed
 
     private void jButton_avanzarFaseAsalto5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_avanzarFaseAsalto5ActionPerformed
-        JPanel jp = (JPanel) jButton_avanzarFaseAsalto5.getParent().getParent().getComponent(1);
-        if (todosActuaron(jp)) {
-            avanzarFaseDeAsalto(-1);
-        } else {
-            JOptionPane.showMessageDialog(this, "Aún hay personajes sin actuar");
-        }
+        actuaronTodos(jButton_avanzarFaseAsalto5);
     }//GEN-LAST:event_jButton_avanzarFaseAsalto5ActionPerformed
 
     private void jButton_avanzarFaseAsalto6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_avanzarFaseAsalto6ActionPerformed
-        JPanel jp = (JPanel) jButton_avanzarFaseAsalto6.getParent().getParent().getComponent(1);
-        if (todosActuaron(jp)) {
-            avanzarFaseDeAsalto(-1);
-        } else {
-            JOptionPane.showMessageDialog(this, "Aún hay personajes sin actuar");
-        }
+        actuaronTodos(jButton_avanzarFaseAsalto6);
     }//GEN-LAST:event_jButton_avanzarFaseAsalto6ActionPerformed
 
     private void jButton_avanzarFaseAsalto7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_avanzarFaseAsalto7ActionPerformed
-        JPanel jp = (JPanel) jButton_avanzarFaseAsalto7.getParent().getParent().getComponent(1);
-        if (todosActuaron(jp)) {
-            avanzarFaseDeAsalto(-1);
-        } else {
-            JOptionPane.showMessageDialog(this, "Aún hay personajes sin actuar");
-        }
+        actuaronTodos(jButton_avanzarFaseAsalto7);
     }//GEN-LAST:event_jButton_avanzarFaseAsalto7ActionPerformed
 
     private void jButton_avanzarFaseAsalto8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_avanzarFaseAsalto8ActionPerformed
-        JPanel jp = (JPanel) jButton_avanzarFaseAsalto8.getParent().getParent().getComponent(1);
-        if (todosActuaron(jp)) {
-            avanzarFaseDeAsalto(-1);
-        } else {
-            JOptionPane.showMessageDialog(this, "Aún hay personajes sin actuar");
-        }
+        actuaronTodos(jButton_avanzarFaseAsalto8);
     }//GEN-LAST:event_jButton_avanzarFaseAsalto8ActionPerformed
 
     private void jButton_avanzarFaseAsalto9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_avanzarFaseAsalto9ActionPerformed
-        JPanel jp = (JPanel) jButton_avanzarFaseAsalto9.getParent().getParent().getComponent(1);
-        if (todosActuaron(jp)) {
-            avanzarFaseDeAsalto(-1);
-        } else {
-            JOptionPane.showMessageDialog(this, "Aún hay personajes sin actuar");
-        }
+        actuaronTodos(jButton_avanzarFaseAsalto9);
     }//GEN-LAST:event_jButton_avanzarFaseAsalto9ActionPerformed
 
     private void jMenu_FileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu_FileActionPerformed
@@ -1004,7 +1028,18 @@ public class Principal extends javax.swing.JFrame {
         }
         publicarTodosLosEventos();
     }//GEN-LAST:event_jToggleButton_visiblesActionPerformed
-
+    
+    
+    private void actuaronTodos(JButton jb){
+        JScrollPane jsp = (JScrollPane) jb.getParent().getParent().getComponent(1);
+        JPanel jp = (JPanel) jsp.getViewport().getComponent(0);
+        if (todosActuaron(jp)) {
+            avanzarFaseDeAsalto(-1);
+        } else {
+            JOptionPane.showMessageDialog(this, "Aún hay personajes sin actuar");
+        }
+    }
+    
     public void abrirArchivo() {
         CampoDeBatalla field = null;
 
@@ -1113,43 +1148,43 @@ public class Principal extends javax.swing.JFrame {
         }
 
         switch (destino) {
-            case Accion.TIPO_SIN_ACCION: {
+            case Constantes.TIPO_ACCION_SIN_ACCION: {
                 jPanel_sinAcciones_tokens.add(tokenAccion);
                 break;
             }
-            case Accion.TIPO_CARGA_SORTILEGIO: {
+            case Constantes.TIPO_ACCION_CARGA_SORTILEGIO: {
                 jPanel_campo_CargaSortilegios.add(tokenAccion);
                 break;
             }
-            case Accion.TIPO_REALIZA_SORTILEGIO: {
+            case Constantes.TIPO_ACCION_REALIZA_SORTILEGIO: {
                 jPanel_RealizaSortilegios_campo.add(tokenAccion);
                 break;
             }
-            case Accion.TIPO_DISPARA_PROYECTIL: {
+            case Constantes.TIPO_ACCION_DISPARA_PROYECTIL: {
                 jPanel_LanzaProyectiles_campo.add(tokenAccion);
                 break;
             }
-            case Accion.TIPO_CARGA_PROYECTIL: {
+            case Constantes.TIPO_ACCION_CARGA_PROYECTIL: {
                 jPanel_CargaProyectiles_campo.add(tokenAccion);
                 break;
             }
-            case Accion.TIPO_PARAR_PROYECTIL: {
+            case Constantes.TIPO_ACCION_PARAR_PROYECTIL: {
                 jPanel_PararProyectiles_campo.add(tokenAccion);
                 break;
             }
-            case Accion.TIPO_MOVIMIENTO_Y_MANIOBRA: {
+            case Constantes.TIPO_ACCION_MOVIMIENTO_Y_MANIOBRA: {
                 jPanel_movimientoYmaniobra_campo.add(tokenAccion);
                 break;
             }
-            case Accion.TIPO_ATAQUE_CUERPO_A_CUERPO: {
+            case Constantes.TIPO_ACCION_ATAQUE_CUERPO_A_CUERPO: {
                 jPanel_AtaqueCuerpoaCuerpo_campo.add(tokenAccion);
                 break;
             }
-            case Accion.TIPO_DESPLAZAMIENTO: {
+            case Constantes.TIPO_ACCION_DESPLAZAMIENTO: {
                 jPanel_Movimiento_campo.add(tokenAccion);
                 break;
             }
-            case Accion.TIPO_MOVIMIENTO_ESTATICO: {
+            case Constantes.TIPO_ACCION_MOVIMIENTO_ESTATICO: {
                 jPanel_MovimientoEstatic_campo.add(tokenAccion);
                 break;
             }
@@ -1437,7 +1472,7 @@ public class Principal extends javax.swing.JFrame {
 
     public void sinAccioneshechos(JPanel jp) {
         for (int i = 0; i < jp.getComponentCount(); i++) {
-            JPanelFormToken_Accion jpta = (JPanelFormToken_Accion) jp.getComponent(i);
+            JPanelFormToken_Accion jpta = (JPanelFormToken_Accion) jp.getComponent(i);            
             jpta.hecho();
         }
 
@@ -1526,6 +1561,14 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel_Resumen_tab;
     private javax.swing.JPanel jPanel_SinAcciones;
     private javax.swing.JScrollPane jPanel_SinAcciones_panel;
+    private javax.swing.JScrollPane jPanel_SinAcciones_panel1;
+    private javax.swing.JScrollPane jPanel_SinAcciones_panel2;
+    private javax.swing.JScrollPane jPanel_SinAcciones_panel3;
+    private javax.swing.JScrollPane jPanel_SinAcciones_panel4;
+    private javax.swing.JScrollPane jPanel_SinAcciones_panel5;
+    private javax.swing.JScrollPane jPanel_SinAcciones_panel6;
+    private javax.swing.JScrollPane jPanel_SinAcciones_panel7;
+    private javax.swing.JScrollPane jPanel_SinAcciones_panel8;
     private javax.swing.JPanel jPanel_Titulo_AtaqueCuerpoaCuerpo;
     private javax.swing.JPanel jPanel_Titulo_DisparaProyectiles;
     private javax.swing.JPanel jPanel_Titulo_Movimiento;
@@ -1648,10 +1691,10 @@ public class Principal extends javax.swing.JFrame {
     }
 
     public void showLoading(boolean mostrar) {
-        jTabbedPane1.setVisible(!mostrar);
-        jloading = new JPanel(new BorderLayout());
-        jPanel_center.add(jloading,BorderLayout.CENTER);
-        jloading.setVisible(mostrar);
+        //jTabbedPane1.setVisible(!mostrar);
+        //jloading = new JPanel(new BorderLayout());
+        //jPanel_center.add(jloading,BorderLayout.CENTER);
+        //jloading.setVisible(mostrar);
         if (mostrar) {                       
             
             String path = "Data\\loading\\" + Recursos.aleatorioEntre(1, 6) + ".gif";
@@ -1659,10 +1702,10 @@ public class Principal extends javax.swing.JFrame {
             Icon icono = new ImageIcon(icon.getImage().getScaledInstance(icon.getIconWidth(), icon.getIconHeight(), Image.SCALE_DEFAULT));
             JLabel jl = new JLabel(icon);
         } else {
-            jPanel_center.remove(jloading);
+            //jPanel_center.remove(jloading);
         }
 
-        jPanel_center.repaint();
+        //jPanel_center.repaint();
     }
 
     private void repetirAccion() {

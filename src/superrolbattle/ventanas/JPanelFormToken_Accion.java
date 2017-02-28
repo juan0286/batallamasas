@@ -20,6 +20,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JProgressBar;
 import javax.swing.UIManager;
+import recursos.Constantes;
 import superrolbattle.Principal;
 import recursos.Recursos;
 import recursos.subprocess.UpdaterProgresBar;
@@ -127,7 +128,7 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
 
     public void update_jTokenAction() {
 
-        if (accion.isDone()) {
+        if (accion.isDone() && token.getEstado().getCuerpo() < Status.INCOSCIENTE) {
             verComoDone();
         }
         if (accion.isAccionDeOportunidad()) {
@@ -146,16 +147,17 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
         jProgressBar_vida.setStringPainted(true);
         jProgressBar_vida.setString(token.vidatxt());
         jProgressBar_vida.repaint();
-
+*/
         if (token.getEstado().getCuerpo() == Status.FIRME) {
-            jProgressBar_vida.setForeground(Color.GREEN);
+            //jProgressBar_vida.setForeground(Color.GREEN);
         } else if (token.getEstado().getCuerpo() == Status.CANSADO) {
-            jProgressBar_vida.setForeground(Color.YELLOW);
+            //jProgressBar_vida.setForeground(Color.YELLOW);
         } else if (token.getEstado().getCuerpo() == Status.EXHAUSTO) {
-            jProgressBar_vida.setForeground(Color.ORANGE);
+            //jProgressBar_vida.setForeground(Color.ORANGE);
         } else if (token.getEstado().getCuerpo() == Status.INCOSCIENTE) {
-            jProgressBar_vida.setForeground(Color.RED);
+            jProgressBar_vida.setForeground(Color.GRAY);
             dejarFueraDeCombate();
+            this.setBackground(Color.GRAY);
         } else if (token.getEstado().getCuerpo() == Status.MUERTO) {
             jProgressBar_vida.setForeground(Color.BLACK);
             dejarFueraDeCombate();
@@ -163,7 +165,7 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
         } else if (token.getEstado().getCuerpo() != Status.MUERTO) {
             jTextArea_estado.setBackground(new java.awt.Color(204, 255, 204));
         }
-        */
+        
         if (token.getEstado().menteEstado() == Status.MENTE_ATURDIDO) {
             jTextArea_estado.setBackground(Color.YELLOW);
         } else if (token.getEstado().menteEstado() == Status.MENTE_ATURDIDO_Y_SIN_PODER_PARAR) {
@@ -187,9 +189,9 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
                 + "Estado Mental: " + token.getEstado().menteEstadoTxt() + "<br/>"
                 + "Actividad: " + token.getEstado().getActividadActual() + "<br/>"
                 + "Bo Actual: " + token.boDisponibleAtaque() + "<br/>"
-                + "Bd Actual: " + token.getHabilidades().getAgi() + "<br/>"
-                + "Equipo: " + token.getManoDER().getArmaEquipada().getNombre() + "<br/>"
-                + "" + token.getManoIZQ().getArmaEquipada().getNombre() + "<br/>"
+                + "Bd Actual: " + token.getHabilidades().getBd()+ "<br/>"
+                //+ "Equipo: " + token.getManoDER().getArmaEquipada().getNombre() + "<br/>"
+                //+ "" + token.getManoIZQ().getArmaEquipada().getNombre() + "<br/>"
                 + "</html>";
         this.setToolTipText(tooltip);
 
@@ -209,45 +211,45 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
 
     public void realizarLaAccion() {
         switch (accion.getTipo()) {
-            case Accion.TIPO_SIN_ACCION: {
+            case Constantes.TIPO_ACCION_SIN_ACCION: {
 
                 break;
             }
-            case Accion.TIPO_CARGA_SORTILEGIO: {
+            case Constantes.TIPO_ACCION_CARGA_SORTILEGIO: {
                 token.cargarUnSortilegio(accion.getSort_intencion());
                 accion.setSortilegio(accion.getSort_intencion());
                 break;
             }
-            case Accion.TIPO_REALIZA_SORTILEGIO: {
+            case Constantes.TIPO_ACCION_REALIZA_SORTILEGIO: {
                 token.lanzarUnSortilegio(accion.getSort_intencion());
                 accion.setSortilegio(accion.getSort_intencion());
                 break;
             }
-            case Accion.TIPO_DISPARA_PROYECTIL: {
+            case Constantes.TIPO_ACCION_DISPARA_PROYECTIL: {
 
                 break;
             }
-            case Accion.TIPO_CARGA_PROYECTIL: {
+            case Constantes.TIPO_ACCION_CARGA_PROYECTIL: {
 
                 break;
             }
-            case Accion.TIPO_PARAR_PROYECTIL: {
+            case Constantes.TIPO_ACCION_PARAR_PROYECTIL: {
 
                 break;
             }
-            case Accion.TIPO_MOVIMIENTO_Y_MANIOBRA: {
+            case Constantes.TIPO_ACCION_MOVIMIENTO_Y_MANIOBRA: {
 
                 break;
             }
-            case Accion.TIPO_ATAQUE_CUERPO_A_CUERPO: {
+            case Constantes.TIPO_ACCION_ATAQUE_CUERPO_A_CUERPO: {
 
                 break;
             }
-            case Accion.TIPO_DESPLAZAMIENTO: {
+            case Constantes.TIPO_ACCION_DESPLAZAMIENTO: {
 
                 break;
             }
-            case Accion.TIPO_MOVIMIENTO_ESTATICO: {
+            case Constantes.TIPO_ACCION_MOVIMIENTO_ESTATICO: {
 
                 break;
             }
@@ -256,7 +258,7 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
                 break;
             }
         }
-        if (accion.getTipo() != Accion.TIPO_CARGA_SORTILEGIO) {
+        if (accion.getTipo() != Constantes.TIPO_ACCION_CARGA_SORTILEGIO) {
             token.perderLaCarga();
         }
 
@@ -284,15 +286,17 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
 
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
         setToolTipText("<html>\nEstado: Incosnciente<br/>\nSalud 15 pv  / 230pv<br/>\nBo: 134<br/>\nBd: 20<br/>\nArmadra: Cota de malla 14<br/>\nArma: Espada Doble Filo\n</html>");
-        setMaximumSize(new java.awt.Dimension(250, 93));
-        setMinimumSize(new java.awt.Dimension(250, 93));
-        setPreferredSize(new java.awt.Dimension(250, 93));
+        setMaximumSize(new java.awt.Dimension(250, 105));
+        setMinimumSize(new java.awt.Dimension(250, 100));
+        setPreferredSize(new java.awt.Dimension(250, 105));
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 formMouseClicked(evt);
             }
         });
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.PAGE_AXIS));
+
+        jPanel1.setMaximumSize(new java.awt.Dimension(32767, 24));
 
         jLabel_Nombre.setText("Nombre");
         jPanel1.add(jLabel_Nombre);
@@ -301,9 +305,14 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
         add(jPanel1);
 
         jPanel_general.setBackground(new java.awt.Color(204, 255, 204));
+        jPanel_general.setMaximumSize(new java.awt.Dimension(32767, 74));
+        jPanel_general.setMinimumSize(new java.awt.Dimension(95, 72));
+        jPanel_general.setPreferredSize(new java.awt.Dimension(446, 72));
         jPanel_general.setLayout(new java.awt.GridLayout(1, 2, 1, 1));
 
         jPanel_estado.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel_estado.setMaximumSize(new java.awt.Dimension(11111, 74));
+        jPanel_estado.setMinimumSize(new java.awt.Dimension(0, 74));
         jPanel_estado.setLayout(new javax.swing.BoxLayout(jPanel_estado, javax.swing.BoxLayout.LINE_AXIS));
 
         jTextArea_estado.setEditable(false);
@@ -315,6 +324,8 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
         jPanel_general.add(jPanel_estado);
 
         jPanel_Icono.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel_Icono.setMaximumSize(new java.awt.Dimension(11111, 74));
+        jPanel_Icono.setMinimumSize(new java.awt.Dimension(0, 74));
         jPanel_Icono.setLayout(new javax.swing.BoxLayout(jPanel_Icono, javax.swing.BoxLayout.LINE_AXIS));
 
         jLabel_icono.setText("Icono");
@@ -323,6 +334,8 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
         jPanel_general.add(jPanel_Icono);
 
         jPanel_Accion.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel_Accion.setMaximumSize(new java.awt.Dimension(11111, 74));
+        jPanel_Accion.setMinimumSize(new java.awt.Dimension(0, 74));
         jPanel_Accion.setLayout(new javax.swing.BoxLayout(jPanel_Accion, javax.swing.BoxLayout.LINE_AXIS));
 
         jTextArea_Desc_accion.setEditable(false);
@@ -397,7 +410,7 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
     }
 
     public void dejarFueraDeCombate() {
-        mover(Accion.TIPO_SIN_ACCION);
+        mover(Constantes.TIPO_ACCION_SIN_ACCION);
 
     }
 

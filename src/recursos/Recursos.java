@@ -72,6 +72,19 @@ public class Recursos {
         AbrirGuardar.guardarXML(d, DataRecursos.CONFIG_FILE);
     }
 
+    public static int maximo(Integer[] arrayn){
+        int max =arrayn[0];
+
+		for(int i = 0; i < arrayn.length; i++)
+		{			
+			if(max<arrayn[i])
+			{
+				max=arrayn[i];
+			}
+		}
+                return max;
+    }
+    
     public static HashMap<String, String> tabCrticsArray() {
         HashMap<String, String> tCArray = new HashMap<>();
         tCArray.put("S", "Corte");
@@ -192,6 +205,11 @@ public class Recursos {
 
         JOptionPane.showMessageDialog(null, mensaje, "IMPORTANTE", JOptionPane.WARNING_MESSAGE);
         System.out.println("Aviso:   " + mensaje);
+    }
+    public static void informar(String mensaje,String Titulo) {
+
+        JOptionPane.showMessageDialog(null, mensaje, Titulo, JOptionPane.WARNING_MESSAGE);
+        System.out.println(Titulo + "  " + mensaje);
     }
 
     private static String tipoCritico(String codeCrit) {
@@ -341,45 +359,45 @@ public class Recursos {
         ret += "<span color='" + tok.getColor() + "'> " + tok.getNombre() + " <span>";
 
         switch (acc.getTipo()) {
-            case Accion.TIPO_SIN_ACCION: {
+            case Constantes.TIPO_ACCION_SIN_ACCION: {
                 ret += " No realiza Acciones";
                 break;
             }
-            case Accion.TIPO_CARGA_SORTILEGIO: {
+            case Constantes.TIPO_ACCION_CARGA_SORTILEGIO: {
                 int carga = (Integer) ((Object[]) tok.getSortilegioCargado())[0];
                 Sortilegio sort = (Sortilegio) ((Object[]) tok.getSortilegioCargado())[1];
                 ret += " <span> suma " + carga + " Carga(s) del sortilegio " + sort.toString();
                 break;
             }
-            case Accion.TIPO_REALIZA_SORTILEGIO: {
+            case Constantes.TIPO_ACCION_REALIZA_SORTILEGIO: {
                 ret += " <span> Lanza sortilegio " + acc.getSortilegio().toString();
                 break;
             }
-            case Accion.TIPO_DISPARA_PROYECTIL: {
+            case Constantes.TIPO_ACCION_DISPARA_PROYECTIL: {
                 ret += " <span> Dispara Proyectil ";
                 break;
             }
-            case Accion.TIPO_CARGA_PROYECTIL: {
+            case Constantes.TIPO_ACCION_CARGA_PROYECTIL: {
                 ret += " <span> Carga un Proyectil";
                 break;
             }
-            case Accion.TIPO_PARAR_PROYECTIL: {
+            case Constantes.TIPO_ACCION_PARAR_PROYECTIL: {
                 ret += " <span> Para un proyectil";
                 break;
             }
-            case Accion.TIPO_MOVIMIENTO_Y_MANIOBRA: {
+            case Constantes.TIPO_ACCION_MOVIMIENTO_Y_MANIOBRA: {
                 ret += " <span> Movimiento y Maniobra  " + acc.getDificultad();
                 break;
             }
-            case Accion.TIPO_ATAQUE_CUERPO_A_CUERPO: {
+            case Constantes.TIPO_ACCION_ATAQUE_CUERPO_A_CUERPO: {
                 ret += " <span> Ataque Cuerpo a Cuperpo ";
                 break;
             }
-            case Accion.TIPO_DESPLAZAMIENTO: {
+            case Constantes.TIPO_ACCION_DESPLAZAMIENTO: {
                 ret += " <span> Desplazamiento ";
                 break;
             }
-            case Accion.TIPO_MOVIMIENTO_ESTATICO: {
+            case Constantes.TIPO_ACCION_MOVIMIENTO_ESTATICO: {
                 ret += " <span> Movimiento Estatico ";
                 break;
             }

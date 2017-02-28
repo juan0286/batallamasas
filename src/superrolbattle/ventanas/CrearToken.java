@@ -7,14 +7,23 @@ package superrolbattle.ventanas;
 
 import instancias.Token;
 import instancias.properties.Arma;
+import instancias.properties.Bo;
 import instancias.properties.Brazo;
 import instancias.properties.Caracteristicas;
 import instancias.properties.Status;
 import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.ListModel;
+import recursos.Constantes;
 import recursos.Recursos;
 import superrolbattle.Principal;
 
@@ -31,34 +40,17 @@ public class CrearToken extends javax.swing.JDialog {
         super(Principal.ventana, modal);
         initComponents();
         this.setLocationRelativeTo(Principal.ventana);
-
+        bos = new HashMap<Integer, Bo>();
         this.setTitle("Crear Nuevo Personaje");
 
-        this.jComboBox_crearBI_Arma.removeAllItems();
-        this.jComboBox_crearBDArma.removeAllItems();
-
-        this.jComboBox_crearBI_Arma.setModel(new DefaultComboBoxModel(Recursos.armeria.toArray()));
-        this.jComboBox_crearBDArma.setModel(new DefaultComboBoxModel(Recursos.armeria.toArray()));
-        this.jComboBox_crearBI_Arma.setSelectedIndex(15);
         this.jComboBox_crearGrupo.removeAllItems();
         this.jComboBox_crearGrupo.setModel(new DefaultComboBoxModel(Recursos.grupos.toArray()));
 
         this.jToggleButton_Panel.setSelected(CrearToken.panelLado);
         this.setearPanel();
 
-        jComboBox_crearBDArma.addItemListener(new ItemListener() {
-            public void itemStateChanged(ItemEvent e) {
-                instancias.properties.Arma arm = Recursos.armeria.get(jComboBox_crearBDArma.getSelectedIndex());
-                if (arm.isdosManos()) {
-                    jComboBox_crearBI_Arma.setSelectedIndex(jComboBox_crearBDArma.getSelectedIndex());
-                    jComboBox_crearBI_Arma.setEnabled(false);
-                } else {
-                    // Por defecto porngo el escudo que es el 15
-                    jComboBox_crearBI_Arma.setSelectedIndex(16);
-                    jComboBox_crearBI_Arma.setEnabled(true);
-                }
-            }
-        });
+        agregarArmaALalista(new Arma("Mano Desnuda", Constantes.CLASE_MANO_DESNUDA, 0, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_PELEA));
+
     }
 
     /**
@@ -89,6 +81,17 @@ public class CrearToken extends javax.swing.JDialog {
         jComboBox_crearGrupo = new javax.swing.JComboBox();
         jPanel8 = new javax.swing.JPanel();
         jSlider_crearPvActuales = new javax.swing.JSlider();
+        jPanel16 = new javax.swing.JPanel();
+        jPanel12 = new javax.swing.JPanel();
+        jPanel13 = new javax.swing.JPanel();
+        jButton_agregarArma = new javax.swing.JButton();
+        jPanel15 = new javax.swing.JPanel();
+        jButton_agregarBO = new javax.swing.JButton();
+        jPanel14 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jList_Armas = new javax.swing.JList<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jList_Bos = new javax.swing.JList<>();
         jPanel_caract2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jSpinner_crearBo = new javax.swing.JSpinner();
@@ -96,14 +99,6 @@ public class CrearToken extends javax.swing.JDialog {
         jSpinner_crearBD = new javax.swing.JSpinner();
         jLabel9 = new javax.swing.JLabel();
         jSpinner_crearArmadura = new javax.swing.JSpinner();
-        jPanel3 = new javax.swing.JPanel();
-        jCheckBox_crearBDHabilitado = new javax.swing.JCheckBox();
-        jLabel7 = new javax.swing.JLabel();
-        jComboBox_crearBDArma = new javax.swing.JComboBox();
-        jPanel2 = new javax.swing.JPanel();
-        jCheckBox_crearBIHabilitado = new javax.swing.JCheckBox();
-        jLabel6 = new javax.swing.JLabel();
-        jComboBox_crearBI_Arma = new javax.swing.JComboBox();
         jPanel_caract3 = new javax.swing.JPanel();
         jRadioButton_crearEstilo1 = new javax.swing.JRadioButton();
         jRadioButton_crearEstilo2 = new javax.swing.JRadioButton();
@@ -129,30 +124,14 @@ public class CrearToken extends javax.swing.JDialog {
         jToggleButton_Panel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jToggleButton_Panel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jToggleButton_Panel.setMaximumSize(new java.awt.Dimension(500, 23));
-        jToggleButton_Panel.setPreferredSize(new java.awt.Dimension(707, 23));
+        jToggleButton_Panel.setMinimumSize(new java.awt.Dimension(57, 23));
+        jToggleButton_Panel.setPreferredSize(new java.awt.Dimension(157, 23));
         jToggleButton_Panel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jToggleButton_PanelActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 345, Short.MAX_VALUE)
-            .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jToggleButton_Panel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE))
-        );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 45, Short.MAX_VALUE)
-            .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jToggleButton_Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-        );
+        jPanel9.add(jToggleButton_Panel);
 
         jPanel1.add(jPanel9, java.awt.BorderLayout.PAGE_START);
 
@@ -250,6 +229,55 @@ public class CrearToken extends javax.swing.JDialog {
 
         jPanel7.add(jPanel_caract1);
 
+        jPanel16.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel16.setLayout(new javax.swing.BoxLayout(jPanel16, javax.swing.BoxLayout.PAGE_AXIS));
+
+        jPanel12.setLayout(new java.awt.GridLayout());
+
+        jPanel13.setMinimumSize(new java.awt.Dimension(89, 23));
+        jPanel13.setLayout(new javax.swing.BoxLayout(jPanel13, javax.swing.BoxLayout.LINE_AXIS));
+
+        jButton_agregarArma.setText("+ Arma");
+        jButton_agregarArma.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_agregarArmaActionPerformed(evt);
+            }
+        });
+        jPanel13.add(jButton_agregarArma);
+
+        jPanel12.add(jPanel13);
+
+        jPanel15.setMinimumSize(new java.awt.Dimension(89, 23));
+        jPanel15.setLayout(new javax.swing.BoxLayout(jPanel15, javax.swing.BoxLayout.LINE_AXIS));
+
+        jButton_agregarBO.setText("+ Bon Ofe");
+        jButton_agregarBO.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_agregarBOActionPerformed(evt);
+            }
+        });
+        jPanel15.add(jButton_agregarBO);
+
+        jPanel12.add(jPanel15);
+
+        jPanel16.add(jPanel12);
+
+        jPanel14.setLayout(new java.awt.GridLayout());
+
+        jList_Armas.setModel(new DefaultListModel());
+        jScrollPane1.setViewportView(jList_Armas);
+
+        jPanel14.add(jScrollPane1);
+
+        jList_Bos.setModel(new DefaultListModel());
+        jScrollPane2.setViewportView(jList_Bos);
+
+        jPanel14.add(jScrollPane2);
+
+        jPanel16.add(jPanel14);
+
+        jPanel7.add(jPanel16);
+
         jPanel_caract2.setBorder(javax.swing.BorderFactory.createTitledBorder("Habilidades"));
         jPanel_caract2.setLayout(new javax.swing.BoxLayout(jPanel_caract2, javax.swing.BoxLayout.LINE_AXIS));
 
@@ -259,7 +287,7 @@ public class CrearToken extends javax.swing.JDialog {
         jSpinner_crearBo.setModel(new javax.swing.SpinnerNumberModel(0, null, null, 5));
         jPanel_caract2.add(jSpinner_crearBo);
 
-        jLabel8.setText("   BD   ");
+        jLabel8.setText("AGI");
         jPanel_caract2.add(jLabel8);
 
         jSpinner_crearBD.setModel(new javax.swing.SpinnerNumberModel(0, null, null, 5));
@@ -272,57 +300,6 @@ public class CrearToken extends javax.swing.JDialog {
         jPanel_caract2.add(jSpinner_crearArmadura);
 
         jPanel7.add(jPanel_caract2);
-
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Brazo Derecho"));
-        jPanel3.setLayout(new javax.swing.BoxLayout(jPanel3, javax.swing.BoxLayout.LINE_AXIS));
-
-        jCheckBox_crearBDHabilitado.setSelected(true);
-        jCheckBox_crearBDHabilitado.setText("Habilitado");
-        jCheckBox_crearBDHabilitado.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox_crearBDHabilitadoActionPerformed(evt);
-            }
-        });
-        jPanel3.add(jCheckBox_crearBDHabilitado);
-
-        jLabel7.setText("  Arma   ");
-        jPanel3.add(jLabel7);
-
-        jComboBox_crearBDArma.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox_crearBDArma.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jComboBox_crearBDArmaItemStateChanged(evt);
-            }
-        });
-        jComboBox_crearBDArma.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox_crearBDArmaActionPerformed(evt);
-            }
-        });
-        jPanel3.add(jComboBox_crearBDArma);
-
-        jPanel7.add(jPanel3);
-
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Brazo Izquierdo"));
-        jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.LINE_AXIS));
-
-        jCheckBox_crearBIHabilitado.setSelected(true);
-        jCheckBox_crearBIHabilitado.setText("Habilitado");
-        jCheckBox_crearBIHabilitado.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox_crearBIHabilitadoActionPerformed(evt);
-            }
-        });
-        jPanel2.add(jCheckBox_crearBIHabilitado);
-
-        jLabel6.setText("  Arma   ");
-        jPanel2.add(jLabel6);
-
-        jComboBox_crearBI_Arma.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox_crearBI_Arma.setEnabled(false);
-        jPanel2.add(jComboBox_crearBI_Arma);
-
-        jPanel7.add(jPanel2);
 
         jPanel_caract3.setBorder(javax.swing.BorderFactory.createTitledBorder("Estilo"));
         jPanel_caract3.setLayout(new java.awt.GridLayout(2, 3));
@@ -368,7 +345,7 @@ public class CrearToken extends javax.swing.JDialog {
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 55, Short.MAX_VALUE)
+            .addGap(0, 54, Short.MAX_VALUE)
         );
 
         jPanel6.add(jPanel10);
@@ -391,7 +368,7 @@ public class CrearToken extends javax.swing.JDialog {
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 55, Short.MAX_VALUE)
+            .addGap(0, 54, Short.MAX_VALUE)
         );
 
         jPanel6.add(jPanel11);
@@ -412,14 +389,6 @@ public class CrearToken extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jCheckBox_crearBIHabilitadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_crearBIHabilitadoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox_crearBIHabilitadoActionPerformed
-
-    private void jCheckBox_crearBDHabilitadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_crearBDHabilitadoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox_crearBDHabilitadoActionPerformed
 
     private void jRadioButton_crearEstilo3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton_crearEstilo3ActionPerformed
         // TODO add your handling code here:
@@ -452,13 +421,17 @@ public class CrearToken extends javax.swing.JDialog {
             int porcPv = this.jSlider_crearPvActuales.getValue();
             newToken.setPuntosVida((int) (((float) pv / 100.0) * porcPv));
 
-            izq.setHabilitado(this.jCheckBox_crearBIHabilitado.isSelected());
-            izq.setArmaEquipada(Recursos.armeria.get(this.jComboBox_crearBI_Arma.getSelectedIndex()));
+            ArrayList<Arma> arm = new ArrayList<Arma>();
 
-            der.setHabilitado(this.jCheckBox_crearBDHabilitado.isSelected());
-            der.setArmaEquipada(Recursos.armeria.get(this.jComboBox_crearBDArma.getSelectedIndex()));
+            DefaultListModel jdlm = new DefaultListModel();
+            for (int i = 0; i < jdlm.getSize(); i++) {
+                arm.add((Arma) jdlm.get(i));
+            }
+            newToken.setArmas(arm);
 
             hab.setBo_pri((Integer) this.jSpinner_crearBo.getValue());
+            hab.setBd((Integer) this.jSpinner_crearBD.getValue());
+
             //hab.setAgi((Integer) this.jSpinner_crearBD.getValue());
             hab.setArmadura((Integer) this.jSpinner_crearArmadura.getValue());
 
@@ -483,6 +456,7 @@ public class CrearToken extends javax.swing.JDialog {
             }
 
             newToken.setHabilidades(hab);
+            newToken.setBos(bos);
             newToken.setManoDER(der);
             newToken.setManoIZQ(izq);
             newToken.setEstado(est);
@@ -514,14 +488,6 @@ public class CrearToken extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_jButton_cancelarActionPerformed
 
-    private void jComboBox_crearBDArmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_crearBDArmaActionPerformed
-
-    }//GEN-LAST:event_jComboBox_crearBDArmaActionPerformed
-
-    private void jComboBox_crearBDArmaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_crearBDArmaItemStateChanged
-
-    }//GEN-LAST:event_jComboBox_crearBDArmaItemStateChanged
-
     private void jButton_generaNombreAleatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_generaNombreAleatorioActionPerformed
         String n = Recursos.nombres.get(Recursos.aleatorioEntre(0, Recursos.nombres.size()));
         jTextField_crearnombre.setText(n);
@@ -543,19 +509,73 @@ public class CrearToken extends javax.swing.JDialog {
 
         jSpinner_crearPV.setValue(pv);
 
-        jComboBox_crearBDArma.setSelectedIndex(Recursos.aleatorioEntre(0, Recursos.armeria.size() - 1));
-        Arma der = (Arma) jComboBox_crearBDArma.getSelectedItem();
+        //jComboBox_crearBDArma.setSelectedIndex(Recursos.aleatorioEntre(0, Recursos.armeria.size() - 1));
+        //Arma der = (Arma) jComboBox_crearBDArma.getSelectedItem();
+        int cant_armas = Recursos.aleatorioEntre(1, 3);
+        DefaultListModel jdlm = (DefaultListModel) jList_Armas.getModel();
+        jdlm.removeAllElements();
+        DefaultListModel jdlmo = (DefaultListModel) jList_Bos.getModel();
+        jdlmo.removeAllElements();
+        bos.clear();
 
-        jComboBox_crearBI_Arma.setEnabled(true);
-        if (der.isdosManos()) {
-            jComboBox_crearBI_Arma.setSelectedIndex(jComboBox_crearBDArma.getSelectedIndex());
-        } else {
-            if (Recursos.posibilidad(70)) {
-                jComboBox_crearBI_Arma.setSelectedIndex(Arma.CLASE_ESCUDO);
-            } else {
-                jComboBox_crearBI_Arma.setSelectedIndex(Arma.CLASE_MANO_DESNUDA);
-            }
+        agregarArmaALalista(new Arma("Mano Desnuda", Constantes.CLASE_MANO_DESNUDA, 0, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_PELEA));
+        agregarBoALaLista(new Bo(Constantes.ESTILO_PELEA, nuevaBo(nivel, Recursos.aleatorioEntre(0, 4))));
+
+        for (int i = 0; i < cant_armas; i++) {
+            Arma a = Recursos.armeria.get(Recursos.aleatorioEntre(0, Recursos.armeria.size() - 1));
+            agregarArmaALalista(a);
+            Bo b = new Bo(a.getEstilo(), 0);
+            b.setValue(nuevaBo(nivel, i));
+            agregarBoALaLista(b);
         }
+
+        jSpinner_crearBD.setValue(5 * Recursos.aleatorioEntre(1, 8));
+        jSpinner_crearArmadura.setValue(Recursos.aleatorioEntre(1, 20));
+
+    }//GEN-LAST:event_jButton_generaNombreAleatorioActionPerformed
+
+    private void jButton_agregarArmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_agregarArmaActionPerformed
+        Arma a = (Arma) JOptionPane.showInputDialog(null,
+                "Selecciona Arma", "ShowInputDialog",
+                JOptionPane.PLAIN_MESSAGE, null, Recursos.armeria.toArray(), "Seleccion de Arma");
+        agregarArmaALalista(a);
+    }//GEN-LAST:event_jButton_agregarArmaActionPerformed
+
+    private void jButton_agregarBOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_agregarBOActionPerformed
+        Bo bo = DefinirBo.crearBo(null, true);
+        agregarBoALaLista(bo);
+
+    }//GEN-LAST:event_jButton_agregarBOActionPerformed
+
+    private void agregarArmaALalista(Arma a) {
+        // ListModel jlm = (ListModel) 
+        DefaultListModel jdlm = (DefaultListModel) jList_Armas.getModel();
+
+        jdlm.addElement(a);
+        jList_Armas.setModel(jdlm);
+    }
+
+    private void agregarBoALaLista(Bo bo) {
+        if (bo != null && !bos.containsKey(bo.getEstilo())) {
+            DefaultListModel jdlm = (DefaultListModel) jList_Bos.getModel();
+            jdlm.addElement(bo);
+            jList_Bos.setModel(jdlm);
+            bos.put(bo.getEstilo(), bo);
+        }
+    }
+
+    private Object[] listaArmas() {
+
+        return Recursos.armeria.toArray();
+    }
+
+    public static Object[] nuevoToken() {
+        CrearToken ct = new CrearToken(true);
+        ct.setVisible(true);
+        return new Object[]{panelLado, newToken};
+    }
+
+    private int nuevaBo(int nivel, int rango) {
 
         int bonoBo = 0;
         for (int j = 0; j < nivel; j++) {
@@ -569,47 +589,36 @@ public class CrearToken extends javax.swing.JDialog {
                 }
             }
         }
-
-        jSpinner_crearBo.setValue(35 + nivel * 3 + nivel + bonoBo + Recursos.aleatorioEntre(1, 5));
-        jSpinner_crearBD.setValue(5 * Recursos.aleatorioEntre(1, 8));
-        jSpinner_crearArmadura.setValue(Recursos.aleatorioEntre(1, 20));
-
-    }//GEN-LAST:event_jButton_generaNombreAleatorioActionPerformed
-
-    private Object[] listaArmas() {
-
-        return Recursos.armeria.toArray();
+        int al = Recursos.aleatorioEntre(15, 25);
+        float aux1 = (float) rango * al;
+        float factor = (rango == 0) ? 1 : (100 - (aux1)) / 100;
+        float aux = (35 + nivel * 3 + nivel + bonoBo + Recursos.aleatorioEntre(1, 5)) * factor;
+        return Math.round(aux);
     }
-
-    public static Object[] nuevoToken() {
-        CrearToken ct = new CrearToken(true);
-        ct.setVisible(true);
-        return new Object[]{panelLado, newToken};
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton_agregarArma;
+    private javax.swing.JButton jButton_agregarBO;
     private javax.swing.JButton jButton_cancelar;
     private javax.swing.JButton jButton_generaNombreAleatorio;
-    private javax.swing.JCheckBox jCheckBox_crearBDHabilitado;
-    private javax.swing.JCheckBox jCheckBox_crearBIHabilitado;
-    private javax.swing.JComboBox jComboBox_crearBDArma;
-    private javax.swing.JComboBox jComboBox_crearBI_Arma;
     private javax.swing.JComboBox jComboBox_crearGrupo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JList<String> jList_Armas;
+    private javax.swing.JList<String> jList_Bos;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
@@ -624,6 +633,8 @@ public class CrearToken extends javax.swing.JDialog {
     private javax.swing.JRadioButton jRadioButton_crearEstilo3;
     private javax.swing.JRadioButton jRadioButton_crearEstilo4;
     private javax.swing.JRadioButton jRadioButton_crearEstilo5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSlider jSlider_crearPvActuales;
     private javax.swing.JSpinner jSpinner_crearArmadura;
     private javax.swing.JSpinner jSpinner_crearBD;
@@ -635,5 +646,6 @@ public class CrearToken extends javax.swing.JDialog {
     private javax.swing.ButtonGroup jbuttonGroup_crearEstilo;
     // End of variables declaration//GEN-END:variables
     private static Token newToken;
+    private HashMap<Integer, Bo> bos;
     private static boolean panelLado = true;
 }

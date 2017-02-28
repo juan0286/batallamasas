@@ -20,8 +20,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import recursos.Recursos.*;
+import recursos.Constantes.*;
 import static recursos.Recursos.informar;
-import static recursos.Recursos.verTabla;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+
 
 /**
  *
@@ -156,24 +160,49 @@ public class CargaBase {
 
     private static void cargaArmeria() {
       
-        Arma puños = new Arma("Mano Desnuda", Arma.CLASE_MANO_DESNUDA, -50, Arma.TIPO_NORMAL, false);
-        Arma arma1 = new Arma("Espada Ancha", Arma.CLASE_ESPADA_ANCHA, 0, Arma.TIPO_NORMAL, false);
-        Arma arma2 = new Arma("Espada Alfanje", Arma.CLASE_ALFANJE, 0, Arma.TIPO_NORMAL, false);
-        Arma arma3 = new Arma("Arco Corto", Arma.CLASE_ARCO_CORTO, 0, Arma.TIPO_NORMAL, true);
-        Arma arma4 = new Arma("Arco Largo", Arma.CLASE_ARCO_LARGO, 0, Arma.TIPO_NORMAL, true);
-        Arma arma5 = new Arma("Baston", Arma.CLASE_BASTON, 0, Arma.TIPO_NORMAL, true);
-        Arma arma6 = new Arma("Espada Cimitarra", Arma.CLASE_CIMITARRA, 0, Arma.TIPO_NORMAL, false);
-        Arma arma7 = new Arma("Daga", Arma.CLASE_DAGA, 0, Arma.TIPO_NORMAL, false);
-        Arma arma8 = new Arma("Espada Corta", Arma.CLASE_ESPADA_CORTA, 0, Arma.TIPO_NORMAL, false);
-        Arma arma9 = new Arma("Espadon", Arma.CLASE_ESPADON, 0, Arma.TIPO_NORMAL, true);
-        Arma arma10 = new Arma("Garrote", Arma.CLASE_GARROTE, 0, Arma.TIPO_NORMAL, false);
-        Arma arma11 = new Arma("Hacha de mano", Arma.CLASE_HACHA, 0, Arma.TIPO_NORMAL, false);
-        Arma arma12 = new Arma("Lanza", Arma.CLASE_LANZA, 0, Arma.TIPO_NORMAL, false);
-        Arma arma13 = new Arma("Maza de Mano", Arma.CLASE_MAZA, 0, Arma.TIPO_NORMAL, false);
-        Arma arma14 = new Arma("Lanza de Caballeria", Arma.CLASE_LANZA_CABALLERIA, 0, Arma.TIPO_NORMAL, true);
-        Arma arma15 = new Arma("Rompe Cabezas", Arma.CLASE_ROMPE_CABEZAS, 0, Arma.TIPO_NORMAL, true);
-        Arma arma16 = new Arma("Escudo", Arma.CLASE_ESCUDO, -50, Arma.TIPO_NORMAL, false);
+        Arma puños = new Arma("Mano Desnuda", Constantes.CLASE_MANO_DESNUDA, -50, Constantes.TIPO_ARMA_NORMAL, false,Constantes.ESTILO_PELEA);
+        Arma arma1 = new Arma("Espada Ancha", Constantes.CLASE_ESPADA_ANCHA, 0, Constantes.TIPO_ARMA_NORMAL, false,Constantes.ESTILO_FILO);
+        Arma arma2 = new Arma("Espada Alfanje", Constantes.CLASE_ALFANJE, 0, Constantes.TIPO_ARMA_NORMAL, false,Constantes.ESTILO_FILO);
+        Arma arma3 = new Arma("Arco Corto", Constantes.CLASE_ARCO_CORTO, 0, Constantes.TIPO_ARMA_NORMAL, true,Constantes.ESTILO_PROYECTILES);
+        Arma arma45 = new Arma("Arco Compuesto", Constantes.CLASE_ARCO_LARGO, 0, Constantes.TIPO_ARMA_NORMAL, true,Constantes.ESTILO_PROYECTILES);
+        Arma arma4 = new Arma("Arco Largo", Constantes.CLASE_ARCO_LARGO, 0, Constantes.TIPO_ARMA_NORMAL, true,Constantes.ESTILO_PROYECTILES);
+        Arma arma5 = new Arma("Baston", Constantes.CLASE_BASTON, 0, Constantes.TIPO_ARMA_NORMAL, true,Constantes.ESTILO_DOS_MANOS);
+        Arma arma6 = new Arma("Espada Cimitarra", Constantes.CLASE_CIMITARRA, 0, Constantes.TIPO_ARMA_NORMAL, false,Constantes.ESTILO_FILO);
+        Arma arma7 = new Arma("Daga", Constantes.CLASE_DAGA, 0, Constantes.TIPO_ARMA_NORMAL, false,Constantes.ESTILO_FILO);
+        Arma arma8 = new Arma("Espada Corta", Constantes.CLASE_ESPADA_CORTA, 0, Constantes.TIPO_ARMA_NORMAL, false,Constantes.ESTILO_FILO);
+        Arma arma9 = new Arma("Espadon", Constantes.CLASE_ESPADON, 0, Constantes.TIPO_ARMA_NORMAL, true,Constantes.ESTILO_DOS_MANOS);
+        Arma arma10 = new Arma("Garrote", Constantes.CLASE_GARROTE, 0, Constantes.TIPO_ARMA_NORMAL, false,Constantes.ESTILO_CONTUNDENTE);
+        Arma arma11 = new Arma("Hacha de mano", Constantes.CLASE_HACHA, 0, Constantes.TIPO_ARMA_NORMAL, false,Constantes.ESTILO_FILO);
+        Arma arma115 = new Arma("Hacha de mano(C)", Constantes.CLASE_HACHA, 0, Constantes.TIPO_ARMA_NORMAL, false,Constantes.ESTILO_CONTUNDENTE);
+        Arma arma12 = new Arma("Lanza", Constantes.CLASE_LANZA, 0, Constantes.TIPO_ARMA_NORMAL, false,Constantes.ESTILO_ASTA);
+        Arma arma13 = new Arma("Maza de Mano", Constantes.CLASE_MAZA, 0, Constantes.TIPO_ARMA_NORMAL, false,Constantes.ESTILO_CONTUNDENTE);
+        Arma arma14 = new Arma("Lanza de Caballeria", Constantes.CLASE_LANZA_CABALLERIA, 0, Constantes.TIPO_ARMA_NORMAL, true,Constantes.ESTILO_ASTA);
+        Arma arma15 = new Arma("Rompe Cabezas", Constantes.CLASE_ROMPE_CABEZAS, 0, Constantes.TIPO_ARMA_NORMAL, true,Constantes.ESTILO_DOS_MANOS);
+        Arma arma16 = new Arma("Escudo", Constantes.CLASE_ESCUDO, -50, Constantes.TIPO_ARMA_NORMAL, false,Constantes.ESTILO_PELEA);
+        Arma arma17 = new Arma("Hacha de Combate", Constantes.CLASE_ESPADON, 0, Constantes.TIPO_ARMA_NORMAL, true,Constantes.ESTILO_DOS_MANOS);
+        Arma arma18 = new Arma("Alabarda", Constantes.CLASE_ESCUDO, 0, Constantes.TIPO_ARMA_NORMAL, true,Constantes.ESTILO_ASTA);
+        Arma arma19 = new Arma("Tridente", Constantes.CLASE_LANZA, 0, Constantes.TIPO_ARMA_NORMAL, false,Constantes.ESTILO_ASTA);
+        Arma arma195 = new Arma("Tridente(2m)", Constantes.CLASE_LANZA_CABALLERIA, 0, Constantes.TIPO_ARMA_NORMAL, true,Constantes.ESTILO_ASTA);
+        Arma arma20 = new Arma("Florete", Constantes.CLASE_ESPADA_ANCHA, 5, Constantes.TIPO_ARMA_NORMAL, false,Constantes.ESTILO_FILO);
 
+        
+        Arma khalel = new Arma("Espada Khal-El", Constantes.CLASE_ESPADA_ANCHA, 30, Constantes.TIPO_ARMA_MAGICA, false, Constantes.ESTILO_FILO);
+        Arma hachaOso = new Arma("Hacha Oso", Constantes.CLASE_HACHA, 30, Constantes.TIPO_ARMA_MITRIL, false, Constantes.ESTILO_FILO);
+        Arma hachaOsoC = new Arma("Hacha Oso", Constantes.CLASE_HACHA, 30, Constantes.TIPO_ARMA_MITRIL, false, Constantes.ESTILO_CONTUNDENTE);
+        Arma hachaOsoDM = new Arma("Hacha Oso", Constantes.CLASE_ESPADON, 35, Constantes.TIPO_ARMA_MITRIL, true, Constantes.ESTILO_DOS_MANOS);
+        Arma espDragon = new Arma("Espada Dragon", Constantes.CLASE_ESPADA_ANCHA, 30, Constantes.TIPO_ARMA_MAGICA, false, Constantes.ESTILO_FILO);
+        
+        Arma EspKyoros = new Arma("Espada Kyoros", Constantes.CLASE_ESPADA_ANCHA, 40, Constantes.TIPO_ARMA_MAGICA, false, Constantes.ESTILO_FILO);
+        Arma lanzaFeros = new Arma("Lanza Feroz", Constantes.CLASE_LANZA_CABALLERIA, 30, Constantes.TIPO_ARMA_MAGICA, false, Constantes.ESTILO_ASTA);
+        
+        
+        Arma comboKyoLanzaEspada = new Arma("Combo Kyoros Feroz", Constantes.CLASE_ESPADA_ANCHA, 50, Constantes.TIPO_ARMA_MAGICA, true, Constantes.ESTILO_COMBO_ASTA_FILO);
+        Arma comboNeoOsoDragon = new Arma("Combo Oso Dragon", Constantes.CLASE_HACHA, 45, Constantes.TIPO_ARMA_MITRIL, true, Constantes.ESTILO_COMBO_FILO_FILO);
+        
+        
+        
+        
+        
         Recursos.armeria.add(puños);
         Recursos.armeria.add(arma1);
         Recursos.armeria.add(arma2);
@@ -252,9 +281,9 @@ public class CargaBase {
                 izq.setArmaEquipada(der.getArmaEquipada());
             } else {
                 if (Recursos.posibilidad(70)) {
-                    izq.setArmaEquipada(Recursos.armeria.get(Arma.CLASE_ESCUDO));
+                    izq.setArmaEquipada(Recursos.armeria.get(Constantes.CLASE_ESCUDO));
                 } else {
-                    izq.setArmaEquipada(Recursos.armeria.get(Arma.CLASE_MANO_DESNUDA));
+                    izq.setArmaEquipada(Recursos.armeria.get(Constantes.CLASE_MANO_DESNUDA));
                 }
             }
 

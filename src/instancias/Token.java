@@ -9,8 +9,10 @@ import java.util.ArrayList;
 import instancias.properties.*;
 import java.awt.Color;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Objects;
 import javax.xml.bind.annotation.XmlType;
+import recursos.Constantes;
 import recursos.Critico;
 import recursos.Recursos;
 import superrolbattle.Principal;
@@ -95,6 +97,10 @@ public class Token implements Serializable {
     public Token() {        
     }
     
+    public void setBos(HashMap<Integer,Bo> bos){
+        habilidades.setBos(bos);
+    }
+    
     public int getEstilo() {
         return estilo;
     }
@@ -170,6 +176,19 @@ public class Token implements Serializable {
     public ArrayList getDaños() {
         return daños;
     }
+
+    public ArrayList<Arma> getArmas() {
+        return armas;
+    }
+
+    public void agregarArma(Arma a){
+        armas.add(a);
+    }
+
+    public void setArmas(ArrayList<Arma> armas) {
+        this.armas = armas;
+    }
+    
     
     public void setDaños(ArrayList daños) {
         this.daños = daños;
@@ -260,7 +279,7 @@ public class Token implements Serializable {
     
     public void updateEstado() {
         
-        estado.aplicarAsaltoNuevo();
+        estado.aplicarAsaltoNuevo(nombre);
     }
 
 //        Brazo d = new Brazo();
@@ -377,7 +396,8 @@ public class Token implements Serializable {
     }
     
     public int boDisponibleAtaque() {
-        int boDisponible = Recursos.porcentajeDe(this.getPorcentajeAtque(), this.boDisponible());
+        //int boDisponible = Recursos.porcentajeDe(this.getPorcentajeAtque(), this.boDisponible());
+        int boDisponible = habilidades.getBo_pri() + estado.getActividad();
         return boDisponible;
         
     }
@@ -389,9 +409,9 @@ public class Token implements Serializable {
     
     public int bonoEscudo() {
         
-        if (manoDER.isHabilitado() && manoDER.getArmaEquipada().getClase() == Arma.CLASE_ESCUDO) {
+        if (manoDER.isHabilitado() && manoDER.getArmaEquipada().getClase() == Constantes.CLASE_ESCUDO) {
             return this.manoDER.getArmaEquipada().getBono();
-        } else if (manoIZQ.isHabilitado() && manoIZQ.getArmaEquipada().getClase() == Arma.CLASE_ESCUDO) {
+        } else if (manoIZQ.isHabilitado() && manoIZQ.getArmaEquipada().getClase() == Constantes.CLASE_ESCUDO) {
             return 25;
             
         } else {
@@ -403,8 +423,7 @@ public class Token implements Serializable {
         return this.estado.getPtsDeVidaPerdidos() + " / " + this.habilidades.getPuntosVida();
     }
     
-    public String textEstado() {
-        
+    public String textEstado() {        
         return estado.getTextEstado();
     }
     

@@ -15,37 +15,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType
 public class Arma implements Serializable{
 
-    // CLASE
-    static final public int CLASE_MANO_DESNUDA = 0;
-    static final public  int CLASE_ALFANJE = 1;
-    static final public  int CLASE_ARCO_CORTO = 2;
-    static final public  int CLASE_ARCO_LARGO = 3;
-    static final public  int CLASE_BASTON = 4;
-    static final public  int CLASE_CIMITARRA = 5;
-    static final public  int CLASE_DAGA = 6;
-    static final public  int CLASE_ESPADA_ANCHA = 7;
-    static final public  int CLASE_ESPADA_CORTA = 8;
-    static final public  int CLASE_ESPADON = 9;
-    static final public  int CLASE_GARROTE = 10;
-    static final public  int CLASE_HACHA = 11;
-    static final public  int CLASE_LANZA = 12;
-    static final public  int CLASE_MAZA = 13;
-    static final public  int CLASE_LANZA_CABALLERIA = 14;
-    static final public  int CLASE_ROMPE_CABEZAS = 15;
-    static final public  int CLASE_ESCUDO = 16;   
-    
    
-    //TIPO 
-    static final public  int TIPO_NORMAL = 0;
-    static final public  int TIPO_MAGICA = 1;
-    static final public  int TIPO_MITRIL = 2;
-    static final public  int TIPO_SAGRADA = 3;
-    static final public  int TIPO_EXTERMINADORA = 4;
-    
-    // estados
-    static final public  int ESTADO_DETERIOROADA = 15;
-    static final public  int ESTADO_VIEJA = 15;
-    static final public  int ESTADO_COMO_nueva = 15;
     
     
     public Arma() {
@@ -55,36 +25,35 @@ public class Arma implements Serializable{
 
     public Arma(String Nombre, int clase, int bono,int tipo, boolean manos) {
         this.Nombre = Nombre;
-        this.tipo = tipo;
+        this.factura = tipo;
         this.bono = bono;
         this.clase = clase;
         this.dosManos = manos;
     }
 
-    public Arma(String Nombre, int tipo, int bono, int clase, boolean dosManos, Bo bo) {
+    public Arma(String Nombre, int tipo, int bono, int clase, boolean dosManos, int Estilo) {
         this.Nombre = Nombre;
-        this.tipo = tipo;
+        this.factura = tipo;
         this.bono = bono;
         this.clase = clase;
         this.dosManos = dosManos;
-        this.bo = bo;
+        this.estilo = Estilo;
+       
     }
 
-    
-    
 
     /**
      * @return the tipo
      */
-    public int getTipo() {
-        return tipo;
+    public int getFactura() {
+        return factura;
     }
 
     /**
-     * @param tipo the tipo to set
+     * @param factura the tipo to set
      */
-    public void setTipo(int tipo) {
-        this.tipo = tipo;
+    public void setFactura(int factura) {
+        this.factura = factura;
     }
 
     /**
@@ -134,17 +103,20 @@ public class Arma implements Serializable{
         this.dosManos = dosManos;
     }
 
-    public void setBo(Bo bo) {
-        this.bo = bo;
+    public int getEstilo() {
+        return estilo;
     }
 
+    public void setEstilo(int estilo) {
+        this.estilo = estilo;
+    }
     
     
     private String Nombre;
-    private int tipo;
-    private int bono;
-    private int clase;
+    private int factura; // material, si e snormal, magica, mithril, o sagrada
+    private int bono;  // bono al ataque
+    private int clase;  // // tabla que usa para definir el resultado del ataque
+    private int estilo;    // que tipo de Bo utiliza
     private boolean dosManos;
-    private Bo bo;
 
 }

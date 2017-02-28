@@ -16,16 +16,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType
 public class Accion implements Serializable{
     
-    final public static int TIPO_SIN_ACCION = 0;
-    final public static int TIPO_CARGA_SORTILEGIO = 1;
-    final public static int TIPO_REALIZA_SORTILEGIO = 2;
-    final public static int TIPO_DISPARA_PROYECTIL = 3;
-    final public static int TIPO_CARGA_PROYECTIL = 4;
-    final public static int TIPO_PARAR_PROYECTIL = 5;
-    final public static int TIPO_MOVIMIENTO_Y_MANIOBRA = 6;
-    final public static int TIPO_ATAQUE_CUERPO_A_CUERPO = 7;
-    final public static int TIPO_DESPLAZAMIENTO = 8;
-    final public static int TIPO_MOVIMIENTO_ESTATICO = 9;
+
     
   private int tipo;
   private int orden;

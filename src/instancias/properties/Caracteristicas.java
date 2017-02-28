@@ -8,6 +8,7 @@ package instancias.properties;
 import instancias.Sortilegio;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.xml.bind.annotation.XmlType;
 
 /**
@@ -15,8 +16,8 @@ import javax.xml.bind.annotation.XmlType;
  * @author Juan
  */
 @XmlType
-public class Caracteristicas implements Serializable{
-    
+public class Caracteristicas implements Serializable {
+
     private int bo_pri;
     private int bo_sec;
     private int bo_pri_tipo;
@@ -26,6 +27,7 @@ public class Caracteristicas implements Serializable{
     private int puntosVida;
     private int agi;
     private ArrayList<Integer> sortilegios = new ArrayList<Integer>();
+    private HashMap<Integer, Bo> bos = new HashMap<Integer, Bo>();
 
     public Caracteristicas() {
     }
@@ -38,8 +40,19 @@ public class Caracteristicas implements Serializable{
         this.sortilegios = sortilegios;
     }
 
+    public Bo getBodeEstilo(int estilo) {
+        if (bos.containsKey(estilo)) 
+            return bos.get(estilo);
+         else 
+            return new Bo(estilo, -25);   
+        
+    }
+
+    public void setBos(HashMap<Integer, Bo> bos) {
+        this.bos = bos;
+    }
+
     
-     
     
     public int getBo_pri() {
         return bo_pri;
@@ -72,9 +85,6 @@ public class Caracteristicas implements Serializable{
     public void setBo_sec_tipo(int bo_sec_tipo) {
         this.bo_sec_tipo = bo_sec_tipo;
     }
-    
-
-  
 
     /**
      * @return the bd
@@ -125,14 +135,14 @@ public class Caracteristicas implements Serializable{
     public void setAgi(int agi) {
         this.agi = agi;
     }
-    
-    public void aprenderSortilegio(int s){
-            sortilegios.add(s);
-            
+
+    public void aprenderSortilegio(int s) {
+        sortilegios.add(s);
+
     }
-    
-    public boolean conoceSortilegio(int id){
+
+    public boolean conoceSortilegio(int id) {
         return sortilegios.contains(id);
     }
-    
+
 }
