@@ -188,8 +188,8 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
                 + "Estado Fisico: " + token.getEstado().cuerpoString() + "<br/>"
                 + "Estado Mental: " + token.getEstado().menteEstadoTxt() + "<br/>"
                 + "Actividad: " + token.getEstado().getActividadActual() + "<br/>"
-                + "Bo Actual: " + token.boDisponibleAtaque() + "<br/>"
-                + "Bd Actual: " + token.getHabilidades().getBd()+ "<br/>"
+                + "Puntos de poder: " + token.podertxt()+ "<br/>"
+                //+ "Bd Actual: " + token.getHabilidades().getBd()+ "<br/>"
                 //+ "Equipo: " + token.getManoDER().getArmaEquipada().getNombre() + "<br/>"
                 //+ "" + token.getManoIZQ().getArmaEquipada().getNombre() + "<br/>"
                 + "</html>";

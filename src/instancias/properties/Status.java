@@ -38,6 +38,7 @@ public class Status implements Serializable {
     private int sinpoderparar = 0;
     private int asaltosparamorir = 0;
     private int ptsDeVidaPerdidos = 0;
+    private int ptsDePoderPerdidos = 0;
     private int trModificada = 0;
     private int mmModificada = 0;
     private int boModidificada = 0;
@@ -54,6 +55,7 @@ public class Status implements Serializable {
         this.c = c;
     }
 
+    
     public int getCuerpo() {
         return cuerpo;
     }
@@ -122,10 +124,14 @@ public class Status implements Serializable {
         this.postrado = postrado;
     }
 
+    
+    
     public int getTrModificada() {
         return trModificada;
     }
 
+    
+    
     public void setTrModificada(int trModificada) {
         this.trModificada = trModificada;
     }
@@ -462,4 +468,13 @@ public class Status implements Serializable {
 
     }
 
+    public int getPtsDePoderPerdidos() {
+        return ptsDePoderPerdidos;
+    }
+
+    public void setPtsDePoderPerdidos(int ptsDePoderPerdidos) {
+        this.ptsDePoderPerdidos = ptsDePoderPerdidos;
+    }
+
+    
 }

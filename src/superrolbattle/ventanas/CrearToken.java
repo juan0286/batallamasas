@@ -15,7 +15,11 @@ import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -40,7 +44,7 @@ public class CrearToken extends javax.swing.JDialog {
         super(Principal.ventana, modal);
         initComponents();
         this.setLocationRelativeTo(Principal.ventana);
-        bos = new HashMap<Integer, Bo>();
+        bos = new ArrayList<Bo>();
         this.setTitle("Crear Nuevo Personaje");
 
         this.jComboBox_crearGrupo.removeAllItems();
@@ -232,7 +236,7 @@ public class CrearToken extends javax.swing.JDialog {
         jPanel16.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel16.setLayout(new javax.swing.BoxLayout(jPanel16, javax.swing.BoxLayout.PAGE_AXIS));
 
-        jPanel12.setLayout(new java.awt.GridLayout());
+        jPanel12.setLayout(new java.awt.GridLayout(1, 0));
 
         jPanel13.setMinimumSize(new java.awt.Dimension(89, 23));
         jPanel13.setLayout(new javax.swing.BoxLayout(jPanel13, javax.swing.BoxLayout.LINE_AXIS));
@@ -262,7 +266,7 @@ public class CrearToken extends javax.swing.JDialog {
 
         jPanel16.add(jPanel12);
 
-        jPanel14.setLayout(new java.awt.GridLayout());
+        jPanel14.setLayout(new java.awt.GridLayout(1, 0));
 
         jList_Armas.setModel(new DefaultListModel());
         jScrollPane1.setViewportView(jList_Armas);
@@ -423,40 +427,49 @@ public class CrearToken extends javax.swing.JDialog {
 
             ArrayList<Arma> arm = new ArrayList<Arma>();
 
-            DefaultListModel jdlm = new DefaultListModel();
+            DefaultListModel jdlm = (DefaultListModel) jList_Armas.getModel();
             for (int i = 0; i < jdlm.getSize(); i++) {
                 arm.add((Arma) jdlm.get(i));
             }
             newToken.setArmas(arm);
 
-            hab.setBo_pri((Integer) this.jSpinner_crearBo.getValue());
+            //hab.setBo_pri((Integer) this.jSpinner_crearBo.getValue());
             hab.setBd((Integer) this.jSpinner_crearBD.getValue());
 
             //hab.setAgi((Integer) this.jSpinner_crearBD.getValue());
             hab.setArmadura((Integer) this.jSpinner_crearArmadura.getValue());
 
             if (this.jRadioButton_crearEstilo1.isSelected()) {
-                newToken.setEstilo(Token.DEFENSA_TOTAL);
+                newToken.setEstilo_de_pelea(Token.DEFENSA_TOTAL);
             }
 
             if (this.jRadioButton_crearEstilo2.isSelected()) {
-                newToken.setEstilo(Token.PRECAVIDO);
+                newToken.setEstilo_de_pelea(Token.PRECAVIDO);
             }
 
             if (this.jRadioButton_crearEstilo3.isSelected()) {
-                newToken.setEstilo(Token.NORMAL);
+                newToken.setEstilo_de_pelea(Token.NORMAL);
             }
 
             if (this.jRadioButton_crearEstilo4.isSelected()) {
-                newToken.setEstilo(Token.ATAQUE);
+                newToken.setEstilo_de_pelea(Token.ATAQUE);
             }
 
             if (this.jRadioButton_crearEstilo5.isSelected()) {
-                newToken.setEstilo(Token.TODO_O_NADA);
+                newToken.setEstilo_de_pelea(Token.TODO_O_NADA);
             }
 
             newToken.setHabilidades(hab);
-            newToken.setBos(bos);
+            Comparator<Bo> comparador = Collections.reverseOrder();
+            Collections.sort(bos,comparador);
+            HashMap<Integer, Bo> hm_bos =new HashMap<Integer, Bo>();
+            hab.setBo_pri(bos.get(0).getEstilo());
+            for (Iterator<Bo> iterator = bos.iterator(); iterator.hasNext();) {
+                Bo b = iterator.next();
+                hm_bos.put(b.getEstilo(), b);
+                
+            }
+            newToken.setBos(hm_bos);
             newToken.setManoDER(der);
             newToken.setManoIZQ(izq);
             newToken.setEstado(est);
@@ -556,11 +569,11 @@ public class CrearToken extends javax.swing.JDialog {
     }
 
     private void agregarBoALaLista(Bo bo) {
-        if (bo != null && !bos.containsKey(bo.getEstilo())) {
+        if (bo != null && !bos.contains(bo)) {
             DefaultListModel jdlm = (DefaultListModel) jList_Bos.getModel();
             jdlm.addElement(bo);
             jList_Bos.setModel(jdlm);
-            bos.put(bo.getEstilo(), bo);
+            bos.add(bo);
         }
     }
 
@@ -646,6 +659,6 @@ public class CrearToken extends javax.swing.JDialog {
     private javax.swing.ButtonGroup jbuttonGroup_crearEstilo;
     // End of variables declaration//GEN-END:variables
     private static Token newToken;
-    private HashMap<Integer, Bo> bos;
+    private ArrayList<Bo> bos;
     private static boolean panelLado = true;
 }

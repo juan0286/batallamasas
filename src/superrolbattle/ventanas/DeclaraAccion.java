@@ -8,6 +8,8 @@ package superrolbattle.ventanas;
 import instancias.Accion;
 import instancias.Sortilegio;
 import instancias.Token;
+import instancias.properties.Arma;
+import instancias.properties.Bo;
 import java.awt.Color;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
@@ -37,6 +39,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
         this.principal = parent;
 
         Token token = token_accion.getToken();
+        
         initComponents();
         this.setTitle("Acciones de " + token.getNombre());
 
@@ -44,10 +47,12 @@ public class DeclaraAccion extends javax.swing.JDialog {
 
         jComboBox_sotilegios.setModel(new DefaultComboBoxModel(token.getSortilegios().toArray()));
         jComboBox_sotilegios1.setModel(new DefaultComboBoxModel(token.getSortilegios().toArray()));
+        jComboBoxArmas_Proy.setModel(new DefaultComboBoxModel(token.getArmasProyectiles().toArray()));
+        jComboBoxArmas_cac.setModel(new DefaultComboBoxModel(token.getArmasCuerpoACuerpo().toArray()));
 
-        jComboBoxArmas.addItem(token.getManoDER().getArmaEquipada().toString());
-        jComboBoxArmas.addItem(token.getManoIZQ().getArmaEquipada().toString());
-        jSlider_Bo.setMaximum(token.boDisponible());
+        
+        //jComboBoxArmas.addItem(token.getManoIZQ().getArmaEquipada().toString());
+        jSlider_Bo.setMaximum(token.boDisponible(token.getHabilidades().getBo_pri()));
         jSlider_Bo.setToolTipText("bo Maxima = " + token.getHabilidades().getBo_pri());
         // jSlider_Bo.setMajorTickSpacing();
 
@@ -133,7 +138,6 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jTabbedPane_SeleccionAccion = new javax.swing.JTabbedPane();
         jPanel_Carga_Sortilegio_tabPanel1 = new javax.swing.JPanel();
         jPanel20 = new javax.swing.JPanel();
-        jPanel32 = new javax.swing.JPanel();
         jTextField_sort_cargado1 = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
         jTextField_sort_num_cargas1 = new javax.swing.JTextField();
@@ -153,7 +157,6 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jTextField_alcance_sort = new javax.swing.JTextField();
         jPanel_Realiza_Sortilegio_tabPanel = new javax.swing.JPanel();
         jPanel21 = new javax.swing.JPanel();
-        jPanel34 = new javax.swing.JPanel();
         jTextField_sort_cargado = new javax.swing.JTextField();
         jLabel26 = new javax.swing.JLabel();
         jTextField_sort_num_cargas = new javax.swing.JTextField();
@@ -176,7 +179,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jLabel16 = new javax.swing.JLabel();
         jComboBoxEnemigos1 = new javax.swing.JComboBox();
         jLabel17 = new javax.swing.JLabel();
-        jComboBoxArmas1 = new javax.swing.JComboBox();
+        jComboBoxArmas_Proy = new javax.swing.JComboBox();
         jPanel_distancia1 = new javax.swing.JPanel();
         jLabel_distancia1 = new javax.swing.JLabel();
         jSpinner_distancia1 = new javax.swing.JSpinner();
@@ -208,7 +211,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jPanel3 = new javax.swing.JPanel();
         jComboBoxEnemigos = new javax.swing.JComboBox();
         jPanel5 = new javax.swing.JPanel();
-        jComboBoxArmas = new javax.swing.JComboBox();
+        jComboBoxArmas_cac = new javax.swing.JComboBox();
         jButton3 = new javax.swing.JButton();
         jPanel_distancia = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
@@ -254,6 +257,10 @@ public class DeclaraAccion extends javax.swing.JDialog {
         setPreferredSize(new java.awt.Dimension(626, 316));
         setResizable(false);
 
+        jTabbedPane_SeleccionAccion.setTabPlacement(javax.swing.JTabbedPane.LEFT);
+        jTabbedPane_SeleccionAccion.setMinimumSize(new java.awt.Dimension(618, 167));
+        jTabbedPane_SeleccionAccion.setPreferredSize(new java.awt.Dimension(618, 167));
+
         jPanel_Carga_Sortilegio_tabPanel1.setMaximumSize(new java.awt.Dimension(300, 100));
         jPanel_Carga_Sortilegio_tabPanel1.setMinimumSize(new java.awt.Dimension(300, 100));
         jPanel_Carga_Sortilegio_tabPanel1.setPreferredSize(new java.awt.Dimension(300, 100));
@@ -261,16 +268,14 @@ public class DeclaraAccion extends javax.swing.JDialog {
 
         jPanel20.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jPanel32.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
         jTextField_sort_cargado1.setEditable(false);
         jTextField_sort_cargado1.setText("No hay Sortilegio cargado");
         jTextField_sort_cargado1.setMinimumSize(new java.awt.Dimension(330, 20));
         jTextField_sort_cargado1.setPreferredSize(new java.awt.Dimension(330, 20));
-        jPanel32.add(jTextField_sort_cargado1);
+        jPanel20.add(jTextField_sort_cargado1);
 
         jLabel22.setText("Cargas");
-        jPanel32.add(jLabel22);
+        jPanel20.add(jLabel22);
 
         jTextField_sort_num_cargas1.setEditable(false);
         jTextField_sort_num_cargas1.setText("0");
@@ -278,10 +283,10 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jTextField_sort_num_cargas1.setMinimumSize(new java.awt.Dimension(20, 20));
         jTextField_sort_num_cargas1.setName(""); // NOI18N
         jTextField_sort_num_cargas1.setPreferredSize(new java.awt.Dimension(20, 20));
-        jPanel32.add(jTextField_sort_num_cargas1);
+        jPanel20.add(jTextField_sort_num_cargas1);
 
         jLabel23.setText("Bono");
-        jPanel32.add(jLabel23);
+        jPanel20.add(jLabel23);
 
         jTextField_sort_bono.setEditable(false);
         jTextField_sort_bono.setText("-30");
@@ -289,9 +294,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jTextField_sort_bono.setMinimumSize(new java.awt.Dimension(30, 20));
         jTextField_sort_bono.setName(""); // NOI18N
         jTextField_sort_bono.setPreferredSize(new java.awt.Dimension(30, 20));
-        jPanel32.add(jTextField_sort_bono);
-
-        jPanel20.add(jPanel32);
+        jPanel20.add(jTextField_sort_bono);
 
         jPanel_Carga_Sortilegio_tabPanel1.add(jPanel20);
 
@@ -363,16 +366,14 @@ public class DeclaraAccion extends javax.swing.JDialog {
 
         jPanel21.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jPanel34.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
         jTextField_sort_cargado.setEditable(false);
         jTextField_sort_cargado.setText("No hay Sortilegio cargado");
         jTextField_sort_cargado.setMinimumSize(new java.awt.Dimension(330, 20));
         jTextField_sort_cargado.setPreferredSize(new java.awt.Dimension(330, 20));
-        jPanel34.add(jTextField_sort_cargado);
+        jPanel21.add(jTextField_sort_cargado);
 
         jLabel26.setText("Cargas");
-        jPanel34.add(jLabel26);
+        jPanel21.add(jLabel26);
 
         jTextField_sort_num_cargas.setEditable(false);
         jTextField_sort_num_cargas.setText("0");
@@ -380,10 +381,10 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jTextField_sort_num_cargas.setMinimumSize(new java.awt.Dimension(20, 20));
         jTextField_sort_num_cargas.setName(""); // NOI18N
         jTextField_sort_num_cargas.setPreferredSize(new java.awt.Dimension(20, 20));
-        jPanel34.add(jTextField_sort_num_cargas);
+        jPanel21.add(jTextField_sort_num_cargas);
 
         jLabel27.setText("Bono");
-        jPanel34.add(jLabel27);
+        jPanel21.add(jLabel27);
 
         jTextField_sort_bono1.setEditable(false);
         jTextField_sort_bono1.setText("-30");
@@ -391,9 +392,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jTextField_sort_bono1.setMinimumSize(new java.awt.Dimension(30, 20));
         jTextField_sort_bono1.setName(""); // NOI18N
         jTextField_sort_bono1.setPreferredSize(new java.awt.Dimension(30, 20));
-        jPanel34.add(jTextField_sort_bono1);
-
-        jPanel21.add(jPanel34);
+        jPanel21.add(jTextField_sort_bono1);
 
         jPanel_Realiza_Sortilegio_tabPanel.add(jPanel21);
 
@@ -471,13 +470,12 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jLabel17.setText("Arma");
         jPanel27.add(jLabel17);
 
-        jComboBoxArmas1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBoxArmas1.addItemListener(new java.awt.event.ItemListener() {
+        jComboBoxArmas_Proy.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jComboBoxArmas1ItemStateChanged(evt);
+                jComboBoxArmas_ProyItemStateChanged(evt);
             }
         });
-        jPanel27.add(jComboBoxArmas1);
+        jPanel27.add(jComboBoxArmas_Proy);
 
         jPanel_distancia1.setLayout(new javax.swing.BoxLayout(jPanel_distancia1, javax.swing.BoxLayout.LINE_AXIS));
 
@@ -621,13 +619,12 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Arma"));
         jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.LINE_AXIS));
 
-        jComboBoxArmas.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBoxArmas.addItemListener(new java.awt.event.ItemListener() {
+        jComboBoxArmas_cac.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jComboBoxArmasItemStateChanged(evt);
+                jComboBoxArmas_cacItemStateChanged(evt);
             }
         });
-        jPanel5.add(jComboBoxArmas);
+        jPanel5.add(jComboBoxArmas_cac);
 
         jButton3.setText("+");
         jPanel5.add(jButton3);
@@ -709,7 +706,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
         jSlider_Bo.setForeground(new java.awt.Color(102, 102, 102));
-        jSlider_Bo.setMajorTickSpacing(token_accion.getToken().getHabilidades().getBo_pri() / 8);
+        jSlider_Bo.setMajorTickSpacing(token_accion.getToken().bo_pri().getValue() / 8);
         jSlider_Bo.setPaintLabels(true);
         jSlider_Bo.setPaintTicks(true);
         jSlider_Bo.setPreferredSize(new java.awt.Dimension(200, 35));
@@ -784,6 +781,9 @@ public class DeclaraAccion extends javax.swing.JDialog {
         getContentPane().add(jPanel22, java.awt.BorderLayout.SOUTH);
 
         jPanel_desc_Accion.setBorder(javax.swing.BorderFactory.createTitledBorder("Descripcion de la Accion"));
+        jPanel_desc_Accion.setMaximumSize(new java.awt.Dimension(32779, 100));
+        jPanel_desc_Accion.setMinimumSize(new java.awt.Dimension(50, 46));
+        jPanel_desc_Accion.setPreferredSize(new java.awt.Dimension(178, 100));
         jPanel_desc_Accion.setLayout(new javax.swing.BoxLayout(jPanel_desc_Accion, javax.swing.BoxLayout.LINE_AXIS));
 
         jTextArea_desc.setColumns(20);
@@ -808,13 +808,13 @@ public class DeclaraAccion extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField_BoActionPerformed
 
-    private void jComboBoxArmasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxArmasItemStateChanged
+    private void jComboBoxArmas_cacItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxArmas_cacItemStateChanged
+        cambiarBo();
+    }//GEN-LAST:event_jComboBoxArmas_cacItemStateChanged
 
-    }//GEN-LAST:event_jComboBoxArmasItemStateChanged
-
-    private void jComboBoxArmas1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxArmas1ItemStateChanged
+    private void jComboBoxArmas_ProyItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxArmas_ProyItemStateChanged
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBoxArmas1ItemStateChanged
+    }//GEN-LAST:event_jComboBoxArmas_ProyItemStateChanged
 
     private void jButton_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_cancelarActionPerformed
         accionSeleccionada = null;
@@ -1022,8 +1022,8 @@ public class DeclaraAccion extends javax.swing.JDialog {
     private javax.swing.JButton jButton_crearSortilegio1;
     private javax.swing.JCheckBox jCheckBox_consume_sort;
     private javax.swing.JCheckBox jCheckBox_consume_sort1;
-    private javax.swing.JComboBox jComboBoxArmas;
-    private javax.swing.JComboBox jComboBoxArmas1;
+    private javax.swing.JComboBox jComboBoxArmas_Proy;
+    private javax.swing.JComboBox jComboBoxArmas_cac;
     private javax.swing.JComboBox jComboBoxEnemigos;
     private javax.swing.JComboBox jComboBoxEnemigos1;
     private javax.swing.JComboBox<String> jComboBox_sotilegios;
@@ -1059,9 +1059,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel22;
     private javax.swing.JPanel jPanel27;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel32;
     private javax.swing.JPanel jPanel33;
-    private javax.swing.JPanel jPanel34;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
@@ -1142,5 +1140,12 @@ public class DeclaraAccion extends javax.swing.JDialog {
         da.setVisible(true);
 
         return accionSeleccionada;
+    }
+
+    private void cambiarBo() {
+        Arma a = (Arma)jComboBoxArmas_cac.getSelectedItem();
+        int actual = token_accion.getToken().boDisponible(a.getEstilo());
+        jSlider_Bo.setMaximum(actual);        
+        jSlider_Bo.setMajorTickSpacing(actual / 8);
     }
 }

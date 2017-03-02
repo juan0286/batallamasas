@@ -8,6 +8,7 @@ package instancias.properties;
 import instancias.Sortilegio;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import javax.xml.bind.annotation.XmlType;
 
@@ -18,40 +19,63 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType
 public class Caracteristicas implements Serializable {
 
+    /*
     private int bo_pri;
     private int bo_sec;
     private int bo_pri_tipo;
     private int bo_sec_tipo;
+    */
+    
     private int bd;
     private int armadura;
     private int puntosVida;
     private int agi;
-    private ArrayList<Integer> sortilegios = new ArrayList<Integer>();
-    private HashMap<Integer, Bo> bos = new HashMap<Integer, Bo>();
-
+    private int pp;
+    private ArrayList<Integer> al_sortilegios = new ArrayList<Integer>();
+    private HashMap<Integer, Bo> hm_bos = new HashMap<Integer, Bo>();
+    private int bo_pri;
+    
     public Caracteristicas() {
     }
 
-    public ArrayList<Integer> getSortilegios() {
-        return sortilegios;
+    public int getPp() {
+        return pp;
     }
 
-    public void setSortilegios(ArrayList<Integer> sortilegios) {
-        this.sortilegios = sortilegios;
+    public void setPp(int pp) {
+        this.pp = pp;
+    }
+
+    
+    
+    public ArrayList<Integer> getAl_sortilegios() {
+        return al_sortilegios;
+    }
+
+    public void setAl_sortilegios(ArrayList<Integer> al_sortilegios) {
+        this.al_sortilegios = al_sortilegios;
     }
 
     public Bo getBodeEstilo(int estilo) {
-        if (bos.containsKey(estilo)) 
-            return bos.get(estilo);
+        if (hm_bos.containsKey(estilo)) 
+            return hm_bos.get(estilo);
          else 
             return new Bo(estilo, -25);   
         
     }
 
-    public void setBos(HashMap<Integer, Bo> bos) {
-        this.bos = bos;
+    public void setHm_bos(HashMap<Integer, Bo> hm_bos) {
+        this.hm_bos = hm_bos;
     }
 
+    public HashMap<Integer, Bo> getHm_bos() {
+        return hm_bos;
+    }
+    public Bo[] getBosArray() {
+        Collection<Bo> bosc = hm_bos.values();
+        return (Bo[]) bosc.toArray();
+    }
+    
     
     
     public int getBo_pri() {
@@ -61,7 +85,7 @@ public class Caracteristicas implements Serializable {
     public void setBo_pri(int bo_pri) {
         this.bo_pri = bo_pri;
     }
-
+/*
     public int getBo_sec() {
         return bo_sec;
     }
@@ -137,12 +161,12 @@ public class Caracteristicas implements Serializable {
     }
 
     public void aprenderSortilegio(int s) {
-        sortilegios.add(s);
+        al_sortilegios.add(s);
 
     }
 
     public boolean conoceSortilegio(int id) {
-        return sortilegios.contains(id);
+        return al_sortilegios.contains(id);
     }
 
 }

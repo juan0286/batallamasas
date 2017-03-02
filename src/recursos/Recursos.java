@@ -11,6 +11,7 @@ import instancias.Evento;
 import instancias.Sortilegio;
 import instancias.Token;
 import instancias.properties.Arma;
+import instancias.properties.Bo;
 import instancias.properties.Status;
 import java.awt.Color;
 import java.io.BufferedReader;
@@ -84,6 +85,7 @@ public class Recursos {
 		}
                 return max;
     }
+
     
     public static HashMap<String, String> tabCrticsArray() {
         HashMap<String, String> tCArray = new HashMap<>();

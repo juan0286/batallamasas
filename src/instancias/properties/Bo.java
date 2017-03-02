@@ -14,7 +14,7 @@ import recursos.Constantes;
  * @author TiranoJuan
  */
 @XmlType
-public class Bo implements Serializable {
+public class Bo implements Serializable,Comparable {
 
     private int estilo;
     private int value;
@@ -102,11 +102,21 @@ public class Bo implements Serializable {
         } else return "BO";        
         
     }
-    
-    
+      public int compareTo(Bo otherBo) {
+       // return this.id - otherStudent.id ; //result of this operation can overflow
+       return (this.value < otherBo.value ) ? -1: (this.value > otherBo.value) ? 1:0 ;
+
+    }
+
     @Override
     public String toString() {
         return tipoBOStr() + ", Bono=" + value ;
+    }
+
+    @Override
+    public int compareTo(Object otherBo) {
+        Bo oBo = (Bo) otherBo;
+        return (this.value < oBo.value ) ? -1: (this.value > oBo.value) ? 1:0 ;
     }
     
     

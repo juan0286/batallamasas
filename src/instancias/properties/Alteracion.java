@@ -17,19 +17,27 @@ public class Alteracion {
     
     private int duracion;
     
-    private int pv;
+    private int pv = 0;
+    private int sangre = 0;
+    
     private int actividad = 0;
-    private int sangrado = 0;
+    
     private int aturdido = 0;
     private int obligadoparar = 0;
     private int sinpoderparar = 0;
+    
     private int asaltosparamorir = 0;
-    private int ptsDeVidaPerdidos = 0;
-    private int trModificada = 0;
-    private int mmModificada = 0;
-    private int boModidificada = 0;
-    private int bdModificada = 0;
-
+    
+    private int trMod = 0;
+    private int mmMod = 0;
+    private int boMod = 0;
+    private int bdMod = 0;
+    
+    
+    
+    private String descripcion;
+  
+    
     public Alteracion(int duracion, int pv) {
         this.duracion = duracion;
         this.pv = pv;

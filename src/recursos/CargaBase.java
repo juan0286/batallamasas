@@ -25,6 +25,84 @@ import recursos.Constantes.*;
 import static recursos.Recursos.informar;
 import static recursos.Recursos.informar;
 import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
 
 
 /**
@@ -39,7 +117,7 @@ public class CargaBase {
         cargaArmeria();
         cargaGrupos();
         cargarNombres(); // importante, siempre antes de cargaSoldados
-        cargaSoldados();
+        //cargaSoldados();
         cargaCampoDeBatalla();
 
     }
@@ -299,7 +377,7 @@ public class CargaBase {
                     }
                 }
             }
-
+/*
             hab.setBo_pri(35 + nivel * 3 + nivel + bonoBo + Recursos.aleatorioEntre(1, 5));
             int auxBoSec = (35 + nivel * 3 + nivel + bonoBo + Recursos.aleatorioEntre(1, 5));             
             auxBoSec = Recursos.porcentajeDe(Recursos.aleatorioEntre(50,75), auxBoSec);
@@ -309,10 +387,10 @@ public class CargaBase {
             hab.setAgi(5 * Recursos.aleatorioEntre(1, 8));
             
             hab.setBo_sec_tipo(izq.getArmaEquipada().getClase());
-            
+  */          
             hab.setArmadura(Recursos.aleatorioEntre(1, 20));
 
-            newToken.setEstilo(Recursos.aleatorioEntre(0, 4));
+            newToken.setEstilo_de_pelea(Recursos.aleatorioEntre(0, 4));
 
             newToken.setLadoIzquierdo(Recursos.aleatorioEntre(0, 2) == 0);
             System.out.println(newToken.isLadoIzquierdo());

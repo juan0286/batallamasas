@@ -78,10 +78,7 @@ public class JPanelFormToken extends javax.swing.JPanel {
                 + "Puntos de Vida: " + token.getEstado().getPtsDeVidaPerdidos() + "  /  " + token.getPuntosVida() + "<br/>"
                 + "Estado: " + token.getEstado().cuerpoString() + "<br/>"
                 + "Actividad: " + token.getEstado().getActividad() + "<br/>"
-                + "Bo Actual: " + token.boDisponibleAtaque() + "<br/>"
-                + "Bd Actual: " + token.getHabilidades().getBd() + "<br/>"
-                //+ "Equipo: " + token.getManoDER().getArmaEquipada().getNombre() + "<br/>"
-                //+ "" + token.getManoIZQ().getArmaEquipada().getNombre() + "<br/>"
+                + "Puntos de Poder: " + token.podertxt()+ "<br/>"
                 + "</html>";
         this.setToolTipText(tooltip);
 

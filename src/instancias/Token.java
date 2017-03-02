@@ -9,8 +9,11 @@ import java.util.ArrayList;
 import instancias.properties.*;
 import java.awt.Color;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Objects;
+import java.util.Set;
 import javax.xml.bind.annotation.XmlType;
 import recursos.Constantes;
 import recursos.Critico;
@@ -40,7 +43,7 @@ public class Token implements Serializable {
     private Caracteristicas habilidades;
     private ArrayList daños;
     private Status estado;
-    private int estilo;
+    private int estilo_de_pelea;
     private boolean ladoIzquierdo;
     private int armaduraPuesta;
     private int porcentajeAtque = 100;
@@ -63,7 +66,7 @@ public class Token implements Serializable {
         this.habilidades = habilidades;
         this.daños = daños;
         this.estado = estado;
-        this.estilo = estilo;
+        this.estilo_de_pelea = estilo;
         this.ladoIzquierdo = ladoIzquierdo;        
     }
     
@@ -77,7 +80,7 @@ public class Token implements Serializable {
         this.habilidades = habilidades;
         this.daños = daños;
         this.estado = estado;
-        this.estilo = estilo;        
+        this.estilo_de_pelea = estilo;        
     }
     
     public Token(String nombre, int nivel, String grupo, int puntosVida, Brazo manoIZQ, Brazo manoDER, Caracteristicas habilidades, ArrayList daños, Status estado, int estilo, Asalto asalto, boolean lado) {
@@ -90,7 +93,7 @@ public class Token implements Serializable {
         this.habilidades = habilidades;
         this.daños = daños;
         this.estado = estado;
-        this.estilo = estilo;
+        this.estilo_de_pelea = estilo;
         this.ladoIzquierdo = lado;        
     }
     
@@ -98,11 +101,11 @@ public class Token implements Serializable {
     }
     
     public void setBos(HashMap<Integer,Bo> bos){
-        habilidades.setBos(bos);
+        habilidades.setHm_bos(bos);
     }
     
-    public int getEstilo() {
-        return estilo;
+    public int getEstilo_de_pelea() {
+        return estilo_de_pelea;
     }
     
     public String getColor() {
@@ -113,8 +116,8 @@ public class Token implements Serializable {
         this.color = color;
     }
     
-    public void setEstilo(int estilo) {
-        this.estilo = estilo;
+    public void setEstilo_de_pelea(int estilo_de_pelea) {
+        this.estilo_de_pelea = estilo_de_pelea;
     }
     
     public String getNombre() {
@@ -179,6 +182,24 @@ public class Token implements Serializable {
 
     public ArrayList<Arma> getArmas() {
         return armas;
+    }
+    public ArrayList<Arma> getArmasProyectiles() {
+        ArrayList<Arma> al_a_p = new ArrayList<Arma>();
+        for (Object arma : armas.toArray()) {
+            Arma a = (Arma) arma;
+            if (a.getEstilo() == Constantes.ESTILO_PROYECTILES)
+                al_a_p.add(a);
+        }
+        return al_a_p;
+    }
+    public ArrayList<Arma> getArmasCuerpoACuerpo() {
+        ArrayList<Arma> al_a_p = new ArrayList<Arma>();
+        for (Object arma : armas.toArray()) {
+            Arma a = (Arma) arma;
+            if (a.getEstilo() != Constantes.ESTILO_PROYECTILES)
+                al_a_p.add(a);
+        }
+        return al_a_p;
     }
 
     public void agregarArma(Arma a){
@@ -245,6 +266,13 @@ public class Token implements Serializable {
     public String vidatxt() {
         return this.getEstado().getPtsDeVidaPerdidos() + "  /  " + this.getPuntosVida();
     }
+    public String podertxt() {
+        return this.getEstado().getPtsDePoderPerdidos() + "  /  " + this.getHabilidades().getPp();
+    }
+    public Bo bo_pri(){        
+        return habilidades.getHm_bos().get(habilidades.getBo_pri());
+    }
+    
     
     public int compareTo(Token o) {
         int resultado = 0;
@@ -316,7 +344,7 @@ public class Token implements Serializable {
     public int definirPorcTactica() {
         // devuelve la cantidad de BO destinada a atacar
         int porcReturn = 50;
-        switch (this.estilo) {
+        switch (this.estilo_de_pelea) {
             case Token.DEFENSA_TOTAL: {
                 porcReturn = Recursos.aleatorioEntre(0, 10);
                 break;
@@ -345,16 +373,17 @@ public class Token implements Serializable {
         }
         if (Recursos.imprimirPorConsola) {
             System.out.println("\nDefiniendo tatica de " + this.nombre);
-            System.out.println("Estilo: " + this.getEstilo() + "    Porcentaje: " + porcReturn + "%");
+            System.out.println("Estilo: " + this.getEstilo_de_pelea() + "    Porcentaje: " + porcReturn + "%");
         }
         return porcReturn;
     }
     
-    private int definirTactica() {
+    private int definirTactica(int estilo) {
 
         // devuelve la cantidad de BO destinada a atacar
-        int boReturn = this.habilidades.getBo_pri();
-        boReturn = (int) ((float) this.habilidades.getBo_pri() / 100.0 * this.definirPorcTactica());
+        // int boReturn = this.habilidades.getBo_pri();
+        int boReturn = habilidades.getBodeEstilo(estilo).getValue();
+        boReturn = (int) ((float) boReturn / 100.0 * this.definirPorcTactica());
         
         return boReturn;
     }
@@ -390,20 +419,20 @@ public class Token implements Serializable {
         return nombre;
     }
     
-    public int boDisponible() {
-        int boDisponible = ((this.habilidades.getBo_pri() - this.estado.getActividad()) > 0) ? (this.habilidades.getBo_pri() - this.estado.getActividad()) : this.habilidades.getBo_pri();
+    public int boDisponible(int estilo) {
+        int boDisponible = ((habilidades.getBodeEstilo(estilo).getValue() - this.estado.getActividad()) > 0) ? (habilidades.getBodeEstilo(estilo).getValue() - this.estado.getActividad()) : habilidades.getBodeEstilo(estilo).getValue();
         return boDisponible;
     }
     
-    public int boDisponibleAtaque() {
+    public int boDisponibleAtaque(int estilo) {
         //int boDisponible = Recursos.porcentajeDe(this.getPorcentajeAtque(), this.boDisponible());
-        int boDisponible = habilidades.getBo_pri() + estado.getActividad();
+        int boDisponible = habilidades.getBodeEstilo(estilo).getValue() + estado.getActividad();
         return boDisponible;
         
     }
     
-    public int boDisponibleDefensa() {
-        int boDisponible = this.boDisponible() - this.boDisponibleAtaque();
+    public int boDisponibleDefensa(int estilo) {
+        int boDisponible = this.boDisponible(estilo) - this.boDisponibleAtaque(estilo);
         return boDisponible;
     }
     
@@ -442,8 +471,8 @@ public class Token implements Serializable {
     
     public ArrayList<Sortilegio> getSortilegios() {
         ArrayList<Sortilegio> sort = new ArrayList<Sortilegio>();
-        for (int i = 0; i < habilidades.getSortilegios().size(); i++) {
-            Sortilegio s = Principal.dataRecursos.getListaDeSortilegios().get(habilidades.getSortilegios().get(i));
+        for (int i = 0; i < habilidades.getAl_sortilegios().size(); i++) {
+            Sortilegio s = Principal.dataRecursos.getListaDeSortilegios().get(habilidades.getAl_sortilegios().get(i));
             sort.add(s);
         }
         return sort;        
