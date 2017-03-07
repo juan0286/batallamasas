@@ -7,6 +7,8 @@ package instancias.properties;
 
 import instancias.Sortilegio;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
 import javax.xml.bind.annotation.XmlType;
 
 /**
@@ -19,9 +21,10 @@ public class Status implements Serializable {
     static final public int FIRME = 0;
     static final public int CANSADO = 1;
     static final public int EXHAUSTO = 2;
-    static final public int INCOSCIENTE = 3;
+    static final public int DORMIDO = 3;
     static final public int COMA = 4;
     static final public int MUERTO = 5;
+    static final public int POSTRADO = 6;
 
     static final public int MENTE_FIRME = 0;
     static final public int MENTE_OBLIGADO_A_PARAR = 1;
@@ -48,6 +51,8 @@ public class Status implements Serializable {
     private Sortilegio sortilegioCargado;
     private int cargasDelSortilegio;
 
+    private ArrayList<Alteracion> alteraciones = new ArrayList<Alteracion>();
+
     public Status() {
     }
 
@@ -55,7 +60,6 @@ public class Status implements Serializable {
         this.c = c;
     }
 
-    
     public int getCuerpo() {
         return cuerpo;
     }
@@ -86,6 +90,18 @@ public class Status implements Serializable {
 
     public void setSinpoderparar(int sinpoderparar) {
         this.sinpoderparar = sinpoderparar;
+    }
+
+    public void Alterar(Alteracion a) {
+        alteraciones.add(a);
+    }
+
+    public ArrayList<Alteracion> getAlteraciones() {
+        return alteraciones;
+    }
+
+    public void setAlteraciones(ArrayList<Alteracion> alteraciones) {
+        this.alteraciones = alteraciones;
     }
 
     public int getAsaltosparamorir() {
@@ -124,14 +140,10 @@ public class Status implements Serializable {
         this.postrado = postrado;
     }
 
-    
-    
     public int getTrModificada() {
         return trModificada;
     }
 
-    
-    
     public void setTrModificada(int trModificada) {
         this.trModificada = trModificada;
     }
@@ -160,10 +172,53 @@ public class Status implements Serializable {
         this.sangradoPorAsalto = sangradoPorAsalto;
     }
 
-    public void aplicarAsaltoNuevo( String nombre) {
+    public void aplicarAsaltoNuevo(String nombre) {
         String mje = "";
-        if (sangradoPorAsalto > 0) {
-            perderSAngre();
+        
+        int aux_trModificada = 0;
+        int aux_mmModificada = 0;        
+        int aux_boModidificada = 0;
+        int aux_bdModificada = 0;
+        int aux_actividad = 0;
+        
+        for (Iterator<Alteracion> iterator = alteraciones.iterator(); iterator.hasNext();) {
+            Alteracion alt = iterator.next();
+            if (alt.isActivo()){
+                
+                if (alt.getSangre() > 0)
+                    sangrarMas(alt.getSangre());
+                else
+                    sangrarMenos(alt.getSangre() *-1);
+                
+                int as = alt.getAsaltosparamorir();
+                if (as > -1){
+                    as-=1;
+                    alt.setAsaltosparamorir(as);
+                    if (as == 0)
+                        cuerpo = MUERTO;
+                }
+                
+                if (alt.getTrMod()!= 0)
+                    aux_trModificada+=alt.getTrMod();
+                
+                if (alt.getMmMod()!= 0)
+                    aux_mmModificada+=alt.getMmMod();
+                
+                if (alt.getBoMod()!= 0)
+                    aux_boModidificada+=alt.getBoMod();
+                
+                if (alt.getTrMod()!= 0)
+                    aux_bdModificada+=alt.getBdMod();
+                
+                if (alt.getTrMod()!= 0)
+                    aux_actividad+=alt.getActividad();
+                
+                
+            }
+                
+        }
+
+        if (sangradoPorAsalto > 0) {            
             mje += "Pierde " + sangradoPorAsalto + "pv.";
         }
         if (aturdido > 0) {
@@ -182,9 +237,10 @@ public class Status implements Serializable {
             acercarseALaMuerte();
             mje += (asaltosparamorir > 0) ? "Muere en " + asaltosparamorir + "asalto(s)" : "Muere";
         }
-        if (mje.length() > 0)
-            recursos.Recursos.informar(nombre + "\n" + mje,nombre);
-        
+        if (mje.length() > 0) {
+            recursos.Recursos.informar(nombre + "\n" + mje, nombre);
+        }
+
         update();
     }
 
@@ -192,8 +248,8 @@ public class Status implements Serializable {
         int puntosVidaActuales = c.getPuntosVida();
         if (this.getPtsDeVidaPerdidos() >= puntosVidaActuales * 1.5) {
             this.setCuerpo(Status.MUERTO);
-        } else if (this.getPtsDeVidaPerdidos() >= puntosVidaActuales && this.cuerpo < Status.INCOSCIENTE) {
-            this.setCuerpo(Status.INCOSCIENTE);
+        } else if (this.getPtsDeVidaPerdidos() >= puntosVidaActuales && this.cuerpo < Status.DORMIDO) {
+            this.setCuerpo(Status.DORMIDO);
         } else if (this.getPtsDeVidaPerdidos() >= puntosVidaActuales - 10 && this.cuerpo < Status.EXHAUSTO) {
             this.setCuerpo(Status.EXHAUSTO);
         } else if (this.getPtsDeVidaPerdidos() >= puntosVidaActuales / 2 && this.cuerpo < Status.CANSADO) {
@@ -214,7 +270,7 @@ public class Status implements Serializable {
             return "Cansado";
         } else if (cuerpo == Status.EXHAUSTO) {
             return "Exahusto";
-        } else if (cuerpo == Status.INCOSCIENTE) {
+        } else if (cuerpo == Status.DORMIDO) {
             return "Inconsciente";
         } else {
             return "Muerto";
@@ -235,7 +291,8 @@ public class Status implements Serializable {
     }
 
     public void aturdir(int as) {
-        aturdido += as;
+        if (as > aturdido)
+            aturdido = as;
     }
 
     public void desaturdir(int as) {
@@ -386,7 +443,7 @@ public class Status implements Serializable {
 
     public int menteEstado() {
         int resp = MENTE_FIRME;
-        if (cuerpo < INCOSCIENTE) {
+        if (cuerpo < DORMIDO) {
             if (sinpoderparar > 0) {
                 resp = MENTE_ATURDIDO_Y_SIN_PODER_PARAR;
             } else if (aturdido > 0) {
@@ -400,7 +457,7 @@ public class Status implements Serializable {
 
     public String menteEstadoTxt() {
         String resp = "";
-        if (cuerpo < INCOSCIENTE) {
+        if (cuerpo < DORMIDO) {
             if (sinpoderparar > 0) {
                 resp = "Aturdido y Sin poder Parar";
             } else if (aturdido > 0) {
@@ -417,7 +474,7 @@ public class Status implements Serializable {
         resp += cuerpoString();
         resp += "\n" + menteEstadoTxt();
         resp += (sangradoPorAsalto > 0) ? "-" + sangradoPorAsalto + "pv/as" : "";
-        resp += (actividad != 0) ?  actividad + " a la Actividad " : "";
+        resp += (actividad != 0) ? actividad + " a la Actividad " : "";
         return resp;
 
     }
@@ -476,5 +533,22 @@ public class Status implements Serializable {
         this.ptsDePoderPerdidos = ptsDePoderPerdidos;
     }
 
-    
+    private void aplicarAlteracion(Alteracion a){        
+        
+        if (a.getPv() > 0)
+            dañarPv(a.getPv());
+        else 
+            sanarPv(a.getPv() *-1);
+        
+        if (a.getAturdido() < 0){
+            desaturdir(a.getAturdido() *-1);
+            dejarDeparar(a.getAturdido()*1);
+            desaturdirYpoderParar(a.getAturdido()*-1);
+        } else {            
+            aturdir(a.getAturdido());
+            obligarAParar(a.getObligadoparar());
+            aturdirSinParar(a.getSinpoderparar());        
+        }
+        cuerpo = a.getCuerpoEstado();
+    }
 }

@@ -6,14 +6,13 @@
 package instancias.properties;
 
 import javax.xml.bind.annotation.XmlType;
-import recursos.Critico;
 
 /**
  *
- * @author Juan
+ * @author TiranoJuan
  */
 @XmlType
-public class Alteracion {
+public class Herida  extends Alteracion{
 
     private int pv = 0;
 
@@ -45,15 +44,7 @@ public class Alteracion {
     private int duracion = -1;
     private int transcurso = -1;
     
-    private int porcentajeActivo = 100;
-
-    public Alteracion(int duracion, int pv) {
-        this.duracion = duracion;
-        this.pv = pv;
-    }
-
-    public Alteracion() {
-    }
+    private int porcentajeActivo = 100;    
 
     public int getTranscurso() {
         return transcurso;
@@ -265,4 +256,7 @@ public class Alteracion {
 
     }
 
+}
+
+    
 }

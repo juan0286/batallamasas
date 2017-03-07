@@ -66,5 +66,11 @@ public abstract class Constantes {
     static final public int ESTADO_DETERIOROADA = 0;
     static final public int ESTADO_VIEJA = 1;
     static final public int ESTADO_NUEVA = 2;
-
+    
+    public static final int TIEMPO_ASALTO = -1;
+    public static final int TIEMPO_SEGUNDOS = 0;    
+    public static final int TIEMPO_MINUTOS = 1;
+    public static final int TIEMPO_HORAS = 2;
+    public static final int TIEMPO_DIAS = 3;
+    public static final int TIEMPO_SEMANAS = 4;
 }

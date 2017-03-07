@@ -53,7 +53,7 @@ public class Token implements Serializable {
     private String urlIcon;
     
     private ArrayList<Arma> armas = new ArrayList<Arma>();
-    
+     
     private ArrayList<Accion> acciones = new ArrayList<Accion>();
     
     public Token(String nombre, int nivel, String grupo, int puntosVida, Brazo manoIZQ, Brazo manoDER, Caracteristicas habilidades, ArrayList daños, Status estado, int estilo, boolean ladoIzquierdo) {
@@ -99,6 +99,10 @@ public class Token implements Serializable {
     
     public Token() {        
     }
+
+    
+    
+    
     
     public void setBos(HashMap<Integer,Bo> bos){
         habilidades.setHm_bos(bos);
@@ -205,6 +209,7 @@ public class Token implements Serializable {
     public void agregarArma(Arma a){
         armas.add(a);
     }
+   
 
     public void setArmas(ArrayList<Arma> armas) {
         this.armas = armas;
@@ -321,7 +326,7 @@ public class Token implements Serializable {
     public void aplicarCritico(Critico critic) {
         
         if (critic.isInconsciente()) {
-            this.estado.setCuerpo(Status.INCOSCIENTE);
+            this.estado.setCuerpo(Status.DORMIDO);
         } else if (critic.getAsaltosYMuere() == 0) {
             this.estado.setCuerpo(Status.MUERTO);
         } else {

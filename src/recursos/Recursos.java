@@ -73,20 +73,17 @@ public class Recursos {
         AbrirGuardar.guardarXML(d, DataRecursos.CONFIG_FILE);
     }
 
-    public static int maximo(Integer[] arrayn){
-        int max =arrayn[0];
+    public static int maximo(Integer[] arrayn) {
+        int max = arrayn[0];
 
-		for(int i = 0; i < arrayn.length; i++)
-		{			
-			if(max<arrayn[i])
-			{
-				max=arrayn[i];
-			}
-		}
-                return max;
+        for (int i = 0; i < arrayn.length; i++) {
+            if (max < arrayn[i]) {
+                max = arrayn[i];
+            }
+        }
+        return max;
     }
 
-    
     public static HashMap<String, String> tabCrticsArray() {
         HashMap<String, String> tCArray = new HashMap<>();
         tCArray.put("S", "Corte");
@@ -208,7 +205,8 @@ public class Recursos {
         JOptionPane.showMessageDialog(null, mensaje, "IMPORTANTE", JOptionPane.WARNING_MESSAGE);
         System.out.println("Aviso:   " + mensaje);
     }
-    public static void informar(String mensaje,String Titulo) {
+
+    public static void informar(String mensaje, String Titulo) {
 
         JOptionPane.showMessageDialog(null, mensaje, Titulo, JOptionPane.WARNING_MESSAGE);
         System.out.println(Titulo + "  " + mensaje);
@@ -295,7 +293,7 @@ public class Recursos {
                 ret = "Exhasuto";
                 break;
             }
-            case Status.INCOSCIENTE: {
+            case Status.DORMIDO: {
                 ret = "Inconsciente";
                 break;
             }
@@ -341,13 +339,13 @@ public class Recursos {
             }
         }
         return obj;
-    }           
-    
+    }
+
     public static String getHexaColor(Color color) {
         return "#" + Integer.toHexString(color.getRGB()).substring(2);
     }
 
-    public static String evtAsaltoNuevo(int asa) {        
+    public static String evtAsaltoNuevo(int asa) {
         return "<br/><br/><Strong> Asalto " + asa + "</strong><br/><hr/>";
     }
 
@@ -472,6 +470,45 @@ public class Recursos {
         } catch (Exception e) {
             return "";
         }
+    }
+
+    private static int asaltosParse(int cant, int tiempo) {
+        if (tiempo == Constantes.TIEMPO_SEGUNDOS) {
+            return (cant / 10);
+        }
+        if (tiempo == Constantes.TIEMPO_MINUTOS) {
+            return (cant / 6);
+        }
+        if (tiempo == Constantes.TIEMPO_HORAS) {
+            return (cant / 360);
+        }
+        if (tiempo == Constantes.TIEMPO_DIAS) {
+            return (cant / 8640);
+        }
+        if (tiempo == Constantes.TIEMPO_SEMANAS) {
+            return (cant / 60480);
+        } else 
+            return cant;
+        
+
+    }
+
+    public static int tiempoEnAsaltosParse(int cant, int tiempo) {
+        if (tiempo == Constantes.TIEMPO_MINUTOS) {
+            return (cant * 6);
+        }
+        if (tiempo == Constantes.TIEMPO_HORAS) {
+            return (cant * 6 * 60);
+        }
+        if (tiempo == Constantes.TIEMPO_DIAS) {
+            return (cant * 6 * 60 * 24);
+        }
+        if (tiempo == Constantes.TIEMPO_SEMANAS) {
+            return (cant * 6 * 60 * 24 * 7);
+        } else 
+            return cant;
+        
+
     }
 
     public static void nuevoSortilegio(Sortilegio s) {

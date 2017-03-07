@@ -73,7 +73,7 @@ public class AlterararToken extends javax.swing.JDialog {
         //jCheckBox_brazo_izq.setSelected(!token.getToken().getManoIZQ().isHabilitado());
 
         jCheckBox_muerto.setSelected(token.getToken().getEstado().getCuerpo() == Status.MUERTO);
-        jCheckBox_inconsciente.setSelected(token.getToken().getEstado().getCuerpo() == Status.INCOSCIENTE);
+        jCheckBox_inconsciente.setSelected(token.getToken().getEstado().getCuerpo() == Status.DORMIDO);
         jCheckBox_coma.setSelected(token.getToken().getEstado().getCuerpo() == Status.COMA);
         jCheckBox_postrado.setSelected(token.getToken().getEstado().isPostrado());
         this.setLocationRelativeTo(null);
@@ -772,9 +772,9 @@ public class AlterararToken extends javax.swing.JDialog {
         if (jCheckBox_muerto.isSelected())
             tok.getEstado().setCuerpo(Status.MUERTO);
         if (jCheckBox_inconsciente.isSelected())
-            tok.getEstado().setCuerpo(Status.INCOSCIENTE);        
+            tok.getEstado().setCuerpo(Status.DORMIDO);        
         if (jCheckBox_coma.isSelected())
-            tok.getEstado().setCuerpo(Status.INCOSCIENTE);
+            tok.getEstado().setCuerpo(Status.DORMIDO);
         if (jCheckBox_postrado.isSelected())
             tok.getEstado().setPostrado(true);
         panel_token.update_jTokenAction();

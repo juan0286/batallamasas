@@ -128,7 +128,7 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
 
     public void update_jTokenAction() {
 
-        if (accion.isDone() && token.getEstado().getCuerpo() < Status.INCOSCIENTE) {
+        if (accion.isDone() && token.getEstado().getCuerpo() < Status.DORMIDO) {
             verComoDone();
         }
         if (accion.isAccionDeOportunidad()) {
@@ -154,7 +154,7 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
             //jProgressBar_vida.setForeground(Color.YELLOW);
         } else if (token.getEstado().getCuerpo() == Status.EXHAUSTO) {
             //jProgressBar_vida.setForeground(Color.ORANGE);
-        } else if (token.getEstado().getCuerpo() == Status.INCOSCIENTE) {
+        } else if (token.getEstado().getCuerpo() == Status.DORMIDO) {
             jProgressBar_vida.setForeground(Color.GRAY);
             dejarFueraDeCombate();
             this.setBackground(Color.GRAY);
