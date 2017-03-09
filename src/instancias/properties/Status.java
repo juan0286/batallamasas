@@ -76,10 +76,6 @@ public class Status implements Serializable {
         return asaltosEnEstado(Efecto.TIPO_ATURDIDO);
     }
 
-    public void Alterar(Alteracion a) {
-        alteraciones.add(a);
-    }
-
     public ArrayList<Alteracion> getAlteraciones() {
         return alteraciones;
     }
@@ -423,7 +419,7 @@ public class Status implements Serializable {
         return suma;
     }
 
-    private int getModsDeBo(int estilo) {
+    public int getModsDeBo(int estilo) {
 
         int suma = 0;
         for (Alteracion alt : alteraciones) {
@@ -559,7 +555,9 @@ public class Status implements Serializable {
         return (cuerpo >= DORMIDO || isInEstado(Efecto.TIPO_DORMIDO));
     }
 
-    private void desactivarExtremidad(int tipo_miembro) {
+    private void desactivarExtremidad(int indice_miembro) {
+        ext.get(indice_miembro).setUtil(false);
+        /*
         for (Extremidad extremidad : ext) {
             if (extremidad.getTipo_miembro() == tipo_miembro) {
                 extremidad.setUtil(false);
@@ -567,9 +565,13 @@ public class Status implements Serializable {
             }
 
         }
+         */
     }
 
-    private void activarExtremidad(int tipo_miembro) {
+    private void activarExtremidad(int indice_miembro) {
+        ext.get(indice_miembro).setUtil(true);
+
+        /*
         for (Extremidad extremidad : ext) {
             if (extremidad.getTipo_miembro() == tipo_miembro) {
                 extremidad.setUtil(true);
@@ -577,6 +579,7 @@ public class Status implements Serializable {
             }
 
         }
+         */
     }
 
 }

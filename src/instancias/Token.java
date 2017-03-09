@@ -323,7 +323,7 @@ public class Token implements Serializable {
     
     public void updateEstado() {
         
-        estado.aplicarAsaltoNuevo(nombre);
+        estado.aplicarAsaltoNuevo(nombre,1);
     }
 
 //        Brazo d = new Brazo();
@@ -335,14 +335,14 @@ public class Token implements Serializable {
 //        Enemigo en = (Enemigo) new Token(("Neo"),9, "capitanes", 100, i, d, hab, da, stad, Token.PRECAVIDO);
 //        en.setPorcAtencion(30);
     public void aplicarCritico(Critico critic) {
-        
+        /*
         if (critic.isInconsciente()) {
             this.estado.setCuerpo(Status.DORMIDO);
         } else if (critic.getAsaltosYMuere() == 0) {
             this.estado.setCuerpo(Status.MUERTO);
         } else {
             this.setPuntosVida(this.puntosVida - critic.getPuntosDaño());
-            int actRed = estado.getActividad();
+            int actRed = estado.getActividadActual();
             int atur = estado.getAturdido();
             int aturSP = estado.getSinpoderparar();
             int oAPP = estado.getObligadoParar();
@@ -353,7 +353,7 @@ public class Token implements Serializable {
             // debo parar, aturdido y sin poder parar y obligado
 
         }
-        
+        */
         this.estado.update();
     }
     
@@ -436,13 +436,13 @@ public class Token implements Serializable {
     }
     
     public int boDisponible(int estilo) {
-        int boDisponible = ((habilidades.getBodeEstilo(estilo).getValue() - this.estado.getActividad()) > 0) ? (habilidades.getBodeEstilo(estilo).getValue() - this.estado.getActividad()) : habilidades.getBodeEstilo(estilo).getValue();
+        int boDisponible = ((habilidades.getBodeEstilo(estilo).getValue() - this.estado.getActividadActual()) > 0) ? (habilidades.getBodeEstilo(estilo).getValue() - this.estado.getActividadActual()) : habilidades.getBodeEstilo(estilo).getValue();
         return boDisponible;
     }
     
     public int boDisponibleAtaque(int estilo) {
         //int boDisponible = Recursos.porcentajeDe(this.getPorcentajeAtque(), this.boDisponible());
-        int boDisponible = habilidades.getBodeEstilo(estilo).getValue() + estado.getActividad();
+        int boDisponible = habilidades.getBodeEstilo(estilo).getValue() + estado.getModsDeBo(estilo) + estado.getActividadActual();
         return boDisponible;
         
     }

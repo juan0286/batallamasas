@@ -10,6 +10,7 @@ import instancias.properties.Arma;
 import instancias.properties.Bo;
 import instancias.properties.Brazo;
 import instancias.properties.Caracteristicas;
+import instancias.properties.Extremidad;
 import instancias.properties.Status;
 import java.awt.Color;
 import java.awt.event.ItemEvent;
@@ -402,9 +403,19 @@ public class CrearToken extends javax.swing.JDialog {
 
         newToken = new Token();
         Caracteristicas hab = new Caracteristicas();
-        Brazo izq = new Brazo();
-        Brazo der = new Brazo();
-        Status est = new Status(hab);
+
+        // Brazos
+        Extremidad bi = new Extremidad(true, true, false, Extremidad.MIEMBRO_SUPERIOR_IZQUIERDO, null);
+        newToken.agregarExtremidad(bi);
+        Extremidad bd = new Extremidad(true, true, true, Extremidad.MIEMBRO_SUPERIOR_IZQUIERDO, null);
+        newToken.agregarExtremidad(bd);
+        // Piernas
+        Extremidad pi = new Extremidad(true, false, false, Extremidad.MIEMBRO_SUPERIOR_IZQUIERDO, null);
+        newToken.agregarExtremidad(pi);
+        Extremidad pd = new Extremidad(true, false, true, Extremidad.MIEMBRO_SUPERIOR_IZQUIERDO, null);
+        newToken.agregarExtremidad(pd);
+
+        Status est = new Status(hab, newToken.getExtremidades());
         creacion:
         {
             String n = this.jTextField_crearnombre.getText().trim();
@@ -461,17 +472,15 @@ public class CrearToken extends javax.swing.JDialog {
 
             newToken.setHabilidades(hab);
             Comparator<Bo> comparador = Collections.reverseOrder();
-            Collections.sort(bos,comparador);
-            HashMap<Integer, Bo> hm_bos =new HashMap<Integer, Bo>();
+            Collections.sort(bos, comparador);
+            HashMap<Integer, Bo> hm_bos = new HashMap<Integer, Bo>();
             hab.setBo_pri(bos.get(0).getEstilo());
             for (Iterator<Bo> iterator = bos.iterator(); iterator.hasNext();) {
                 Bo b = iterator.next();
                 hm_bos.put(b.getEstilo(), b);
-                
+
             }
-            newToken.setBos(hm_bos);
-            newToken.setManoDER(der);
-            newToken.setManoIZQ(izq);
+            newToken.setBos(hm_bos);            
             newToken.setEstado(est);
             newToken.setLadoIzquierdo(jToggleButton_Panel.isSelected());
             newToken.setColor(Recursos.getHexaColor(Color.BLUE));
@@ -532,13 +541,13 @@ public class CrearToken extends javax.swing.JDialog {
         bos.clear();
 
         agregarArmaALalista(new Arma("Mano Desnuda", Constantes.CLASE_MANO_DESNUDA, 0, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_PELEA));
-        agregarBoALaLista(new Bo(Constantes.ESTILO_PELEA, nuevaBo(nivel, Recursos.aleatorioEntre(0, 4))));
+        agregarBoALaLista(new Bo(Constantes.ESTILO_PELEA, Recursos.nuevaBo(nivel, Recursos.aleatorioEntre(0, 4))));
 
         for (int i = 0; i < cant_armas; i++) {
             Arma a = Recursos.armeria.get(Recursos.aleatorioEntre(0, Recursos.armeria.size() - 1));
             agregarArmaALalista(a);
             Bo b = new Bo(a.getEstilo(), 0);
-            b.setValue(nuevaBo(nivel, i));
+            b.setValue(Recursos.nuevaBo(nivel, i));
             agregarBoALaLista(b);
         }
 
@@ -588,26 +597,7 @@ public class CrearToken extends javax.swing.JDialog {
         return new Object[]{panelLado, newToken};
     }
 
-    private int nuevaBo(int nivel, int rango) {
-
-        int bonoBo = 0;
-        for (int j = 0; j < nivel; j++) {
-            boolean yes = Recursos.posibilidad(90);
-            if (yes) {
-                yes = Recursos.posibilidad(10);
-                if (yes) {
-                    bonoBo += 10;
-                } else {
-                    bonoBo += 5;
-                }
-            }
-        }
-        int al = Recursos.aleatorioEntre(15, 25);
-        float aux1 = (float) rango * al;
-        float factor = (rango == 0) ? 1 : (100 - (aux1)) / 100;
-        float aux = (35 + nivel * 3 + nivel + bonoBo + Recursos.aleatorioEntre(1, 5)) * factor;
-        return Math.round(aux);
-    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton_agregarArma;

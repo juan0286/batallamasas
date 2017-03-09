@@ -519,5 +519,26 @@ public class Recursos {
     public static int nuevoIndiceSortilegio() {
         return Principal.dataRecursos.getListaDeSortilegios().size();
     }
+    
+    
+    public static int nuevaBo(int nivel, int rango) {
 
+        int bonoBo = 0;
+        for (int j = 0; j < nivel; j++) {
+            boolean yes = Recursos.posibilidad(90);
+            if (yes) {
+                yes = Recursos.posibilidad(10);
+                if (yes) {
+                    bonoBo += 10;
+                } else {
+                    bonoBo += 5;
+                }
+            }
+        }
+        int al = Recursos.aleatorioEntre(15, 25);
+        float aux1 = (float) rango * al;
+        float factor = (rango == 0) ? 1 : (100 - (aux1)) / 100;
+        float aux = (35 + nivel * 3 + nivel + bonoBo + Recursos.aleatorioEntre(1, 5)) * factor;
+        return Math.round(aux);
+    }
 }
