@@ -3,16 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package instancias.properties;
+package instancias.properties.alteracion;
 
 /**
  *
  * @author TiranoJuan
  */
-public class Mod {
+public class Mod extends Alteracion{
+
+    public Mod() {
+    }
     
-    private int mod;
-    private String desc;
-    private int clase_mod;
+       
+    
     
 }

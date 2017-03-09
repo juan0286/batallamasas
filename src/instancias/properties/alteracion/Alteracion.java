@@ -3,123 +3,31 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package instancias.properties;
+package instancias.properties.alteracion;
 
+import java.util.ArrayList;
 import javax.xml.bind.annotation.XmlType;
+import recursos.Critico;
 
 /**
  *
- * @author TiranoJuan
+ * @author Juan
  */
 @XmlType
-public class Herida  extends Alteracion{
+public class Alteracion {
 
-    private int pv = 0;
-
-    private int aturdido = 0;
-    private int obligadoparar = 0;
-    private int sinpoderparar = 0;
-
-    // curable
-    private int asaltosparamorir = 0;
-    private int sangre = 0;
-    private int cuerpoEstado = -1;
-    
-    //progresivo
-    private int trMod = 0;
-    private int mmMod = 0;
-    private int boMod = 0;
-    private int bdMod = 0;
-    private int actividad = 0;
    
-
-    private boolean brazoIzqInUtil = false;
-    private boolean brazoDerInUtil = false;
-    private boolean piernaIzqInUtil = false;
-    private boolean piernaDerInUtil = false;
-
     private boolean activo = true;
-    private boolean curacionProgresiva = false;
+
     private String descripcion = "";
-    private int duracion = -1;
-    private int transcurso = -1;
-    
-    private int porcentajeActivo = 100;    
 
-    public int getTranscurso() {
-        return transcurso;
-    }
+    private ArrayList<Efecto> efectos = new ArrayList<Efecto>();
 
-    public void setTranscurso(int transcurso) {
-        this.transcurso = transcurso;
+    public Alteracion() {
     }
-    
-    public int getPorcentajeActivo() {
-        return porcentajeActivo;
-    }
-
-    public void setPorcentajeActivo(int porcentajeActivo) {
-        this.porcentajeActivo = porcentajeActivo;
-    }
-
-    public int getDuracion() {
-        return duracion;
-    }
-
-    public void setDuracion(int duracion) {
-        this.duracion = duracion;
-        this.transcurso = duracion;
-        
-    }
-
-    public int getPv() {
-        return pv;
-    }
-
-    public void setPv(int pv) {
-        this.pv = pv;
-    }
-
-    public int getAturdido() {
-        return aturdido;
-    }
-
-    public void setAturdido(int aturdido) {
-        this.aturdido = aturdido;
-    }
-
-    public int getObligadoparar() {
-        return obligadoparar;
-    }
-
-    public void setObligadoparar(int obligadoparar) {
-        this.obligadoparar = obligadoparar;
-    }
-
-    public int getSinpoderparar() {
-        return sinpoderparar;
-    }
-
-    public void setSinpoderparar(int sinpoderparar) {
-        this.sinpoderparar = sinpoderparar;
-    }
-
-    public int getAsaltosparamorir() {
-        return asaltosparamorir;
-    }
-
-    public void setAsaltosparamorir(int asaltosparamorir) {
-        this.asaltosparamorir = asaltosparamorir;
-    }
-
-    public int getSangre() {
-        return sangre;
-    }
-
-    public void setSangre(int sangre) {
-        this.sangre = sangre;
-    }
-
+   
+    /*
+   
     public int getTrMod() {        
         if (isCuracionProgresiva())             
             return trMod * porcentajeActivo / 100;            
@@ -255,8 +163,27 @@ public class Herida  extends Alteracion{
             porcentajeActivo =  porcentajeActivo - (100 / duracion );
 
     }
+     */
 
-}
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public ArrayList<Efecto> getEfectos() {
+        return efectos;
+    }
+
+    public void setEfectos(ArrayList<Efecto> efectos) {
+        this.efectos = efectos;
+    }
 
     
+    
+    public boolean isActivo() {
+        return activo;
+    }
 }

@@ -52,9 +52,10 @@ public class Token implements Serializable {
     
     private String urlIcon;
     
-    private ArrayList<Arma> armas = new ArrayList<Arma>();
-     
+    private ArrayList<Arma> armas = new ArrayList<Arma>();     
     private ArrayList<Accion> acciones = new ArrayList<Accion>();
+    private ArrayList<Extremidad> extremidades = new ArrayList<Extremidad>();
+    
     
     public Token(String nombre, int nivel, String grupo, int puntosVida, Brazo manoIZQ, Brazo manoDER, Caracteristicas habilidades, ArrayList daños, Status estado, int estilo, boolean ladoIzquierdo) {
         this.nombre = nombre;
@@ -259,6 +260,16 @@ public class Token implements Serializable {
     public void setArmaduraPuesta(int armaduraPuesta) {
         this.armaduraPuesta = armaduraPuesta;
     }
+
+    public ArrayList<Extremidad> getExtremidades() {
+        return extremidades;
+    }
+
+    public void setExtremidades(ArrayList<Extremidad> extremidades) {
+        this.extremidades = extremidades;
+    }
+    
+    
     
     public boolean isVisible() {
         return visible;
@@ -281,9 +292,9 @@ public class Token implements Serializable {
     
     public int compareTo(Token o) {
         int resultado = 0;
-        if (this.estado.getMmActual() < o.estado.getMmActual()) {
+        if (this.estado.getModsDeMm() < o.estado.getModsDeMm()) {
             resultado = -1;
-        } else if (this.estado.getMmActual() > o.estado.getMmActual()) {
+        } else if (this.estado.getModsDeMm() > o.estado.getModsDeMm()) {
             resultado = 1;
         } else if (this.getArmaduraPuesta() < o.getArmaduraPuesta()) {
             resultado = 1;
@@ -482,6 +493,11 @@ public class Token implements Serializable {
         }
         return sort;        
     }
+    
+    public void agregarExtremidad(Extremidad e) {        
+        extremidades.add(e);
+    }
+    
     
     public void aprenderSortilegio(int s) {        
         habilidades.aprenderSortilegio(s);

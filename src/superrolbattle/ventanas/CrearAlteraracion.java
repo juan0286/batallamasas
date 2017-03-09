@@ -5,7 +5,7 @@
  */
 package superrolbattle.ventanas;
 
-import instancias.properties.Alteracion;
+import instancias.properties.alteracion.Alteracion;
 import instancias.properties.Status;
 import java.awt.Color;
 import java.awt.Font;
@@ -63,7 +63,7 @@ public class CrearAlteraracion extends javax.swing.JDialog {
 
         jTextField_Actual_bo.setText(String.valueOf(token.getToken().getEstado().getBoModidificada()));
         jTextField_Actual_Bd.setText(String.valueOf(token.getToken().getEstado().getBdModificada()));
-        jTextField_Actual_MM.setText(String.valueOf(token.getToken().getEstado().getMmActual()));
+        jTextField_Actual_MM.setText(String.valueOf(token.getToken().getEstado().getModsDeMm()));
 
         jTextField_Actual_Actividad.setText(String.valueOf(token.getToken().getEstado().getActividadActual()));
 

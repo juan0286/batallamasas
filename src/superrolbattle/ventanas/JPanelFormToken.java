@@ -77,7 +77,7 @@ public class JPanelFormToken extends javax.swing.JPanel {
                 + "Nivel: " + token.getNivel() + "<br/>"
                 + "Puntos de Vida: " + token.getEstado().getPtsDeVidaPerdidos() + "  /  " + token.getPuntosVida() + "<br/>"
                 + "Estado: " + token.getEstado().cuerpoString() + "<br/>"
-                + "Actividad: " + token.getEstado().getActividad() + "<br/>"
+                + "Actividad: " + token.getEstado().getActividadActual()+ "<br/>"
                 + "Puntos de Poder: " + token.podertxt()+ "<br/>"
                 + "</html>";
         this.setToolTipText(tooltip);

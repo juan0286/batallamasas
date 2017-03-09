@@ -32,6 +32,7 @@ public abstract class Constantes {
 
     // ESTILOS 
     
+    static final public int ESTILO_TODOS = 100;
     static final public int ESTILO_PELEA = 0;
     static final public int ESTILO_FILO = 1;
     static final public int ESTILO_CONTUNDENTE = 2;
