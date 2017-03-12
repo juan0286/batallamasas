@@ -473,6 +473,7 @@ public class Recursos {
     }
 
     private static int asaltosParse(int cant, int tiempo) {
+        
         if (tiempo == Constantes.TIEMPO_SEGUNDOS) {
             return (cant / 10);
         }
@@ -511,6 +512,22 @@ public class Recursos {
 
     }
 
+    public static String mostrarDuracion(int as){
+        String r = "";
+        Double t = (Double) (as / 1.0);
+        if (as > 60480)
+            r += asaltosParse(as, Constantes.TIEMPO_MINUTOS) + " Sem.";
+        else if (as > 8640)
+            r += asaltosParse(as, Constantes.TIEMPO_DIAS)+ " Dias";
+        else if (as > 360)
+            r += asaltosParse(as, Constantes.TIEMPO_HORAS)+ " Hrs.";
+        else if (as > 12)
+            r += asaltosParse(as, Constantes.TIEMPO_MINUTOS)+ " Min.";
+        else r += as + " As.";
+        
+        return r;
+    }
+    
     public static void nuevoSortilegio(Sortilegio s) {
         Principal.dataRecursos.getListaDeSortilegios().put(s.getId(), s);
 

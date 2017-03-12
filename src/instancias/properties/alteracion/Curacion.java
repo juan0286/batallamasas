@@ -11,13 +11,13 @@ import instancias.properties.alteracion.Alteracion;
  *
  * @author TiranoJuan
  */
-public class Curacion extends Alteracion{
+public class Curacion extends Alteracion {
+
+    int pvRecuperados;
+    private int cuerpoEstado = -1;
 
     public Curacion() {
     }
-    
-    int pvRecuperados;    
-    private int cuerpoEstado = -1;       
 
     public int getPvRecuperados() {
         return pvRecuperados;
@@ -34,7 +34,5 @@ public class Curacion extends Alteracion{
     public void setCuerpoEstado(int cuerpoEstado) {
         this.cuerpoEstado = cuerpoEstado;
     }
-    
-    
-    
+
 }

@@ -21,7 +21,7 @@ public class AlterararToken extends javax.swing.JDialog {
     public AlterararToken(java.awt.Frame parent, boolean modal, JPanelFormToken_Accion token) {
         super(parent, modal);
         initComponents();
-         this.setTitle("Altarar a " + token.getToken().getNombre());
+        /* this.setTitle("Altarar a " + token.getToken().getNombre());
         this.panel_token = token;
 
         jTextField_Actual_pv.setText(token.getToken().getpv());
@@ -76,6 +76,7 @@ public class AlterararToken extends javax.swing.JDialog {
         jCheckBox_inconsciente.setSelected(token.getToken().getEstado().getCuerpo() == Status.DORMIDO);
         jCheckBox_coma.setSelected(token.getToken().getEstado().getCuerpo() == Status.COMA);
         jCheckBox_postrado.setSelected(token.getToken().getEstado().isPostrado());
+        */
         this.setLocationRelativeTo(null);
     }
 
@@ -716,68 +717,68 @@ public class AlterararToken extends javax.swing.JDialog {
 
      private void aplicar() {
         instancias.Token tok = panel_token.getToken();
-
-        if (jTabbedPane_tipo_Alteracion.getSelectedIndex() == 0) {
-            tok.getEstado().dañarPv(jComboBox_pv.getSelectedIndex());
-            
-            int sangre = (Integer) jSpinner_sangrado.getValue();
-            tok.getEstado().sangrarMas(sangre);
-            
-            int asAturdido = (Integer) jSpinner_Aturdido.getValue();
-            tok.getEstado().aturdir(asAturdido);
-            
-            int oAParar = (Integer) jSpinner_obligado_a_parar.getValue();
-            tok.getEstado().obligarAParar(oAParar);
-            
-            int aturSinParar = (Integer) jSpinner_AturdidoSinParar.getValue();
-            tok.getEstado().aturdirSinParar(aturSinParar);
-            
-            int redAct = (Integer) jSpinner_penalizacion_Actividad.getValue();
-            tok.getEstado().reducirActividad(redAct);
-            
-            int morirEn = (Integer) jSpinner_asParamoriri.getValue();
-            tok.getEstado().morirEn(morirEn);
-            
-            
-            //   tok.getEstado().setActividadReducida(sangre);
-            //  int sangre = (Integer) jSpinner_sangrado.getValue();
-            //  tok.getEstado().setActividadReducida(sangre);
-        } else {
-            tok.getEstado().sanarPv(jComboBox_pv1.getSelectedIndex());              
-            
-            int sangre = (Integer) jSpinner_Sangrado_sanar.getValue();
-            tok.getEstado().sangrarMenos(sangre);
-            
-            int asAturdido = (Integer) jSpinner_Aturdido1.getValue();
-            tok.getEstado().desaturdir(asAturdido);
-            tok.getEstado().desaturdirYpoderParar(asAturdido);
-            tok.getEstado().dejarDeparar(asAturdido);
-                       
-            int bonoBO = (Integer) jSpinner_bonificarBO.getValue();
-            tok.getEstado().bonificarBo(bonoBO);
-            
-            int bonoBd = (Integer) jSpinner_bonificarBD.getValue();
-            tok.getEstado().bonificarBd(bonoBd);
-            
-            int bonoMm = (Integer) jSpinner_bonificarMm.getValue();
-            tok.getEstado().bonificarMm(bonoMm);
-            
-            int act = (Integer) jSpinner_recuperarActividad.getValue();
-            tok.getEstado().recuperarActividad(act);
-
-        }
-        tok.getManoDER().setHabilitado(!jCheckBox_brazo_der.isSelected());
-        tok.getManoIZQ().setHabilitado(!jCheckBox_brazo_izq.isSelected());
-        
-        if (jCheckBox_muerto.isSelected())
-            tok.getEstado().setCuerpo(Status.MUERTO);
-        if (jCheckBox_inconsciente.isSelected())
-            tok.getEstado().setCuerpo(Status.DORMIDO);        
-        if (jCheckBox_coma.isSelected())
-            tok.getEstado().setCuerpo(Status.DORMIDO);
-        if (jCheckBox_postrado.isSelected())
-            tok.getEstado().setPostrado(true);
-        panel_token.update_jTokenAction();
+//
+//        if (jTabbedPane_tipo_Alteracion.getSelectedIndex() == 0) {
+//            tok.getEstado().dañarPv(jComboBox_pv.getSelectedIndex());
+//            
+//            int sangre = (Integer) jSpinner_sangrado.getValue();
+//            tok.getEstado().sangrarMas(sangre);
+//            
+//            int asAturdido = (Integer) jSpinner_Aturdido.getValue();
+//            tok.getEstado().aturdir(asAturdido);
+//            
+//            int oAParar = (Integer) jSpinner_obligado_a_parar.getValue();
+//            tok.getEstado().obligarAParar(oAParar);
+//            
+//            int aturSinParar = (Integer) jSpinner_AturdidoSinParar.getValue();
+//            tok.getEstado().aturdirSinParar(aturSinParar);
+//            
+//            int redAct = (Integer) jSpinner_penalizacion_Actividad.getValue();
+//            tok.getEstado().reducirActividad(redAct);
+//            
+//            int morirEn = (Integer) jSpinner_asParamoriri.getValue();
+//            tok.getEstado().morirEn(morirEn);
+//            
+//            
+//            //   tok.getEstado().setActividadReducida(sangre);
+//            //  int sangre = (Integer) jSpinner_sangrado.getValue();
+//            //  tok.getEstado().setActividadReducida(sangre);
+//        } else {
+//            tok.getEstado().sanarPv(jComboBox_pv1.getSelectedIndex());              
+//            
+//            int sangre = (Integer) jSpinner_Sangrado_sanar.getValue();
+//            tok.getEstado().sangrarMenos(sangre);
+//            
+//            int asAturdido = (Integer) jSpinner_Aturdido1.getValue();
+//            tok.getEstado().desaturdir(asAturdido);
+//            tok.getEstado().desaturdirYpoderParar(asAturdido);
+//            tok.getEstado().dejarDeparar(asAturdido);
+//                       
+//            int bonoBO = (Integer) jSpinner_bonificarBO.getValue();
+//            tok.getEstado().bonificarBo(bonoBO);
+//            
+//            int bonoBd = (Integer) jSpinner_bonificarBD.getValue();
+//            tok.getEstado().bonificarBd(bonoBd);
+//            
+//            int bonoMm = (Integer) jSpinner_bonificarMm.getValue();
+//            tok.getEstado().bonificarMm(bonoMm);
+//            
+//            int act = (Integer) jSpinner_recuperarActividad.getValue();
+//            tok.getEstado().recuperarActividad(act);
+//
+//        }
+//        tok.getManoDER().setHabilitado(!jCheckBox_brazo_der.isSelected());
+//        tok.getManoIZQ().setHabilitado(!jCheckBox_brazo_izq.isSelected());
+//        
+//        if (jCheckBox_muerto.isSelected())
+//            tok.getEstado().setCuerpo(Status.MUERTO);
+//        if (jCheckBox_inconsciente.isSelected())
+//            tok.getEstado().setCuerpo(Status.DORMIDO);        
+//        if (jCheckBox_coma.isSelected())
+//            tok.getEstado().setCuerpo(Status.DORMIDO);
+//        if (jCheckBox_postrado.isSelected())
+//            tok.getEstado().setPostrado(true);
+//        panel_token.update_jTokenAction();
 
     }
 

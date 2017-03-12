@@ -10,6 +10,9 @@ import instancias.Evento;
 import instancias.Sortilegio;
 import instancias.Token;
 import instancias.properties.Status;
+import instancias.properties.alteracion.Alteracion;
+import instancias.properties.alteracion.Curacion;
+import instancias.properties.alteracion.Herida;
 import java.awt.Color;
 import java.awt.Image;
 import java.net.URL;
@@ -76,7 +79,7 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
             accion.hecho(this.tipoDeAccion);
             // updDone();
             realizarLaAccion();
-            token.updateEstado();
+            token.updateEstado(1);
             update_jTokenAction();
             Evento evt = new Evento(recursos.Recursos.evtAccion(accion, token));
             principal.publicarEvento(evt);
@@ -101,7 +104,7 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
 
     public void esperarOportunidad() {
         if (!accion.isDone()) {
-            token.updateEstado();
+            token.updateEstado(1);
             accion.esperarOportunidad();
             Evento e = new Evento(Recursos.evtOportunidad(token));
             principal.publicarEvento(e);
@@ -139,22 +142,8 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
         up.start();
         jProgressBar_vida.setString(token.vidatxt());
         
-        /*
-        *   Para version Sin barra Movil usar el siguiente Codigo
-        */
-        /*
-        jProgressBar_vida.setValue(token.getEstado().getPtsDeVidaPerdidos());
-        jProgressBar_vida.setStringPainted(true);
-        jProgressBar_vida.setString(token.vidatxt());
-        jProgressBar_vida.repaint();
-*/
-        if (token.getEstado().getCuerpo() == Status.FIRME) {
-            //jProgressBar_vida.setForeground(Color.GREEN);
-        } else if (token.getEstado().getCuerpo() == Status.CANSADO) {
-            //jProgressBar_vida.setForeground(Color.YELLOW);
-        } else if (token.getEstado().getCuerpo() == Status.EXHAUSTO) {
-            //jProgressBar_vida.setForeground(Color.ORANGE);
-        } else if (token.getEstado().getCuerpo() == Status.DORMIDO) {
+
+        if (token.getEstado().getCuerpo() == Status.DORMIDO) {
             jProgressBar_vida.setForeground(Color.GRAY);
             dejarFueraDeCombate();
             this.setBackground(Color.GRAY);
@@ -198,6 +187,10 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
         this.repaint();
     }
 
+    public void updateTodo(){
+        token.updateEstado(1);
+        update_jTokenAction();
+    }
     
 
     public void iconar(String path) { 
@@ -382,9 +375,9 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
                     principal.creaEvento(token.getNombre() + " Cambia de Accion");
                 }
             } else if (clickDerecho) {
-                AlterararToken dt = new AlterararToken(principal, true, this);
-                dt.setVisible(true);
-                if (token.getEstado().isAturdido() && !accion.isDone()) {
+               CrearNewAlter.CrearAlteracion(principal, true, this);
+               update_jTokenAction();
+                if (token.getEstado().isAturdido() && !accion.isDone() && !Accion.isRealizableAturdido(tipoDeAccion)) {
                     a = DeclaraAccion.DeclararAccion(principal, true, this, DeclaraAccion.MODO_ATURDIDO);
                 }
 

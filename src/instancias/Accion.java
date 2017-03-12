@@ -8,6 +8,7 @@ package instancias;
 import java.awt.Color;
 import java.io.Serializable;
 import javax.xml.bind.annotation.XmlType;
+import recursos.Constantes;
 
 /**
  *
@@ -151,6 +152,20 @@ public class Accion implements Serializable{
         this.fullDescp = fullDescp;
     }
 
+   public static boolean isRealizableAturdido(int tipo){
    
+   if (tipo == Constantes.TIPO_ACCION_PARAR_PROYECTIL)
+       return true;
+   if (tipo == Constantes.TIPO_ACCION_DESPLAZAMIENTO)
+       return true;
+   if (tipo == Constantes.TIPO_ACCION_ATAQUE_CUERPO_A_CUERPO)
+       return true;
+   if (tipo == Constantes.TIPO_ACCION_MOVIMIENTO_Y_MANIOBRA)
+       return true;
+   else
+       return false;
+   
+   
+   }
   
 }

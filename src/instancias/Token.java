@@ -7,6 +7,9 @@ package instancias;
 
 import java.util.ArrayList;
 import instancias.properties.*;
+import instancias.properties.alteracion.Alteracion;
+import instancias.properties.alteracion.Curacion;
+import instancias.properties.alteracion.Herida;
 import java.awt.Color;
 import java.io.Serializable;
 import java.util.Arrays;
@@ -38,8 +41,6 @@ public class Token implements Serializable {
     private int nivel;
     private String grupo;
     private int puntosVida;
-    private Brazo manoIZQ;
-    private Brazo manoDER;
     private Caracteristicas habilidades;
     private ArrayList daños;
     private Status estado;
@@ -57,13 +58,12 @@ public class Token implements Serializable {
     private ArrayList<Extremidad> extremidades = new ArrayList<Extremidad>();
     
     
-    public Token(String nombre, int nivel, String grupo, int puntosVida, Brazo manoIZQ, Brazo manoDER, Caracteristicas habilidades, ArrayList daños, Status estado, int estilo, boolean ladoIzquierdo) {
+    public Token(String nombre, int nivel, String grupo, int puntosVida, Caracteristicas habilidades, ArrayList daños, Status estado, int estilo, boolean ladoIzquierdo) {
         this.nombre = nombre;
         this.nivel = nivel;
         this.grupo = grupo;
         this.puntosVida = puntosVida;
-        this.manoIZQ = manoIZQ;
-        this.manoDER = manoDER;
+        
         this.habilidades = habilidades;
         this.daños = daños;
         this.estado = estado;
@@ -71,26 +71,22 @@ public class Token implements Serializable {
         this.ladoIzquierdo = ladoIzquierdo;        
     }
     
-    public Token(String nombre, int nivel, String grupo, int puntosVida, Brazo manoIZQ, Brazo manoDER, Caracteristicas habilidades, ArrayList daños, Status estado, int estilo) {
+    public Token(String nombre, int nivel, String grupo, int puntosVida,  Caracteristicas habilidades, ArrayList daños, Status estado, int estilo) {
         this.nombre = nombre;
         this.nivel = nivel;
         this.grupo = grupo;
-        this.puntosVida = puntosVida;
-        this.manoIZQ = manoIZQ;
-        this.manoDER = manoDER;
+        this.puntosVida = puntosVida;       
         this.habilidades = habilidades;
         this.daños = daños;
         this.estado = estado;
         this.estilo_de_pelea = estilo;        
     }
     
-    public Token(String nombre, int nivel, String grupo, int puntosVida, Brazo manoIZQ, Brazo manoDER, Caracteristicas habilidades, ArrayList daños, Status estado, int estilo, Asalto asalto, boolean lado) {
+    public Token(String nombre, int nivel, String grupo, int puntosVida, Caracteristicas habilidades, ArrayList daños, Status estado, int estilo, Asalto asalto, boolean lado) {
         this.nombre = nombre;
         this.nivel = nivel;
         this.grupo = grupo;
-        this.puntosVida = puntosVida;
-        this.manoIZQ = manoIZQ;
-        this.manoDER = manoDER;
+        this.puntosVida = puntosVida;        
         this.habilidades = habilidades;
         this.daños = daños;
         this.estado = estado;
@@ -155,23 +151,7 @@ public class Token implements Serializable {
     
     public void setPuntosVida(int puntosVida) {
         this.puntosVida = puntosVida;
-    }
-    
-    public Brazo getManoIZQ() {
-        return manoIZQ;
-    }
-    
-    public void setManoIZQ(Brazo manoIZQ) {
-        this.manoIZQ = manoIZQ;
-    }
-    
-    public Brazo getManoDER() {
-        return manoDER;
-    }
-    
-    public void setManoDER(Brazo manoDER) {
-        this.manoDER = manoDER;
-    }
+    }    
     
     public Caracteristicas getHabilidades() {
         return habilidades;
@@ -321,9 +301,10 @@ public class Token implements Serializable {
         return true;
     }
     
-    public void updateEstado() {
+    public void updateEstado(int asaltos) {
+        estado.aplicarAsaltoNuevo(nombre,asaltos);
+        estado.update();
         
-        estado.aplicarAsaltoNuevo(nombre,1);
     }
 
 //        Brazo d = new Brazo();
@@ -452,17 +433,17 @@ public class Token implements Serializable {
         return boDisponible;
     }
     
-    public int bonoEscudo() {
-        
-        if (manoDER.isHabilitado() && manoDER.getArmaEquipada().getClase() == Constantes.CLASE_ESCUDO) {
-            return this.manoDER.getArmaEquipada().getBono();
-        } else if (manoIZQ.isHabilitado() && manoIZQ.getArmaEquipada().getClase() == Constantes.CLASE_ESCUDO) {
-            return 25;
-            
-        } else {
-            return 0;
-        }
-    }
+//    public int bonoEscudo() {
+//        
+//        if (manoDER.isHabilitado() && manoDER.getArmaEquipada().getClase() == Constantes.CLASE_ESCUDO) {
+//            return this.manoDER.getArmaEquipada().getBono();
+//        } else if (manoIZQ.isHabilitado() && manoIZQ.getArmaEquipada().getClase() == Constantes.CLASE_ESCUDO) {
+//            return 25;
+//            
+//        } else {
+//            return 0;
+//        }
+//    }
     
     public String getpv() {
         return this.estado.getPtsDeVidaPerdidos() + " / " + this.habilidades.getPuntosVida();
@@ -496,6 +477,14 @@ public class Token implements Serializable {
     
     public void agregarExtremidad(Extremidad e) {        
         extremidades.add(e);
+    }
+    
+    public void agregarHerida(Herida a) {        
+        estado.aplicarHerida(a);
+    }
+    
+    public void agregarCuracion(Curacion c) {        
+        estado.aplicarCuracion(c);
     }
     
     

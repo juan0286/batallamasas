@@ -52,7 +52,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
 
         
         //jComboBoxArmas.addItem(token.getManoIZQ().getArmaEquipada().toString());
-        jSlider_Bo.setMaximum(token.boDisponible(token.getHabilidades().getBo_pri()));
+        cambiarBo();;
         jSlider_Bo.setToolTipText("bo Maxima = " + token.getHabilidades().getBo_pri());
         // jSlider_Bo.setMajorTickSpacing();
 
@@ -977,7 +977,8 @@ public class DeclaraAccion extends javax.swing.JDialog {
             }
             case Constantes.TIPO_ACCION_ATAQUE_CUERPO_A_CUERPO: {
                 acc = new Accion(tipoAcion, principal.getAsaltoActual(), orden);
-                fullDesc += "Ataca con " + token.getManoDER().getArmaEquipada().toString();
+                Arma a = (Arma) jComboBoxArmas_cac.getSelectedItem();
+                fullDesc += "Ataca con\n" + a.toString();
                 fullDesc += "\n" + jTextField_Bo.getText() + " / " + jTextField8.getText();
                 fullDesc += "\n" + jTextArea_desc.getText();
                 break;

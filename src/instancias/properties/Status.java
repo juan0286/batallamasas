@@ -39,8 +39,10 @@ public class Status implements Serializable {
     static final public int MENTE_OBLIGADO_A_PARAR = 1;
     static final public int MENTE_ATURDIDO = 2;
     static final public int MENTE_ATURDIDO_Y_SIN_PODER_PARAR = 3;
+    static final public int MENTE_DORMIDO = 4;
 
     private int cuerpo = 0;
+    private int mente = 0;
 
     private boolean postrado = false;
 
@@ -86,7 +88,7 @@ public class Status implements Serializable {
 
     public boolean isAturdido() {
         //return menteEstado() >= MENTE_ATURDIDO;
-        return isInEstado(Efecto.TIPO_ATURDIDO);
+        return isInEstado(Efecto.TIPO_ATURDIDO) || isInEstado(Efecto.TIPO_ATURDIDO_SIN_PARAR);
     }
 
     public boolean isSinPoderParar() {
@@ -101,7 +103,7 @@ public class Status implements Serializable {
 
     public boolean isSangrando() {
         //return this.getObligadoParar() > 0;
-        return isInEstado(Efecto.TIPO_SANGRADO);
+        return isInEstado(Efecto.TIPO_SANGRADO) || isInEstado(Efecto.TIPO_QUEMADURA) || isInEstado(Efecto.TIPO_CONGELAMIENTO);
     }
 
     public boolean isPostrado() {
@@ -115,15 +117,21 @@ public class Status implements Serializable {
     public void aplicarAsaltoNuevo(String nombre, int asaltos) {
         String mje = "";
 
-        boolean isAtur = isAturdido();
-        boolean isAturSP = isSinPoderParar();
-        boolean isObli = isObligadoAParar();
-
+        boolean isAtur = false;
+        boolean isAturSP = false;
+        boolean isObli = false;
+        boolean isDor = isInEstado(Efecto.TIPO_DORMIDO);
+        if (!isDor) {
+            isAtur = isAturdido();
+            isAturSP = isSinPoderParar();
+            isObli = isObligadoAParar();
+            isDor = isObligadoAParar();
+        }
         for (Iterator<Alteracion> iterator = alteraciones.iterator(); iterator.hasNext();) {
             Alteracion alt = iterator.next();
             if (alt.isActivo()) {
 
-                if (alt.getClass().getName() == "Herida") {
+                if (alt.getClass().getName() == "instancias.properties.alteracion.Herida") {
                     Herida h = (Herida) alt;
 
                     if (h.isMortal()) {
@@ -135,17 +143,17 @@ public class Status implements Serializable {
                             cuerpo = MUERTO;
                         } else if (h.getAsaltosparamorir() > 0) {
                             cuerpo = MORIBUNDO;
-                            mje += "Muere en " + h.getAsaltosparamorir() + "asalto(s)";
+                            mje += "Muere en " + h.getAsaltosparamorir() + "asalto(s)\n";
                         }
                     }
-                    ArrayList<Efecto> efectos = new ArrayList<Efecto>();
+                    ArrayList<Efecto> efectos = h.getEfectos();
                     for (Efecto e : efectos) {
 
                         if (e.isActivo()) {
 
-                            if (e.getTipo() == Efecto.TIPO_SANGRADO) {
+                            if (e.getTipo() <= Efecto.TIPO_SANGRADO) {
                                 dañarPv(e.getValueActual() * asaltos);
-                                mje += "Pierde " + e.getValueActual() + "pv.";
+                                mje += "Pierde " + e.getValueActual() + "pv.\n";
                             }
 
                             // Avanzo Asalto en el evento    
@@ -155,10 +163,10 @@ public class Status implements Serializable {
 
                     }
 
-                } else if (alt.getClass().getName() == "Mod") {
+                } else if (alt.getClass().getName() == "instancias.properties.alteracion.Mod") {
 
                     // aplico mods
-                } else if (alt.getClass().getName() == "Curacion") {
+                } else if (alt.getClass().getName() == "instancias.properties.alteracion.Curacion") {
 
                     // aplico Curaciones
                 }
@@ -170,16 +178,19 @@ public class Status implements Serializable {
 
             TreeMap<Integer, Integer> tm = maxeEstadoMente();
 
-            if (isAturSP) {
-                mje += (tm.get(Efecto.TIPO_ATURDIDO_SIN_PARAR) > 0) ? "Aturdido y sin Poder parar por " + tm.get(Efecto.TIPO_ATURDIDO_SIN_PARAR) + "asalto(s)" : "Ya no esta aturdido";
+            if (isDor) {
+                mje += (tm.get(MENTE_ATURDIDO_Y_SIN_PODER_PARAR) > 0) ? "Dormido por " + recursos.Recursos.mostrarDuracion(tm.get(Efecto.TIPO_ATURDIDO_SIN_PARAR)) : "Ya no esta Dormido";
+            } else {
+                if (isAturSP) {
+                    mje += (tm.get(MENTE_ATURDIDO_Y_SIN_PODER_PARAR) > 0) ? "Aturdido y sin Poder parar por " + tm.get(Efecto.TIPO_ATURDIDO_SIN_PARAR) + " asalto(s)" : "Ya no esta aturdido";
+                }
+                if (isAtur) {
+                    mje += (tm.get(MENTE_ATURDIDO) > 0) ? "Aturdido por " + tm.get(MENTE_ATURDIDO) + " asalto(s)" : "Ya no esta Aturdido";
+                }
+                if (isObli) {
+                    mje += (tm.get(MENTE_OBLIGADO_A_PARAR) > 0) ? "Obligado a parar por " + tm.get(MENTE_OBLIGADO_A_PARAR) + " asalto(s)" : "Ya no esta Obligado a parar";
+                }
             }
-            if (isAtur) {
-                mje += (tm.get(Efecto.TIPO_ATURDIDO) > 0) ? "Aturdido por " + tm.get(Efecto.TIPO_ATURDIDO) + "asalto(s)" : "Ya no esta Aturdido";
-            }
-            if (isObli) {
-                mje += (tm.get(Efecto.TIPO_OBLIGADO_A_PARAR) > 0) ? "Obligado a parar por " + tm.get(Efecto.TIPO_OBLIGADO_A_PARAR) + "asalto(s)" : "Ya no esta Obligado a parar";
-            }
-
             if (mje.length() > 0) {
                 recursos.Recursos.informar(nombre + "\n" + mje, nombre);
             }
@@ -197,13 +208,16 @@ public class Status implements Serializable {
             this.setCuerpo(Status.EXHAUSTO);
         } else if (this.getPtsDeVidaPerdidos() >= puntosVidaActuales / 2 && this.cuerpo < Status.CANSADO) {
             this.setCuerpo(Status.CANSADO);
+        } else {
+            this.setCuerpo(Status.FIRME);
         }
 
     }
 
     public void update() {
-        pvUpdate();
 
+        pvUpdate();
+        menteEstado();
     }
 
     public String cuerpoString() {
@@ -286,6 +300,7 @@ public class Status implements Serializable {
 
     public int menteEstado() {
         int resp = MENTE_FIRME;
+
         if (cuerpo < DORMIDO) {
             if (isSinPoderParar()) {
                 resp = MENTE_ATURDIDO_Y_SIN_PODER_PARAR;
@@ -295,18 +310,25 @@ public class Status implements Serializable {
                 resp = MENTE_OBLIGADO_A_PARAR;
             }
         }
+        mente = resp;
         return resp;
     }
 
     public String menteEstadoTxt() {
         String resp = "";
-        if (cuerpo < DORMIDO) {
-            if (cuerpo == MENTE_ATURDIDO_Y_SIN_PODER_PARAR) {
-                resp = "Aturdido y Sin poder Parar";
-            } else if (cuerpo == MENTE_ATURDIDO) {
-                resp = "Aturdido";
-            } else if (cuerpo == MENTE_OBLIGADO_A_PARAR) {
-                resp = "Obligado a Parar";
+        TreeMap<Integer, Integer> hm = maxeEstadoMente();
+
+        if (hm.get(MENTE_DORMIDO) > 0) {
+            resp = "Dormido " + recursos.Recursos.mostrarDuracion(hm.get(MENTE_DORMIDO)) + "\n";
+        } else {
+            if (hm.get(MENTE_ATURDIDO_Y_SIN_PODER_PARAR) > 0) {
+                resp = "Aturdido S/P " + hm.get(MENTE_ATURDIDO_Y_SIN_PODER_PARAR) + " As\n";
+            }
+            if (hm.get(MENTE_ATURDIDO) > 0) {
+                resp = "Aturdido " + hm.get(MENTE_ATURDIDO) + " As\n";
+            }
+            if (hm.get(MENTE_OBLIGADO_A_PARAR) > 0) {
+                resp = "Obligado a Parar " + hm.get(MENTE_OBLIGADO_A_PARAR) + " As\n";
             }
         }
         return resp;
@@ -316,9 +338,9 @@ public class Status implements Serializable {
         String resp = "";
         resp += cuerpoString();
         resp += "\n" + menteEstadoTxt();
-        resp += (isSangrando()) ? "-" + sumaDeMod(Efecto.TIPO_SANGRADO) + "pv/as" : "";
+        resp += (isSangrando()) ? "-" + sumaDeMod(Efecto.TIPO_SANGRADO) + "pv/as\n" : "";
         int aa = getActividadActual();
-        resp += (aa != 0) ? aa + " a la Actividad " : "";
+        resp += (aa != 0) ? aa + " a la Actividad\n" : "";
         return resp;
 
     }
@@ -382,9 +404,9 @@ public class Status implements Serializable {
         int max = 0;
         for (Alteracion alt : alteraciones) {
             if (alt.isActivo()) {
-                if (alt.getClass().getName() == "Herida") {
+                if (alt.getClass().getName() == "instancias.properties.alteracion.Herida") {
                     Herida h = (Herida) alt;
-                    ArrayList<Efecto> efectos = new ArrayList<Efecto>();
+                    ArrayList<Efecto> efectos = h.getEfectos();
                     for (Efecto e : efectos) {
                         if (e.isActivo()) {
                             if (e.getTipo() == tipo && e.getCuantoMasDura() > max) {
@@ -403,55 +425,62 @@ public class Status implements Serializable {
         int suma = 0;
         for (Alteracion alt : alteraciones) {
             if (alt.isActivo()) {
-                if (alt.getClass().getName() == "Herida") {
-                    Herida h = (Herida) alt;
-                    ArrayList<Efecto> efectos = new ArrayList<Efecto>();
-                    for (Efecto e : efectos) {
-                        if (e.isActivo()) {
-                            if (e.getTipo() == tipo) {
-                                suma = e.getValue();
-                            }
+
+                Herida h = (Herida) alt;
+                ArrayList<Efecto> efectos = h.getEfectos();
+                for (Efecto e : efectos) {
+                    if (e.isActivo()) {
+                        if (e.getTipo() == tipo) {
+                            suma = e.getValueActual();
                         }
                     }
                 }
+
             }
         }
         return suma;
     }
 
     public int getModsDeBo(int estilo) {
+        TreeMap<Integer, Integer> hm = new TreeMap();
+        hm.put(Constantes.ESTILO_FILO, Efecto.TIPO_AUMENTO_DE_BO_FILO);
+        hm.put(Constantes.ESTILO_CONTUNDENTE, Efecto.TIPO_AUMENTO_DE_BO_CONTUNDENTE);
+        hm.put(Constantes.ESTILO_DOS_MANOS, Efecto.TIPO_AUMENTO_DE_BO_DOS_MANOS);
+        hm.put(Constantes.ESTILO_ASTA, Efecto.TIPO_AUMENTO_DE_BO_ASTA);
+        hm.put(Constantes.ESTILO_PROYECTILES, Efecto.TIPO_AUMENTO_DE_BO_PROYECTILES);
+        
 
         int suma = 0;
         for (Alteracion alt : alteraciones) {
             if (alt.isActivo()) {
-                if (alt.getClass().getName() == "Herida") {
-                    Herida h = (Herida) alt;
-                    ArrayList<Efecto> efectos = new ArrayList<Efecto>();
-                    for (Efecto e : efectos) {
-                        if (e.isActivo()) {
-                            if (e.getTipo() == Efecto.TIPO_AUMENTO_DE_BO && (e.getValueActual() == Constantes.ESTILO_TODOS || e.getValueActual() == estilo)) {
-                                suma += e.getValue();
-                            }
-                            if (e.getTipo() == Efecto.TIPO_RESTA_DE_BO && (e.getValueActual() == Constantes.ESTILO_TODOS || e.getValueActual() == estilo)) {
-                                suma -= e.getValue();
-                            }
+
+                Herida h = (Herida) alt;
+                ArrayList<Efecto> efectos = h.getEfectos();
+                for (Efecto e : efectos) {
+                    if (e.isActivo()) {
+                        if (e.getTipo() == Efecto.TIPO_AUMENTO_DE_BO || e.getTipo() == hm.get(estilo) ) {
+                            suma += e.getValueActual();
+                        }
+                        if (e.getTipo() == Efecto.TIPO_RESTA_DE_BO) {
+                            suma -= e.getValueActual();
                         }
                     }
                 }
+
             }
         }
         return suma;
     }
 
-    private boolean isInEstado(int tipo) {
+    public boolean isInEstado(int tipo) {
 
         boolean res = false;
         busqueda:
         for (Alteracion alt : alteraciones) {
             if (alt.isActivo()) {
-                if (alt.getClass().getName() == "Herida") {
+                if (alt.getClass().getName() == "instancias.properties.alteracion.Herida") {
                     Herida h = (Herida) alt;
-                    ArrayList<Efecto> efectos = new ArrayList<Efecto>();
+                    ArrayList<Efecto> efectos = h.getEfectos();
                     for (Efecto e : efectos) {
                         if (e.isActivo()) {
                             if (e.getTipo() == tipo && e.getCuantoMasDura() > 0) {
@@ -470,28 +499,33 @@ public class Status implements Serializable {
     private TreeMap<Integer, Integer> maxeEstadoMente() {
 
         TreeMap<Integer, Integer> hm = new TreeMap();
-        hm.put(Efecto.TIPO_OBLIGADO_A_PARAR, 0);
+        hm.put(MENTE_OBLIGADO_A_PARAR, 0);
 
-        hm.put(Efecto.TIPO_ATURDIDO, 0);
+        hm.put(MENTE_ATURDIDO, 0);
 
-        hm.put(Efecto.TIPO_ATURDIDO_SIN_PARAR, 0);
+        hm.put(MENTE_ATURDIDO_Y_SIN_PODER_PARAR, 0);
+
+        hm.put(MENTE_DORMIDO, 0);
 
         for (Alteracion alt : alteraciones) {
             if (alt.isActivo()) {
-                if (alt.getClass().getName() == "Herida") {
+                if (alt.getClass().getName() == "instancias.properties.alteracion.Herida") {
                     Herida h = (Herida) alt;
-                    ArrayList<Efecto> efectos = new ArrayList<Efecto>();
+                    ArrayList<Efecto> efectos = h.getEfectos();
                     for (Efecto e : efectos) {
                         if (e.isActivo()) {
 
-                            if (e.getTipo() == Efecto.TIPO_OBLIGADO_A_PARAR && e.getCuantoMasDura() > hm.get(Efecto.TIPO_OBLIGADO_A_PARAR)) {
-                                hm.put(Efecto.TIPO_OBLIGADO_A_PARAR, e.getCuantoMasDura());
+                            if (e.getTipo() == Efecto.TIPO_OBLIGADO_A_PARAR && e.getCuantoMasDura() > hm.get(MENTE_OBLIGADO_A_PARAR)) {
+                                hm.put(MENTE_OBLIGADO_A_PARAR, e.getCuantoMasDura());
                             }
-                            if (e.getTipo() == Efecto.TIPO_ATURDIDO && e.getCuantoMasDura() > hm.get(Efecto.TIPO_ATURDIDO)) {
-                                hm.put(Efecto.TIPO_ATURDIDO, e.getCuantoMasDura());
+                            if (e.getTipo() == Efecto.TIPO_ATURDIDO && e.getCuantoMasDura() > hm.get(MENTE_ATURDIDO)) {
+                                hm.put(MENTE_ATURDIDO, e.getCuantoMasDura());
                             }
-                            if (e.getTipo() == Efecto.TIPO_ATURDIDO_SIN_PARAR && e.getCuantoMasDura() > hm.get(Efecto.TIPO_ATURDIDO_SIN_PARAR)) {
-                                hm.put(Efecto.TIPO_ATURDIDO_SIN_PARAR, e.getCuantoMasDura());
+                            if (e.getTipo() == Efecto.TIPO_ATURDIDO_SIN_PARAR && e.getCuantoMasDura() > hm.get(MENTE_ATURDIDO_Y_SIN_PODER_PARAR)) {
+                                hm.put(MENTE_ATURDIDO_Y_SIN_PODER_PARAR, e.getCuantoMasDura());
+                            }
+                            if (e.getTipo() == Efecto.TIPO_DORMIDO && e.getCuantoMasDura() > hm.get(MENTE_DORMIDO)) {
+                                hm.put(MENTE_DORMIDO, e.getCuantoMasDura());
                             }
 
                         }
@@ -502,7 +536,7 @@ public class Status implements Serializable {
         return hm;
     }
 
-    private void aplicarHerida(Herida h) {
+    public void aplicarHerida(Herida h) {
 
         if (h.getPv() > 0) {
             dañarPv(h.getPv());
@@ -526,9 +560,10 @@ public class Status implements Serializable {
 
         }
         alteraciones.add(h);
+        update();
     }
 
-    private void aplicarCuracion(Curacion c) {
+    public void aplicarCuracion(Curacion c) {
 
         if (c.getPvRecuperados() > 0) {
             sanarPv(c.getPvRecuperados());
@@ -548,14 +583,14 @@ public class Status implements Serializable {
             }
 
         }
-
+        update();
     }
 
     private boolean isInconsciente() {
         return (cuerpo >= DORMIDO || isInEstado(Efecto.TIPO_DORMIDO));
     }
 
-    private void desactivarExtremidad(int indice_miembro) {
+    public void desactivarExtremidad(int indice_miembro) {
         ext.get(indice_miembro).setUtil(false);
         /*
         for (Extremidad extremidad : ext) {
@@ -568,7 +603,7 @@ public class Status implements Serializable {
          */
     }
 
-    private void activarExtremidad(int indice_miembro) {
+    public void activarExtremidad(int indice_miembro) {
         ext.get(indice_miembro).setUtil(true);
 
         /*

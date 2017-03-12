@@ -78,5 +78,27 @@ public class Extremidad {
         this.prot = prot;
     }
     
+    public static String tipoDeMiembroTxt(int tipo_ext) {
+        String resp = "";
+        
+            if (tipo_ext == MIEMBRO_SUPERIOR_DERECHO) {
+                resp = "Superior Derecho";
+            } else if (tipo_ext == MIEMBRO_INFERIOR_DERECHO) {
+                resp = "Inferior Derecho";
+            } else if (tipo_ext == MIEMBRO_SUPERIOR_IZQUIERDO) {
+                resp = "Superior Izquierdo";
+            } else if (tipo_ext == MIEMBRO_INFERIOR_DERECHO) {
+                resp = "Inferior Izquierdo";
+            }
+        
+        return resp;
+    }
+    
+
+    @Override
+    public String toString() {
+        return Extremidad.tipoDeMiembroTxt(this.tipo_miembro);
+    }
+    
     
 }

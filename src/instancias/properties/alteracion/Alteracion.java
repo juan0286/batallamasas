@@ -181,7 +181,9 @@ public class Alteracion {
         this.efectos = efectos;
     }
 
-    
+    public void agregarEfecto(Efecto e){
+        this.efectos.add(e);
+    }
     
     public boolean isActivo() {
         return activo;

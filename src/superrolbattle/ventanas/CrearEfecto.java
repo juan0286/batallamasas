@@ -46,16 +46,16 @@ public class CrearEfecto extends javax.swing.JDialog {
 
         jPanel1 = new javax.swing.JPanel();
         jComboBox_tipos_efectos = new javax.swing.JComboBox<>();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jSpinner_duracion = new javax.swing.JSpinner();
-        jComboBox2 = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jPanel_value = new javax.swing.JPanel();
         jSpinner_numeros = new javax.swing.JSpinner();
         jComboBox_extremidades = new javax.swing.JComboBox<>();
         jSpinner_cinco = new javax.swing.JSpinner();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jSpinner_duracion = new javax.swing.JSpinner();
+        jComboBox2 = new javax.swing.JComboBox<>();
         jPanel4 = new javax.swing.JPanel();
         jCheckBox_reg_pro = new javax.swing.JCheckBox();
         jPanel_Aceptar_cancelar = new javax.swing.JPanel();
@@ -63,6 +63,7 @@ public class CrearEfecto extends javax.swing.JDialog {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Nuevo Efecto");
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.PAGE_AXIS));
 
         jComboBox_tipos_efectos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -75,17 +76,6 @@ public class CrearEfecto extends javax.swing.JDialog {
         jPanel1.add(jComboBox_tipos_efectos);
 
         getContentPane().add(jPanel1);
-
-        jLabel1.setText("Duracion");
-        jPanel2.add(jLabel1);
-
-        jSpinner_duracion.setPreferredSize(new java.awt.Dimension(50, 20));
-        jPanel2.add(jSpinner_duracion);
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Asaltos", "Miinutos", "Horas", "Dias" }));
-        jPanel2.add(jComboBox2);
-
-        getContentPane().add(jPanel2);
 
         jPanel3.setPreferredSize(new java.awt.Dimension(229, 24));
         jPanel3.setLayout(new javax.swing.BoxLayout(jPanel3, javax.swing.BoxLayout.LINE_AXIS));
@@ -109,6 +99,17 @@ public class CrearEfecto extends javax.swing.JDialog {
         jPanel3.add(jPanel_value);
 
         getContentPane().add(jPanel3);
+
+        jLabel1.setText("Duracion");
+        jPanel2.add(jLabel1);
+
+        jSpinner_duracion.setPreferredSize(new java.awt.Dimension(50, 20));
+        jPanel2.add(jSpinner_duracion);
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Asaltos", "Miinutos", "Horas", "Dias" }));
+        jPanel2.add(jComboBox2);
+
+        getContentPane().add(jPanel2);
 
         jCheckBox_reg_pro.setText("Regeneracion Progresiva");
         jPanel4.add(jCheckBox_reg_pro);
@@ -207,6 +208,7 @@ public class CrearEfecto extends javax.swing.JDialog {
     }
 
     private void crear() {
+        ef = new Efecto();
         ef.setActivo(true);
         Efecto e = (Efecto) jComboBox_tipos_efectos.getSelectedItem();
         int tipo = e.getTipo();

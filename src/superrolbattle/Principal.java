@@ -113,8 +113,6 @@ public class Principal extends javax.swing.JFrame {
         jPanel_General = new javax.swing.JPanel();
         jPanel_Acciones = new javax.swing.JPanel();
         jPanel_barra_acciones = new javax.swing.JPanel();
-        jButton_crear = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton_crear_pj = new javax.swing.JButton();
         jLabel_uso_ao = new javax.swing.JLabel();
@@ -240,22 +238,6 @@ public class Principal extends javax.swing.JFrame {
         jPanel_barra_acciones.setMinimumSize(new java.awt.Dimension(300, 0));
         jPanel_barra_acciones.setLayout(new javax.swing.BoxLayout(jPanel_barra_acciones, javax.swing.BoxLayout.LINE_AXIS));
 
-        jButton_crear.setText("Crear");
-        jButton_crear.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_crearActionPerformed(evt);
-            }
-        });
-        jPanel_barra_acciones.add(jButton_crear);
-
-        jButton2.setText("FIGHT");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-        jPanel_barra_acciones.add(jButton2);
-
         jButton1.setText("Agregar Enemigo");
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -333,7 +315,6 @@ public class Principal extends javax.swing.JFrame {
         jPanel_center.setLayout(new javax.swing.BoxLayout(jPanel_center, javax.swing.BoxLayout.LINE_AXIS));
 
         jTabbedPane1.setMaximumSize(new java.awt.Dimension(7777, 77777));
-        jTabbedPane1.setPreferredSize(null);
 
         jPanel_Campo_tab.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel_Campo_tab.setAutoscrolls(true);
@@ -835,15 +816,6 @@ public class Principal extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jMenuItem_SalirActionPerformed
 
-    private void jButton_crearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_crearActionPerformed
-
-        Object[] ObjTk = CrearToken.nuevoToken();
-        boolean lado = (boolean) ObjTk[0];
-        Token tk = (Token) ObjTk[1];
-        Recursos.soldados.add(tk);
-
-    }//GEN-LAST:event_jButton_crearActionPerformed
-
     private void jCheckBoxMenuItem1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem1StateChanged
         Principal.dosLados = jCheckBoxMenuItem1.isSelected();
     }//GEN-LAST:event_jCheckBoxMenuItem1StateChanged
@@ -851,12 +823,6 @@ public class Principal extends javax.swing.JFrame {
     private void jCheckBoxMenuItem2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem2ItemStateChanged
         Recursos.imprimirPorConsola = jCheckBoxMenuItem2.isSelected();
     }//GEN-LAST:event_jCheckBoxMenuItem2ItemStateChanged
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if (campo.puedenComenzarlosAtaques()) {
-            //CampoDeBatalla.resolverAsalto();
-        }
-    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
@@ -1208,8 +1174,7 @@ public class Principal extends javax.swing.JFrame {
                 jButton_crear_pj.setEnabled(false);
                 jButton_definir.setEnabled(false);
                 jButton_comenzar.setEnabled(true);
-                jButton_terminar.setEnabled(false);
-                jButton_crear.setEnabled(false);
+                jButton_terminar.setEnabled(false);                
                 jLabel_uso_ao.setVisible(false);
                 moverAturdidos();
                 //avanzarFaseDeAsalto(0);
@@ -1222,8 +1187,7 @@ public class Principal extends javax.swing.JFrame {
                 jLabel_uso_ao.setVisible(true);
                 jButton_definir.setEnabled(false);
                 jButton_comenzar.setEnabled(false);
-                jButton_terminar.setEnabled(true);
-                jButton_crear.setEnabled(false);
+                jButton_terminar.setEnabled(true);                
 
                 publicarEvento(creaEvento(Recursos.evtAsaltoNuevo(campo.getnAsalto())));
 
@@ -1237,8 +1201,7 @@ public class Principal extends javax.swing.JFrame {
 
                 jButton_definir.setEnabled(true);
                 jButton_comenzar.setEnabled(false);
-                jButton_terminar.setEnabled(false);
-                jButton_crear.setEnabled(false);
+                jButton_terminar.setEnabled(false);                
                 jButton_crear_pj.setEnabled(true);
 
                 jButton_avanzarFaseAsalto1.setEnabled(false);
@@ -1492,7 +1455,6 @@ public class Principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton_avanzarFaseAsalto1;
     private javax.swing.JButton jButton_avanzarFaseAsalto2;
     private javax.swing.JButton jButton_avanzarFaseAsalto3;
@@ -1503,7 +1465,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton jButton_avanzarFaseAsalto8;
     private javax.swing.JButton jButton_avanzarFaseAsalto9;
     private javax.swing.JButton jButton_comenzar;
-    private javax.swing.JButton jButton_crear;
     private javax.swing.JButton jButton_crear_pj;
     private javax.swing.JButton jButton_definir;
     private javax.swing.JButton jButton_terminar;
@@ -1684,7 +1645,7 @@ public class Principal extends javax.swing.JFrame {
     private void moverAturdidos() {
         for (int i = 0; i < aws.size(); i++) {
             JPanelFormToken_Accion jpta = aws.get(i);
-            if (jpta.getToken().getEstado().isAturdido()) {
+            if (jpta.getToken().getEstado().isAturdido() && !Accion.isRealizableAturdido(jpta.getTipoDeAccion())) {
                 jpta.clickAccion(false, false, false);
             }
         }

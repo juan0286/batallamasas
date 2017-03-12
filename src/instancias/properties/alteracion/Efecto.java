@@ -5,8 +5,10 @@
  */
 package instancias.properties.alteracion;
 
+import instancias.properties.Extremidad;
 import java.util.ArrayList;
 import java.util.HashMap;
+import recursos.Recursos;
 
 /**
  *
@@ -14,62 +16,67 @@ import java.util.HashMap;
  */
 public class Efecto {
 
-    static final public int TIPO_SANGRADO = 1;
-    static final public int TIPO_OBLIGADO_A_PARAR = 2;
-    static final public int TIPO_ATURDIDO = 3;
-    static final public int TIPO_ATURDIDO_SIN_PARAR = 4;
-    static final public int TIPO_RESTAR_PV_TOTAL = 5;
-    static final public int TIPO_DIVIDIR_PV_TOTAL = 6;
-    static final public int TIPO_DORMIDO = 7;
-    static final public int TIPO_DIVIDE_LA_ACTIVIDAD = 8;
+    static final public int TIPO_QUEMADURA=1;
+    static final public int TIPO_CONGELAMIENTO=2;
+    static final public int TIPO_SANGRADO =3;
+    static final public int TIPO_OBLIGADO_A_PARAR =4;
+    static final public int TIPO_ATURDIDO =5;
+    static final public int TIPO_ATURDIDO_SIN_PARAR =6;
+    static final public int TIPO_RESTAR_PV_TOTAL =7;
+    static final public int TIPO_DIVIDIR_PV_TOTAL =8;
+    static final public int TIPO_DORMIDO =9;
+    static final public int TIPO_DIVIDE_LA_ACTIVIDAD =10;
 
-    static final public int TIPO_CIERRA_SANGRADO = 10;
-    static final public int TIPO_DESATURDIR = 11;
-    static final public int TIPO_SUMAR_PV = 12;
-    static final public int TIPO_MULTIPLICAR_PV = 13;
-    static final public int TIPO_SUMAR_PP = 14;
-    static final public int TIPO_MULTIPLICAR_PP = 15;
-    static final public int TIPO_MULTIPLICAR_PV_DAÑO = 16;
-    static final public int TIPO_DIVIDIR_PV_DAÑO = 17;
+    static final public int TIPO_CIERRA_SANGRADO =12;
+    static final public int TIPO_DESATURDIR =13;
+    static final public int TIPO_SUMAR_PV =14;
+    static final public int TIPO_MULTIPLICAR_PV =15;
+    static final public int TIPO_SUMAR_PP =16;
+    static final public int TIPO_MULTIPLICAR_PP =17;
+    static final public int TIPO_MULTIPLICAR_PV_DAÑO =18;
+    static final public int TIPO_DIVIDIR_PV_DAÑO =19;
 
-    static final public int TIPOS_UNO_A_UNO = 19;
+    static final public int TIPOS_UNO_A_UNO =21;
 
-    static final public int TIPO_AUMENTA_ACTIVIDAD = 21;
-    static final public int TIPO_AUMENTO_DE_MM = 22;
-    static final public int TIPO_AUMENTO_DE_TR = 23;
-    static final public int TIPO_AUMENTO_DE_BO = 24;
-    static final public int TIPO_AUMENTO_DE_BO_FILO = 25;
-    static final public int TIPO_AUMENTO_DE_BO_CONTUNDENTE = 26;
-    static final public int TIPO_AUMENTO_DE_BO_DOS_MANOS = 27;
-    static final public int TIPO_AUMENTO_DE_BO_PROYECTILES = 28;
-    static final public int TIPO_AUMENTO_DE_BO_ASTA = 29;
-    static final public int TIPO_AUMENTO_DE_BD = 30;
+    static final public int TIPO_AUMENTA_ACTIVIDAD =23;
+    static final public int TIPO_AUMENTO_DE_MM =24;
+    static final public int TIPO_AUMENTO_DE_TR =25;
+    static final public int TIPO_AUMENTO_DE_BO =26;
+    static final public int TIPO_AUMENTO_DE_BO_FILO =27;
+    static final public int TIPO_AUMENTO_DE_BO_CONTUNDENTE =28;
+    static final public int TIPO_AUMENTO_DE_BO_DOS_MANOS =29;
+    static final public int TIPO_AUMENTO_DE_BO_PROYECTILES =30;
+    static final public int TIPO_AUMENTO_DE_BO_ASTA =31;
+    static final public int TIPO_AUMENTO_DE_BD =32;
 
-    static final public int TIPO_RESTA_DE_ACTIVIDAD = 33;
-    static final public int TIPO_RESTA_DE_MM = 34;
-    static final public int TIPO_RESTA_DE_BO = 35;
-    static final public int TIPO_RESTA_DE_BD = 36;
-    static final public int TIPO_RESTA_DE_TR = 37;
+    static final public int TIPO_RESTA_DE_ACTIVIDAD =34;
+    static final public int TIPO_RESTA_DE_MM =35;
+    static final public int TIPO_RESTA_DE_BO =36;
+    static final public int TIPO_RESTA_DE_BD =37;
+    static final public int TIPO_RESTA_DE_TR =38;
 
-    static final public int TIPOS_CINCO_A_CINCO = 39;
+    static final public int TIPOS_CINCO_A_CINCO =40;
 
-    static final public int TIPO_LEVANTARSE = 41;
-    static final public int TIPO_POSTRADO = 42;
+    static final public int TIPO_LEVANTARSE =42;
+    static final public int TIPO_POSTRADO =43;
 
-    static final public int TIPOS_SOLO_UNO = 44;
+    static final public int TIPOS_SOLO_UNO =45;
 
-    static final public int TIPO_DESACTIVAR_EXTREMIDAD = 46;
-    static final public int TIPO_ACTIVAR_EXTREMIDAD = 47;
-    static final public int TIPO_ACEL_CURA_EXTREMIDAD = 48;
+    static final public int TIPO_DESACTIVAR_EXTREMIDAD =47;
+    static final public int TIPO_ACTIVAR_EXTREMIDAD =48;
+    static final public int TIPO_ACEL_CURA_EXTREMIDAD =49;
 
-    static final public int TIPOS_EXTREMIDAD = 50;
+    static final public int TIPOS_EXTREMIDAD =51;
 
-    static final public int TIPO_CAMBIO_ARMADURA = 56;
+    static final public int TIPO_CAMBIO_ARMADURA =53;
+
 
     public static HashMap<Integer, String> txt_heridas() {
         HashMap<Integer, String> hm = new HashMap<Integer, String>();
         hm.put(TIPO_SANGRADO, "Sangrado");
 
+        hm.put(TIPO_QUEMADURA, "Quemadura");
+        hm.put(TIPO_CONGELAMIENTO, "Conegelamiento");
         hm.put(TIPO_SANGRADO, "Sangrado");
         hm.put(TIPO_OBLIGADO_A_PARAR, "Obligado a parar");
         hm.put(TIPO_ATURDIDO, "Aturdido");
@@ -206,7 +213,7 @@ public class Efecto {
     private boolean activo = true;
 
     private boolean regeneracion_progresiva = false;
-    private int transcurso = -1;
+    private int transcurso = 0;
 
     private Efecto(int tipo) {
         this.tipo = tipo;
@@ -284,7 +291,35 @@ public class Efecto {
 
     @Override
     public String toString() {
-        return Efecto.txt_heridas().get(this.tipo);
+        if (tipo == TIPO_SANGRADO || tipo == TIPO_CONGELAMIENTO || tipo == TIPO_QUEMADURA)
+            return Efecto.txt_heridas().get(this.tipo) +  " -" + value + "/as\n";
+        else if (tipo == TIPO_ATURDIDO || tipo == TIPO_ATURDIDO_SIN_PARAR || tipo == TIPO_OBLIGADO_A_PARAR || tipo == TIPO_DORMIDO)
+            return Efecto.txt_heridas().get(this.tipo) +  " " + Recursos.mostrarDuracion(duracion) + "\n";
+        else if (tipo == TIPO_AUMENTO_DE_BO)
+            return "+" + value + " Bo " +  Recursos.mostrarDuracion(duracion) + "\n";
+        else if (tipo == TIPO_AUMENTO_DE_BO_ASTA)
+            return "+" + value + " Bo(Asta) " +  Recursos.mostrarDuracion(duracion) + "\n";
+        else if (tipo == TIPO_AUMENTO_DE_BO_CONTUNDENTE)
+            return "+" + value + " Bo(Contundente) " +  Recursos.mostrarDuracion(duracion) + "\n";
+        else if (tipo == TIPO_AUMENTO_DE_BO_DOS_MANOS)
+            return "+" + value + " Bo(2manos) " +  Recursos.mostrarDuracion(duracion) + "\n";
+        else if (tipo == TIPO_AUMENTO_DE_BO_FILO)
+            return "+" + value + " Bo(Filo) " +  Recursos.mostrarDuracion(duracion) + "\n";
+        else if (tipo == TIPO_AUMENTO_DE_BO_PROYECTILES)
+            return "+" + value + " Bo(Proy) " +  Recursos.mostrarDuracion(duracion) + "\n";
+        else if (tipo == TIPO_AUMENTA_ACTIVIDAD)
+            return "+" + value + " Activ. " +  Recursos.mostrarDuracion(duracion) + "\n";
+        else if (tipo == TIPO_AUMENTO_DE_MM)
+            return "+" + value + " Mm " +  Recursos.mostrarDuracion(duracion) + "\n";
+        else if (tipo == TIPO_AUMENTO_DE_TR)
+            return "+" + value + " Tr " +  Recursos.mostrarDuracion(duracion) + "\n";
+        else if (tipo == TIPO_AUMENTO_DE_BD)
+            return "+" + value + " Bd " +  Recursos.mostrarDuracion(duracion) + "\n";        
+        else if (tipo == TIPO_DESACTIVAR_EXTREMIDAD)
+            return Extremidad.tipoDeMiembroTxt(value) + " Inutilizable por " +  Recursos.mostrarDuracion(duracion) + "\n";
+        
+        else
+            return Efecto.txt_heridas().get(this.tipo);
     }
 
 }

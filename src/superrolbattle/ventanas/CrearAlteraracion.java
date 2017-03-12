@@ -28,54 +28,54 @@ public class CrearAlteraracion extends javax.swing.JDialog {
         this.panel_token = token;
 
         jTextField_Actual_pv.setText(token.getToken().getpv());
-
-        int san = token.getToken().getEstado().getSangradoPorAsalto();
-
-        jTextField_Actual_sangrado.setText(String.valueOf(san));
-        if (san > 0) {
-            jTextField_Actual_sangrado.setBackground(Color.red);
-        }
-
-        int at = token.getToken().getEstado().getAturdido();
-        jTextField_Actual_aturdido.setText(String.valueOf(at));
-        if (at > 0) {
-            jTextField_Actual_aturdido.setBackground(Color.yellow);
-        }
-
-        int atuSP = token.getToken().getEstado().getSinpoderparar();
-        jTextField_Actual_aturdidoSinParar.setText(String.valueOf(atuSP));
-        if (atuSP > 0) {
-            jTextField_Actual_aturdidoSinParar.setBackground(Color.red);
-        }
-
-        int hm = token.getToken().getEstado().getAsaltosparamorir();
-        /* jTextField_Actual_HastaMorir.setText(String.valueOf(hm));
-        if (hm > 0){
-            jTextField_Actual_HastaMorir.setBackground(Color.black);
-            jTextField_Actual_HastaMorir.setForeground(Color.white);
-        }
-         */
-        int oap = token.getToken().getEstado().getObligadoParar();
-        jTextField_Actual_obligadoParar.setText(String.valueOf(oap));
-        if (oap > 0) {
-            jTextField_Actual_obligadoParar.setBackground(Color.green);
-        }
-
-        jTextField_Actual_bo.setText(String.valueOf(token.getToken().getEstado().getBoModidificada()));
-        jTextField_Actual_Bd.setText(String.valueOf(token.getToken().getEstado().getBdModificada()));
-        jTextField_Actual_MM.setText(String.valueOf(token.getToken().getEstado().getModsDeMm()));
-
-        jTextField_Actual_Actividad.setText(String.valueOf(token.getToken().getEstado().getActividadActual()));
-
-        jCheckBox_brazo_izq.setSelected(!token.getToken().getManoIZQ().isHabilitado());
-        jCheckBox_brazo_der.setSelected(!token.getToken().getManoDER().isHabilitado());
-        //jCheckBox_brazo_izq.setSelected(!token.getToken().getManoIZQ().isHabilitado());
-        //jCheckBox_brazo_izq.setSelected(!token.getToken().getManoIZQ().isHabilitado());
-
-        jRadioButton_muerto.setSelected(token.getToken().getEstado().getCuerpo() == Status.MUERTO);
-        jRadioButton_Dormido.setSelected(token.getToken().getEstado().getCuerpo() == Status.DORMIDO);
-        jRadioButton_coma.setSelected(token.getToken().getEstado().getCuerpo() == Status.COMA);
-        jRadioButton_postrado.setSelected(token.getToken().getEstado().isPostrado());
+//
+//        int san = token.getToken().getEstado().getSangradoPorAsalto();
+//
+//        jTextField_Actual_sangrado.setText(String.valueOf(san));
+//        if (san > 0) {
+//            jTextField_Actual_sangrado.setBackground(Color.red);
+//        }
+//
+//        int at = token.getToken().getEstado().getAturdido();
+//        jTextField_Actual_aturdido.setText(String.valueOf(at));
+//        if (at > 0) {
+//            jTextField_Actual_aturdido.setBackground(Color.yellow);
+//        }
+//
+//        int atuSP = token.getToken().getEstado().getSinpoderparar();
+//        jTextField_Actual_aturdidoSinParar.setText(String.valueOf(atuSP));
+//        if (atuSP > 0) {
+//            jTextField_Actual_aturdidoSinParar.setBackground(Color.red);
+//        }
+//
+//        int hm = token.getToken().getEstado().getAsaltosparamorir();
+//        /* jTextField_Actual_HastaMorir.setText(String.valueOf(hm));
+//        if (hm > 0){
+//            jTextField_Actual_HastaMorir.setBackground(Color.black);
+//            jTextField_Actual_HastaMorir.setForeground(Color.white);
+//        }
+//         */
+//        int oap = token.getToken().getEstado().getObligadoParar();
+//        jTextField_Actual_obligadoParar.setText(String.valueOf(oap));
+//        if (oap > 0) {
+//            jTextField_Actual_obligadoParar.setBackground(Color.green);
+//        }
+//
+//        jTextField_Actual_bo.setText(String.valueOf(token.getToken().getEstado().getBoModidificada()));
+//        jTextField_Actual_Bd.setText(String.valueOf(token.getToken().getEstado().getBdModificada()));
+//        jTextField_Actual_MM.setText(String.valueOf(token.getToken().getEstado().getModsDeMm()));
+//
+//        jTextField_Actual_Actividad.setText(String.valueOf(token.getToken().getEstado().getActividadActual()));
+//
+//        jCheckBox_brazo_izq.setSelected(!token.getToken().getManoIZQ().isHabilitado());
+//        jCheckBox_brazo_der.setSelected(!token.getToken().getManoDER().isHabilitado());
+//        //jCheckBox_brazo_izq.setSelected(!token.getToken().getManoIZQ().isHabilitado());
+//        //jCheckBox_brazo_izq.setSelected(!token.getToken().getManoIZQ().isHabilitado());
+//
+//        jRadioButton_muerto.setSelected(token.getToken().getEstado().getCuerpo() == Status.MUERTO);
+//        jRadioButton_Dormido.setSelected(token.getToken().getEstado().getCuerpo() == Status.DORMIDO);
+//        jRadioButton_coma.setSelected(token.getToken().getEstado().getCuerpo() == Status.COMA);
+//        jRadioButton_postrado.setSelected(token.getToken().getEstado().isPostrado());
         this.setLocationRelativeTo(null);
     }
 
@@ -605,95 +605,95 @@ public class CrearAlteraracion extends javax.swing.JDialog {
         instancias.Token tok = panel_token.getToken();
         Alteracion alt = new Alteracion();
 
-        int mod = (jCheckBox_daño_curacion.isSelected()) ? -1 : 1;
-
-        int pv = jComboBox_pv.getSelectedIndex() * mod;
-        alt.setPv(pv);
-
-        int sangre = (Integer) jSpinner_sangrado.getValue() * mod;
-        alt.setSangre(sangre);
-
-        int redAct = (Integer) jSpinner_mod_Actividad.getValue() * mod;
-        alt.setActividad(redAct);
-
-        int morirEn = (Integer) jSpinner_asParamoriri.getValue() * mod;
-        alt.setAsaltosparamorir(morirEn);
-
-        //   tok.getEstado().setActividadReducida(sangre);
-        //  int sangre = (Integer) jSpinner_sangrado.getValue();
-        //  tok.getEstado().setActividadReducida(sangre);
-        if (mod < 0) {
-
-            int oAParar = (Integer) jSpinner_obligado_a_parar.getValue() * mod;;
-            alt.setObligadoparar(oAParar);
-
-            int asAturdido = (Integer) jSpinner_Aturdido.getValue() * mod;;
-            alt.setAturdido(asAturdido);
-
-            int aturSinParar = (Integer) jSpinner_AturdidoSinParar.getValue() * mod;
-            alt.setSinpoderparar(aturSinParar);
-
-        } else {
-            int asAturdido = (Integer) jSpinner_Aturdido.getValue() * mod;;
-            alt.setAturdido(asAturdido);
-            alt.setObligadoparar(asAturdido);
-            alt.setSinpoderparar(asAturdido);
-        }
-
-        int bonoBO = (Integer) jSpinner_bonificarBO.getValue() * mod;
-        alt.setBoMod(bonoBO);
-
-        int bonoBd = (Integer) jSpinner_bonificarBD.getValue() * mod;;
-        alt.setBdMod(bonoBd);
-
-        int bonoMm = (Integer) jSpinner_bonificarMm.getValue() * mod;;
-        alt.setMmMod(bonoMm);
-
-        int bonoTr = (Integer) jSpinner_bonificarMm.getValue() * mod;;
-        alt.setTrMod(bonoTr);
-
-        tok.getManoDER().setHabilitado(!jCheckBox_brazo_der.isSelected());
-        tok.getManoIZQ().setHabilitado(!jCheckBox_brazo_izq.isSelected());
-
-        if (jRadioButton_Dormido.isSelected()) {
-            alt.setCuerpoEstado(Status.DORMIDO);
-        } else if (jRadioButton_Firme.isSelected()) {
-            alt.setCuerpoEstado(Status.FIRME);
-        } else if (jRadioButton_coma.isSelected()) {
-            alt.setCuerpoEstado(Status.COMA);
-        } else if (jRadioButton_postrado.isSelected()) {
-            alt.setCuerpoEstado(Status.POSTRADO);
-        } else if (jRadioButton_muerto.isSelected()) {
-            alt.setAsaltosparamorir(morirEn);
-        }
-        int duracion = 0;
-        int horas = jComboBox_dura_hrs.getSelectedIndex();
-        int minutos = jComboBox_dura_mis.getSelectedIndex();
-        duracion += Recursos.tiempoEnAsaltosParse(horas, Constantes.TIEMPO_DIAS);
-        duracion += Recursos.tiempoEnAsaltosParse(minutos, Constantes.TIEMPO_MINUTOS);
-        duracion += jComboBox_dura_As.getSelectedIndex();
-
-        alt.setCuracionProgresiva(jCheckBox_curacion_progresiva.isSelected());
-
-        alt.setDescripcion(jTextArea_descp.getText());
-
-        alt.setBrazoDerInUtil(jCheckBox_brazo_izq.isSelected());
-        alt.setBrazoIzqInUtil(jCheckBox_brazo_izq.isSelected());
-        alt.setPiernaDerInUtil(jCheckBox_brazo_izq.isSelected());
-        alt.setPiernaIzqInUtil(jCheckBox_brazo_izq.isSelected());
-        
-        if (jRadioButton_Firme.isSelected())
-            alt.setCuerpoEstado(Status.FIRME);
-        if (jRadioButton_Dormido.isSelected())
-            alt.setCuerpoEstado(Status.DORMIDO);
-        if (jRadioButton_coma.isSelected())
-            alt.setCuerpoEstado(Status.COMA);
-        if (jRadioButton_muerto.isSelected())
-            alt.setCuerpoEstado(Status.MUERTO);
-        if (jRadioButton_postrado.isSelected())
-            alt.setCuerpoEstado(Status.POSTRADO);
-        
-        
+//        int mod = (jCheckBox_daño_curacion.isSelected()) ? -1 : 1;
+//
+//        int pv = jComboBox_pv.getSelectedIndex() * mod;
+//        alt.setPv(pv);
+//
+//        int sangre = (Integer) jSpinner_sangrado.getValue() * mod;
+//        alt.setSangre(sangre);
+//
+//        int redAct = (Integer) jSpinner_mod_Actividad.getValue() * mod;
+//        alt.setActividad(redAct);
+//
+//        int morirEn = (Integer) jSpinner_asParamoriri.getValue() * mod;
+//        alt.setAsaltosparamorir(morirEn);
+//
+//        //   tok.getEstado().setActividadReducida(sangre);
+//        //  int sangre = (Integer) jSpinner_sangrado.getValue();
+//        //  tok.getEstado().setActividadReducida(sangre);
+//        if (mod < 0) {
+//
+//            int oAParar = (Integer) jSpinner_obligado_a_parar.getValue() * mod;;
+//            alt.setObligadoparar(oAParar);
+//
+//            int asAturdido = (Integer) jSpinner_Aturdido.getValue() * mod;;
+//            alt.setAturdido(asAturdido);
+//
+//            int aturSinParar = (Integer) jSpinner_AturdidoSinParar.getValue() * mod;
+//            alt.setSinpoderparar(aturSinParar);
+//
+//        } else {
+//            int asAturdido = (Integer) jSpinner_Aturdido.getValue() * mod;;
+//            alt.setAturdido(asAturdido);
+//            alt.setObligadoparar(asAturdido);
+//            alt.setSinpoderparar(asAturdido);
+//        }
+//
+//        int bonoBO = (Integer) jSpinner_bonificarBO.getValue() * mod;
+//        alt.setBoMod(bonoBO);
+//
+//        int bonoBd = (Integer) jSpinner_bonificarBD.getValue() * mod;;
+//        alt.setBdMod(bonoBd);
+//
+//        int bonoMm = (Integer) jSpinner_bonificarMm.getValue() * mod;;
+//        alt.setMmMod(bonoMm);
+//
+//        int bonoTr = (Integer) jSpinner_bonificarMm.getValue() * mod;;
+//        alt.setTrMod(bonoTr);
+//
+//        tok.getManoDER().setHabilitado(!jCheckBox_brazo_der.isSelected());
+//        tok.getManoIZQ().setHabilitado(!jCheckBox_brazo_izq.isSelected());
+//
+//        if (jRadioButton_Dormido.isSelected()) {
+//            alt.setCuerpoEstado(Status.DORMIDO);
+//        } else if (jRadioButton_Firme.isSelected()) {
+//            alt.setCuerpoEstado(Status.FIRME);
+//        } else if (jRadioButton_coma.isSelected()) {
+//            alt.setCuerpoEstado(Status.COMA);
+//        } else if (jRadioButton_postrado.isSelected()) {
+//            alt.setCuerpoEstado(Status.POSTRADO);
+//        } else if (jRadioButton_muerto.isSelected()) {
+//            alt.setAsaltosparamorir(morirEn);
+//        }
+//        int duracion = 0;
+//        int horas = jComboBox_dura_hrs.getSelectedIndex();
+//        int minutos = jComboBox_dura_mis.getSelectedIndex();
+//        duracion += Recursos.tiempoEnAsaltosParse(horas, Constantes.TIEMPO_DIAS);
+//        duracion += Recursos.tiempoEnAsaltosParse(minutos, Constantes.TIEMPO_MINUTOS);
+//        duracion += jComboBox_dura_As.getSelectedIndex();
+//
+//        alt.setCuracionProgresiva(jCheckBox_curacion_progresiva.isSelected());
+//
+//        alt.setDescripcion(jTextArea_descp.getText());
+//
+//        alt.setBrazoDerInUtil(jCheckBox_brazo_izq.isSelected());
+//        alt.setBrazoIzqInUtil(jCheckBox_brazo_izq.isSelected());
+//        alt.setPiernaDerInUtil(jCheckBox_brazo_izq.isSelected());
+//        alt.setPiernaIzqInUtil(jCheckBox_brazo_izq.isSelected());
+//        
+//        if (jRadioButton_Firme.isSelected())
+//            alt.setCuerpoEstado(Status.FIRME);
+//        if (jRadioButton_Dormido.isSelected())
+//            alt.setCuerpoEstado(Status.DORMIDO);
+//        if (jRadioButton_coma.isSelected())
+//            alt.setCuerpoEstado(Status.COMA);
+//        if (jRadioButton_muerto.isSelected())
+//            alt.setCuerpoEstado(Status.MUERTO);
+//        if (jRadioButton_postrado.isSelected())
+//            alt.setCuerpoEstado(Status.POSTRADO);
+//        
+//        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
