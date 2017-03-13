@@ -358,7 +358,7 @@ public class Principal extends javax.swing.JFrame {
         jPanel_SinAcciones.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel_SinAcciones.setMaximumSize(new java.awt.Dimension(265, 2000));
         jPanel_SinAcciones.setMinimumSize(new java.awt.Dimension(259, 47));
-        jPanel_SinAcciones.setPreferredSize(new java.awt.Dimension(259, 130));
+        jPanel_SinAcciones.setPreferredSize(new java.awt.Dimension(553, 130));
         jPanel_SinAcciones.setRequestFocusEnabled(false);
         jPanel_SinAcciones.setLayout(new javax.swing.BoxLayout(jPanel_SinAcciones, javax.swing.BoxLayout.PAGE_AXIS));
 
@@ -1186,6 +1186,7 @@ public class Principal extends javax.swing.JFrame {
                     Recursos.informar("Hay personajes Aturdidos que no pueden realizar las acciones Actualmente definidas");
                     butonFase--;
                 } else {
+                    todosSeleccionAccion();
                     jPanel_barra_acciones.setBackground(new Color(179, 252, 138));
                     sinAccioneshechos(jPanel_sinAcciones_tokens);
                     repetirAccion();
@@ -1275,12 +1276,13 @@ public class Principal extends javax.swing.JFrame {
             }
 
         }
-
+        jScrollPane_asaltos.getHorizontalScrollBar().setValue(278 * pos);
+        
         asaltoFase = pos;
 
         switch (pos) {
             case ASALTOFASE_CARGA_SORTILEGIO: {
-
+                
                 jButton_avanzarFaseAsalto9.setEnabled(false);
                 jButton_avanzarFaseAsalto1.setEnabled(true);
                 jPanel_Titulo_cargaSortilegios.setBackground(Color.red);
@@ -1654,6 +1656,13 @@ public class Principal extends javax.swing.JFrame {
             jpta.sinAccionDefinidaEnEsteAsalto();
         }
     }
+    
+    private void todosSeleccionAccion() {
+        for (int i = 0; i < aws.size(); i++) {
+            JPanelFormToken_Accion jpta = aws.get(i);
+            jpta.AccionDefinidaEnEsteAsalto();
+        }
+    }
 
     private boolean verificarAturdidos() {
         boolean re = true;
@@ -1674,7 +1683,8 @@ public class Principal extends javax.swing.JFrame {
         }
         
     }
-
+       
+    
     public void showLoading(boolean mostrar) {
         //jTabbedPane1.setVisible(!mostrar);
         //jloading = new JPanel(new BorderLayout());

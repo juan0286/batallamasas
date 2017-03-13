@@ -15,22 +15,19 @@ import recursos.Constantes;
  * @author TiranoJuan
  */
 @XmlType
-public class Accion implements Serializable{
-    
+public class Accion implements Serializable {
 
-    
-  private int tipo;
-  private int orden;
-  private int nro_Asalto;
-  private boolean done = false;
-  private boolean accionDeOportunidad = false;
-  private boolean cambioDeAccion = false;
-  private Sortilegio sortilegio;
-  private String Dificultad ;
-  private Sortilegio sort_intencion;
-  private String Descp;
-  private String fullDescp;
-  
+    private int tipo;
+    private int orden;
+    private int nro_Asalto;
+    private boolean done = false;
+    private boolean accionDeOportunidad = false;
+    private boolean cambioDeAccion = false;
+    private Sortilegio sortilegio;
+    private String Dificultad;
+    private Sortilegio sort_intencion;
+    private String Descp;
+    private String fullDescp;
 
     public Accion(int tipo, int nro_Asalto, int orden) {
         this.tipo = tipo;
@@ -40,10 +37,9 @@ public class Accion implements Serializable{
     }
 
     public Accion() {
-         this.Descp = "";
+        this.Descp = "";
     }
 
-    
     public Sortilegio getSortilegio() {
         return sortilegio;
     }
@@ -59,9 +55,6 @@ public class Accion implements Serializable{
     public void setDificultad(String Dificultad) {
         this.Dificultad = Dificultad;
     }
-    
-    
-    
 
     public int getTipo() {
         return tipo;
@@ -79,28 +72,26 @@ public class Accion implements Serializable{
         this.nro_Asalto = nro_Asalto;
     }
 
-  
     public void hecho(int tipo) {
         if (!done) {
-            this.done = true; 
+            this.done = true;
             this.accionDeOportunidad = false;
             this.setTipo(tipo);
         }
     }
 
     public void desHecho() {
-        this.done = false;        
+        this.done = false;
     }
-    
-    public void cambioDeAccion(int tipo){
-        cambioDeAccion =true;
+
+    public void cambioDeAccion(int tipo) {
+        cambioDeAccion = true;
         this.tipo = tipo;
     }
-    
 
     public void esperarOportunidad() {
-        if (!done) {            
-            this.accionDeOportunidad = true;            
+        if (!done) {
+            this.accionDeOportunidad = true;
         }
     }
 
@@ -152,20 +143,30 @@ public class Accion implements Serializable{
         this.fullDescp = fullDescp;
     }
 
-   public static boolean isRealizableAturdido(int tipo){
-   
-   if (tipo == Constantes.TIPO_ACCION_PARAR_PROYECTIL)
-       return true;
-   if (tipo == Constantes.TIPO_ACCION_DESPLAZAMIENTO)
-       return true;
-   if (tipo == Constantes.TIPO_ACCION_ATAQUE_CUERPO_A_CUERPO)
-       return true;
-   if (tipo == Constantes.TIPO_ACCION_MOVIMIENTO_Y_MANIOBRA)
-       return true;
-   else
-       return false;
-   
-   
-   }
-  
+    public static boolean isRealizableAturdido(int tipo) {
+
+        if (tipo == Constantes.TIPO_ACCION_SIN_ACCION) {
+            return true;
+        }
+        if (tipo == Constantes.TIPO_ACCION_REALIZA_SORTILEGIO) {
+            recursos.Recursos.informar("El sortilegio del Pj Atudido debe ayudarlo a salir del estado");
+            return true;
+        }
+        if (tipo == Constantes.TIPO_ACCION_PARAR_PROYECTIL) {
+            return true;
+        }
+        if (tipo == Constantes.TIPO_ACCION_DESPLAZAMIENTO) {
+            return true;
+        }
+        if (tipo == Constantes.TIPO_ACCION_ATAQUE_CUERPO_A_CUERPO) {
+            return true;
+        }
+        if (tipo == Constantes.TIPO_ACCION_MOVIMIENTO_Y_MANIOBRA) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
 }

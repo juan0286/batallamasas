@@ -438,7 +438,7 @@
                                   <Dimension value="[259, 47]"/>
                                 </Property>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                                  <Dimension value="[259, 130]"/>
+                                  <Dimension value="[553, 130]"/>
                                 </Property>
                                 <Property name="requestFocusEnabled" type="boolean" value="false"/>
                               </Properties>

@@ -409,13 +409,12 @@ public class CrearToken extends javax.swing.JDialog {
             newToken.setNivel((Integer) this.jSpinner_crearNIvel.getValue());
             newToken.setGrupo(Recursos.grupos.get(this.jComboBox_crearGrupo.getSelectedIndex()));
             int pv = (Integer) this.jSpinner_crearPV.getValue();
-            hab.setPuntosVida(pv);
-            newToken.setPuntosVida(pv);
+            hab.setPuntosVida(pv);            
             int pp = (Integer) this.jSpinner_crearPP.getValue();
             hab.setPp(pp);
 
             int porcPv = this.jSlider_crearPvActuales.getValue();
-            newToken.setPuntosVida((int) (((float) pv / 100.0) * porcPv));
+            hab.setPuntosVida((int) (((float) pv / 100.0) * porcPv));
 
             ArrayList<Arma> arm = new ArrayList<Arma>();
 
@@ -461,11 +460,13 @@ public class CrearToken extends javax.swing.JDialog {
                 hm_bos.put(b.getEstilo(), b);
 
             }
-            newToken.setBos(hm_bos);            
-            newToken.setEstado(est);
-            newToken.setLadoIzquierdo(jToggleButton_Panel.isSelected());
+            newToken.setBos(hm_bos);
+            newToken.setEstado(est);            
             newToken.setColor(Recursos.getHexaColor(Color.BLUE));
-            this.dispose();
+
+            if (personajeCorrecto(newToken)) {
+                this.dispose();
+            }
         }
 
 
@@ -552,16 +553,24 @@ public class CrearToken extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton_agregarBOActionPerformed
 
     private void agregarArmaALalista(Arma a) {
-        // ListModel jlm = (ListModel) 
-        DefaultListModel jdlm = (DefaultListModel) jList_Armas.getModel();
+        if (a != null) {
+            DefaultListModel jdlm = (DefaultListModel) jList_Armas.getModel();
 
-        jdlm.addElement(a);
-        jList_Armas.setModel(jdlm);
+            jdlm.addElement(a);
+            jList_Armas.setModel(jdlm);
+        }
     }
 
     private void agregarBoALaLista(Bo bo) {
-        if (bo != null && !bos.contains(bo)) {
+        if (bo != null) {
             DefaultListModel jdlm = (DefaultListModel) jList_Bos.getModel();
+
+            for (int i = 0; i < jdlm.getSize(); i++) {
+                Bo b = (Bo) jdlm.get(i);
+                if (b.equals(bo)) {
+                    jdlm.remove(i);
+                }
+            }
             jdlm.addElement(bo);
             jList_Bos.setModel(jdlm);
             bos.add(bo);
@@ -579,7 +588,7 @@ public class CrearToken extends javax.swing.JDialog {
         return new Object[]{panelLado, newToken};
     }
 
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAceptar;
     private javax.swing.JButton jButton_agregarArma;
@@ -635,4 +644,15 @@ public class CrearToken extends javax.swing.JDialog {
     private static Token newToken;
     private ArrayList<Bo> bos;
     private static boolean panelLado = true;
+
+    private boolean personajeCorrecto(Token nt) {
+        ArrayList<Arma> armas = nt.getArmas();
+        for (Arma arma : armas) {
+            if (!nt.getHabilidades().getHm_bos().containsKey(arma.getEstilo())) {
+                Recursos.informar("Agregar Bo para " + arma.getNombre());
+                return false;
+            }            
+        }
+        return true;
+    }
 }

@@ -255,13 +255,15 @@ public class Status implements Serializable {
     public void perderPp(int pp) {
         int pp_a = ptsDePoderPerdidos + pp;
         if (pp_a >= this.c.getPp()) {
-            ptsDePoderPerdidos = this.c.getPp();
+            //ptsDePoderPerdidos = this.c.getPp();
             recursos.Recursos.informar("No se puede realizar este Sortilegio");
         } else {
             ptsDePoderPerdidos = pp_a;
         }
     }
 
+    
+    
     public int getPtsDeVidaPerdidos() {
         return ptsDeVidaPerdidos;
     }

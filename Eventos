@@ -23,10 +23,16 @@ Agregar todas las acciones que se realizan
 Que al cargar un campo de batalla, los pjs se ubiquen en la ùltima accion realizada
 
 
+// lo de mover no funciono
 
 
 
-
+5.15
+Permite realizar sortilegios aturdido, con aviso de que sean para salir de aturdimiento
+No se repiten Bos, ni armas
+AutoScrollea al terminar Accion
+Al crear Armas verifica que no haya Armas para el cual no tiene Bo
+quito elementos innecesario sde Token. puntosDevida, Daños, porcentajeAtaque
 
 Hacer
 
@@ -34,6 +40,6 @@ validar que tenga Bos para las armas
 Error cargando un Sotilegio Nuevo
 Error cargando la muerte
 Error cargando los Pv, se ponen los PP
-no se coloca en Sortilegio a Realiza el Sortilegio Nuevo
-POner algo, que me indique que aùn no defino su accion
+
+
 

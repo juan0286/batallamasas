@@ -146,7 +146,7 @@ public class DefinirBo extends javax.swing.JDialog {
 
     public static Bo bocreada;
     public static Bo crearBo(java.awt.Frame parent, boolean modal) {
-        bocreada = new Bo();
+        bocreada = null;
         DefinirBo db = new DefinirBo(parent, true);
         db.setLocationRelativeTo(null);
         db.setVisible(true);

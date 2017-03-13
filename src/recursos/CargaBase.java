@@ -296,8 +296,7 @@ public class CargaBase {
             hab.setPuntosVida(pv);
 
             int porcPv = 100;
-            newToken.setPuntosVida(pv);
-            HashMap<Integer, Bo> hm_bos = new HashMap<Integer, Bo>();
+                       HashMap<Integer, Bo> hm_bos = new HashMap<Integer, Bo>();
             for (int j = 0; j < Recursos.aleatorioEntre(1, 3); j++) {
                 Arma a = Recursos.armeria.get(Recursos.aleatorioEntre(0, Recursos.armeria.size() - 1));
                 newToken.agregarArma(a);
@@ -333,9 +332,7 @@ public class CargaBase {
             hab.setArmadura(Recursos.aleatorioEntre(1, 20));
 
             newToken.setEstilo_de_pelea(Recursos.aleatorioEntre(0, 4));
-
-            newToken.setLadoIzquierdo(Recursos.aleatorioEntre(0, 2) == 0);
-            System.out.println(newToken.isLadoIzquierdo());
+            
             newToken.setHabilidades(hab);            
 
             newToken.setEstado(est);

@@ -330,13 +330,13 @@ public class Recursos {
         Vector obj = new Vector();
         for (int i = 0; i < soldados.size(); i++) {
             Token sold = soldados.get(i);
-            if (sold.isLadoIzquierdo() == lado) {
+           
                 JProgressBar jpg = new JProgressBar(0, sold.getHabilidades().getPuntosVida());
                 jpg.setValue(sold.getPuntosVida());
                 jpg.setStringPainted(true);
                 jpg.setString("" + sold.getPuntosVida());
                 obj.add(ObjSoldado(sold));
-            }
+           
         }
         return obj;
     }

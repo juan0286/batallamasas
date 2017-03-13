@@ -114,6 +114,32 @@ public class Bo implements Serializable,Comparable {
     }
 
     @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Bo other = (Bo) obj;
+        if (this.estilo != other.estilo) {
+            return false;
+        }
+        return true;
+    }
+    
+    
+    
+    @Override
     public int compareTo(Object otherBo) {
         Bo oBo = (Bo) otherBo;
         return (this.value < oBo.value ) ? -1: (this.value > oBo.value) ? 1:0 ;

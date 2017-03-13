@@ -40,14 +40,14 @@ public class Token implements Serializable {
     private String nombre;
     private int nivel;
     private String grupo;
-    private int puntosVida;
+    //private int puntosVida;
     private Caracteristicas habilidades;
-    private ArrayList daños;
+    //private ArrayList daños;
     private Status estado;
     private int estilo_de_pelea;
-    private boolean ladoIzquierdo;
+    //private boolean ladoIzquierdo;
     private int armaduraPuesta;
-    private int porcentajeAtque = 100;
+    //private int porcentajeAtque = 100;
     private boolean visible; // Si los jugadores pueden verlos
     private String color;
     
@@ -61,23 +61,17 @@ public class Token implements Serializable {
     public Token(String nombre, int nivel, String grupo, int puntosVida, Caracteristicas habilidades, ArrayList daños, Status estado, int estilo, boolean ladoIzquierdo) {
         this.nombre = nombre;
         this.nivel = nivel;
-        this.grupo = grupo;
-        this.puntosVida = puntosVida;
-        
-        this.habilidades = habilidades;
-        this.daños = daños;
+        this.grupo = grupo;   
+        this.habilidades = habilidades;        
         this.estado = estado;
-        this.estilo_de_pelea = estilo;
-        this.ladoIzquierdo = ladoIzquierdo;        
+        this.estilo_de_pelea = estilo;        
     }
     
     public Token(String nombre, int nivel, String grupo, int puntosVida,  Caracteristicas habilidades, ArrayList daños, Status estado, int estilo) {
         this.nombre = nombre;
         this.nivel = nivel;
-        this.grupo = grupo;
-        this.puntosVida = puntosVida;       
-        this.habilidades = habilidades;
-        this.daños = daños;
+        this.grupo = grupo;           
+        this.habilidades = habilidades;       
         this.estado = estado;
         this.estilo_de_pelea = estilo;        
     }
@@ -85,22 +79,15 @@ public class Token implements Serializable {
     public Token(String nombre, int nivel, String grupo, int puntosVida, Caracteristicas habilidades, ArrayList daños, Status estado, int estilo, Asalto asalto, boolean lado) {
         this.nombre = nombre;
         this.nivel = nivel;
-        this.grupo = grupo;
-        this.puntosVida = puntosVida;        
-        this.habilidades = habilidades;
-        this.daños = daños;
+        this.grupo = grupo;             
+        this.habilidades = habilidades;       
         this.estado = estado;
-        this.estilo_de_pelea = estilo;
-        this.ladoIzquierdo = lado;        
+        this.estilo_de_pelea = estilo;        
     }
     
     public Token() {        
     }
-
-    
-    
-    
-    
+   
     public void setBos(HashMap<Integer,Bo> bos){
         habilidades.setHm_bos(bos);
     }
@@ -146,13 +133,9 @@ public class Token implements Serializable {
     }
     
     public int getPuntosVida() {
-        return puntosVida;
+        return habilidades.getPuntosVida();
     }
-    
-    public void setPuntosVida(int puntosVida) {
-        this.puntosVida = puntosVida;
-    }    
-    
+           
     public Caracteristicas getHabilidades() {
         return habilidades;
     }
@@ -161,10 +144,6 @@ public class Token implements Serializable {
         this.habilidades = habilidades;
     }
     
-    public ArrayList getDaños() {
-        return daños;
-    }
-
     public ArrayList<Arma> getArmas() {
         return armas;
     }
@@ -196,11 +175,6 @@ public class Token implements Serializable {
         this.armas = armas;
     }
     
-    
-    public void setDaños(ArrayList daños) {
-        this.daños = daños;
-    }
-    
     public Status getEstado() {
         return estado;
     }
@@ -208,23 +182,7 @@ public class Token implements Serializable {
     public void setEstado(Status estado) {
         this.estado = estado;
     }
-    
-    public boolean isLadoIzquierdo() {
-        return ladoIzquierdo;
-    }
-    
-    public void setLadoIzquierdo(boolean ladoIzquierdo) {
-        this.ladoIzquierdo = ladoIzquierdo;
-    }
-    
-    public int getPorcentajeAtque() {
-        return porcentajeAtque;
-    }
-    
-    public void setPorcentajeAtque(int porcentajeAtque) {
-        this.porcentajeAtque = porcentajeAtque;
-    }
-    
+        
     public String getUrlIcon() {
         return urlIcon;
     }
@@ -499,7 +457,7 @@ public class Token implements Serializable {
     }
     
     public int puntosPoderRestantes() {        
-        return this.puntosVida - estado.getPtsDePoderPerdidos();
+        return this.habilidades.getPp() - estado.getPtsDePoderPerdidos();
     }    
     
     public boolean puedeRealizarSortilegio(Sortilegio s){
@@ -526,6 +484,11 @@ public class Token implements Serializable {
         perderLaCarga();
         if (sort_intencion.isConsumePP())
             this.estado.perderPp(sort_intencion.getLv());
+    }
+    
+    public boolean puedeRealizarElSortilegio(Sortilegio s){
+    int pp_final = estado.getPtsDePoderPerdidos() + s.getLv();
+        return (pp_final <= habilidades.getPp()); 
     }
     
     public boolean conoceSortilegio(int id){
