@@ -10,3 +10,30 @@ Reparo asalto de màs en la duracion de efectos
 Reparo, traer valueActual()
 Reparo mods de bo por estilo
 que vuelva a Firme cuando recupera pv
+
+5.14
+
+Reparaciones de pv
+Se mantiene a ùltima Accion Al declarar Accion
+Se actualiza los datos de Realizar Sortilegio
+No agrega Sortilegios que no existen
+Diferenciacion de Pjs ya movidos por Color
+Verificar Aturdidos recien durante el comienzo de acciones
+Agregar todas las acciones que se realizan
+Que al cargar un campo de batalla, los pjs se ubiquen en la ùltima accion realizada
+
+
+
+
+
+
+
+Hacer
+
+validar que tenga Bos para las armas
+Error cargando un Sotilegio Nuevo
+Error cargando la muerte
+Error cargando los Pv, se ponen los PP
+no se coloca en Sortilegio a Realiza el Sortilegio Nuevo
+POner algo, que me indique que aùn no defino su accion
+

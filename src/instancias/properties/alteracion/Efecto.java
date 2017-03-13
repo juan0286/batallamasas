@@ -291,6 +291,7 @@ public class Efecto {
 
     @Override
     public String toString() {
+        
         if (tipo == TIPO_SANGRADO || tipo == TIPO_CONGELAMIENTO || tipo == TIPO_QUEMADURA)
             return Efecto.txt_heridas().get(this.tipo) +  " -" + value + "/as\n";
         else if (tipo == TIPO_ATURDIDO || tipo == TIPO_ATURDIDO_SIN_PARAR || tipo == TIPO_OBLIGADO_A_PARAR || tipo == TIPO_DORMIDO)
@@ -317,7 +318,6 @@ public class Efecto {
             return "+" + value + " Bd " +  Recursos.mostrarDuracion(duracion) + "\n";        
         else if (tipo == TIPO_DESACTIVAR_EXTREMIDAD)
             return Extremidad.tipoDeMiembroTxt(value) + " Inutilizable por " +  Recursos.mostrarDuracion(duracion) + "\n";
-        
         else
             return Efecto.txt_heridas().get(this.tipo);
     }

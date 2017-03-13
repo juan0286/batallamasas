@@ -417,7 +417,8 @@ public class Token implements Serializable {
     }
     
     public int boDisponible(int estilo) {
-        int boDisponible = ((habilidades.getBodeEstilo(estilo).getValue() - this.estado.getActividadActual()) > 0) ? (habilidades.getBodeEstilo(estilo).getValue() - this.estado.getActividadActual()) : habilidades.getBodeEstilo(estilo).getValue();
+        int boDisponible = (habilidades.getBodeEstilo(estilo).getValue() + this.estado.getActividadActual()) ;
+        boDisponible = boDisponible + estado.getModsDeBo(estilo);
         return boDisponible;
     }
     
@@ -449,6 +450,10 @@ public class Token implements Serializable {
         return this.estado.getPtsDeVidaPerdidos() + " / " + this.habilidades.getPuntosVida();
     }
     
+    public String getpp() {
+        return this.estado.getPtsDePoderPerdidos()+ " / " + this.habilidades.getPp();
+    }
+    
     public String textEstado() {        
         return estado.getTextEstado();
     }
@@ -470,7 +475,8 @@ public class Token implements Serializable {
         ArrayList<Sortilegio> sort = new ArrayList<Sortilegio>();
         for (int i = 0; i < habilidades.getAl_sortilegios().size(); i++) {
             Sortilegio s = Principal.dataRecursos.getListaDeSortilegios().get(habilidades.getAl_sortilegios().get(i));
-            sort.add(s);
+            if (s !=  null)
+                sort.add(s);
         }
         return sort;        
     }
@@ -492,8 +498,20 @@ public class Token implements Serializable {
         habilidades.aprenderSortilegio(s);
     }
     
-    public void cargarUnSortilegio(Sortilegio s) {
-        estado.cargarUnSortilegio(s);
+    public int puntosPoderRestantes() {        
+        return this.puntosVida - estado.getPtsDePoderPerdidos();
+    }    
+    
+    public boolean puedeRealizarSortilegio(Sortilegio s){
+        boolean re = true;
+        if (false)  // validar armadura
+        if (!s.isConsumePP() && (puntosPoderRestantes() > s.getLv()) )    
+            re = false;
+        return re;
+    }
+    
+    public void cargarUnSortilegio(Sortilegio s) {        
+        estado.cargarUnSortilegio(s);        
     }
     
     public Object getSortilegioCargado(){
@@ -506,6 +524,8 @@ public class Token implements Serializable {
             
     public void lanzarUnSortilegio(Sortilegio sort_intencion) {
         perderLaCarga();
+        if (sort_intencion.isConsumePP())
+            this.estado.perderPp(sort_intencion.getLv());
     }
     
     public boolean conoceSortilegio(int id){

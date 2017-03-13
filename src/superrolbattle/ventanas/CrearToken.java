@@ -81,9 +81,11 @@ public class CrearToken extends javax.swing.JDialog {
         jSpinner_crearNIvel = new javax.swing.JSpinner();
         jPanel5 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
+        jComboBox_crearGrupo = new javax.swing.JComboBox();
         jLabel4 = new javax.swing.JLabel();
         jSpinner_crearPV = new javax.swing.JSpinner();
-        jComboBox_crearGrupo = new javax.swing.JComboBox();
+        jLabel6 = new javax.swing.JLabel();
+        jSpinner_crearPP = new javax.swing.JSpinner();
         jPanel8 = new javax.swing.JPanel();
         jSlider_crearPvActuales = new javax.swing.JSlider();
         jPanel16 = new javax.swing.JPanel();
@@ -112,7 +114,7 @@ public class CrearToken extends javax.swing.JDialog {
         jRadioButton_crearEstilo5 = new javax.swing.JRadioButton();
         jPanel6 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        jButtonAceptar = new javax.swing.JButton();
         jPanel11 = new javax.swing.JPanel();
         jButton_cancelar = new javax.swing.JButton();
 
@@ -179,46 +181,22 @@ public class CrearToken extends javax.swing.JDialog {
         jPanel5.setPreferredSize(new java.awt.Dimension(327, 30));
 
         jLabel3.setText("Grupo");
-
-        jLabel4.setText("P.V.");
-
-        jSpinner_crearPV.setModel(new javax.swing.SpinnerNumberModel(30, 30, 600, 5));
+        jPanel5.add(jLabel3);
 
         jComboBox_crearGrupo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel5.add(jComboBox_crearGrupo);
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 341, Short.MAX_VALUE)
-            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel5Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jLabel3)
-                    .addGap(10, 10, 10)
-                    .addComponent(jComboBox_crearGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(4, 4, 4)
-                    .addComponent(jLabel4)
-                    .addGap(4, 4, 4)
-                    .addComponent(jSpinner_crearPV, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(36, Short.MAX_VALUE)))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 42, Short.MAX_VALUE)
-            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel5Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jComboBox_crearGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jSpinner_crearPV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel5Layout.createSequentialGroup()
-                            .addGap(3, 3, 3)
-                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel3)
-                                .addComponent(jLabel4))))
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-        );
+        jLabel4.setText("P.V.");
+        jPanel5.add(jLabel4);
+
+        jSpinner_crearPV.setModel(new javax.swing.SpinnerNumberModel(30, 30, 600, 5));
+        jPanel5.add(jSpinner_crearPV);
+
+        jLabel6.setText("P.P.");
+        jPanel5.add(jLabel6);
+
+        jSpinner_crearPP.setModel(new javax.swing.SpinnerNumberModel(30, 30, 600, 5));
+        jPanel5.add(jSpinner_crearPP);
 
         jPanel_caract1.add(jPanel5);
 
@@ -355,13 +333,13 @@ public class CrearToken extends javax.swing.JDialog {
 
         jPanel6.add(jPanel10);
 
-        jButton1.setText("Aceptar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonAceptar.setText("Aceptar");
+        jButtonAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonAceptarActionPerformed(evt);
             }
         });
-        jPanel6.add(jButton1);
+        jPanel6.add(jButtonAceptar);
 
         jPanel11.setPreferredSize(new java.awt.Dimension(25, 57));
 
@@ -399,7 +377,7 @@ public class CrearToken extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_jRadioButton_crearEstilo3ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
 
         newToken = new Token();
         Caracteristicas hab = new Caracteristicas();
@@ -432,6 +410,9 @@ public class CrearToken extends javax.swing.JDialog {
             newToken.setGrupo(Recursos.grupos.get(this.jComboBox_crearGrupo.getSelectedIndex()));
             int pv = (Integer) this.jSpinner_crearPV.getValue();
             hab.setPuntosVida(pv);
+            newToken.setPuntosVida(pv);
+            int pp = (Integer) this.jSpinner_crearPP.getValue();
+            hab.setPp(pp);
 
             int porcPv = this.jSlider_crearPvActuales.getValue();
             newToken.setPuntosVida((int) (((float) pv / 100.0) * porcPv));
@@ -488,7 +469,7 @@ public class CrearToken extends javax.swing.JDialog {
         }
 
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButtonAceptarActionPerformed
 
     private void jToggleButton_PanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton_PanelActionPerformed
         setearPanel();
@@ -528,7 +509,8 @@ public class CrearToken extends javax.swing.JDialog {
             }
 
         }
-
+        int pp = nivel * Recursos.aleatorioEntre(1, 3);
+        jSpinner_crearPP.setValue(pp);
         jSpinner_crearPV.setValue(pv);
 
         //jComboBox_crearBDArma.setSelectedIndex(Recursos.aleatorioEntre(0, Recursos.armeria.size() - 1));
@@ -599,7 +581,7 @@ public class CrearToken extends javax.swing.JDialog {
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButtonAceptar;
     private javax.swing.JButton jButton_agregarArma;
     private javax.swing.JButton jButton_agregarBO;
     private javax.swing.JButton jButton_cancelar;
@@ -610,6 +592,7 @@ public class CrearToken extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JList<String> jList_Armas;
@@ -643,6 +626,7 @@ public class CrearToken extends javax.swing.JDialog {
     private javax.swing.JSpinner jSpinner_crearBD;
     private javax.swing.JSpinner jSpinner_crearBo;
     private javax.swing.JSpinner jSpinner_crearNIvel;
+    private javax.swing.JSpinner jSpinner_crearPP;
     private javax.swing.JSpinner jSpinner_crearPV;
     private javax.swing.JTextField jTextField_crearnombre;
     private javax.swing.JToggleButton jToggleButton_Panel;

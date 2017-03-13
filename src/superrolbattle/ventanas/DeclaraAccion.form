@@ -165,7 +165,7 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Container class="javax.swing.JPanel" name="jPanel_carga_sort_nombre">
+            <Container class="javax.swing.JPanel" name="jPanel_carga_sort_nombre_carga">
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
               <SubComponents>
@@ -194,12 +194,12 @@
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
                 </Component>
-                <Component class="javax.swing.JButton" name="jButton_crearSortilegio">
+                <Component class="javax.swing.JButton" name="jButton_crearSortilegio_Carga">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Crear Nuevo"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_crearSortilegioActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_crearSortilegio_CargaActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>
@@ -210,7 +210,7 @@
                 <Property name="axis" type="int" value="3"/>
               </Layout>
               <SubComponents>
-                <Container class="javax.swing.JPanel" name="jPanel_carga_sort_datos">
+                <Container class="javax.swing.JPanel" name="jPanel_carga_sort_datos_Cargado">
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
                   <SubComponents>
@@ -219,7 +219,7 @@
                         <Property name="text" type="java.lang.String" value="Lv"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="jTextField_lv_sort">
+                    <Component class="javax.swing.JTextField" name="jTextField_lv_sort_carga">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -235,7 +235,7 @@
                         <Property name="text" type="java.lang.String" value="Dominio"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="jTextField_Dominio_sort">
+                    <Component class="javax.swing.JTextField" name="jTextField_Dominio_sort_carga">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -246,7 +246,7 @@
                         </Property>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JCheckBox" name="jCheckBox_consume_sort">
+                    <Component class="javax.swing.JCheckBox" name="jCheckBox_consume_sort_carga">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Consume PP"/>
                         <Property name="enabled" type="boolean" value="false"/>
@@ -257,7 +257,21 @@
                         <Property name="text" type="java.lang.String" value="Alcance"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="jTextField_alcance_sort">
+                    <Component class="javax.swing.JTextField" name="jTextField_alcance_sort_carga">
+                      <Properties>
+                        <Property name="editable" type="boolean" value="false"/>
+                        <Property name="text" type="java.lang.String" value=" "/>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[50, 20]"/>
+                        </Property>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="jLabel13">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="PP Actual"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JTextField" name="jTextField_PPActual_carga">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
                         <Property name="text" type="java.lang.String" value=" "/>
@@ -363,11 +377,11 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Container class="javax.swing.JPanel" name="jPanel_carga_sort_nombre1">
+            <Container class="javax.swing.JPanel" name="jPanel_carga_sort_nombre_realiza">
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JComboBox" name="jComboBox_sotilegios1">
+                <Component class="javax.swing.JComboBox" name="jComboBox_sotilegios_Realiza">
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="4">
@@ -385,18 +399,19 @@
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox_sotilegios1ActionPerformed"/>
+                    <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jComboBox_sotilegios_RealizaItemStateChanged"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox_sotilegios_RealizaActionPerformed"/>
                   </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
                 </Component>
-                <Component class="javax.swing.JButton" name="jButton_crearSortilegio1">
+                <Component class="javax.swing.JButton" name="jButton_crearSortilegio_Realiza">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Crear Nuevo"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_crearSortilegio1ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_crearSortilegio_RealizaActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>
@@ -407,7 +422,7 @@
                 <Property name="axis" type="int" value="3"/>
               </Layout>
               <SubComponents>
-                <Container class="javax.swing.JPanel" name="jPanel_carga_sort_datos1">
+                <Container class="javax.swing.JPanel" name="jPanel_carga_sort_datos_Realiza">
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
                   <SubComponents>
@@ -416,7 +431,7 @@
                         <Property name="text" type="java.lang.String" value="Lv"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="jTextField_lv_sort1">
+                    <Component class="javax.swing.JTextField" name="jTextField_lv_sort_realiza">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -432,7 +447,7 @@
                         <Property name="text" type="java.lang.String" value="Dominio"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="jTextField_Dominio_sort1">
+                    <Component class="javax.swing.JTextField" name="jTextField_Dominio_sort_realiza">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
                         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -443,7 +458,7 @@
                         </Property>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JCheckBox" name="jCheckBox_consume_sort1">
+                    <Component class="javax.swing.JCheckBox" name="jCheckBox_consume_sort_realiza">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Consume PP"/>
                         <Property name="enabled" type="boolean" value="false"/>
@@ -454,7 +469,21 @@
                         <Property name="text" type="java.lang.String" value="Alcance"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="jTextField_alcance_sort1">
+                    <Component class="javax.swing.JTextField" name="jTextField_alcance_sort_realiza">
+                      <Properties>
+                        <Property name="editable" type="boolean" value="false"/>
+                        <Property name="text" type="java.lang.String" value=" "/>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[50, 20]"/>
+                        </Property>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="jLabel14">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="PP Actual"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JTextField" name="jTextField_PPActual_ls_realiza">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
                         <Property name="text" type="java.lang.String" value=" "/>

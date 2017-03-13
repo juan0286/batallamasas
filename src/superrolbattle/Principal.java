@@ -74,7 +74,7 @@ public class Principal extends javax.swing.JFrame {
         jPanel_SinAcciones_panel6.getVerticalScrollBar().setUnitIncrement(110);
         jPanel_SinAcciones_panel7.getVerticalScrollBar().setUnitIncrement(110);
         jPanel_SinAcciones_panel8.getVerticalScrollBar().setUnitIncrement(110);
-        
+
         jScrollPane_asaltos.getHorizontalScrollBar().setUnitIncrement(250);
         Toolkit t = Toolkit.getDefaultToolkit();
         //Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -828,20 +828,21 @@ public class Principal extends javax.swing.JFrame {
 
         Object[] ObjTk = CrearToken.nuevoToken();
         Token tk = (Token) ObjTk[1];
-        tk.setVisible(false);
-        Accion a = new Accion(Constantes.TIPO_ACCION_SIN_ACCION, 0, 0);
-        tk.AgregarAccion(a);
-        // Recursos.soldados.add(tk);
-        JPanelFormToken_Accion jpfta = new JPanelFormToken_Accion(tk, this);
-        jPanel_sinAcciones_tokens.add(jpfta);
-        aws.add(jpfta);
-        this.repaint();
+        if (tk != null) {
+            tk.setVisible(false);
+            Accion a = new Accion(Constantes.TIPO_ACCION_SIN_ACCION, 0, 0);
+            tk.AgregarAccion(a);
+            // Recursos.soldados.add(tk);
+            JPanelFormToken_Accion jpfta = new JPanelFormToken_Accion(tk, this);
+            jPanel_sinAcciones_tokens.add(jpfta);
+            aws.add(jpfta);
+            this.repaint();
 
-        JPanelFormToken jpft = new JPanelFormToken(tk, this, jpfta);
-        jPanel_Pnj.add(jpft);
+            JPanelFormToken jpft = new JPanelFormToken(tk, this, jpfta);
+            jPanel_Pnj.add(jpft);
 
-        campo.agregarToken(tk);
-
+            campo.agregarToken(tk);
+        }
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -994,9 +995,8 @@ public class Principal extends javax.swing.JFrame {
         }
         publicarTodosLosEventos();
     }//GEN-LAST:event_jToggleButton_visiblesActionPerformed
-    
-    
-    private void actuaronTodos(JButton jb){
+
+    private void actuaronTodos(JButton jb) {
         JScrollPane jsp = (JScrollPane) jb.getParent().getParent().getComponent(1);
         JPanel jp = (JPanel) jsp.getViewport().getComponent(0);
         if (todosActuaron(jp)) {
@@ -1005,7 +1005,7 @@ public class Principal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Aún hay personajes sin actuar");
         }
     }
-    
+
     public void abrirArchivo() {
         CampoDeBatalla field = null;
 
@@ -1084,6 +1084,7 @@ public class Principal extends javax.swing.JFrame {
         }
          */
         deshechoTodos();
+        moverTodos();
         publicarTodosLosEventos();
         jPanel_Asaltos.repaint();
         this.repaint();
@@ -1174,24 +1175,29 @@ public class Principal extends javax.swing.JFrame {
                 jButton_crear_pj.setEnabled(false);
                 jButton_definir.setEnabled(false);
                 jButton_comenzar.setEnabled(true);
-                jButton_terminar.setEnabled(false);                
+                jButton_terminar.setEnabled(false);
                 jLabel_uso_ao.setVisible(false);
-                moverAturdidos();
+                reiniciarSeleccionAccion();
                 //avanzarFaseDeAsalto(0);
                 break;
             }
             case BUTTONFASE_DESARROLLO: {
-                jPanel_barra_acciones.setBackground(new Color(179, 252, 138));
-                sinAccioneshechos(jPanel_sinAcciones_tokens);
-                repetirAccion();
-                jLabel_uso_ao.setVisible(true);
-                jButton_definir.setEnabled(false);
-                jButton_comenzar.setEnabled(false);
-                jButton_terminar.setEnabled(true);                
+                if (!verificarAturdidos()) {
+                    Recursos.informar("Hay personajes Aturdidos que no pueden realizar las acciones Actualmente definidas");
+                    butonFase--;
+                } else {
+                    jPanel_barra_acciones.setBackground(new Color(179, 252, 138));
+                    sinAccioneshechos(jPanel_sinAcciones_tokens);
+                    repetirAccion();
+                    jLabel_uso_ao.setVisible(true);
+                    jButton_definir.setEnabled(false);
+                    jButton_comenzar.setEnabled(false);
+                    jButton_terminar.setEnabled(true);
 
-                publicarEvento(creaEvento(Recursos.evtAsaltoNuevo(campo.getnAsalto())));
+                    publicarEvento(creaEvento(Recursos.evtAsaltoNuevo(campo.getnAsalto())));
 
-                avanzarFaseDeAsalto(ASALTOFASE_CARGA_SORTILEGIO);
+                    avanzarFaseDeAsalto(ASALTOFASE_CARGA_SORTILEGIO);
+                }
                 break;
             }
             case BUTTONFASE_RESULTADOS: {
@@ -1201,7 +1207,7 @@ public class Principal extends javax.swing.JFrame {
 
                 jButton_definir.setEnabled(true);
                 jButton_comenzar.setEnabled(false);
-                jButton_terminar.setEnabled(false);                
+                jButton_terminar.setEnabled(false);
                 jButton_crear_pj.setEnabled(true);
 
                 jButton_avanzarFaseAsalto1.setEnabled(false);
@@ -1435,7 +1441,7 @@ public class Principal extends javax.swing.JFrame {
 
     public void sinAccioneshechos(JPanel jp) {
         for (int i = 0; i < jp.getComponentCount(); i++) {
-            JPanelFormToken_Accion jpta = (JPanelFormToken_Accion) jp.getComponent(i);            
+            JPanelFormToken_Accion jpta = (JPanelFormToken_Accion) jp.getComponent(i);
             jpta.hecho();
         }
 
@@ -1642,13 +1648,31 @@ public class Principal extends javax.swing.JFrame {
 
     }
 
-    private void moverAturdidos() {
+    private void reiniciarSeleccionAccion() {
+        for (int i = 0; i < aws.size(); i++) {
+            JPanelFormToken_Accion jpta = aws.get(i);
+            jpta.sinAccionDefinidaEnEsteAsalto();
+        }
+    }
+
+    private boolean verificarAturdidos() {
+        boolean re = true;
         for (int i = 0; i < aws.size(); i++) {
             JPanelFormToken_Accion jpta = aws.get(i);
             if (jpta.getToken().getEstado().isAturdido() && !Accion.isRealizableAturdido(jpta.getTipoDeAccion())) {
                 jpta.clickAccion(false, false, false);
+                re = false;
             }
         }
+        return re;
+    }
+    private void moverTodos() {
+        
+        for (int i = 0; i < aws.size(); i++) {
+            JPanelFormToken_Accion jpta = aws.get(i);
+            moverAccion(jpta, jpta.getToken().getLastAction().getTipo());
+        }
+        
     }
 
     public void showLoading(boolean mostrar) {
@@ -1656,8 +1680,8 @@ public class Principal extends javax.swing.JFrame {
         //jloading = new JPanel(new BorderLayout());
         //jPanel_center.add(jloading,BorderLayout.CENTER);
         //jloading.setVisible(mostrar);
-        if (mostrar) {                       
-            
+        if (mostrar) {
+
             String path = "Data\\loading\\" + Recursos.aleatorioEntre(1, 6) + ".gif";
             ImageIcon icon = new ImageIcon(path);
             Icon icono = new ImageIcon(icon.getImage().getScaledInstance(icon.getIconWidth(), icon.getIconHeight(), Image.SCALE_DEFAULT));

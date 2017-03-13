@@ -214,8 +214,9 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
                 break;
             }
             case Constantes.TIPO_ACCION_REALIZA_SORTILEGIO: {
-                token.lanzarUnSortilegio(accion.getSort_intencion());
-                accion.setSortilegio(accion.getSort_intencion());
+                Sortilegio s = accion.getSort_intencion();
+                token.lanzarUnSortilegio(s);
+                accion.setSortilegio(accion.getSort_intencion());                
                 break;
             }
             case Constantes.TIPO_ACCION_DISPARA_PROYECTIL: {
@@ -251,6 +252,7 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
                 break;
             }
         }
+        token.AgregarAccion(accion);
         if (accion.getTipo() != Constantes.TIPO_ACCION_CARGA_SORTILEGIO) {
             token.perderLaCarga();
         }
@@ -266,7 +268,7 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jPanelNombre_Vida = new javax.swing.JPanel();
         jLabel_Nombre = new javax.swing.JLabel();
         jProgressBar_vida = new javax.swing.JProgressBar();
         jPanel_general = new javax.swing.JPanel();
@@ -289,13 +291,13 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
         });
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.PAGE_AXIS));
 
-        jPanel1.setMaximumSize(new java.awt.Dimension(32767, 24));
+        jPanelNombre_Vida.setMaximumSize(new java.awt.Dimension(32767, 24));
 
         jLabel_Nombre.setText("Nombre");
-        jPanel1.add(jLabel_Nombre);
-        jPanel1.add(jProgressBar_vida);
+        jPanelNombre_Vida.add(jLabel_Nombre);
+        jPanelNombre_Vida.add(jProgressBar_vida);
 
-        add(jPanel1);
+        add(jPanelNombre_Vida);
 
         jPanel_general.setBackground(new java.awt.Color(204, 255, 204));
         jPanel_general.setMaximumSize(new java.awt.Dimension(32767, 74));
@@ -401,6 +403,14 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
             mover(accion.getTipo());
         }
     }
+    
+    public void sinAccionDefinidaEnEsteAsalto(){
+        this.jPanelNombre_Vida.setBackground(Color.YELLOW);
+    }
+    
+    public void AccionDefinidaEnEsteAsalto(){
+        this.jPanelNombre_Vida.setBackground(new java.awt.Color(240, 240, 240));
+    }
 
     public void dejarFueraDeCombate() {
         mover(Constantes.TIPO_ACCION_SIN_ACCION);
@@ -414,7 +424,7 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel_Nombre;
     private javax.swing.JLabel jLabel_icono;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanelNombre_Vida;
     private javax.swing.JPanel jPanel_Accion;
     private javax.swing.JPanel jPanel_Icono;
     private javax.swing.JPanel jPanel_estado;

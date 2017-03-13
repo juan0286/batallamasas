@@ -247,6 +247,21 @@ public class Status implements Serializable {
 
     }
 
+    public void recuperarPp(int pp) {
+        ptsDePoderPerdidos -= pp;
+        ptsDePoderPerdidos = (ptsDePoderPerdidos > 0) ? ptsDePoderPerdidos : 0;
+    }
+
+    public void perderPp(int pp) {
+        int pp_a = ptsDePoderPerdidos + pp;
+        if (pp_a >= this.c.getPp()) {
+            ptsDePoderPerdidos = this.c.getPp();
+            recursos.Recursos.informar("No se puede realizar este Sortilegio");
+        } else {
+            ptsDePoderPerdidos = pp_a;
+        }
+    }
+
     public int getPtsDeVidaPerdidos() {
         return ptsDeVidaPerdidos;
     }
@@ -404,17 +419,16 @@ public class Status implements Serializable {
         int max = 0;
         for (Alteracion alt : alteraciones) {
             if (alt.isActivo()) {
-                if (alt.getClass().getName() == "instancias.properties.alteracion.Herida") {
-                    Herida h = (Herida) alt;
-                    ArrayList<Efecto> efectos = h.getEfectos();
-                    for (Efecto e : efectos) {
-                        if (e.isActivo()) {
-                            if (e.getTipo() == tipo && e.getCuantoMasDura() > max) {
-                                max = e.getCuantoMasDura();
-                            }
+
+                ArrayList<Efecto> efectos = alt.getEfectos();
+                for (Efecto e : efectos) {
+                    if (e.isActivo()) {
+                        if (e.getTipo() == tipo && e.getCuantoMasDura() > max) {
+                            max = e.getCuantoMasDura();
                         }
                     }
                 }
+
             }
         }
         return max;
@@ -426,8 +440,7 @@ public class Status implements Serializable {
         for (Alteracion alt : alteraciones) {
             if (alt.isActivo()) {
 
-                Herida h = (Herida) alt;
-                ArrayList<Efecto> efectos = h.getEfectos();
+                ArrayList<Efecto> efectos = alt.getEfectos();
                 for (Efecto e : efectos) {
                     if (e.isActivo()) {
                         if (e.getTipo() == tipo) {
@@ -443,22 +456,25 @@ public class Status implements Serializable {
 
     public int getModsDeBo(int estilo) {
         TreeMap<Integer, Integer> hm = new TreeMap();
+        hm.put(Constantes.ESTILO_PELEA, Efecto.TIPO_AUMENTO_DE_BO);
         hm.put(Constantes.ESTILO_FILO, Efecto.TIPO_AUMENTO_DE_BO_FILO);
         hm.put(Constantes.ESTILO_CONTUNDENTE, Efecto.TIPO_AUMENTO_DE_BO_CONTUNDENTE);
         hm.put(Constantes.ESTILO_DOS_MANOS, Efecto.TIPO_AUMENTO_DE_BO_DOS_MANOS);
         hm.put(Constantes.ESTILO_ASTA, Efecto.TIPO_AUMENTO_DE_BO_ASTA);
         hm.put(Constantes.ESTILO_PROYECTILES, Efecto.TIPO_AUMENTO_DE_BO_PROYECTILES);
-        
+        hm.put(Constantes.ESTILO_PROYECTILES, Efecto.TIPO_AUMENTO_DE_BO);
+        hm.put(Constantes.ESTILO_PROYECTILES, Efecto.TIPO_AUMENTO_DE_BO_PROYECTILES);
+        hm.put(Constantes.ESTILO_PROYECTILES, Efecto.TIPO_AUMENTO_DE_BO_PROYECTILES);
 
         int suma = 0;
         for (Alteracion alt : alteraciones) {
             if (alt.isActivo()) {
 
-                Herida h = (Herida) alt;
-                ArrayList<Efecto> efectos = h.getEfectos();
+                ArrayList<Efecto> efectos = alt.getEfectos();
                 for (Efecto e : efectos) {
                     if (e.isActivo()) {
-                        if (e.getTipo() == Efecto.TIPO_AUMENTO_DE_BO || e.getTipo() == hm.get(estilo) ) {
+                        int aux = (hm.containsKey(estilo)) ? hm.get(estilo) : -5;
+                        if (e.getTipo() == Efecto.TIPO_AUMENTO_DE_BO || e.getTipo() == hm.get(estilo)) {
                             suma += e.getValueActual();
                         }
                         if (e.getTipo() == Efecto.TIPO_RESTA_DE_BO) {
@@ -478,19 +494,18 @@ public class Status implements Serializable {
         busqueda:
         for (Alteracion alt : alteraciones) {
             if (alt.isActivo()) {
-                if (alt.getClass().getName() == "instancias.properties.alteracion.Herida") {
-                    Herida h = (Herida) alt;
-                    ArrayList<Efecto> efectos = h.getEfectos();
-                    for (Efecto e : efectos) {
-                        if (e.isActivo()) {
-                            if (e.getTipo() == tipo && e.getCuantoMasDura() > 0) {
-                                res = true;
-                                break busqueda;
-                            }
 
+                ArrayList<Efecto> efectos = alt.getEfectos();
+                for (Efecto e : efectos) {
+                    if (e.isActivo()) {
+                        if (e.getTipo() == tipo && e.getCuantoMasDura() > 0) {
+                            res = true;
+                            break busqueda;
                         }
+
                     }
                 }
+
             }
         }
         return res;

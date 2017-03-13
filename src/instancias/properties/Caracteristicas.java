@@ -44,9 +44,7 @@ public class Caracteristicas implements Serializable {
 
     public void setPp(int pp) {
         this.pp = pp;
-    }
-
-    
+    }    
     
     public ArrayList<Integer> getAl_sortilegios() {
         return al_sortilegios;
@@ -85,34 +83,7 @@ public class Caracteristicas implements Serializable {
     public void setBo_pri(int bo_pri) {
         this.bo_pri = bo_pri;
     }
-/*
-    public int getBo_sec() {
-        return bo_sec;
-    }
 
-    public void setBo_sec(int bo_sec) {
-        this.bo_sec = bo_sec;
-    }
-
-    public int getBo_pri_tipo() {
-        return bo_pri_tipo;
-    }
-
-    public void setBo_pri_tipo(int bo_pri_tipo) {
-        this.bo_pri_tipo = bo_pri_tipo;
-    }
-
-    public int getBo_sec_tipo() {
-        return bo_sec_tipo;
-    }
-
-    public void setBo_sec_tipo(int bo_sec_tipo) {
-        this.bo_sec_tipo = bo_sec_tipo;
-    }
-
-    /**
-     * @return the bd
-     */
     public int getBd() {
         return bd;
     }
