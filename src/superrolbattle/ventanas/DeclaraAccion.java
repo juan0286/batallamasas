@@ -61,7 +61,6 @@ public class DeclaraAccion extends javax.swing.JDialog {
 
         if (modo == MODO_ATURDIDO) {
             jTabbedPane_SeleccionAccion.setEnabledAt(0, false);
-            jTabbedPane_SeleccionAccion.setEnabledAt(1, false);
             jTabbedPane_SeleccionAccion.setEnabledAt(2, false);
             jTabbedPane_SeleccionAccion.setEnabledAt(3, false);
             jTabbedPane_SeleccionAccion.setEnabledAt(8, false);

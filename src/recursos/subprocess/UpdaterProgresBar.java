@@ -33,9 +33,11 @@ public class UpdaterProgresBar extends Thread {
         int paso = (destino > 0) ? -1 : 1;
         int act = jp.getValue();
         int maximo = jp.getMaximum();
-        while (destino != 0) {
+        do {
             esperarPor(100);
-            destino += paso;
+            if (destino != 0) {
+                destino += paso;
+            }
             act += paso;
             jp.setValue(act);
             jp.setStringPainted(true);
@@ -43,7 +45,7 @@ public class UpdaterProgresBar extends Thread {
             if (act > (maximo * 1.5)) {
                 jp.setForeground(Color.BLACK);
             } else if (act >= maximo) {
-                jp.setForeground(Color.RED);                
+                jp.setForeground(Color.RED);
             } else if (act >= (maximo - 10)) {
                 jp.setForeground(Color.ORANGE);
             } else if (act > (maximo / 2)) {
@@ -51,7 +53,7 @@ public class UpdaterProgresBar extends Thread {
             } else if (act < (maximo / 2)) {
                 jp.setForeground(Color.GREEN);
             }
-        }
+        } while (destino != 0);
     }
 
     public static void esperarPor(int n) {

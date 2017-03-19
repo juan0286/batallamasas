@@ -1177,6 +1177,7 @@ public class Principal extends javax.swing.JFrame {
                 jButton_comenzar.setEnabled(true);
                 jButton_terminar.setEnabled(false);
                 jLabel_uso_ao.setVisible(false);
+                jScrollPane_asaltos.getHorizontalScrollBar().setValue(278);
                 reiniciarSeleccionAccion();
                 //avanzarFaseDeAsalto(0);
                 break;

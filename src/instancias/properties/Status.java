@@ -10,6 +10,7 @@ import instancias.Sortilegio;
 import instancias.properties.alteracion.Curacion;
 import instancias.properties.alteracion.Efecto;
 import instancias.properties.alteracion.Herida;
+import instancias.properties.alteracion.Mod;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,14 +29,14 @@ public class Status implements Serializable {
 
     static final public int FIRME = 0;
     static final public int CANSADO = 1;
-    static final public int POSTRADO = 2;
-    static final public int EXHAUSTO = 3;
-    static final public int DORMIDO = 4;
-    static final public int COMA = 5;
-    static final public int MUERTO = 6;
-    static final public int MORIBUNDO = 7;
+    static final public int EXHAUSTO = 2;
+    static final public int DORMIDO_INCONSCIENTE = 3;
+    static final public int COMA = 4;
+    static final public int MUERTO = 5;
+    static final public int MORIBUNDO = 6;
+    static final public int POSTRADO = 7;
 
-    static final public int MENTE_FIRME = 0;
+    static final public int MENTE_ENFOCADO = 0;
     static final public int MENTE_OBLIGADO_A_PARAR = 1;
     static final public int MENTE_ATURDIDO = 2;
     static final public int MENTE_ATURDIDO_Y_SIN_PODER_PARAR = 3;
@@ -114,6 +115,25 @@ public class Status implements Serializable {
         this.postrado = postrado;
     }
 
+    public int getPvActual() {
+
+        int pvMax = c.getPuntosVida();
+        //get
+        int sumaPv = sumaDeMod(Efecto.TIPO_SUMAR_PV);
+        int restaPv = sumaDeMod(Efecto.TIPO_RESTAR_PV_TOTAL);
+        int multplicadorPv = sumaDeMod(Efecto.TIPO_MULTIPLICAR_PV);
+        int divisorPv = sumaDeMod(Efecto.TIPO_DIVIDIR_PV_TOTAL);
+        if (multplicadorPv > 0) {
+            pvMax = pvMax * multplicadorPv;
+        }
+        if (divisorPv > 0) {
+            pvMax = pvMax / divisorPv;
+        }
+
+        pvMax += sumaPv - restaPv;
+        return pvMax;
+    }
+
     public void aplicarAsaltoNuevo(String nombre, int asaltos) {
         String mje = "";
 
@@ -164,11 +184,32 @@ public class Status implements Serializable {
                     }
 
                 } else if (alt.getClass().getName() == "instancias.properties.alteracion.Mod") {
+                    Mod m = (Mod) alt;
+                    ArrayList<Efecto> efectos = m.getEfectos();
+                    for (Efecto e : efectos) {
 
-                    // aplico mods
+                        if (e.isActivo()) {
+
+                            // Avanzo Asalto en el evento    
+                            e.avanzarAsalto(asaltos);
+
+                        }
+
+                    }
+
                 } else if (alt.getClass().getName() == "instancias.properties.alteracion.Curacion") {
+                    Curacion c = (Curacion) alt;
+                    ArrayList<Efecto> efectos = c.getEfectos();
+                    for (Efecto e : efectos) {
 
-                    // aplico Curaciones
+                        if (e.isActivo()) {
+
+                            // Avanzo Asalto en el evento    
+                            e.avanzarAsalto(asaltos);
+
+                        }
+
+                    }
                 }
 
             }
@@ -199,16 +240,16 @@ public class Status implements Serializable {
     }
 
     private void pvUpdate() {
-        int puntosVidaActuales = c.getPuntosVida();
+        int puntosVidaActuales = getPvActual();
         if (this.getPtsDeVidaPerdidos() >= puntosVidaActuales * 1.5) {
             this.setCuerpo(Status.MUERTO);
-        } else if (this.getPtsDeVidaPerdidos() >= puntosVidaActuales && this.cuerpo < Status.DORMIDO) {
-            this.setCuerpo(Status.DORMIDO);
+        } else if (this.getPtsDeVidaPerdidos() >= puntosVidaActuales && this.cuerpo < Status.DORMIDO_INCONSCIENTE) {
+            this.setCuerpo(Status.DORMIDO_INCONSCIENTE);
         } else if (this.getPtsDeVidaPerdidos() >= puntosVidaActuales - 10 && this.cuerpo < Status.EXHAUSTO) {
             this.setCuerpo(Status.EXHAUSTO);
         } else if (this.getPtsDeVidaPerdidos() >= puntosVidaActuales / 2 && this.cuerpo < Status.CANSADO) {
             this.setCuerpo(Status.CANSADO);
-        } else {
+        } else if (cuerpo < Status.DORMIDO_INCONSCIENTE) {
             this.setCuerpo(Status.FIRME);
         }
 
@@ -223,12 +264,18 @@ public class Status implements Serializable {
     public String cuerpoString() {
         if (cuerpo == Status.FIRME) {
             return "Firme";
+        } else if (cuerpo == Status.POSTRADO) {
+            return "Postrado";
         } else if (cuerpo == Status.CANSADO) {
             return "Cansado";
         } else if (cuerpo == Status.EXHAUSTO) {
             return "Exahusto";
-        } else if (cuerpo == Status.DORMIDO) {
-            return "Inconsciente";
+        } else if (cuerpo == Status.DORMIDO_INCONSCIENTE) {
+            return "Dormido";
+        } else if (cuerpo == Status.COMA) {
+            return "Coma";
+        } else if (cuerpo == Status.MORIBUNDO) {
+            return "Moribundo";
         } else {
             return "Muerto";
         }
@@ -262,8 +309,6 @@ public class Status implements Serializable {
         }
     }
 
-    
-    
     public int getPtsDeVidaPerdidos() {
         return ptsDeVidaPerdidos;
     }
@@ -316,9 +361,9 @@ public class Status implements Serializable {
     }
 
     public int menteEstado() {
-        int resp = MENTE_FIRME;
+        int resp = MENTE_ENFOCADO;
 
-        if (cuerpo < DORMIDO) {
+        if (cuerpo < DORMIDO_INCONSCIENTE) {
             if (isSinPoderParar()) {
                 resp = MENTE_ATURDIDO_Y_SIN_PODER_PARAR;
             } else if (isAturdido()) {
@@ -358,6 +403,14 @@ public class Status implements Serializable {
         resp += (isSangrando()) ? "-" + sumaDeMod(Efecto.TIPO_SANGRADO) + "pv/as\n" : "";
         int aa = getActividadActual();
         resp += (aa != 0) ? aa + " a la Actividad\n" : "";
+        int boa = getModsDeBo(Constantes.ESTILO_TODOS);
+        resp += (boa != 0) ? boa + " a la Bo\n" : "";
+        int tra = getModsDeMm();
+        resp += (tra != 0) ? tra + " a la Tr\n" : "";
+        int mma = getModsDeMm();
+        resp += (boa != 0) ? boa + " a la MM\n" : "";
+        resp += (postrado) ? "Postrado" : "";
+        resp += txtTodosLosEstados();
         return resp;
 
     }
@@ -464,9 +517,12 @@ public class Status implements Serializable {
         hm.put(Constantes.ESTILO_DOS_MANOS, Efecto.TIPO_AUMENTO_DE_BO_DOS_MANOS);
         hm.put(Constantes.ESTILO_ASTA, Efecto.TIPO_AUMENTO_DE_BO_ASTA);
         hm.put(Constantes.ESTILO_PROYECTILES, Efecto.TIPO_AUMENTO_DE_BO_PROYECTILES);
-        hm.put(Constantes.ESTILO_PROYECTILES, Efecto.TIPO_AUMENTO_DE_BO);
-        hm.put(Constantes.ESTILO_PROYECTILES, Efecto.TIPO_AUMENTO_DE_BO_PROYECTILES);
-        hm.put(Constantes.ESTILO_PROYECTILES, Efecto.TIPO_AUMENTO_DE_BO_PROYECTILES);
+        hm.put(Constantes.ESTILO_TODOS, Efecto.TIPO_AUMENTO_DE_BO);
+        hm.put(Constantes.ESTILO_GOLPE_ARTE_MARCIAL, Efecto.TIPO_AUMENTO_DE_BO);
+        hm.put(Constantes.ESTILO_BARRIDO_ARTE_MARCIAL, Efecto.TIPO_AUMENTO_DE_BO);
+        hm.put(Constantes.ESTILO_COMBO_ASTA_FILO, Efecto.TIPO_AUMENTO_DE_BO);
+        hm.put(Constantes.ESTILO_COMBO_FILO_FILO, Efecto.TIPO_AUMENTO_DE_BO);
+        hm.put(Constantes.ESTILO_PELEA, Efecto.TIPO_AUMENTO_DE_BO);
 
         int suma = 0;
         for (Alteracion alt : alteraciones) {
@@ -476,7 +532,9 @@ public class Status implements Serializable {
                 for (Efecto e : efectos) {
                     if (e.isActivo()) {
                         int aux = (hm.containsKey(estilo)) ? hm.get(estilo) : -5;
-                        if (e.getTipo() == Efecto.TIPO_AUMENTO_DE_BO || e.getTipo() == hm.get(estilo)) {
+                        if (e.getTipo() == Efecto.TIPO_AUMENTO_DE_BO
+                                || (e.getTipo() == hm.get(estilo)
+                                || (estilo == Constantes.ESTILO_TODOS && e.getTipo() > Efecto.TIPO_AUMENTO_DE_BO && e.getTipo() <= Efecto.TIPO_AUMENTO_DE_BO_ASTA))) {
                             suma += e.getValueActual();
                         }
                         if (e.getTipo() == Efecto.TIPO_RESTA_DE_BO) {
@@ -510,6 +568,27 @@ public class Status implements Serializable {
 
             }
         }
+        return res;
+    }
+
+    private String txtTodosLosEstados() {
+
+        String res = "";
+
+        for (Alteracion alt : alteraciones) {
+            if (alt.isActivo()) {
+
+                ArrayList<Efecto> efectos = alt.getEfectos();
+                for (Efecto e : efectos) {
+                    if (e.isActivo()) {
+                        res += e.toString();
+                    }
+
+                }
+            }
+
+        }
+
         return res;
     }
 
@@ -560,7 +639,7 @@ public class Status implements Serializable {
         }
 
         if (h.getCuerpoEstado() > -1) {
-            cuerpo = h.getCuerpoEstado();
+            setCuerpo(h.getCuerpoEstado());
         }
 
         if (h.isMortal()) {
@@ -568,6 +647,13 @@ public class Status implements Serializable {
         }
 
         for (Efecto e : h.getEfectos()) {
+            if (e.getTipo() == Efecto.TIPO_POSTRADO) {
+                postrado = true;
+
+            }
+            if (e.getTipo() == Efecto.TIPO_DORMIDO) {
+                postrado = true;
+            }
             if (e.getTipo() == Efecto.TIPO_POSTRADO) {
                 postrado = true;
             }
@@ -587,7 +673,7 @@ public class Status implements Serializable {
         }
 
         if (c.getCuerpoEstado() > -1) {
-            cuerpo = c.getCuerpoEstado();
+            setCuerpo(c.getCuerpoEstado());
         }
 
         for (Efecto e : c.getEfectos()) {
@@ -598,40 +684,75 @@ public class Status implements Serializable {
             if (e.getTipo() == Efecto.TIPO_ACTIVAR_EXTREMIDAD) {
                 activarExtremidad(e.getValue());
             }
+            if (e.getTipo() == Efecto.TIPO_DESATURDIR) {
+                desaturir(e.getDuracion());
+            }
+            if (e.getTipo() == Efecto.TIPO_ACTIVAR_EXTREMIDAD) {
+                activarExtremidad(e.getValue());
+            }
 
         }
         update();
     }
 
+    public void aplicarMod(Mod m) {
+
+        for (Efecto e : m.getEfectos()) {
+
+            if (e.getTipo() == Efecto.TIPO_LEVANTARSE) {
+                postrado = false;
+            }
+            if (e.getTipo() == Efecto.TIPO_ACTIVAR_EXTREMIDAD) {
+                activarExtremidad(e.getValue());
+            }
+
+        }
+        alteraciones.add(m);
+        update();
+    }
+
     private boolean isInconsciente() {
-        return (cuerpo >= DORMIDO || isInEstado(Efecto.TIPO_DORMIDO));
+        return (cuerpo >= DORMIDO_INCONSCIENTE || isInEstado(Efecto.TIPO_DORMIDO));
     }
 
     public void desactivarExtremidad(int indice_miembro) {
         ext.get(indice_miembro).setUtil(false);
-        /*
-        for (Extremidad extremidad : ext) {
-            if (extremidad.getTipo_miembro() == tipo_miembro) {
-                extremidad.setUtil(false);
-                break;
-            }
 
-        }
-         */
     }
 
     public void activarExtremidad(int indice_miembro) {
         ext.get(indice_miembro).setUtil(true);
 
-        /*
-        for (Extremidad extremidad : ext) {
-            if (extremidad.getTipo_miembro() == tipo_miembro) {
-                extremidad.setUtil(true);
-                break;
-            }
+    }
 
+    private void desaturir(int duracion) {
+
+        for (Alteracion alt : alteraciones) {
+            if (alt.isActivo()) {
+                if (alt.getClass().getName() == "instancias.properties.alteracion.Herida") {
+                    Herida h = (Herida) alt;
+                    ArrayList<Efecto> efectos = h.getEfectos();
+                    for (Efecto e : efectos) {
+                        if (e.isActivo()) {
+
+                            if (e.getTipo() == Efecto.TIPO_OBLIGADO_A_PARAR && e.getCuantoMasDura() > 0) {
+                                e.setTranscurso(e.getTranscurso() + duracion);
+                            }
+                            if (e.getTipo() == Efecto.TIPO_ATURDIDO && e.getCuantoMasDura() > 0) {
+                                e.setTranscurso(e.getTranscurso() + duracion);
+                            }
+                            if (e.getTipo() == Efecto.TIPO_ATURDIDO_SIN_PARAR && e.getCuantoMasDura() > 0) {
+                                e.setTranscurso(e.getTranscurso() + duracion);
+                            }
+                            if (e.getTipo() == Efecto.TIPO_DORMIDO && e.getCuantoMasDura() > 0) {
+                                e.setTranscurso(e.getTranscurso() + duracion);
+                            }
+
+                        }
+                    }
+                }
+            }
         }
-         */
     }
 
 }

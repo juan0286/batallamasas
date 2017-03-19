@@ -1,6 +1,6 @@
 Eventos
 
-5.13
+0.13
 
 Forzar mover accion solo si esta en una accion no posible aturdido.
 Aturdido-2pv/as-15 a la Actividad 
@@ -11,7 +11,7 @@ Reparo, traer valueActual()
 Reparo mods de bo por estilo
 que vuelva a Firme cuando recupera pv
 
-5.14
+0.14
 
 Reparaciones de pv
 Se mantiene a ùltima Accion Al declarar Accion
@@ -27,19 +27,55 @@ Que al cargar un campo de batalla, los pjs se ubiquen en la ùltima accion reali
 
 
 
-5.15
+0.15
 Permite realizar sortilegios aturdido, con aviso de que sean para salir de aturdimiento
 No se repiten Bos, ni armas
 AutoScrollea al terminar Accion
 Al crear Armas verifica que no haya Armas para el cual no tiene Bo
 quito elementos innecesario sde Token. puntosDevida, Daños, porcentajeAtaque
 
+
+0.16
+mejoras en Efectos
+Editar efectos y Curar Heridas
+Permite accion Realiza Sortilegio
+Màs texto de efectos sumado
+text Estado muestra bo, mm, y tr.
+Màs efectos: tr frio/calor/cannalizacion/escencia
+Divido solapa de Alteracion tipo 
+Funcionalidad de efectos Suma/resta/multip/division de pv.
+Cambio en newAlt: Edicion de Alteraciones, en vez de edicion de heridas
+
+
+
+
+
+
+
 Hacer
+IMPORTANTISIMO
+Crear objeto monstruo, o token tipo Monstruo, o forma de agregar Dragon al programa
 
-validar que tenga Bos para las armas
+
+Reparar Agregar Mods / Curaciones
+Aturdido 4 / aturdido s p 5, muestra el texto Aturdido
+Que el CrearAlter cure pv
+Status debe sumar Mods de modificacion de Actividad
+Visualizar los actividades
+
 Error cargando un Sotilegio Nuevo
-Error cargando la muerte
-Error cargando los Pv, se ponen los PP
+Error cargando la muerte y reviviendo
 
+Seguir sumando Acciones a realizar
 
+Al crear un Token, poner todas las Bo
+
+Desarrollar Sortilegios
+	Alcance por tipos
+	Duracion detallada
+	Que los Sortilegios sumen Efectos
+
+Desarrollar Combate
+	Tener Escudo
+	Combate 1 a 1
 

@@ -19,10 +19,6 @@ public class Herida  extends Alteracion{
     private int asaltosparamorir = -1;
     private boolean mortal = false;
     
-    
-    private boolean abierta = false;
-
-    
     /*
     private int aturdido = 0;
     private int obligadoparar = 0;
@@ -85,13 +81,10 @@ public class Herida  extends Alteracion{
     public void setMortal(boolean mortal) {
         this.mortal = mortal;
     }
+    
 
-    public boolean isAbierta() {
-        return abierta;
-    }
-
-    public void setAbierta(boolean abierta) {
-        this.abierta = abierta;
+    public Herida() {
+        super();
     }
 
 

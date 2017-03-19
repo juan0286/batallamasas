@@ -21,13 +21,52 @@ public class CrearEfecto extends javax.swing.JDialog {
     /**
      * Creates new form CrearEfecto
      */
-    public CrearEfecto(java.awt.Frame parent, boolean modal, Token tok, boolean tipoHerida) {
+    public CrearEfecto(java.awt.Frame parent, boolean modal, Token tok, int tipoEfecto) {
         super(parent, modal);
         initComponents();
-        if (tipoHerida) {
+        if (tipoEfecto == CrearNewAlter.ALTERACION_HERIDA) {
             jComboBox_tipos_efectos.setModel(new DefaultComboBoxModel(Efecto.todosLosEfectosDeHeridas().toArray()));
-        } else {
+        } else if (tipoEfecto == CrearNewAlter.ALTERACION_CURACION) {
             jComboBox_tipos_efectos.setModel(new DefaultComboBoxModel(Efecto.todosLosEfectosCurativos().toArray()));
+        } else {
+            jComboBox_tipos_efectos.setModel(new DefaultComboBoxModel(Efecto.todosLosEfectosMods().toArray()));
+        }
+
+        if (ef != null) {
+            this.setTitle("Editar Efecto");
+            jCheckBox_activo.setEnabled(true);
+            jComboBox_tipos_efectos.setEnabled(false);
+            int tipo, dura;
+            tipo = ef.getTipo();
+
+            jSpinner_duracion.setValue(ef.getDuracion());
+            int as = ef.getDuracion();
+            if (as > 60480) {
+                dura = Recursos.asaltosParse(as, Constantes.TIEMPO_SEMANAS);
+                jComboBox_tipo_tiempo.setSelectedIndex(Constantes.TIEMPO_SEMANAS);
+            } else if (as > 8640) {
+                dura = Recursos.asaltosParse(as, Constantes.TIEMPO_DIAS);
+                jComboBox_tipo_tiempo.setSelectedIndex(Constantes.TIEMPO_DIAS);
+            } else if (as > 360) {
+                dura = Recursos.asaltosParse(as, Constantes.TIEMPO_HORAS);
+                jComboBox_tipo_tiempo.setSelectedIndex(Constantes.TIEMPO_HORAS);
+            } else if (as > 12) {
+                dura = Recursos.asaltosParse(as, Constantes.TIEMPO_MINUTOS);
+                jComboBox_tipo_tiempo.setSelectedIndex(Constantes.TIEMPO_MINUTOS);
+            } else {
+                dura = as;
+            }
+            jSpinner_duracion.setValue(dura);
+            jCheckBox_reg_pro.setSelected(ef.isRegeneracion_progresiva());
+
+            if (tipo < Efecto.TIPOS_UNO_A_UNO) {
+                jSpinner_numeros.setValue(ef.getValueActual());
+
+            } else if (tipo > Efecto.TIPOS_UNO_A_UNO && tipo < Efecto.TIPOS_CINCO_A_CINCO) {                
+                jSpinner_cinco.setValue(ef.getValueActual());
+            } else if (tipo > Efecto.TIPOS_SOLO_UNO && tipo < Efecto.TIPOS_EXTREMIDAD) {
+                jComboBox_extremidades.setSelectedIndex(ef.getValue());
+            }
         }
 
         jComboBox_extremidades.setModel(new DefaultComboBoxModel(tok.getExtremidades().toArray()));
@@ -46,6 +85,7 @@ public class CrearEfecto extends javax.swing.JDialog {
 
         jPanel1 = new javax.swing.JPanel();
         jComboBox_tipos_efectos = new javax.swing.JComboBox<>();
+        jCheckBox_activo = new javax.swing.JCheckBox();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jPanel_value = new javax.swing.JPanel();
@@ -55,7 +95,7 @@ public class CrearEfecto extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jSpinner_duracion = new javax.swing.JSpinner();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        jComboBox_tipo_tiempo = new javax.swing.JComboBox<>();
         jPanel4 = new javax.swing.JPanel();
         jCheckBox_reg_pro = new javax.swing.JCheckBox();
         jPanel_Aceptar_cancelar = new javax.swing.JPanel();
@@ -66,6 +106,8 @@ public class CrearEfecto extends javax.swing.JDialog {
         setTitle("Nuevo Efecto");
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.PAGE_AXIS));
 
+        jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 2, 2));
+
         jComboBox_tipos_efectos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox_tipos_efectos.setPreferredSize(new java.awt.Dimension(156, 20));
         jComboBox_tipos_efectos.addItemListener(new java.awt.event.ItemListener() {
@@ -75,10 +117,15 @@ public class CrearEfecto extends javax.swing.JDialog {
         });
         jPanel1.add(jComboBox_tipos_efectos);
 
+        jCheckBox_activo.setSelected(true);
+        jCheckBox_activo.setText("Activo");
+        jCheckBox_activo.setEnabled(false);
+        jPanel1.add(jCheckBox_activo);
+
         getContentPane().add(jPanel1);
 
         jPanel3.setPreferredSize(new java.awt.Dimension(229, 24));
-        jPanel3.setLayout(new javax.swing.BoxLayout(jPanel3, javax.swing.BoxLayout.LINE_AXIS));
+        jPanel3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 1));
 
         jLabel2.setText("Valor");
         jPanel3.add(jLabel2);
@@ -103,11 +150,12 @@ public class CrearEfecto extends javax.swing.JDialog {
         jLabel1.setText("Duracion");
         jPanel2.add(jLabel1);
 
+        jSpinner_duracion.setModel(new javax.swing.SpinnerNumberModel(1, 0, null, 1));
         jSpinner_duracion.setPreferredSize(new java.awt.Dimension(50, 20));
         jPanel2.add(jSpinner_duracion);
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Asaltos", "Miinutos", "Horas", "Dias" }));
-        jPanel2.add(jComboBox2);
+        jComboBox_tipo_tiempo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Asaltos", "Miinutos", "Horas", "Dias" }));
+        jPanel2.add(jComboBox_tipo_tiempo);
 
         getContentPane().add(jPanel2);
 
@@ -146,7 +194,11 @@ public class CrearEfecto extends javax.swing.JDialog {
     }//GEN-LAST:event_jComboBox_tipos_efectosItemStateChanged
 
     private void jButton_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_aceptarActionPerformed
-        crear();
+        if (ef != null) {
+            editar();
+        } else {
+            crear();
+        }
         this.dispose();
     }//GEN-LAST:event_jButton_aceptarActionPerformed
 
@@ -173,15 +225,49 @@ public class CrearEfecto extends javax.swing.JDialog {
 
         }
 
+        if (tipo == Efecto.TIPO_ATURDIDO || tipo == Efecto.TIPO_ATURDIDO_SIN_PARAR || tipo == Efecto.TIPO_DORMIDO || tipo == Efecto.TIPO_OBLIGADO_A_PARAR) {
+            jSpinner_numeros.setEnabled(false);
+        } else {
+            jSpinner_numeros.setEnabled(true);
+        }
+        if (tipo == Efecto.TIPO_SANGRADO) {
+            jComboBox_tipo_tiempo.setSelectedIndex(3); // seleciona dias
+            jSpinner_duracion.setValue(1);
+        }
+    }
+
+    private void mostrarTipoEfecto(int tipo) {
+
+        if (tipo < Efecto.TIPOS_UNO_A_UNO) {
+            jSpinner_numeros.setVisible(true);
+            jSpinner_numeros.setValue(ef.getValueActual());
+            jComboBox_extremidades.setVisible(false);
+            jSpinner_cinco.setVisible(false);
+
+        } else if (tipo > Efecto.TIPOS_UNO_A_UNO && tipo < Efecto.TIPOS_CINCO_A_CINCO) {
+            jSpinner_numeros.setVisible(false);
+            jComboBox_extremidades.setVisible(false);
+            jSpinner_cinco.setVisible(true);
+            jSpinner_cinco.setValue(ef.getValueActual());
+        } else if (tipo > Efecto.TIPOS_SOLO_UNO && tipo < Efecto.TIPOS_EXTREMIDAD) {
+            jSpinner_numeros.setVisible(false);
+            jComboBox_extremidades.setVisible(true);
+            jComboBox_extremidades.setSelectedIndex(ef.getValueActual());
+            jSpinner_cinco.setVisible(false);
+        } else if (tipo == Efecto.TIPO_CAMBIO_ARMADURA) {
+
+        }
+
     }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton_aceptar;
+    private javax.swing.JCheckBox jCheckBox_activo;
     private javax.swing.JCheckBox jCheckBox_reg_pro;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox_extremidades;
+    private javax.swing.JComboBox<String> jComboBox_tipo_tiempo;
     private javax.swing.JComboBox<String> jComboBox_tipos_efectos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -199,9 +285,17 @@ public class CrearEfecto extends javax.swing.JDialog {
 
     public static Efecto ef;
 
-    public static Efecto CrearEfecto(java.awt.Frame parent, boolean modal, Token tok, boolean tipoHeridas) {
+    public static Efecto CrearEfecto(java.awt.Frame parent, boolean modal, Token tok, int tipoAlt) {
         ef = null;
-        CrearEfecto ce = new CrearEfecto(parent, modal, tok, tipoHeridas);
+        CrearEfecto ce = new CrearEfecto(parent, modal, tok, tipoAlt);
+        ce.setLocationRelativeTo(null);
+        ce.setVisible(true);
+        return ef;
+    }
+
+    public static Efecto EditarEfecto(java.awt.Frame parent, boolean modal, Token tok, Efecto efecto) {
+        ef = efecto;
+        CrearEfecto ce = new CrearEfecto(parent, modal, tok, CrearNewAlter.ALTERACION_HERIDA);
         ce.setLocationRelativeTo(null);
         ce.setVisible(true);
         return ef;
@@ -215,7 +309,7 @@ public class CrearEfecto extends javax.swing.JDialog {
 
         ef.setTipo(e.getTipo());
         int d = (Integer) jSpinner_duracion.getValue();
-        int duracion = Recursos.tiempoEnAsaltosParse(d, jComboBox2.getSelectedIndex());
+        int duracion = Recursos.tiempoEnAsaltosParse(d, jComboBox_tipo_tiempo.getSelectedIndex());
 
         ef.setDuracion(duracion);
         ef.setRegeneracion_progresiva(jCheckBox_reg_pro.isSelected());
@@ -233,6 +327,32 @@ public class CrearEfecto extends javax.swing.JDialog {
 
         }
         ef.setValue(value);
+    }
+
+    private void editar() {
+        int tipo = ef.getTipo();
+
+        ef.setTipo(ef.getTipo());
+        int d = (Integer) jSpinner_duracion.getValue();
+        int duracion = Recursos.tiempoEnAsaltosParse(d, jComboBox_tipo_tiempo.getSelectedIndex());
+
+        ef.setDuracion(duracion);
+        ef.setRegeneracion_progresiva(jCheckBox_reg_pro.isSelected());
+
+        int value = 0;
+        if (tipo < Efecto.TIPOS_UNO_A_UNO) {
+            value = (Integer) jSpinner_numeros.getValue();
+
+        } else if (tipo > Efecto.TIPOS_UNO_A_UNO && tipo < Efecto.TIPOS_CINCO_A_CINCO) {
+            value = (Integer) jSpinner_cinco.getValue();
+        } else if (tipo > Efecto.TIPOS_SOLO_UNO && tipo < Efecto.TIPOS_EXTREMIDAD) {
+            value = (Integer) jComboBox_extremidades.getSelectedIndex();
+
+        } else if (tipo == Efecto.TIPO_CAMBIO_ARMADURA) {
+
+        }
+        ef.setValue(value);
+        ef.setActivo(jCheckBox_activo.isSelected());
     }
 
 }

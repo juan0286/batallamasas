@@ -10,6 +10,7 @@ import instancias.properties.*;
 import instancias.properties.alteracion.Alteracion;
 import instancias.properties.alteracion.Curacion;
 import instancias.properties.alteracion.Herida;
+import instancias.properties.alteracion.Mod;
 import java.awt.Color;
 import java.io.Serializable;
 import java.util.Arrays;
@@ -133,7 +134,8 @@ public class Token implements Serializable {
     }
     
     public int getPuntosVida() {
-        return habilidades.getPuntosVida();
+        //return habilidades.getPuntosVida();
+        return estado.getPvActual();
     }
            
     public Caracteristicas getHabilidades() {
@@ -445,6 +447,10 @@ public class Token implements Serializable {
     
     public void agregarHerida(Herida a) {        
         estado.aplicarHerida(a);
+    }
+    
+    public void agregarMod(Mod m) {        
+        estado.aplicarMod(m);
     }
     
     public void agregarCuracion(Curacion c) {        

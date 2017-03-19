@@ -62,7 +62,7 @@ public class JPanelFormToken extends javax.swing.JPanel {
             jProgressBar_vida.setForeground(Color.YELLOW);
         } else if (token.getEstado().getCuerpo() == Status.EXHAUSTO) {
             jProgressBar_vida.setForeground(Color.ORANGE);
-        } else if (token.getEstado().getCuerpo() == Status.DORMIDO) {
+        } else if (token.getEstado().getCuerpo() == Status.DORMIDO_INCONSCIENTE) {
             jProgressBar_vida.setForeground(Color.RED);
         } else if (token.getEstado().getCuerpo() == Status.MUERTO) {
             jProgressBar_vida.setForeground(Color.BLACK);

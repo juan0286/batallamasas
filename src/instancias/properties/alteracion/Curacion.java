@@ -17,6 +17,7 @@ public class Curacion extends Alteracion {
     private int cuerpoEstado = -1;
 
     public Curacion() {
+        super();
     }
 
     public int getPvRecuperados() {

@@ -51,6 +51,7 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
         jProgressBar_vida.setMinimum(0);
         jProgressBar_vida.setMaximum(token.getPuntosVida());
         jProgressBar_vida.setValue(0);
+        jProgressBar_vida.setStringPainted(true);
         // UIManager.put("jProgressBar_vida.selectionBackground", Color.RED);
         // jProgressBar_vida.setIgnoreRepaint(true);
 
@@ -131,19 +132,20 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
 
     public void update_jTokenAction() {
 
-        if (accion.isDone() && token.getEstado().getCuerpo() < Status.DORMIDO) {
+        if (accion.isDone() && token.getEstado().getCuerpo() < Status.DORMIDO_INCONSCIENTE) {
             verComoDone();
         }
         if (accion.isAccionDeOportunidad()) {
             verComoAccOportunidad();
         }
+        jProgressBar_vida.setMaximum(token.getPuntosVida());
         int n = jProgressBar_vida.getValue() - token.getEstado().getPtsDeVidaPerdidos();
         UpdaterProgresBar up = new UpdaterProgresBar(jProgressBar_vida, n);
         up.start();
         jProgressBar_vida.setString(token.vidatxt());
         
 
-        if (token.getEstado().getCuerpo() == Status.DORMIDO) {
+        if (token.getEstado().getCuerpo() == Status.DORMIDO_INCONSCIENTE) {
             jProgressBar_vida.setForeground(Color.GRAY);
             dejarFueraDeCombate();
             this.setBackground(Color.GRAY);
@@ -161,7 +163,7 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
             jTextArea_estado.setBackground(Color.red);
         } else if (token.getEstado().menteEstado() == Status.MENTE_OBLIGADO_A_PARAR) {
             jTextArea_estado.setBackground(Color.WHITE);
-        } else if (token.getEstado().menteEstado() == Status.MENTE_FIRME) {
+        } else if (token.getEstado().menteEstado() == Status.MENTE_ENFOCADO) {
             jTextArea_estado.setBackground(new java.awt.Color(204, 255, 204));
         }
         //jProgressBar_vida.setForeground(Color.YELLOW);

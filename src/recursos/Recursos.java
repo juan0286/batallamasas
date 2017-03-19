@@ -293,7 +293,7 @@ public class Recursos {
                 ret = "Exhasuto";
                 break;
             }
-            case Status.DORMIDO: {
+            case Status.DORMIDO_INCONSCIENTE: {
                 ret = "Inconsciente";
                 break;
             }
@@ -472,7 +472,7 @@ public class Recursos {
         }
     }
 
-    private static int asaltosParse(int cant, int tiempo) {
+    public static int asaltosParse(int cant, int tiempo) {
         
         if (tiempo == Constantes.TIEMPO_SEGUNDOS) {
             return (cant / 10);
@@ -516,7 +516,7 @@ public class Recursos {
         String r = "";
         Double t = (Double) (as / 1.0);
         if (as > 60480)
-            r += asaltosParse(as, Constantes.TIEMPO_MINUTOS) + " Sem.";
+            r += asaltosParse(as, Constantes.TIEMPO_SEMANAS) + " Sem.";
         else if (as > 8640)
             r += asaltosParse(as, Constantes.TIEMPO_DIAS)+ " Dias";
         else if (as > 360)

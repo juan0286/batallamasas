@@ -16,6 +16,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import recursos.Constantes;
 import recursos.Recursos;
 
@@ -35,6 +36,7 @@ public class CrearNewAlter extends javax.swing.JDialog {
         this.panel_token = token_accion;
 
         jTextField_Actual_pv.setText(token_accion.getToken().vidatxt());
+        jTextField_Actual_pv2.setText(token_accion.getToken().vidatxt());
 
         Token t = token_accion.getToken();
         int c = t.getEstado().getCuerpo();
@@ -45,68 +47,47 @@ public class CrearNewAlter extends javax.swing.JDialog {
         if (c == Status.POSTRADO) {
             jRadioButton_postrado.setBackground(Color.blue);
         }
-        if (c == Status.DORMIDO) {
+        if (c == Status.DORMIDO_INCONSCIENTE) {
             jRadioButton_Dormido.setBackground(Color.blue);
         }
         if (c == Status.MUERTO) {
             jRadioButton_muerto.setBackground(Color.blue);
         }
         numerar();
-//        int san = token.getToken().getEstado().getSangradoPorAsalto();
-//
-//        jTextField_Actual_sangrado.setText(String.valueOf(san));
-//        if (san > 0) {
-//            jTextField_Actual_sangrado.setBackground(Color.red);
-//        }
-//
-//        int at = token.getToken().getEstado().getAturdido();
-//        jTextField_Actual_aturdido.setText(String.valueOf(at));
-//        if (at > 0) {
-//            jTextField_Actual_aturdido.setBackground(Color.yellow);
-//        }
-//
-//        int atuSP = token.getToken().getEstado().getSinpoderparar();
-//        jTextField_Actual_aturdidoSinParar.setText(String.valueOf(atuSP));
-//        if (atuSP > 0) {
-//            jTextField_Actual_aturdidoSinParar.setBackground(Color.red);
-//        }
-//
-//        int hm = token.getToken().getEstado().getAsaltosparamorir();
-//        /* jTextField_Actual_HastaMorir.setText(String.valueOf(hm));
-//        if (hm > 0){
-//            jTextField_Actual_HastaMorir.setBackground(Color.black);
-//            jTextField_Actual_HastaMorir.setForeground(Color.white);
-//        }
-//         */
-//        int oap = token.getToken().getEstado().getObligadoParar();
-//        jTextField_Actual_obligadoParar.setText(String.valueOf(oap));
-//        if (oap > 0) {
-//            jTextField_Actual_obligadoParar.setBackground(Color.green);
-//        }
-//
-//        jTextField_Actual_bo.setText(String.valueOf(token.getToken().getEstado().getBoModidificada()));
-//        jTextField_Actual_Bd.setText(String.valueOf(token.getToken().getEstado().getBdModificada()));
-//        jTextField_Actual_MM.setText(String.valueOf(token.getToken().getEstado().getModsDeMm()));
-//
-//        jTextField_Actual_Actividad.setText(String.valueOf(token.getToken().getEstado().getActividadActual()));
-//
-//        jCheckBox_brazo_izq.setSelected(!token.getToken().getManoIZQ().isHabilitado());
-//        jCheckBox_brazo_der.setSelected(!token.getToken().getManoDER().isHabilitado());
-//        //jCheckBox_brazo_izq.setSelected(!token.getToken().getManoIZQ().isHabilitado());
-//        //jCheckBox_brazo_izq.setSelected(!token.getToken().getManoIZQ().isHabilitado());
-//
-//        jRadioButton_muerto.setSelected(token.getToken().getEstado().getCuerpo() == Status.MUERTO);
-//        jRadioButton_Dormido.setSelected(token.getToken().getEstado().getCuerpo() == Status.DORMIDO);
-//        jRadioButton_coma.setSelected(token.getToken().getEstado().getCuerpo() == Status.COMA);
-//        jRadioButton_postrado.setSelected(token.getToken().getEstado().isPostrado());
+
+        ArrayList<Alteracion> al_alt = token_accion.getToken().getEstado().getAlteraciones();
+        for (Alteracion alt : al_alt) {
+            DefaultListModel jdlm;
+            if (alt.isActivo()) {
+                    jdlm = (DefaultListModel) jList_editar_Alteraciones.getModel();
+                    jdlm.addElement(alt);
+                    jList_editar_Alteraciones.setModel(jdlm);
+            }
+
+        }
         this.setLocationRelativeTo(null);
     }
 
+    private void seleccionarEfecto() {
+        DefaultListModel dlm = (DefaultListModel) jList_editar_Alteraciones.getModel();
+        if (jList_editar_Alteraciones.getSelectedIndex() > -1) {
+            Alteracion alt = (Alteracion) dlm.get(jList_editar_Alteraciones.getSelectedIndex());
+            ArrayList<Efecto> efectos = alt.getEfectos();
+            DefaultListModel jdlm = (DefaultListModel) jList_editar_efectos_de_Alteraciones.getModel();
+            jdlm.removeAllElements();
+            for (Efecto e : efectos) {
+                if (e.isActivo()) {
+                    jdlm.addElement(e);
+                    jList_editar_efectos_de_Alteraciones.setModel(jdlm);
+                }
+            }
+        }
+    }
+
     private void numerar() {
-        int n = (jRadioButton_sanar.isSelected()) ? 1 : -1;
-        jComboBox_pv.removeAllItems();
         for (int i = 0; i < num_max; i++) {
-            jComboBox_pv.addItem(i * n);
+            jComboBox_pv.addItem(i * -1);
+            jComboBox_pv_curar.addItem(i);
         }
     }
 
@@ -126,42 +107,50 @@ public class CrearNewAlter extends javax.swing.JDialog {
         buttonGroup1 = new javax.swing.ButtonGroup();
         buttonGroup_Tipo_Alt = new javax.swing.ButtonGroup();
         jPanel_curacion = new javax.swing.JPanel();
-        jPanel3_Status2 = new javax.swing.JPanel();
-        jPanel33 = new javax.swing.JPanel();
-        jPanel18 = new javax.swing.JPanel();
-        jRadioButton_herir = new javax.swing.JRadioButton();
-        jPanel25 = new javax.swing.JPanel();
-        jRadioButton_sanar = new javax.swing.JRadioButton();
-        jPanel37 = new javax.swing.JPanel();
-        jRadioButton_farmear = new javax.swing.JRadioButton();
-        jPanel13 = new javax.swing.JPanel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel_nuevos_Daños = new javax.swing.JPanel();
         jPanel23 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jComboBox_pv = new javax.swing.JComboBox();
         jTextField_Actual_pv = new javax.swing.JTextField();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel21 = new javax.swing.JPanel();
         jPanel24 = new javax.swing.JPanel();
         jPanel22 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        jButton_agregar_efecto_herida = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList_efectos = new javax.swing.JList<>();
-        jPanel26 = new javax.swing.JPanel();
-        jPanel28 = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jList_efectos1 = new javax.swing.JList<>();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jList_efectos2 = new javax.swing.JList<>();
-        jPanel29 = new javax.swing.JPanel();
+        jList_heridas = new javax.swing.JList<>();
+        jPanel_curar = new javax.swing.JPanel();
+        jPanel25 = new javax.swing.JPanel();
+        jPanel9 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jPanel10 = new javax.swing.JPanel();
+        jComboBox_pv_curar = new javax.swing.JComboBox();
+        jTextField_Actual_pv2 = new javax.swing.JTextField();
         jPanel27 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jButton3 = new javax.swing.JButton();
+        jButton_agregar_curar = new javax.swing.JButton();
         jPanel36 = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
-        jList_efectos4 = new javax.swing.JList<>();
+        jList_curacion = new javax.swing.JList<>();
+        jPanel_Mods = new javax.swing.JPanel();
+        jPanel33 = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        jButton_agregar_mod1 = new javax.swing.JButton();
+        jPanel37 = new javax.swing.JPanel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        jList_mods = new javax.swing.JList<>();
+        jPanel_editar_heridas = new javax.swing.JPanel();
+        jPanel28 = new javax.swing.JPanel();
+        jPanel8 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jList_editar_Alteraciones = new javax.swing.JList<>();
+        jButton_sanar_herida = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jList_editar_efectos_de_Alteraciones = new javax.swing.JList<>();
+        jButton_modificar_efecto = new javax.swing.JButton();
         jPanel3_Status1 = new javax.swing.JPanel();
         jPanel32 = new javax.swing.JPanel();
         jPanel34 = new javax.swing.JPanel();
@@ -198,64 +187,30 @@ public class CrearNewAlter extends javax.swing.JDialog {
         jPanel_Aceptar_cancelar.add(jButton2);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(390, 377));
+        setMinimumSize(new java.awt.Dimension(390, 377));
+        setPreferredSize(new java.awt.Dimension(390, 377));
+        setResizable(false);
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.PAGE_AXIS));
 
         jPanel_curacion.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel_curacion.setLayout(new javax.swing.BoxLayout(jPanel_curacion, javax.swing.BoxLayout.PAGE_AXIS));
 
-        jPanel3_Status2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel3_Status2.setLayout(new javax.swing.BoxLayout(jPanel3_Status2, javax.swing.BoxLayout.LINE_AXIS));
-
-        jPanel33.setLayout(new javax.swing.BoxLayout(jPanel33, javax.swing.BoxLayout.LINE_AXIS));
-
-        jPanel18.setLayout(new java.awt.GridLayout(1, 2));
-
-        buttonGroup_Tipo_Alt.add(jRadioButton_herir);
-        jRadioButton_herir.setSelected(true);
-        jRadioButton_herir.setText("Herir");
-        jRadioButton_herir.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jRadioButton_herirStateChanged(evt);
-            }
-        });
-        jPanel18.add(jRadioButton_herir);
-
-        jPanel33.add(jPanel18);
-
-        jPanel25.setLayout(new java.awt.GridLayout(1, 2));
-
-        buttonGroup_Tipo_Alt.add(jRadioButton_sanar);
-        jRadioButton_sanar.setText("Sanar");
-        jRadioButton_sanar.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jRadioButton_sanarStateChanged(evt);
-            }
-        });
-        jPanel25.add(jRadioButton_sanar);
-
-        jPanel33.add(jPanel25);
-
-        jPanel37.setLayout(new java.awt.GridLayout(1, 2));
-
-        buttonGroup_Tipo_Alt.add(jRadioButton_farmear);
-        jRadioButton_farmear.setText("Farmear");
-        jPanel37.add(jRadioButton_farmear);
-
-        jPanel33.add(jPanel37);
-
-        jPanel13.setLayout(new javax.swing.BoxLayout(jPanel13, javax.swing.BoxLayout.LINE_AXIS));
-        jPanel33.add(jPanel13);
-
-        jPanel3_Status2.add(jPanel33);
-
-        jPanel_curacion.add(jPanel3_Status2);
+        jPanel_nuevos_Daños.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel_nuevos_Daños.setLayout(new java.awt.BorderLayout());
 
         jPanel23.setLayout(new javax.swing.BoxLayout(jPanel23, javax.swing.BoxLayout.LINE_AXIS));
+
+        jPanel6.setMaximumSize(new java.awt.Dimension(32767, 75));
+        jPanel6.setName(""); // NOI18N
 
         jLabel1.setText("Puntos de vida");
         jPanel6.add(jLabel1);
 
         jPanel23.add(jPanel6);
+
+        jPanel4.setMaximumSize(new java.awt.Dimension(32767, 75));
+        jPanel4.setName(""); // NOI18N
 
         jComboBox_pv.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jComboBox_pv.setMaximumSize(new java.awt.Dimension(50, 20));
@@ -271,91 +226,182 @@ public class CrearNewAlter extends javax.swing.JDialog {
 
         jPanel23.add(jPanel4);
 
-        jPanel_curacion.add(jPanel23);
-
-        jPanel21.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel21.setLayout(new java.awt.BorderLayout());
+        jPanel_nuevos_Daños.add(jPanel23, java.awt.BorderLayout.CENTER);
 
         jPanel24.setLayout(new javax.swing.BoxLayout(jPanel24, javax.swing.BoxLayout.PAGE_AXIS));
 
         jPanel22.setLayout(new javax.swing.BoxLayout(jPanel22, javax.swing.BoxLayout.PAGE_AXIS));
 
-        jButton1.setText("Agregar Efecto");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButton_agregar_efecto_herida.setText("Agregar Efecto");
+        jButton_agregar_efecto_herida.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButton_agregar_efecto_heridaActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1);
+        jPanel1.add(jButton_agregar_efecto_herida);
 
         jPanel22.add(jPanel1);
 
         jPanel24.add(jPanel22);
 
-        jList_efectos.setModel(new DefaultListModel());
-        jScrollPane2.setViewportView(jList_efectos);
+        jList_heridas.setModel(new DefaultListModel());
+        jScrollPane2.setViewportView(jList_heridas);
 
         jPanel24.add(jScrollPane2);
 
-        jPanel21.add(jPanel24, java.awt.BorderLayout.PAGE_END);
+        jPanel_nuevos_Daños.add(jPanel24, java.awt.BorderLayout.PAGE_END);
 
-        jTabbedPane1.addTab("Nuevos Daños", jPanel21);
+        jTabbedPane1.addTab("Nuevos Daños", jPanel_nuevos_Daños);
 
-        jPanel26.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel26.setLayout(new javax.swing.BoxLayout(jPanel26, javax.swing.BoxLayout.LINE_AXIS));
+        jPanel_curar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel_curar.setLayout(new javax.swing.BoxLayout(jPanel_curar, javax.swing.BoxLayout.PAGE_AXIS));
 
-        jPanel28.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 25, 5));
+        jPanel25.setLayout(new javax.swing.BoxLayout(jPanel25, javax.swing.BoxLayout.LINE_AXIS));
 
-        jScrollPane3.setBorder(javax.swing.BorderFactory.createTitledBorder("Heridas"));
-        jScrollPane3.setPreferredSize(new java.awt.Dimension(148, 150));
+        jLabel3.setText("Puntos de vida");
+        jPanel9.add(jLabel3);
 
-        jList_efectos1.setModel(new DefaultListModel());
-        jScrollPane3.setViewportView(jList_efectos1);
+        jPanel25.add(jPanel9);
 
-        jPanel28.add(jScrollPane3);
+        jComboBox_pv_curar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jComboBox_pv_curar.setMaximumSize(new java.awt.Dimension(50, 20));
+        jComboBox_pv_curar.setMinimumSize(new java.awt.Dimension(50, 20));
+        jComboBox_pv_curar.setPreferredSize(new java.awt.Dimension(50, 20));
+        jPanel10.add(jComboBox_pv_curar);
 
-        jScrollPane4.setBorder(javax.swing.BorderFactory.createTitledBorder("Efectos"));
-        jScrollPane4.setPreferredSize(new java.awt.Dimension(148, 150));
+        jTextField_Actual_pv2.setEditable(false);
+        jTextField_Actual_pv2.setMinimumSize(new java.awt.Dimension(45, 20));
+        jTextField_Actual_pv2.setName(""); // NOI18N
+        jTextField_Actual_pv2.setPreferredSize(new java.awt.Dimension(65, 20));
+        jPanel10.add(jTextField_Actual_pv2);
 
-        jList_efectos2.setModel(new DefaultListModel());
-        jScrollPane4.setViewportView(jList_efectos2);
+        jPanel25.add(jPanel10);
 
-        jPanel28.add(jScrollPane4);
-
-        jPanel26.add(jPanel28);
-
-        jTabbedPane1.addTab("Heridas", jPanel26);
-
-        jPanel29.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel29.setLayout(new javax.swing.BoxLayout(jPanel29, javax.swing.BoxLayout.PAGE_AXIS));
+        jPanel_curar.add(jPanel25);
 
         jPanel27.setLayout(new javax.swing.BoxLayout(jPanel27, javax.swing.BoxLayout.PAGE_AXIS));
 
-        jButton3.setText("Agregar Efecto");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        jButton_agregar_curar.setText("Agregar Efecto");
+        jButton_agregar_curar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                jButton_agregar_curarActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton3);
+        jPanel2.add(jButton_agregar_curar);
 
         jPanel27.add(jPanel2);
 
-        jPanel29.add(jPanel27);
+        jPanel_curar.add(jPanel27);
 
-        jPanel36.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 25, 5));
+        jPanel36.setLayout(new javax.swing.BoxLayout(jPanel36, javax.swing.BoxLayout.LINE_AXIS));
 
         jScrollPane6.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jScrollPane6.setPreferredSize(new java.awt.Dimension(278, 150));
 
-        jList_efectos4.setModel(new DefaultListModel());
-        jScrollPane6.setViewportView(jList_efectos4);
+        jList_curacion.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jList_curacion.setModel(new DefaultListModel());
+        jScrollPane6.setViewportView(jList_curacion);
 
         jPanel36.add(jScrollPane6);
 
-        jPanel29.add(jPanel36);
+        jPanel_curar.add(jPanel36);
 
-        jTabbedPane1.addTab("Mods", jPanel29);
+        jTabbedPane1.addTab("Curar", jPanel_curar);
+
+        jPanel_Mods.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel_Mods.setLayout(new javax.swing.BoxLayout(jPanel_Mods, javax.swing.BoxLayout.PAGE_AXIS));
+
+        jPanel33.setLayout(new javax.swing.BoxLayout(jPanel33, javax.swing.BoxLayout.PAGE_AXIS));
+
+        jButton_agregar_mod1.setText("Agregar Efecto");
+        jButton_agregar_mod1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_agregar_mod1ActionPerformed(evt);
+            }
+        });
+        jPanel5.add(jButton_agregar_mod1);
+
+        jPanel33.add(jPanel5);
+
+        jPanel_Mods.add(jPanel33);
+
+        jPanel37.setLayout(new javax.swing.BoxLayout(jPanel37, javax.swing.BoxLayout.LINE_AXIS));
+
+        jScrollPane7.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jScrollPane7.setPreferredSize(new java.awt.Dimension(278, 150));
+
+        jList_mods.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jList_mods.setModel(new DefaultListModel());
+        jScrollPane7.setViewportView(jList_mods);
+
+        jPanel37.add(jScrollPane7);
+
+        jPanel_Mods.add(jPanel37);
+
+        jTabbedPane1.addTab("Mods", jPanel_Mods);
+
+        jPanel_editar_heridas.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel_editar_heridas.setLayout(new javax.swing.BoxLayout(jPanel_editar_heridas, javax.swing.BoxLayout.PAGE_AXIS));
+
+        jPanel28.setLayout(new javax.swing.BoxLayout(jPanel28, javax.swing.BoxLayout.PAGE_AXIS));
+
+        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder("Alteraciones"));
+        jPanel8.setLayout(new java.awt.BorderLayout());
+
+        jScrollPane3.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jScrollPane3.setPreferredSize(new java.awt.Dimension(148, 150));
+
+        jList_editar_Alteraciones.setModel(new DefaultListModel());
+        jList_editar_Alteraciones.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                jList_editar_AlteracionesValueChanged(evt);
+            }
+        });
+        jScrollPane3.setViewportView(jList_editar_Alteraciones);
+
+        jPanel8.add(jScrollPane3, java.awt.BorderLayout.CENTER);
+
+        jButton_sanar_herida.setText("Eliminar Alteracion");
+        jButton_sanar_herida.setEnabled(false);
+        jButton_sanar_herida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_sanar_heridaActionPerformed(evt);
+            }
+        });
+        jPanel8.add(jButton_sanar_herida, java.awt.BorderLayout.PAGE_START);
+
+        jPanel28.add(jPanel8);
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Efectos"));
+        jPanel3.setLayout(new java.awt.BorderLayout());
+
+        jScrollPane4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jScrollPane4.setPreferredSize(new java.awt.Dimension(148, 150));
+
+        jList_editar_efectos_de_Alteraciones.setModel(new DefaultListModel());
+        jList_editar_efectos_de_Alteraciones.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                jList_editar_efectos_de_AlteracionesValueChanged(evt);
+            }
+        });
+        jScrollPane4.setViewportView(jList_editar_efectos_de_Alteraciones);
+
+        jPanel3.add(jScrollPane4, java.awt.BorderLayout.CENTER);
+
+        jButton_modificar_efecto.setText("Editar");
+        jButton_modificar_efecto.setEnabled(false);
+        jButton_modificar_efecto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_modificar_efectoActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jButton_modificar_efecto, java.awt.BorderLayout.PAGE_START);
+
+        jPanel28.add(jPanel3);
+
+        jPanel_editar_heridas.add(jPanel28);
+
+        jTabbedPane1.addTab("Editar Alteraciones", jPanel_editar_heridas);
 
         jPanel_curacion.add(jTabbedPane1);
 
@@ -472,17 +518,9 @@ public class CrearNewAlter extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_jButton_cancelarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        nuevoEfecto();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jRadioButton_herirStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jRadioButton_herirStateChanged
-        numerar();
-    }//GEN-LAST:event_jRadioButton_herirStateChanged
-
-    private void jRadioButton_sanarStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jRadioButton_sanarStateChanged
-        numerar();
-    }//GEN-LAST:event_jRadioButton_sanarStateChanged
+    private void jButton_agregar_efecto_heridaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_agregar_efecto_heridaActionPerformed
+        nuevoEfectoHerida(ALTERACION_HERIDA);
+    }//GEN-LAST:event_jButton_agregar_efecto_heridaActionPerformed
 
     private void jButton_aceptar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_aceptar1ActionPerformed
         aplicar();
@@ -493,22 +531,55 @@ public class CrearNewAlter extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void jButton_agregar_curarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_agregar_curarActionPerformed
+        nuevoEfectoHerida(ALTERACION_CURACION);
+    }//GEN-LAST:event_jButton_agregar_curarActionPerformed
+
+    private void jList_editar_AlteracionesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList_editar_AlteracionesValueChanged
+        seleccionarEfecto();
+        jButton_sanar_herida.setEnabled(jList_editar_Alteraciones.getSelectedIndex() > -1);
+    }//GEN-LAST:event_jList_editar_AlteracionesValueChanged
+
+    private void jButton_modificar_efectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_modificar_efectoActionPerformed
+        DefaultListModel dlm = (DefaultListModel) jList_editar_efectos_de_Alteraciones.getModel();
+        Efecto efecto = (Efecto) dlm.get(jList_editar_efectos_de_Alteraciones.getSelectedIndex());
+        CrearEfecto.EditarEfecto(null, true, panel_token.getToken(), efecto);
+        if (!efecto.isActivo()) {
+            dlm.removeElement(efecto);
+        }
+    }//GEN-LAST:event_jButton_modificar_efectoActionPerformed
+
+    private void jButton_sanar_heridaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_sanar_heridaActionPerformed
+        sanarHerida();
+    }//GEN-LAST:event_jButton_sanar_heridaActionPerformed
+
+    private void jList_editar_efectos_de_AlteracionesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList_editar_efectos_de_AlteracionesValueChanged
+        jButton_modificar_efecto.setEnabled(jList_editar_efectos_de_Alteraciones.getSelectedIndex() > -1);
+    }//GEN-LAST:event_jList_editar_efectos_de_AlteracionesValueChanged
+
+    private void jButton_agregar_mod1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_agregar_mod1ActionPerformed
+        nuevoEfectoHerida(ALTERACION_MODS);
+    }//GEN-LAST:event_jButton_agregar_mod1ActionPerformed
 
     private void aplicar() {
         instancias.Token tok = panel_token.getToken();
-       
-
+        efectosNuevos.clear();
+        
         //int mod = (jCheckBox_daño_curacion.isSelected()) ? -1 : 1;
-        if (jRadioButton_herir.isSelected()) {
-
+        if (jTabbedPane1.getSelectedIndex() == ALTERACION_HERIDA) {
+            
             Herida h = new Herida();
+            
+            DefaultListModel dlm = (DefaultListModel) jList_heridas.getModel();
+            for (int i = 0; i < dlm.getSize(); i++) {
+                efectosNuevos.add((Efecto)dlm.get(i));
+            }           
+                     
 
             h.setPv(jComboBox_pv.getSelectedIndex());
-            h.setAbierta(true);
+            h.setActivo(true);
             h.setEfectos(efectosNuevos);
+            
             if (jRadioButton_Firme.isSelected()) {
                 h.setCuerpoEstado(Status.FIRME);
             }
@@ -516,11 +587,12 @@ public class CrearNewAlter extends javax.swing.JDialog {
                 h.setCuerpoEstado(Status.POSTRADO);
             }
             if (jRadioButton_Dormido.isSelected()) {
-                h.setCuerpoEstado(Status.DORMIDO);
+                h.setCuerpoEstado(Status.DORMIDO_INCONSCIENTE);
             }
             if (jRadioButton_coma.isSelected()) {
                 h.setCuerpoEstado(Status.COMA);
             }
+            
             if (jRadioButton_muerto.isSelected()) {
                 int as = (Integer) jSpinner_asParamoriri1.getValue();
                 if (as > 0) {
@@ -529,48 +601,57 @@ public class CrearNewAlter extends javax.swing.JDialog {
                     h.setCuerpoEstado(Status.MUERTO);
                 }
             }
+            
             h.setDescripcion(jTextArea_descp.getText());
             tok.agregarHerida(h);
+
+        } else if (jTabbedPane1.getSelectedIndex() == ALTERACION_CURACION) {
             
+            Curacion alt = new Curacion();
+
+            DefaultListModel dlm = (DefaultListModel) jList_curacion.getModel();
             
-
-        } else if (jRadioButton_sanar.isSelected()) {
-
-            Curacion c = new Curacion();
-
-            c.setPvRecuperados(jComboBox_pv.getSelectedIndex());
-
-            c.setEfectos(efectosNuevos);
+            for (int i = 0; i < dlm.size(); i++) {
+                efectosNuevos.add((Efecto)dlm.get(i));
+            }  
+            
+            alt.setPvRecuperados(jComboBox_pv.getSelectedIndex());
+            
+            alt.setEfectos(efectosNuevos);
             if (jRadioButton_Firme.isSelected()) {
-                c.setCuerpoEstado(Status.FIRME);
+                alt.setCuerpoEstado(Status.FIRME);
             }
             if (jRadioButton_postrado.isSelected()) {
-                c.setCuerpoEstado(Status.POSTRADO);
+                alt.setCuerpoEstado(Status.POSTRADO);
             }
             if (jRadioButton_Dormido.isSelected()) {
-                c.setCuerpoEstado(Status.DORMIDO);
+                alt.setCuerpoEstado(Status.DORMIDO_INCONSCIENTE);
             }
             if (jRadioButton_coma.isSelected()) {
-                c.setCuerpoEstado(Status.COMA);
+                alt.setCuerpoEstado(Status.COMA);
             }
             if (jRadioButton_muerto.isSelected()) {
                 int as = (Integer) jSpinner_asParamoriri1.getValue();
                 if (as > 0) {
-                    c.setCuerpoEstado(Status.MORIBUNDO);
+                    alt.setCuerpoEstado(Status.MORIBUNDO);
                 } else {
-                    c.setCuerpoEstado(Status.MUERTO);
+                    alt.setCuerpoEstado(Status.MUERTO);
                 }
             }
-            c.setDescripcion(jTextArea_descp.getText());
-            tok.agregarCuracion(c);
+            alt.setDescripcion(jTextArea_descp.getText());
+            tok.agregarCuracion(alt);
 
         } else {
             // mod
             Mod m = new Mod();
+            
+            DefaultListModel dlm = (DefaultListModel) jList_mods.getModel();
+            for (int i = 0; i < dlm.getSize(); i++) {
+                efectosNuevos.add((Efecto)dlm.get(i));
+            }  
             m.setEfectos(efectosNuevos);
-
             m.setDescripcion(jTextArea_descp.getText());
-            //tok.ag
+            tok.agregarMod(m);
         }
 
     }
@@ -579,34 +660,37 @@ public class CrearNewAlter extends javax.swing.JDialog {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup_EstadoFisico;
     private javax.swing.ButtonGroup buttonGroup_Tipo_Alt;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton_aceptar;
     private javax.swing.JButton jButton_aceptar1;
+    private javax.swing.JButton jButton_agregar_curar;
+    private javax.swing.JButton jButton_agregar_efecto_herida;
+    private javax.swing.JButton jButton_agregar_mod1;
+    private javax.swing.JButton jButton_modificar_efecto;
+    private javax.swing.JButton jButton_sanar_herida;
     private javax.swing.JComboBox jComboBox_pv;
+    private javax.swing.JComboBox jComboBox_pv_curar;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JList<String> jList_efectos;
-    private javax.swing.JList<String> jList_efectos1;
-    private javax.swing.JList<String> jList_efectos2;
-    private javax.swing.JList<String> jList_efectos4;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JList<String> jList_curacion;
+    private javax.swing.JList<String> jList_editar_Alteraciones;
+    private javax.swing.JList<String> jList_editar_efectos_de_Alteraciones;
+    private javax.swing.JList<String> jList_heridas;
+    private javax.swing.JList<String> jList_mods;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel12;
-    private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel17;
-    private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel20;
-    private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel22;
     private javax.swing.JPanel jPanel23;
     private javax.swing.JPanel jPanel24;
     private javax.swing.JPanel jPanel25;
-    private javax.swing.JPanel jPanel26;
     private javax.swing.JPanel jPanel27;
     private javax.swing.JPanel jPanel28;
-    private javax.swing.JPanel jPanel29;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel30;
     private javax.swing.JPanel jPanel32;
     private javax.swing.JPanel jPanel33;
@@ -615,34 +699,42 @@ public class CrearNewAlter extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel36;
     private javax.swing.JPanel jPanel37;
     private javax.swing.JPanel jPanel3_Status1;
-    private javax.swing.JPanel jPanel3_Status2;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JPanel jPanel_Aceptar_cancelar;
     private javax.swing.JPanel jPanel_Aceptar_cancelar1;
+    private javax.swing.JPanel jPanel_Mods;
     private javax.swing.JPanel jPanel_curacion;
+    private javax.swing.JPanel jPanel_curar;
     private javax.swing.JPanel jPanel_descripcion;
+    private javax.swing.JPanel jPanel_editar_heridas;
+    private javax.swing.JPanel jPanel_nuevos_Daños;
     private javax.swing.JRadioButton jRadioButton_Dormido;
     private javax.swing.JRadioButton jRadioButton_Firme;
     private javax.swing.JRadioButton jRadioButton_coma;
-    private javax.swing.JRadioButton jRadioButton_farmear;
-    private javax.swing.JRadioButton jRadioButton_herir;
     private javax.swing.JRadioButton jRadioButton_muerto;
     private javax.swing.JRadioButton jRadioButton_postrado;
-    private javax.swing.JRadioButton jRadioButton_sanar;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane_Resumen;
     private javax.swing.JSpinner jSpinner_asParamoriri1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextArea jTextArea_descp;
     private javax.swing.JTextField jTextField_Actual_pv;
+    private javax.swing.JTextField jTextField_Actual_pv2;
     // End of variables declaration//GEN-END:variables
     private JPanelFormToken_Accion panel_token;
     private final int num_max = 100;
     private ArrayList<Efecto> efectosNuevos = new ArrayList();
+    public static int ALTERACION_HERIDA = 0;
+    public static int ALTERACION_CURACION = 1;
+    public static int ALTERACION_MODS = 2;
 
     public static void CrearAlteracion(java.awt.Frame parent, boolean modal, JPanelFormToken_Accion token) {
         CrearNewAlter ca = new CrearNewAlter(parent, modal, token);
@@ -650,16 +742,44 @@ public class CrearNewAlter extends javax.swing.JDialog {
         ca.setVisible(true);
     }
 
-    private void nuevoEfecto() {
+    private void nuevoEfectoHerida(int alt_tipo) {
 
-        Efecto ef = CrearEfecto.CrearEfecto(null, true, panel_token.getToken(), jRadioButton_herir.isSelected());
+        Efecto ef = CrearEfecto.CrearEfecto(null, true, panel_token.getToken(), alt_tipo);
         if (ef != null) {
             efectosNuevos.add(ef);
         }
-        DefaultListModel jdlm = (DefaultListModel) jList_efectos.getModel();
-        jdlm.addElement(ef);
-        jList_efectos.setModel(jdlm);
+        //javax.swing.JList<String> jl = (herida) ? jList_efectos_heridas : jList_mods;
+        javax.swing.JList<String> jl = null;
+        if (alt_tipo == ALTERACION_HERIDA) {
+            jl = jList_heridas;
+        } else if (alt_tipo == ALTERACION_CURACION) {
+            jl = jList_curacion;
+        } else if (alt_tipo == ALTERACION_MODS) {
+            jl = jList_mods;
+        }
 
+        DefaultListModel jdlm = (DefaultListModel) jl.getModel();
+        jdlm.addElement(ef);
+        jl.setModel(jdlm);
+
+    }
+
+    private void sanarHerida() {
+        DefaultListModel dlm = (DefaultListModel) jList_editar_Alteraciones.getModel();
+        if (jList_editar_Alteraciones.getSelectedIndex() > -1) {
+            Herida h = (Herida) dlm.get(jList_editar_Alteraciones.getSelectedIndex());
+            int dialogButton = JOptionPane.YES_NO_OPTION;
+            JOptionPane.showConfirmDialog(null, "Esto sanarà la herida " + h.toString() + " y todos sus Efectos. Curar la herida?", "Atencion", dialogButton);
+            if (dialogButton == JOptionPane.YES_OPTION) {
+                h.setActivo(false);
+                dlm.remove(jList_editar_Alteraciones.getSelectedIndex());
+                jList_editar_Alteraciones.setModel(dlm);
+            }
+            jList_editar_efectos_de_Alteraciones.removeAll();
+            jButton_modificar_efecto.setEnabled(false);
+        } else {
+            Recursos.informar("Debes seleccionar una herida primero");
+        }
     }
 
 }

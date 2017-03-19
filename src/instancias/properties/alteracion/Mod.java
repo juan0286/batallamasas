@@ -12,6 +12,7 @@ package instancias.properties.alteracion;
 public class Mod extends Alteracion{
 
     public Mod() {
+        super();
     }
     
        
