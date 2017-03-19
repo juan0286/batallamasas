@@ -508,4 +508,10 @@ public class Token implements Serializable {
     public void intentarSortilegio(Sortilegio s) {
         getLastAction().setSort_intencion(s);
     }
+    
+    public boolean puedeActuar(){
+    
+        return estado.getCuerpo() < Status.DORMIDO_INCONSCIENTE;
+    }
+    
 }

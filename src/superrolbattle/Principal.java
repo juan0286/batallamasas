@@ -231,7 +231,8 @@ public class Principal extends javax.swing.JFrame {
         jPanel_General.setLayout(new java.awt.BorderLayout());
 
         jPanel_Acciones.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel_Acciones.setPreferredSize(new java.awt.Dimension(396, 54));
+        jPanel_Acciones.setMinimumSize(new java.awt.Dimension(424, 75));
+        jPanel_Acciones.setPreferredSize(new java.awt.Dimension(396, 75));
         jPanel_Acciones.setLayout(new javax.swing.BoxLayout(jPanel_Acciones, javax.swing.BoxLayout.PAGE_AXIS));
 
         jPanel_barra_acciones.setMaximumSize(new java.awt.Dimension(100007, 50));
@@ -269,6 +270,8 @@ public class Principal extends javax.swing.JFrame {
 
         jPanel_Acciones.add(jPanel_barra_acciones);
 
+        jPanel2.setMinimumSize(new java.awt.Dimension(420, 50));
+        jPanel2.setPreferredSize(new java.awt.Dimension(426, 50));
         jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.LINE_AXIS));
 
         jLabel2.setText("Nùmero de Asalto");
@@ -281,6 +284,8 @@ public class Principal extends javax.swing.JFrame {
         jPanel2.add(jTextField_asalto);
 
         jButton_definir.setText("Definir Acciones");
+        jButton_definir.setMaximumSize(new java.awt.Dimension(109, 70));
+        jButton_definir.setPreferredSize(new java.awt.Dimension(109, 70));
         jButton_definir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_definirActionPerformed(evt);
@@ -290,6 +295,7 @@ public class Principal extends javax.swing.JFrame {
 
         jButton_comenzar.setText("Comenzar Asalto");
         jButton_comenzar.setEnabled(false);
+        jButton_comenzar.setMaximumSize(new java.awt.Dimension(113, 70));
         jButton_comenzar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_comenzarActionPerformed(evt);
@@ -299,6 +305,7 @@ public class Principal extends javax.swing.JFrame {
 
         jButton_terminar.setText("Terminar Asalto");
         jButton_terminar.setEnabled(false);
+        jButton_terminar.setMaximumSize(new java.awt.Dimension(107, 70));
         jButton_terminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_terminarActionPerformed(evt);
@@ -1177,7 +1184,7 @@ public class Principal extends javax.swing.JFrame {
                 jButton_comenzar.setEnabled(true);
                 jButton_terminar.setEnabled(false);
                 jLabel_uso_ao.setVisible(false);
-                jScrollPane_asaltos.getHorizontalScrollBar().setValue(278);
+                jScrollPane_asaltos.getHorizontalScrollBar().setValue(0);
                 reiniciarSeleccionAccion();
                 //avanzarFaseDeAsalto(0);
                 break;
@@ -1654,7 +1661,8 @@ public class Principal extends javax.swing.JFrame {
     private void reiniciarSeleccionAccion() {
         for (int i = 0; i < aws.size(); i++) {
             JPanelFormToken_Accion jpta = aws.get(i);
-            jpta.sinAccionDefinidaEnEsteAsalto();
+            if (jpta.getToken().puedeActuar())
+                jpta.sinAccionDefinidaEnEsteAsalto();
         }
     }
     

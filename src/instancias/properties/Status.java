@@ -29,11 +29,12 @@ public class Status implements Serializable {
 
     static final public int FIRME = 0;
     static final public int CANSADO = 1;
-    static final public int EXHAUSTO = 2;
-    static final public int DORMIDO_INCONSCIENTE = 3;
-    static final public int COMA = 4;
-    static final public int MUERTO = 5;
-    static final public int MORIBUNDO = 6;
+    static final public int EXHAUSTO = 2; 
+    static final public int MORIBUNDO = 3;
+    static final public int DORMIDO_INCONSCIENTE = 4;
+    static final public int COMA = 5;
+    static final public int MUERTO = 6;
+   
     static final public int POSTRADO = 7;
 
     static final public int MENTE_ENFOCADO = 0;
@@ -145,7 +146,6 @@ public class Status implements Serializable {
             isAtur = isAturdido();
             isAturSP = isSinPoderParar();
             isObli = isObligadoAParar();
-            isDor = isObligadoAParar();
         }
         for (Iterator<Alteracion> iterator = alteraciones.iterator(); iterator.hasNext();) {
             Alteracion alt = iterator.next();
@@ -158,12 +158,13 @@ public class Status implements Serializable {
 
                         h.setAsaltosparamorir(h.getAsaltosparamorir() - 1);
 
-                        if (h.getAsaltosparamorir() == 0) {
+                        if (h.getAsaltosparamorir() <= 0) {
                             mje += "Muere";
                             cuerpo = MUERTO;
+                            h.setActivo(false);
                         } else if (h.getAsaltosparamorir() > 0) {
                             cuerpo = MORIBUNDO;
-                            mje += "Muere en " + h.getAsaltosparamorir() + "asalto(s)\n";
+                            mje += "Muere en " + h.getAsaltosparamorir() + " asalto(s)\n";
                         }
                     }
                     ArrayList<Efecto> efectos = h.getEfectos();
@@ -220,16 +221,16 @@ public class Status implements Serializable {
             TreeMap<Integer, Integer> tm = maxeEstadoMente();
 
             if (isDor) {
-                mje += (tm.get(MENTE_ATURDIDO_Y_SIN_PODER_PARAR) > 0) ? "Dormido por " + recursos.Recursos.mostrarDuracion(tm.get(Efecto.TIPO_ATURDIDO_SIN_PARAR)) : "Ya no esta Dormido";
+                mje += (tm.get(MENTE_DORMIDO) > 0) ? "Dormido " + recursos.Recursos.mostrarDuracion(tm.get(MENTE_DORMIDO)) + "\n" : "Ya no esta Dormido\n";
             } else {
                 if (isAturSP) {
-                    mje += (tm.get(MENTE_ATURDIDO_Y_SIN_PODER_PARAR) > 0) ? "Aturdido y sin Poder parar por " + tm.get(Efecto.TIPO_ATURDIDO_SIN_PARAR) + " asalto(s)" : "Ya no esta aturdido";
+                    mje += (tm.get(MENTE_ATURDIDO_Y_SIN_PODER_PARAR) > 0) ? "Atur. s/p " + tm.get(MENTE_ATURDIDO_Y_SIN_PODER_PARAR) + " asalto(s)\n" : "Ya no esta aturdido y Sin parar\n";
                 }
                 if (isAtur) {
-                    mje += (tm.get(MENTE_ATURDIDO) > 0) ? "Aturdido por " + tm.get(MENTE_ATURDIDO) + " asalto(s)" : "Ya no esta Aturdido";
+                    mje += (tm.get(MENTE_ATURDIDO) > 0) ? "Aturdido " + tm.get(MENTE_ATURDIDO) + " asalto(s)\n" : "Ya no esta Aturdido\n";
                 }
                 if (isObli) {
-                    mje += (tm.get(MENTE_OBLIGADO_A_PARAR) > 0) ? "Obligado a parar por " + tm.get(MENTE_OBLIGADO_A_PARAR) + " asalto(s)" : "Ya no esta Obligado a parar";
+                    mje += (tm.get(MENTE_OBLIGADO_A_PARAR) > 0) ? "Obligado a parar " + tm.get(MENTE_OBLIGADO_A_PARAR) + " asalto(s)\n" : "Ya no esta Obligado a parar\n";
                 }
             }
             if (mje.length() > 0) {
@@ -249,7 +250,7 @@ public class Status implements Serializable {
             this.setCuerpo(Status.EXHAUSTO);
         } else if (this.getPtsDeVidaPerdidos() >= puntosVidaActuales / 2 && this.cuerpo < Status.CANSADO) {
             this.setCuerpo(Status.CANSADO);
-        } else if (cuerpo < Status.DORMIDO_INCONSCIENTE) {
+        } else if (cuerpo < Status.MORIBUNDO) {
             this.setCuerpo(Status.FIRME);
         }
 
@@ -271,7 +272,7 @@ public class Status implements Serializable {
         } else if (cuerpo == Status.EXHAUSTO) {
             return "Exahusto";
         } else if (cuerpo == Status.DORMIDO_INCONSCIENTE) {
-            return "Dormido";
+            return "Dormido/Inconsciente";
         } else if (cuerpo == Status.COMA) {
             return "Coma";
         } else if (cuerpo == Status.MORIBUNDO) {
@@ -330,10 +331,9 @@ public class Status implements Serializable {
         int act = sumaDeMod(Efecto.TIPO_AUMENTA_ACTIVIDAD);
         act = act - sumaDeMod(Efecto.TIPO_RESTA_DE_ACTIVIDAD);
 
-        if (cuerpo == EXHAUSTO) {
+        if (this.getPtsDeVidaPerdidos() >= getPvActual() - 10 ) {
             act += -50;
-        }
-        if (cuerpo == CANSADO) {
+        } else if (this.getPtsDeVidaPerdidos() >= getPvActual() / 2) {
             act += -20;
         }
         return act;
@@ -384,13 +384,13 @@ public class Status implements Serializable {
             resp = "Dormido " + recursos.Recursos.mostrarDuracion(hm.get(MENTE_DORMIDO)) + "\n";
         } else {
             if (hm.get(MENTE_ATURDIDO_Y_SIN_PODER_PARAR) > 0) {
-                resp = "Aturdido S/P " + hm.get(MENTE_ATURDIDO_Y_SIN_PODER_PARAR) + " As\n";
+                resp += "Aturdido S/P " + hm.get(MENTE_ATURDIDO_Y_SIN_PODER_PARAR) + " As\n";
             }
             if (hm.get(MENTE_ATURDIDO) > 0) {
-                resp = "Aturdido " + hm.get(MENTE_ATURDIDO) + " As\n";
+                resp += "Aturdido " + hm.get(MENTE_ATURDIDO) + " As\n";
             }
             if (hm.get(MENTE_OBLIGADO_A_PARAR) > 0) {
-                resp = "Obligado a Parar " + hm.get(MENTE_OBLIGADO_A_PARAR) + " As\n";
+                resp += "Obligado a Parar " + hm.get(MENTE_OBLIGADO_A_PARAR) + " As\n";
             }
         }
         return resp;
@@ -399,6 +399,9 @@ public class Status implements Serializable {
     public String getTextEstado() {
         String resp = "";
         resp += cuerpoString();
+        if (cuerpo == MORIBUNDO) {
+            resp += "\nMuere en " + asaltosParaMorir() + " asaltos\n";
+        }
         resp += "\n" + menteEstadoTxt();
         resp += (isSangrando()) ? "-" + sumaDeMod(Efecto.TIPO_SANGRADO) + "pv/as\n" : "";
         int aa = getActividadActual();
@@ -571,6 +574,27 @@ public class Status implements Serializable {
         return res;
     }
 
+    public int asaltosParaMorir() {
+
+        int res = 0;
+        boolean flag = false;
+        for (Alteracion alt : alteraciones) {
+            if (alt.isActivo()) {
+                if (alt.getClass().getName() == "instancias.properties.alteracion.Herida") {
+                    Herida h = (Herida) alt;
+                    if (h.isMortal()) {
+                        if (!flag){
+                            res = h.getAsaltosparamorir();
+                            flag=true;
+                        }else
+                            res = (h.getAsaltosparamorir() < res) ? h.getAsaltosparamorir() : res;
+                    }
+                }
+            }
+        }
+        return res;
+    }
+
     private String txtTodosLosEstados() {
 
         String res = "";
@@ -580,7 +604,16 @@ public class Status implements Serializable {
 
                 ArrayList<Efecto> efectos = alt.getEfectos();
                 for (Efecto e : efectos) {
-                    if (e.isActivo()) {
+                    if (e.isActivo()
+                            && (e.getTipo() != Efecto.TIPO_DORMIDO
+                            && e.getTipo() != Efecto.TIPO_ATURDIDO
+                            && e.getTipo() != Efecto.TIPO_OBLIGADO_A_PARAR
+                            && e.getTipo() != Efecto.TIPO_ATURDIDO_SIN_PARAR
+                            && e.getTipo() != Efecto.TIPO_POSTRADO
+                            && e.getTipo() != Efecto.TIPO_SANGRADO
+                            && e.getTipo() != Efecto.TIPO_AUMENTA_ACTIVIDAD
+                            && e.getTipo() != Efecto.TIPO_RESTA_DE_ACTIVIDAD
+                            && e.getTipo() != Efecto.TIPO_DORMIDO)) {
                         res += e.toString();
                     }
 

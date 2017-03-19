@@ -37,8 +37,8 @@ public class UpdaterProgresBar extends Thread {
             esperarPor(100);
             if (destino != 0) {
                 destino += paso;
-            }
-            act += paso;
+                act += paso;
+            }            
             jp.setValue(act);
             jp.setStringPainted(true);
             jp.repaint();

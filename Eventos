@@ -45,35 +45,35 @@ Màs efectos: tr frio/calor/cannalizacion/escencia
 Divido solapa de Alteracion tipo 
 Funcionalidad de efectos Suma/resta/multip/division de pv.
 Cambio en newAlt: Edicion de Alteraciones, en vez de edicion de heridas
+Auto Scroll a Carga de sortilefio al Comenzar Fase de Definicion
 
 
-
-
-
-
+0.17
+Reparo Bug IsDormido
+Al crear Token Automatico, crea todas las Bo
+Separo las armas especiales de 
+Reduzco largo de algunos textos de aturdido
 
 Hacer
 IMPORTANTISIMO
 Crear objeto monstruo, o token tipo Monstruo, o forma de agregar Dragon al programa
 
 
-Reparar Agregar Mods / Curaciones
-Aturdido 4 / aturdido s p 5, muestra el texto Aturdido
-Que el CrearAlter cure pv
-Status debe sumar Mods de modificacion de Actividad
-Visualizar los actividades
-
 Error cargando un Sotilegio Nuevo
 Error cargando la muerte y reviviendo
 
 Seguir sumando Acciones a realizar
 
-Al crear un Token, poner todas las Bo
 
 Desarrollar Sortilegios
 	Alcance por tipos
 	Duracion detallada
 	Que los Sortilegios sumen Efectos
+	Organizar por Listas de Sortilegios
+	Crear ventana Organizadora de Lista de Sortilegios
+	Agregar Bo Sortilegio Dirigido y Sortilegio base
+
+
 
 Desarrollar Combate
 	Tener Escudo

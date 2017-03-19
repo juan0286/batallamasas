@@ -55,7 +55,11 @@ public class CrearToken extends javax.swing.JDialog {
         this.setearPanel();
 
         agregarArmaALalista(new Arma("Mano Desnuda", Constantes.CLASE_MANO_DESNUDA, 0, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_PELEA));
-
+        for (int i = 0; i < Constantes.ESTILO_ASTA; i++) {            
+            Bo b = new Bo(i, 0);
+            //b.setValue(Recursos.nuevaBo(1, i));
+            agregarBoALaLista(b);
+        }
     }
 
     /**
@@ -527,9 +531,11 @@ public class CrearToken extends javax.swing.JDialog {
         agregarBoALaLista(new Bo(Constantes.ESTILO_PELEA, Recursos.nuevaBo(nivel, Recursos.aleatorioEntre(0, 4))));
 
         for (int i = 0; i < cant_armas; i++) {
-            Arma a = Recursos.armeria.get(Recursos.aleatorioEntre(0, Recursos.armeria.size() - 1));
-            agregarArmaALalista(a);
-            Bo b = new Bo(a.getEstilo(), 0);
+            Arma a = Recursos.armeria.get(Recursos.aleatorioEntre(0, 23));
+            agregarArmaALalista(a);            
+        }
+        for (int i = 1; i <= Constantes.ESTILO_ASTA; i++) {            
+            Bo b = new Bo(i, 0);
             b.setValue(Recursos.nuevaBo(nivel, i));
             agregarBoALaLista(b);
         }

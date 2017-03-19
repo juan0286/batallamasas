@@ -34,13 +34,13 @@ public class CrearNewAlter extends javax.swing.JDialog {
         initComponents();
         this.setTitle("Altarar a " + token_accion.getToken().getNombre());
         this.panel_token = token_accion;
-
+        
         jTextField_Actual_pv.setText(token_accion.getToken().vidatxt());
         jTextField_Actual_pv2.setText(token_accion.getToken().vidatxt());
-
+        
         Token t = token_accion.getToken();
         int c = t.getEstado().getCuerpo();
-
+        
         if (c == Status.FIRME) {
             jRadioButton_Firme.setBackground(Color.blue);
         }
@@ -54,20 +54,20 @@ public class CrearNewAlter extends javax.swing.JDialog {
             jRadioButton_muerto.setBackground(Color.blue);
         }
         numerar();
-
+        
         ArrayList<Alteracion> al_alt = token_accion.getToken().getEstado().getAlteraciones();
         for (Alteracion alt : al_alt) {
             DefaultListModel jdlm;
             if (alt.isActivo()) {
-                    jdlm = (DefaultListModel) jList_editar_Alteraciones.getModel();
-                    jdlm.addElement(alt);
-                    jList_editar_Alteraciones.setModel(jdlm);
+                jdlm = (DefaultListModel) jList_editar_Alteraciones.getModel();
+                jdlm.addElement(alt);
+                jList_editar_Alteraciones.setModel(jdlm);
             }
-
+            
         }
         this.setLocationRelativeTo(null);
     }
-
+    
     private void seleccionarEfecto() {
         DefaultListModel dlm = (DefaultListModel) jList_editar_Alteraciones.getModel();
         if (jList_editar_Alteraciones.getSelectedIndex() > -1) {
@@ -83,7 +83,7 @@ public class CrearNewAlter extends javax.swing.JDialog {
             }
         }
     }
-
+    
     private void numerar() {
         for (int i = 0; i < num_max; i++) {
             jComboBox_pv.addItem(i * -1);
@@ -502,13 +502,13 @@ public class CrearNewAlter extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton_aplicarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_aplicarActionPerformed
-
+        
         aplicar();
         this.dispose();
-
+        
 
     }//GEN-LAST:event_jButton_aplicarActionPerformed
-
+    
     private void jButton_aceptarActionPerformed(java.awt.event.ActionEvent evt) {
         aplicar();
         this.dispose();
@@ -560,11 +560,11 @@ public class CrearNewAlter extends javax.swing.JDialog {
     private void jButton_agregar_mod1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_agregar_mod1ActionPerformed
         nuevoEfectoHerida(ALTERACION_MODS);
     }//GEN-LAST:event_jButton_agregar_mod1ActionPerformed
-
+    
     private void aplicar() {
         instancias.Token tok = panel_token.getToken();
         efectosNuevos.clear();
-        
+
         //int mod = (jCheckBox_daño_curacion.isSelected()) ? -1 : 1;
         if (jTabbedPane1.getSelectedIndex() == ALTERACION_HERIDA) {
             
@@ -572,10 +572,9 @@ public class CrearNewAlter extends javax.swing.JDialog {
             
             DefaultListModel dlm = (DefaultListModel) jList_heridas.getModel();
             for (int i = 0; i < dlm.getSize(); i++) {
-                efectosNuevos.add((Efecto)dlm.get(i));
-            }           
-                     
-
+                efectosNuevos.add((Efecto) dlm.get(i));
+            }            
+            
             h.setPv(jComboBox_pv.getSelectedIndex());
             h.setActivo(true);
             h.setEfectos(efectosNuevos);
@@ -594,9 +593,11 @@ public class CrearNewAlter extends javax.swing.JDialog {
             }
             
             if (jRadioButton_muerto.isSelected()) {
-                int as = (Integer) jSpinner_asParamoriri1.getValue();
+                int as = (int) jSpinner_asParamoriri1.getValue();
+                h.setMortal(true);
                 if (as > 0) {
                     h.setCuerpoEstado(Status.MORIBUNDO);
+                    h.setAsaltosparamorir(as);
                 } else {
                     h.setCuerpoEstado(Status.MUERTO);
                 }
@@ -604,18 +605,18 @@ public class CrearNewAlter extends javax.swing.JDialog {
             
             h.setDescripcion(jTextArea_descp.getText());
             tok.agregarHerida(h);
-
+            
         } else if (jTabbedPane1.getSelectedIndex() == ALTERACION_CURACION) {
             
             Curacion alt = new Curacion();
-
+            
             DefaultListModel dlm = (DefaultListModel) jList_curacion.getModel();
             
             for (int i = 0; i < dlm.size(); i++) {
-                efectosNuevos.add((Efecto)dlm.get(i));
-            }  
+                efectosNuevos.add((Efecto) dlm.get(i));
+            }            
             
-            alt.setPvRecuperados(jComboBox_pv.getSelectedIndex());
+            alt.setPvRecuperados(jComboBox_pv_curar.getSelectedIndex());
             
             alt.setEfectos(efectosNuevos);
             if (jRadioButton_Firme.isSelected()) {
@@ -640,20 +641,20 @@ public class CrearNewAlter extends javax.swing.JDialog {
             }
             alt.setDescripcion(jTextArea_descp.getText());
             tok.agregarCuracion(alt);
-
+            
         } else {
             // mod
             Mod m = new Mod();
             
             DefaultListModel dlm = (DefaultListModel) jList_mods.getModel();
             for (int i = 0; i < dlm.getSize(); i++) {
-                efectosNuevos.add((Efecto)dlm.get(i));
-            }  
+                efectosNuevos.add((Efecto) dlm.get(i));
+            }            
             m.setEfectos(efectosNuevos);
             m.setDescripcion(jTextArea_descp.getText());
             tok.agregarMod(m);
         }
-
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -735,15 +736,15 @@ public class CrearNewAlter extends javax.swing.JDialog {
     public static int ALTERACION_HERIDA = 0;
     public static int ALTERACION_CURACION = 1;
     public static int ALTERACION_MODS = 2;
-
+    
     public static void CrearAlteracion(java.awt.Frame parent, boolean modal, JPanelFormToken_Accion token) {
         CrearNewAlter ca = new CrearNewAlter(parent, modal, token);
         ca.setLocationRelativeTo(parent);
         ca.setVisible(true);
     }
-
+    
     private void nuevoEfectoHerida(int alt_tipo) {
-
+        
         Efecto ef = CrearEfecto.CrearEfecto(null, true, panel_token.getToken(), alt_tipo);
         if (ef != null) {
             efectosNuevos.add(ef);
@@ -757,13 +758,13 @@ public class CrearNewAlter extends javax.swing.JDialog {
         } else if (alt_tipo == ALTERACION_MODS) {
             jl = jList_mods;
         }
-
+        
         DefaultListModel jdlm = (DefaultListModel) jl.getModel();
         jdlm.addElement(ef);
         jl.setModel(jdlm);
-
+        
     }
-
+    
     private void sanarHerida() {
         DefaultListModel dlm = (DefaultListModel) jList_editar_Alteraciones.getModel();
         if (jList_editar_Alteraciones.getSelectedIndex() > -1) {
@@ -781,5 +782,5 @@ public class CrearNewAlter extends javax.swing.JDialog {
             Recursos.informar("Debes seleccionar una herida primero");
         }
     }
-
+    
 }

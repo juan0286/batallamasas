@@ -132,7 +132,7 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
 
     public void update_jTokenAction() {
 
-        if (accion.isDone() && token.getEstado().getCuerpo() < Status.DORMIDO_INCONSCIENTE) {
+        if (accion.isDone() ){// && token.getEstado().getCuerpo() < Status.DORMIDO_INCONSCIENTE) {
             verComoDone();
         }
         if (accion.isAccionDeOportunidad()) {
@@ -143,20 +143,23 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
         UpdaterProgresBar up = new UpdaterProgresBar(jProgressBar_vida, n);
         up.start();
         jProgressBar_vida.setString(token.vidatxt());
-        
 
         if (token.getEstado().getCuerpo() == Status.DORMIDO_INCONSCIENTE) {
-            jProgressBar_vida.setForeground(Color.GRAY);
+            jProgressBar_vida.setForeground(Color.LIGHT_GRAY);
             dejarFueraDeCombate();
             this.setBackground(Color.GRAY);
         } else if (token.getEstado().getCuerpo() == Status.MUERTO) {
             jProgressBar_vida.setForeground(Color.BLACK);
+            jTextArea_estado.setBackground(Color.LIGHT_GRAY);
             dejarFueraDeCombate();
             this.setBackground(Color.BLACK);
+        } else if (token.getEstado().getCuerpo() == Status.MORIBUNDO) {
+            jProgressBar_vida.setForeground(Color.GRAY);            
+            this.setBackground(Color.GRAY);
         } else if (token.getEstado().getCuerpo() != Status.MUERTO) {
             jTextArea_estado.setBackground(new java.awt.Color(204, 255, 204));
         }
-        
+
         if (token.getEstado().menteEstado() == Status.MENTE_ATURDIDO) {
             jTextArea_estado.setBackground(Color.YELLOW);
         } else if (token.getEstado().menteEstado() == Status.MENTE_ATURDIDO_Y_SIN_PODER_PARAR) {
@@ -179,7 +182,7 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
                 + "Estado Fisico: " + token.getEstado().cuerpoString() + "<br/>"
                 + "Estado Mental: " + token.getEstado().menteEstadoTxt() + "<br/>"
                 + "Actividad: " + token.getEstado().getActividadActual() + "<br/>"
-                + "Puntos de poder: " + token.podertxt()+ "<br/>"
+                + "Puntos de poder: " + token.podertxt() + "<br/>"
                 //+ "Bd Actual: " + token.getHabilidades().getBd()+ "<br/>"
                 //+ "Equipo: " + token.getManoDER().getArmaEquipada().getNombre() + "<br/>"
                 //+ "" + token.getManoIZQ().getArmaEquipada().getNombre() + "<br/>"
@@ -189,17 +192,16 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
         this.repaint();
     }
 
-    public void updateTodo(){
+    public void updateTodo() {
         token.updateEstado(1);
         update_jTokenAction();
     }
-    
 
-    public void iconar(String path) { 
+    public void iconar(String path) {
         ImageIcon icon = new ImageIcon(path);
         Icon icono = new ImageIcon(icon.getImage().getScaledInstance(81, 65, Image.SCALE_DEFAULT));
         jLabel_icono.setText(null);
-        jLabel_icono.setIcon(icono);        
+        jLabel_icono.setIcon(icono);
         this.repaint();
 
     }
@@ -218,7 +220,7 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
             case Constantes.TIPO_ACCION_REALIZA_SORTILEGIO: {
                 Sortilegio s = accion.getSort_intencion();
                 token.lanzarUnSortilegio(s);
-                accion.setSortilegio(accion.getSort_intencion());                
+                accion.setSortilegio(accion.getSort_intencion());
                 break;
             }
             case Constantes.TIPO_ACCION_DISPARA_PROYECTIL: {
@@ -379,8 +381,8 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
                     principal.creaEvento(token.getNombre() + " Cambia de Accion");
                 }
             } else if (clickDerecho) {
-               CrearNewAlter.CrearAlteracion(principal, true, this);
-               update_jTokenAction();
+                CrearNewAlter.CrearAlteracion(principal, true, this);
+                update_jTokenAction();
                 if (token.getEstado().isAturdido() && !accion.isDone() && !Accion.isRealizableAturdido(tipoDeAccion)) {
                     a = DeclaraAccion.DeclararAccion(principal, true, this, DeclaraAccion.MODO_ATURDIDO);
                 }
@@ -401,22 +403,25 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
             tipoDeAccion = a.getTipo();
             jTextArea_Desc_accion.setText(a.getFullDescp());
             jTextArea_Desc_accion.setToolTipText(a.getFullDescp());
-            
+
             mover(accion.getTipo());
         }
     }
-    
-    public void sinAccionDefinidaEnEsteAsalto(){
+
+    public void sinAccionDefinidaEnEsteAsalto() {
         this.jPanelNombre_Vida.setBackground(Color.YELLOW);
     }
-    
-    public void AccionDefinidaEnEsteAsalto(){
+
+    public void AccionDefinidaEnEsteAsalto() {
         this.jPanelNombre_Vida.setBackground(new java.awt.Color(240, 240, 240));
     }
 
     public void dejarFueraDeCombate() {
-        mover(Constantes.TIPO_ACCION_SIN_ACCION);
-
+        if (tipoDeAccion != Constantes.TIPO_ACCION_SIN_ACCION) {
+            Recursos.informar(token.getNombre() + " Queda Fuera de Combate");
+            tipoDeAccion = Constantes.TIPO_ACCION_SIN_ACCION;
+            mover(Constantes.TIPO_ACCION_SIN_ACCION);
+        }
     }
 
     public void mover(int destino) {

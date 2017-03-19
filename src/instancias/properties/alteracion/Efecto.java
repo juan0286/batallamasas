@@ -81,9 +81,9 @@ public class Efecto {
         hm.put(TIPO_QUEMADURA, "Quemadura");
         hm.put(TIPO_CONGELAMIENTO, "Congelamiento");
         hm.put(TIPO_SANGRADO, "Sangrado");
-        hm.put(TIPO_OBLIGADO_A_PARAR, "Obligado a parar");
+        hm.put(TIPO_OBLIGADO_A_PARAR, "Obl. a parar");
         hm.put(TIPO_ATURDIDO, "Aturdido");
-        hm.put(TIPO_ATURDIDO_SIN_PARAR, "Aturdido sin poder parar");
+        hm.put(TIPO_ATURDIDO_SIN_PARAR, "Aturd. s/p");
         hm.put(TIPO_RESTAR_PV_TOTAL, "Resta de Pv total");
         hm.put(TIPO_DIVIDIR_PV_TOTAL, "Divide los Pv Total");
         hm.put(TIPO_DORMIDO, "Dormido");
