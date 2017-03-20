@@ -6,7 +6,9 @@
 package superrolbattle.ventanas;
 
 import instancias.Token;
+import instancias.properties.Extremidad;
 import instancias.properties.alteracion.Efecto;
+import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JSpinner;
 import recursos.Constantes;
@@ -70,6 +72,25 @@ public class CrearEfecto extends javax.swing.JDialog {
         }
 
         jComboBox_extremidades.setModel(new DefaultComboBoxModel(tok.getExtremidades().toArray()));
+
+        tipoEfecto(0);
+    }
+    public CrearEfecto(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
+        initComponents();
+        
+        jComboBox_tipos_efectos.setModel(new DefaultComboBoxModel(Efecto.todosLosEfectos().toArray()));
+        
+        ArrayList<Extremidad> al_ext= new ArrayList();
+        // Brazos
+        al_ext.add(new Extremidad(true, true, false, Extremidad.MIEMBRO_SUPERIOR_IZQUIERDO, null));        
+        al_ext.add(new Extremidad(true, true, true, Extremidad.MIEMBRO_SUPERIOR_IZQUIERDO, null));
+        
+        // Piernas
+        al_ext.add(new Extremidad(true, false, false, Extremidad.MIEMBRO_SUPERIOR_IZQUIERDO, null));       
+        al_ext.add(new Extremidad(true, false, true, Extremidad.MIEMBRO_SUPERIOR_IZQUIERDO, null));
+       
+        jComboBox_extremidades.setModel(new DefaultComboBoxModel(al_ext.toArray()));
 
         tipoEfecto(0);
     }
@@ -288,6 +309,14 @@ public class CrearEfecto extends javax.swing.JDialog {
     public static Efecto CrearEfecto(java.awt.Frame parent, boolean modal, Token tok, int tipoAlt) {
         ef = null;
         CrearEfecto ce = new CrearEfecto(parent, modal, tok, tipoAlt);
+        ce.setLocationRelativeTo(null);
+        ce.setVisible(true);
+        return ef;
+    }
+    
+    public static Efecto CrearEfecto(java.awt.Frame parent, boolean modal) {
+        ef = null;
+        CrearEfecto ce = new CrearEfecto(parent, modal);
         ce.setLocationRelativeTo(null);
         ce.setVisible(true);
         return ef;

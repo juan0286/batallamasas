@@ -8,6 +8,7 @@ package superrolbattle;
 import instancias.Accion;
 import instancias.CampoDeBatalla;
 import instancias.Evento;
+import instancias.ListaDeSortilegios;
 import instancias.Sortilegio;
 import instancias.Token;
 import java.awt.BorderLayout;
@@ -205,6 +206,7 @@ public class Principal extends javax.swing.JFrame {
         jMenuItem_Salir = new javax.swing.JMenuItem();
         jMenu_Edit = new javax.swing.JMenu();
         jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu_help = new javax.swing.JMenu();
         jCheckBoxMenuItem2 = new javax.swing.JCheckBoxMenuItem();
 
@@ -790,7 +792,7 @@ public class Principal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu_File);
 
-        jMenu_Edit.setText("Edit");
+        jMenu_Edit.setText("Editar");
 
         jCheckBoxMenuItem1.setText("Atacar al mismo Lado");
         jCheckBoxMenuItem1.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -799,6 +801,14 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jMenu_Edit.add(jCheckBoxMenuItem1);
+
+        jMenuItem1.setText("Listas de Sortilegios...");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu_Edit.add(jMenuItem1);
 
         jMenuBar1.add(jMenu_Edit);
 
@@ -1002,6 +1012,12 @@ public class Principal extends javax.swing.JFrame {
         }
         publicarTodosLosEventos();
     }//GEN-LAST:event_jToggleButton_visiblesActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        AdministrarListasSortilegios adm = new AdministrarListasSortilegios(this, true);
+        adm.setLocationRelativeTo(null);
+        adm.setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void actuaronTodos(JButton jb) {
         JScrollPane jsp = (JScrollPane) jb.getParent().getParent().getComponent(1);
@@ -1501,6 +1517,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabel_uso_ao;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem_Abrir;
     private javax.swing.JMenuItem jMenuItem_Guardar;
     private javax.swing.JMenuItem jMenuItem_Salir;
@@ -1631,19 +1648,26 @@ public class Principal extends javax.swing.JFrame {
     }
 
     public static ArrayList<Sortilegio> getTodosLosSortilegios() {
-        return new ArrayList<Sortilegio>(dataRecursos.getListaDeSortilegios().values());
+        return new ArrayList<Sortilegio>(dataRecursos.getSortilegiosSueltos().values());
     }
 
     public static Sortilegio getSortielgio(int i) {
-        return dataRecursos.getListaDeSortilegios().get(i);
+        return dataRecursos.getSortilegiosSueltos().get(i);
     }
 
     public static int crearSortilegioNuevo(Sortilegio s) {
-        int ni = dataRecursos.getListaDeSortilegios().size();
+        int ni = dataRecursos.getSortilegiosSueltos().size();
         s.setId(ni);
-        dataRecursos.getListaDeSortilegios().put(ni, s);
+        dataRecursos.getSortilegiosSueltos().put(ni, s);
         guardarConfig(dataRecursos);
         return ni;
+    }
+    
+    public static void crearListaDeSortilegiosNueva(ListaDeSortilegios lds) {
+        int ni = dataRecursos.getListasDeSortilegios().size();
+        lds.setId(ni);
+        dataRecursos.getListasDeSortilegios().put(ni, lds);
+        guardarConfig(dataRecursos);        
     }
 
     public int getAsaltoActual() {

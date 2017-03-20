@@ -434,7 +434,7 @@ public class Token implements Serializable {
     public ArrayList<Sortilegio> getSortilegios() {
         ArrayList<Sortilegio> sort = new ArrayList<Sortilegio>();
         for (int i = 0; i < habilidades.getAl_sortilegios().size(); i++) {
-            Sortilegio s = Principal.dataRecursos.getListaDeSortilegios().get(habilidades.getAl_sortilegios().get(i));
+            Sortilegio s = Principal.dataRecursos.getSortilegiosSueltos().get(habilidades.getAl_sortilegios().get(i));
             if (s !=  null)
                 sort.add(s);
         }

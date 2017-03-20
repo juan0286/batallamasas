@@ -31,7 +31,6 @@ public abstract class Constantes {
     public static final int CLASE_ESCUDO = 16;
 
     // ESTILOS 
-    
     static final public int ESTILO_TODOS = 100;
     static final public int ESTILO_PELEA = 0;
     static final public int ESTILO_FILO = 1;
@@ -41,7 +40,7 @@ public abstract class Constantes {
     static final public int ESTILO_PROYECTILES = 5;
     static final public int ESTILO_ASTA = 6;
     static final public int ESTILO_BARRIDO_ARTE_MARCIAL = 7;
-    static final public int ESTILO_GOLPE_ARTE_MARCIAL = 8;    
+    static final public int ESTILO_GOLPE_ARTE_MARCIAL = 8;
     static final public int ESTILO_COMBO_FILO_FILO = 9;
     static final public int ESTILO_COMBO_ASTA_FILO = 10;
 
@@ -67,11 +66,17 @@ public abstract class Constantes {
     static final public int ESTADO_DETERIOROADA = 0;
     static final public int ESTADO_VIEJA = 1;
     static final public int ESTADO_NUEVA = 2;
-    
+
     public static final int TIEMPO_SEGUNDOS = -1;
-    public static final int TIEMPO_ASALTOS = 0;    
+    public static final int TIEMPO_ASALTOS = 0;
     public static final int TIEMPO_MINUTOS = 1;
     public static final int TIEMPO_HORAS = 2;
     public static final int TIEMPO_DIAS = 3;
     public static final int TIEMPO_SEMANAS = 4;
+
+    // DOMINIOS SORTILEGIOS
+    public static final int DOMINIO_CANALIZACION = 0;
+    public static final int DOMINIO_ESCENCIA = 1;
+    public static final int DOMINIO_MENTALISMO = 2;
+
 }

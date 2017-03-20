@@ -5,8 +5,12 @@
  */
 package instancias;
 
+
+import instancias.Sortilegios.*;
+import instancias.properties.alteracion.Alteracion;
 import java.io.Serializable;
 import javax.xml.bind.annotation.XmlType;
+import recursos.Constantes;
 
 /**
  *
@@ -15,24 +19,37 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType
 public class Sortilegio implements Serializable {
 
-    public static final int DOMINIO_CANALIZACION = 0;
-    public static final int DOMINIO_ESCENCIA = 1;
-    public static final int DOMINIO_MENTALISMO = 2;
+
+    
+    public static final int CLASE_ELEMENTAL = 0;
+    public static final int CLASE_ELEMENTAL_BOLA = 1;
+    public static final int CLASE_ELEMENTAL_DIRIGIDO = 2;
+    public static final int CLASE_FUERZA = 3;
+    public static final int CLASE_PASIVO = 4;
+    public static final int CLASE_UTILIDAD = 5;
+    public static final int CLASE_INFORMACION = 6;
 
     private int id;
     private int lv;
     private String nombre;
     private int dominio;
     private String Descp;
-    private String alcance;
-    private String duracion;
+    private String alcance_string;
+    private String duracion_string;
     private int duracoinAs;
     private String profesion;
     private String lista;
     private boolean consumePP;
     private boolean regeneraPorDia;
-    private int veces;
+    private int vecesRegeneraPorDia;
 
+    private int clase;
+    private Alteracion efectoMagico;
+    private DuracionSortilegio duracion;
+    private AlcanceSortilegio alcance;
+    private AreaDeEfectoSortilegio areaDeEfecto;
+    
+    
     public Sortilegio(int lv, String nombre) {
         this.lv = lv;
         this.nombre = nombre;
@@ -73,20 +90,20 @@ public class Sortilegio implements Serializable {
         this.Descp = Descp;
     }
 
-    public String getAlcance() {
-        return alcance;
+    public String getAlcance_string() {
+        return alcance_string;
     }
 
-    public void setAlcance(String alcance) {
-        this.alcance = alcance;
+    public void setAlcance_string(String alcance_string) {
+        this.alcance_string = alcance_string;
     }
 
-    public String getDuracion() {
-        return duracion;
+    public String getDuracion_string() {
+        return duracion_string;
     }
 
-    public void setDuracion(String duracion) {
-        this.duracion = duracion;
+    public void setDuracion_string(String duracion_string) {
+        this.duracion_string = duracion_string;
     }
 
     public int getDuracoinAs() {
@@ -142,19 +159,59 @@ public class Sortilegio implements Serializable {
         this.regeneraPorDia = regeneraPorDia;
     }
 
-    public int getVeces() {
-        return veces;
+    public int getVecesRegeneraPorDia() {
+        return vecesRegeneraPorDia;
     }
 
-    public void setVeces(int veces) {
-        this.veces = veces;
+    public void setVecesRegeneraPorDia(int vecesRegeneraPorDia) {
+        this.vecesRegeneraPorDia = vecesRegeneraPorDia;
+    }
+
+    public int getClase() {
+        return clase;
+    }
+
+    public void setClase(int clase) {
+        this.clase = clase;
+    }
+
+    public Alteracion getEfectoMagico() {
+        return efectoMagico;
+    }
+
+    public void setEfectoMagico(Alteracion efectoMagico) {
+        this.efectoMagico = efectoMagico;
+    }
+
+    public DuracionSortilegio getDuracion() {
+        return duracion;
+    }
+
+    public void setDuracion(DuracionSortilegio duracion) {
+        this.duracion = duracion;
+    }
+
+    public AlcanceSortilegio getAlcance() {
+        return alcance;
+    }
+
+    public void setAlcance(AlcanceSortilegio alcance) {
+        this.alcance = alcance;
+    }
+
+    public AreaDeEfectoSortilegio getAreaDeEfecto() {
+        return areaDeEfecto;
+    }
+
+    public void setAreaDeEfecto(AreaDeEfectoSortilegio areaDeEfecto) {
+        this.areaDeEfecto = areaDeEfecto;
     }
 
     public String getDominioStr() {
-        if (dominio == DOMINIO_CANALIZACION) {
+        if (dominio == Constantes.DOMINIO_CANALIZACION) {
             return "Canalizacion";
         }
-        if (dominio == DOMINIO_ESCENCIA) {
+        if (dominio == Constantes.DOMINIO_ESCENCIA) {
             return "Escencia";
         } else {
             return "Mentalismo";

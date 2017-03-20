@@ -883,7 +883,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
 
     private void nuevoSortilegio(boolean carga) {
         int sa = token_accion.getToken().getSortilegios().size();
-        int s = NuevoSortilegio.DeclararAccion(principal, true, token_accion.getToken());
+        int s = NuevoSortilegio.Crear(principal, true, token_accion.getToken());
 
         if (s > -1) {
             token_accion.getToken().aprenderSortilegio(s);
@@ -913,7 +913,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
             jPanel_carga_sort_nombre_carga.setToolTipText(s.getDescp());
             jPanel_carga_sort_datos_Cargado.setToolTipText(s.getDescp());
             jCheckBox_consume_sort_carga.setSelected(s.isConsumePP());
-            jTextField_alcance_sort_carga.setText(s.getAlcance());
+            jTextField_alcance_sort_carga.setText(s.getAlcance_string());
 
         }
     }
@@ -927,7 +927,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
             jPanel_carga_sort_nombre_realiza.setToolTipText(s.getDescp());
             jPanel_carga_sort_datos_Realiza.setToolTipText(s.getDescp());
             jCheckBox_consume_sort_realiza.setSelected(s.isConsumePP());
-            jTextField_alcance_sort_realiza.setText(s.getAlcance());
+            jTextField_alcance_sort_realiza.setText(s.getAlcance_string());
         }
     }
 

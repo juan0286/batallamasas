@@ -5,6 +5,7 @@
  */
 package recursos;
 
+import instancias.ListaDeSortilegios;
 import instancias.Sortilegio;
 import java.io.File;
 import java.io.Serializable;
@@ -19,28 +20,38 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement
 public class DataRecursos implements Serializable {
 
-    private HashMap<Integer, Sortilegio> ListaDeSortilegios;
+    private HashMap<Integer, Sortilegio> SortilegiosSueltos;
+    private HashMap<Integer, ListaDeSortilegios> ListasDeSortilegios;
+
     public static final String CONFIG_FILE = "config.ini";
     private String url_data;
     private String dir_avatars;
     private String directorio_default;
 
     public DataRecursos() {
-        
-    url_data = "Data\\";
-    dir_avatars = "Avatars\\";
-    directorio_default = "";
-    ListaDeSortilegios = new HashMap<Integer,Sortilegio>();
+
+        url_data = "Data\\";
+        dir_avatars = "Avatars\\";
+        directorio_default = "";
+        SortilegiosSueltos = new HashMap<Integer, Sortilegio>();
+        ListasDeSortilegios = new HashMap<Integer, ListaDeSortilegios>();
     }
 
-    public HashMap<Integer, Sortilegio> getListaDeSortilegios() {
-        return ListaDeSortilegios;
+    public HashMap<Integer, Sortilegio> getSortilegiosSueltos() {
+        return SortilegiosSueltos;
     }
 
-    public void setListaDeSortilegios(HashMap<Integer, Sortilegio> ListaDeSortilegios) {
-        this.ListaDeSortilegios = ListaDeSortilegios;
+    public void setSortilegiosSueltos(HashMap<Integer, Sortilegio> SortilegiosSueltos) {
+        this.SortilegiosSueltos = SortilegiosSueltos;
     }
-  
+
+    public HashMap<Integer, ListaDeSortilegios> getListasDeSortilegios() {
+        return ListasDeSortilegios;
+    }
+
+    public void setListasDeSortilegios(HashMap<Integer, ListaDeSortilegios> ListasDeSortilegios) {
+        this.ListasDeSortilegios = ListasDeSortilegios;
+    }
 
     public String getUrl_data() {
         return url_data;

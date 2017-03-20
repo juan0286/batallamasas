@@ -529,12 +529,12 @@ public class Recursos {
     }
     
     public static void nuevoSortilegio(Sortilegio s) {
-        Principal.dataRecursos.getListaDeSortilegios().put(s.getId(), s);
+        Principal.dataRecursos.getSortilegiosSueltos().put(s.getId(), s);
 
     }
 
     public static int nuevoIndiceSortilegio() {
-        return Principal.dataRecursos.getListaDeSortilegios().size();
+        return Principal.dataRecursos.getSortilegiosSueltos().size();
     }
     
     

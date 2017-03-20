@@ -32,6 +32,10 @@ public class Caracteristicas implements Serializable {
     private int agi;
     private int pp;
     private ArrayList<Integer> al_sortilegios = new ArrayList<Integer>();
+    
+    // Listas de Sortilegios: key -> Id de la Lista  Value - > Lv maximo que puede usar.
+    private HashMap<Integer,Integer> hm_listasDeSortilegios = new HashMap<>();
+    
     private HashMap<Integer, Bo> hm_bos = new HashMap<Integer, Bo>();
     private int bo_pri;
     
