@@ -5,10 +5,13 @@
  */
 package instancias.Sortilegios;
 
+import javax.xml.bind.annotation.XmlType;
+
 /**
  *
  * @author TiranoJuan
  */
+@XmlType
 public class AlcanceSortilegio {
 
     public static final int TIPO_ALCANCE_UNO_MISMO = 0;
@@ -24,19 +27,19 @@ public class AlcanceSortilegio {
 
         switch (tipo) {
             case TIPO_ALCANCE_UNO_MISMO: {
-                return "C";
+                return "Uno Mismo";
             }
             case TIPO_ALCANCE_CONTACTO: {
-                return "As";
+                return "Contacto";
             }
             case TIPO_ALCANCE_CENTIMETROS: {
-                return "Min.";
+                return "Cm..";
             }
             case TIPO_ALCANCE_METROS: {
-                return "Hs.";
+                return "Mts.";
             }
             case TIPO_ALCANCE_VARIA: {
-                return "Hs.";
+                return "Varia";
             }
             default: {
                 return "";
@@ -45,9 +48,9 @@ public class AlcanceSortilegio {
 
     }
 
-    public static String txtTipoMultiplicador(int tipo) {
+    public static String txtTipoMultiplicador(int multi) {
 
-        switch (tipo) {
+        switch (multi) {
             case TIPO_MULTIPLICADOR_FIJO: {
                 return "Fijo";
             }
@@ -60,13 +63,10 @@ public class AlcanceSortilegio {
         }
 
     }
-
     
     
     
-    
-    
-    private int tipo_duracion;
+    private int tipo_alcance;
     private int multiplicador;
     private int unidad;
 
@@ -74,7 +74,7 @@ public class AlcanceSortilegio {
     }
 
     public AlcanceSortilegio(int tipo_duracion, int multiplicador, int value) {
-        this.tipo_duracion = tipo_duracion;
+        this.tipo_alcance = tipo_duracion;
         this.multiplicador = multiplicador;
         this.unidad = value;
     }
@@ -86,12 +86,12 @@ public class AlcanceSortilegio {
     }
     
 
-    public int getTipo_duracion() {
-        return tipo_duracion;
+    public int getTipo_alcance() {
+        return tipo_alcance;
     }
 
-    public void setTipo_duracion(int tipo_duracion) {
-        this.tipo_duracion = tipo_duracion;
+    public void setTipo_alcance(int tipo_alcance) {
+        this.tipo_alcance = tipo_alcance;
     }
 
     public int getMultiplicador() {
@@ -109,4 +109,20 @@ public class AlcanceSortilegio {
     public void setUnidad(int unidad) {
         this.unidad = unidad;
     }
+
+    @Override
+    public String toString() {
+        String r = "";
+        if (tipo_alcance == TIPO_ALCANCE_CONTACTO || 
+                tipo_alcance == TIPO_ALCANCE_UNO_MISMO || 
+                tipo_alcance == TIPO_ALCANCE_VARIA){
+            r=txtTipo(tipo_alcance);
+        } else {
+            r = unidad + txtTipo(tipo_alcance) + ((multiplicador != TIPO_MULTIPLICADOR_FIJO)? "/" + txtTipoMultiplicador(multiplicador) :"");
+        }
+        return r;
+    }
+    
+    
+    
 }

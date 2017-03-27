@@ -25,6 +25,7 @@ import java.util.HashMap;
 import recursos.Recursos.*;
 import recursos.Constantes.*;
 import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
 
 
 /**
@@ -79,7 +80,9 @@ public class CargaBase {
                     valores_import.close();
 
                 } catch (FileNotFoundException e) {
+                    Recursos.informar("No existe el archivo de configuracion", "Error");
                 } catch (IOException e) {
+                    Recursos.informar("Error cargando el archivo de configuracion", "Error");
                 }
             }
         } else { //Directorio no existe }

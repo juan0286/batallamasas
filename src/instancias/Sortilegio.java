@@ -5,7 +5,6 @@
  */
 package instancias;
 
-
 import instancias.Sortilegios.*;
 import instancias.properties.alteracion.Alteracion;
 import java.io.Serializable;
@@ -19,8 +18,6 @@ import recursos.Constantes;
 @XmlType
 public class Sortilegio implements Serializable {
 
-
-    
     public static final int CLASE_ELEMENTAL = 0;
     public static final int CLASE_ELEMENTAL_BOLA = 1;
     public static final int CLASE_ELEMENTAL_DIRIGIDO = 2;
@@ -34,8 +31,6 @@ public class Sortilegio implements Serializable {
     private String nombre;
     private int dominio;
     private String Descp;
-    private String alcance_string;
-    private String duracion_string;
     private int duracoinAs;
     private String profesion;
     private String lista;
@@ -48,8 +43,7 @@ public class Sortilegio implements Serializable {
     private DuracionSortilegio duracion;
     private AlcanceSortilegio alcance;
     private AreaDeEfectoSortilegio areaDeEfecto;
-    
-    
+
     public Sortilegio(int lv, String nombre) {
         this.lv = lv;
         this.nombre = nombre;
@@ -88,22 +82,6 @@ public class Sortilegio implements Serializable {
 
     public void setDescp(String Descp) {
         this.Descp = Descp;
-    }
-
-    public String getAlcance_string() {
-        return alcance_string;
-    }
-
-    public void setAlcance_string(String alcance_string) {
-        this.alcance_string = alcance_string;
-    }
-
-    public String getDuracion_string() {
-        return duracion_string;
-    }
-
-    public void setDuracion_string(String duracion_string) {
-        this.duracion_string = duracion_string;
     }
 
     public int getDuracoinAs() {
@@ -213,8 +191,36 @@ public class Sortilegio implements Serializable {
         }
         if (dominio == Constantes.DOMINIO_ESCENCIA) {
             return "Escencia";
-        } else {
+        } else if (dominio == Constantes.DOMINIO_MENTALISMO) {
             return "Mentalismo";
+        } else {
+            return "Arcano";
+        }
+    }
+
+    public String getClaseStr() {
+        if (clase == CLASE_ELEMENTAL) {
+            return "Elmental";
+        }
+        if (clase == CLASE_ELEMENTAL_BOLA) {
+            return "Elmental Bola";
+        }
+        if (clase == CLASE_ELEMENTAL_DIRIGIDO) {
+            return "Elmental Dirigido";
+        }
+        if (clase == CLASE_FUERZA) {
+            return "Fuerza";
+        }
+        if (clase == CLASE_INFORMACION) {
+            return "Informacion";
+        }
+        if (clase == CLASE_PASIVO) {
+            return "Pasivo";
+        }
+        if (clase == CLASE_UTILIDAD) {
+            return "Utilidad";
+        } else {
+            return "";
         }
     }
 

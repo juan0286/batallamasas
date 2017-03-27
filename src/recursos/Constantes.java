@@ -78,5 +78,10 @@ public abstract class Constantes {
     public static final int DOMINIO_CANALIZACION = 0;
     public static final int DOMINIO_ESCENCIA = 1;
     public static final int DOMINIO_MENTALISMO = 2;
+    public static final int DOMINIO_HIBRIDO_CAN_ESCE = 3;
+    public static final int DOMINIO_HIBRIDO_CAN_MENT = 4;
+    public static final int DOMINIO_HIBRIDO_MEN_ESCE = 5;    
+    public static final int DOMINIO_ARCANO = 6;
+    
 
 }

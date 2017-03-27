@@ -6,23 +6,28 @@
 package instancias;
 
 import java.util.HashMap;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import javax.swing.JOptionPane;
+import javax.xml.bind.annotation.XmlType;
 import recursos.Constantes;
 
 /**
  *
  * @author TiranoJuan
  */
+@XmlType
 public class ListaDeSortilegios {
 
     public static final int TIPO_LISTA_ABIERTA = 0;
     public static final int TIPO_LISTA_CERRADA = 1;
-    public static final int TIPO_LISTA_CERRADA_PROFESION = 2;
+    public static final int TIPO_LISTA_BASICA_PROFESION = 2;
 
     private int id;
     private String nombre;
     private int dominio;
     private int tipo_lista;
+    private String profesion;
     private HashMap<Integer, Sortilegio> lista;
 
     public ListaDeSortilegios() {
@@ -69,37 +74,57 @@ public class ListaDeSortilegios {
         this.lista = lista;
     }
 
+    public String getProfesion() {
+        return profesion;
+    }
+
+    public void setProfesion(String profesion) {
+        this.profesion = profesion;
+    }
+
+    public boolean contineSortilegiodeLv(int lv) {
+        return lista.containsKey(lv);
+    }
+
     public void agregarSortilegio(Sortilegio s) {
-        if (lista.containsKey(s.getLv())) {
-            int r = JOptionPane.showConfirmDialog(null, "Esta lista ya contiene el sortilegio " + lista.get(s.getLv()).getNombre() + " con este Lv. Desea Reemplazarlo?");
-            if (r == JOptionPane.OK_OPTION) {
-                lista.put(s.getLv(), s);
-            }
+
+        lista.put(s.getLv(), s);
+
+    }
+
+    public Sortilegio getSortilegio(int lv) {
+        return lista.get(lv);
+    }
+
+    public int maxLvSortilegio() {
+        SortedSet<Integer> aux = new TreeSet<>(lista.keySet());
+        if (aux.size() > 0) {
+            return (Integer) aux.last();
         } else {
-            lista.put(s.getLv(), s);
+            return 0;
         }
     }
 
-    public Sortilegio getSortilegio(int lv){
-        return lista.get(lv);
-    }
-    
     @Override
     public String toString() {
-        return nombre + "(" + txtTipoLista(tipo_lista) + ')';
+        if (tipo_lista != TIPO_LISTA_BASICA_PROFESION) {
+            return nombre + " (" + TipoListaString() + " " + getDominioStr(dominio) + ')';
+        } else {
+            return nombre + " (" + ((profesion != null) ? profesion : "Propias") + ')';
+        }
     }
 
-    public static String txtTipoLista(int tipo) {
+    public String TipoListaString() {
 
-        switch (tipo) {
+        switch (tipo_lista) {
             case TIPO_LISTA_ABIERTA: {
                 return "Abierta";
             }
             case TIPO_LISTA_CERRADA: {
                 return "Cerrada";
             }
-            case TIPO_LISTA_CERRADA_PROFESION: {
-                return "Profesion";
+            case TIPO_LISTA_BASICA_PROFESION: {
+                return "Basica de " + profesion;
             }
             default: {
                 return "";

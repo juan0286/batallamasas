@@ -6,11 +6,13 @@
 package instancias.properties.alteracion;
 
 import instancias.properties.alteracion.Alteracion;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
  * @author TiranoJuan
  */
+@XmlType
 public class Curacion extends Alteracion {
 
     int pvRecuperados;

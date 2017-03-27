@@ -5,10 +5,13 @@
  */
 package instancias.Sortilegios;
 
+import javax.xml.bind.annotation.XmlType;
+
 /**
  *
  * @author TiranoJuan
  */
+@XmlType
 public class AreaDeEfectoSortilegio {
 
     
@@ -17,7 +20,7 @@ public class AreaDeEfectoSortilegio {
     
     private String descp;
     private int multiplicador;
-    private int unidad;
+    private float unidad;
 
     public AreaDeEfectoSortilegio() {
     }
@@ -44,11 +47,24 @@ public class AreaDeEfectoSortilegio {
         this.multiplicador = multiplicador;
     }
 
-    public int getUnidad() {
+    public float getUnidad() {
         return unidad;
     }
 
-    public void setUnidad(int unidad) {
+    public void setUnidad(float unidad) {
         this.unidad = unidad;
+    }
+    
+    @Override
+    public String toString() {
+        String r = "";
+        if (unidad == 0){
+            r= descp;
+        } else if (multiplicador == TIPO_MULTIPLICADOR_FIJO){
+            r= unidad + descp;
+        } else {
+            r = unidad + descp + "/lv";
+        }
+        return r;
     }
 }

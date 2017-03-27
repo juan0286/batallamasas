@@ -23,10 +23,13 @@ import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.Vector;
 import java.util.concurrent.RecursiveAction;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -1017,6 +1020,7 @@ public class Principal extends javax.swing.JFrame {
         AdministrarListasSortilegios adm = new AdministrarListasSortilegios(this, true);
         adm.setLocationRelativeTo(null);
         adm.setVisible(true);
+        guardarConfig(dataRecursos);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void actuaronTodos(JButton jb) {
@@ -1650,6 +1654,36 @@ public class Principal extends javax.swing.JFrame {
     public static ArrayList<Sortilegio> getTodosLosSortilegios() {
         return new ArrayList<Sortilegio>(dataRecursos.getSortilegiosSueltos().values());
     }
+    
+    public static ArrayList<ListaDeSortilegios> getTodasLasListasDeSortilegios() {
+        return new ArrayList<ListaDeSortilegios>(dataRecursos.getListasDeSortilegios().values());
+    }
+    
+    public static ArrayList<ListaDeSortilegios> getTodasLasListasDeSortilegiosAbiertas(int dominio) {
+        
+        ArrayList<ListaDeSortilegios> lista = new ArrayList<ListaDeSortilegios>();
+        
+        for (ListaDeSortilegios lds : Principal.getTodasLasListasDeSortilegios()) {
+            if (lds.getDominio()== dominio) {
+                lista.add(lds);
+            }
+        }
+        //jComboBox_profesion.setModel(new DefaultComboBoxModel(profesiones.toArray()));
+        return lista;        
+    }
+    
+    public static ArrayList<ListaDeSortilegios> getTodasLasListasDeSortilegiosBasicasDeProfesion(String profesion) {
+        
+        ArrayList<ListaDeSortilegios> lista = new ArrayList<ListaDeSortilegios>();
+        
+        for (ListaDeSortilegios lds : Principal.getTodasLasListasDeSortilegios()) {
+            if (lds.getTipo_lista() == ListaDeSortilegios.TIPO_LISTA_BASICA_PROFESION && lds.getProfesion() == profesion) {
+                lista.add(lds);
+            }
+        }
+        //jComboBox_profesion.setModel(new DefaultComboBoxModel(profesiones.toArray()));
+        return lista;        
+    }
 
     public static Sortilegio getSortielgio(int i) {
         return dataRecursos.getSortilegiosSueltos().get(i);
@@ -1747,4 +1781,10 @@ public class Principal extends javax.swing.JFrame {
             }
         }
     }
+    
+    private void modoPrueba(){
+    
+        
+    }
+    
 }

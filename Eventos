@@ -47,23 +47,50 @@ Funcionalidad de efectos Suma/resta/multip/division de pv.
 Cambio en newAlt: Edicion de Alteraciones, en vez de edicion de heridas
 Auto Scroll a Carga de sortilefio al Comenzar Fase de Definicion
 
+----------------------------------------------------------------------------------------------
 
 0.17
 Reparo Bug IsDormido
 Al crear Token Automatico, crea todas las Bo
-Separo las armas especiales de 
+Separo las armas especiales de la creacion automatica
+agrando un poco los botones de fases
+informo que un pj queda fuera de combate
 Reduzco largo de algunos textos de aturdido
+Se corrijen errores de Actividad y Moribundo y  muerto
+
+----------------------------------------------------------------------------------------------
+SORTILEGIOS
+
+0.18
+ventana Administracion de Sortilegios
+Clases nuevas de Sortilegio, con duracion, alcance y area de efecto
+ventana de Creacion de Sortilegio mejorada
+
+0.19
+Funciona crear Sortilegios para Listas
+Agrgeado clase de sortilego
+Centrada las celdas de la tabla
+Agregar Listas
+Agregar Sortilegios a las listas
+Duracion tipo Float
+Los tokens aprenden listas de Sortilegio
+
+
+
+
+
+
+
+
 
 Hacer
 IMPORTANTISIMO
 Crear objeto monstruo, o token tipo Monstruo, o forma de agregar Dragon al programa
 
-
-Error cargando un Sotilegio Nuevo
-Error cargando la muerte y reviviendo
-
 Seguir sumando Acciones a realizar
 
+
+Reparar algunos sortilegios.
 
 Desarrollar Sortilegios
 	Alcance por tipos
@@ -72,7 +99,7 @@ Desarrollar Sortilegios
 	Organizar por Listas de Sortilegios
 	Crear ventana Organizadora de Lista de Sortilegios
 	Agregar Bo Sortilegio Dirigido y Sortilegio base
-
+	Algun dia hacer que se seleccione el nivel maximo que puede usar de sortilegios en una lista
 
 
 Desarrollar Combate

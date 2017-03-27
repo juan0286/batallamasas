@@ -14,6 +14,7 @@ import instancias.Token;
 import instancias.properties.alteracion.Alteracion;
 import instancias.properties.alteracion.Efecto;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import superrolbattle.Principal;
 
 /**
@@ -38,7 +39,15 @@ public class NuevoSortilegio extends javax.swing.JDialog {
         initComponents();
         lista = list;
         jComboBox_todosLosSortilegios.setModel(new DefaultComboBoxModel(list.getLista().values().toArray()));
+        jComboBox_dominio.setSelectedIndex(list.getDominio());
+        jComboBox_dominio.setEnabled(false);
+        jCheckBox_consume.setSelected(true);
+        jCheckBox_consume.setEnabled(false);
+        jButtonAprender.setEnabled(false);
         this.setTitle("Nuevo Sortilegio para " + list.getNombre());
+        
+        
+        jSpinner_lv.setValue(list.maxLvSortilegio() + 1);
     }
 
     /**
@@ -62,30 +71,32 @@ public class NuevoSortilegio extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jSpinner_lv = new javax.swing.JSpinner();
         jPanel2 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jComboBox_clase = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         jComboBox_dominio = new javax.swing.JComboBox<>();
         jCheckBox_consume = new javax.swing.JCheckBox();
-        jPanel8 = new javax.swing.JPanel();
+        jPanel_cont_area = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        jSpinner_unidad_area = new javax.swing.JSpinner();
+        jLabel10 = new javax.swing.JLabel();
+        jComboBox_multiplicador_area = new javax.swing.JComboBox<>();
+        jLabel9 = new javax.swing.JLabel();
+        jTextField_area_desc = new javax.swing.JTextField();
+        jPanel_cont_duracion = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        jSpinner_unidad_duracion = new javax.swing.JSpinner();
         jLabel5 = new javax.swing.JLabel();
         jComboBox_tipo_Diracion = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
         jComboBox_mult_duracion = new javax.swing.JComboBox<>();
-        jLabel7 = new javax.swing.JLabel();
-        jSpinner_unidad_duracion = new javax.swing.JSpinner();
-        jPanel9 = new javax.swing.JPanel();
+        jPanel_cont_alcance = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
+        jSpinner_unidad_Alcance = new javax.swing.JSpinner();
         jLabel6 = new javax.swing.JLabel();
         jComboBox_tipo_Alcance = new javax.swing.JComboBox<>();
         jLabel12 = new javax.swing.JLabel();
         jComboBox_mult_Alcance = new javax.swing.JComboBox<>();
-        jLabel13 = new javax.swing.JLabel();
-        jSpinner_unidad_Alcance = new javax.swing.JSpinner();
-        jPanel_alcance = new javax.swing.JPanel();
-        jLabel10 = new javax.swing.JLabel();
-        jComboBox_multiplicador_area = new javax.swing.JComboBox<>();
-        jLabel11 = new javax.swing.JLabel();
-        jSpinner_unidad_area = new javax.swing.JSpinner();
-        jLabel9 = new javax.swing.JLabel();
-        jTextField_area_desc = new javax.swing.JTextField();
         jPanel_Alteracion = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jTextField_efectos = new javax.swing.JTextField();
@@ -142,6 +153,12 @@ public class NuevoSortilegio extends javax.swing.JDialog {
 
         jPanel7.add(jPanel1);
 
+        jLabel3.setText("Clase");
+        jPanel2.add(jLabel3);
+
+        jComboBox_clase.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elemental", "Elemental Bola", "Elemental Dirigido", "Fuerza", "Pasivo", "Utilidad", "Informacion" }));
+        jPanel2.add(jComboBox_clase);
+
         jLabel4.setText("Dominio");
         jPanel2.add(jLabel4);
 
@@ -153,72 +170,87 @@ public class NuevoSortilegio extends javax.swing.JDialog {
 
         jPanel7.add(jPanel2);
 
-        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder("Duracion"));
-
-        jLabel5.setText("Tipo");
-        jPanel8.add(jLabel5);
-
-        jComboBox_tipo_Diracion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Instantaneo", "Concentrado", "Asaltos", "Minutos", "Horas", "Dias", "Semanas", "Permanente", "Varia" }));
-        jPanel8.add(jComboBox_tipo_Diracion);
-
-        jLabel8.setText("Multiplicador");
-        jPanel8.add(jLabel8);
-
-        jComboBox_mult_duracion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fijo", "Nivel", "5 de Fallo TR", "10 de Fallo TR", " " }));
-        jPanel8.add(jComboBox_mult_duracion);
-
-        jLabel7.setText("Unidad");
-        jPanel8.add(jLabel7);
-
-        jSpinner_unidad_duracion.setPreferredSize(new java.awt.Dimension(45, 20));
-        jPanel8.add(jSpinner_unidad_duracion);
-
-        jPanel7.add(jPanel8);
-
-        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder("Alcance"));
-
-        jLabel6.setText("Tipo");
-        jPanel9.add(jLabel6);
-
-        jComboBox_tipo_Alcance.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Uno Mismo", "Contacto", "Cm", "Metros", "Varia" }));
-        jPanel9.add(jComboBox_tipo_Alcance);
-
-        jLabel12.setText("Multiplicador");
-        jPanel9.add(jLabel12);
-
-        jComboBox_mult_Alcance.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fijo", "Nivel", " " }));
-        jPanel9.add(jComboBox_mult_Alcance);
-
-        jLabel13.setText("Unidad");
-        jPanel9.add(jLabel13);
-
-        jSpinner_unidad_Alcance.setPreferredSize(new java.awt.Dimension(45, 20));
-        jPanel9.add(jSpinner_unidad_Alcance);
-
-        jPanel7.add(jPanel9);
-
-        jPanel_alcance.setBorder(javax.swing.BorderFactory.createTitledBorder("Area"));
-
-        jLabel10.setText("Multiplicador");
-        jPanel_alcance.add(jLabel10);
-
-        jComboBox_multiplicador_area.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fijo", "Nivel", " " }));
-        jPanel_alcance.add(jComboBox_multiplicador_area);
+        jPanel_cont_area.setBorder(javax.swing.BorderFactory.createTitledBorder("Area"));
 
         jLabel11.setText("Unidad");
-        jPanel_alcance.add(jLabel11);
+        jPanel_cont_area.add(jLabel11);
 
+        jSpinner_unidad_area.setModel(new javax.swing.SpinnerNumberModel(0.0f, 0.0f, null, 0.5f));
         jSpinner_unidad_area.setPreferredSize(new java.awt.Dimension(45, 20));
-        jPanel_alcance.add(jSpinner_unidad_area);
+        jPanel_cont_area.add(jSpinner_unidad_area);
+
+        jLabel10.setText("Multiplicador");
+        jPanel_cont_area.add(jLabel10);
+
+        jComboBox_multiplicador_area.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fijo", "Nivel" }));
+        jPanel_cont_area.add(jComboBox_multiplicador_area);
 
         jLabel9.setText("Descp");
-        jPanel_alcance.add(jLabel9);
+        jPanel_cont_area.add(jLabel9);
 
         jTextField_area_desc.setMinimumSize(new java.awt.Dimension(56, 20));
         jTextField_area_desc.setPreferredSize(new java.awt.Dimension(56, 20));
-        jPanel_alcance.add(jTextField_area_desc);
+        jPanel_cont_area.add(jTextField_area_desc);
 
-        jPanel7.add(jPanel_alcance);
+        jPanel7.add(jPanel_cont_area);
+
+        jPanel_cont_duracion.setBorder(javax.swing.BorderFactory.createTitledBorder("Duracion"));
+
+        jLabel7.setText("Unidad");
+        jPanel_cont_duracion.add(jLabel7);
+
+        jSpinner_unidad_duracion.setEnabled(false);
+        jSpinner_unidad_duracion.setPreferredSize(new java.awt.Dimension(45, 20));
+        jPanel_cont_duracion.add(jSpinner_unidad_duracion);
+
+        jLabel5.setText("Tipo");
+        jPanel_cont_duracion.add(jLabel5);
+
+        jComboBox_tipo_Diracion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Instantaneo", "Concentrado", "Asaltos", "Minutos", "Horas", "Dias", "Semanas", "Permanente", "Varia" }));
+        jComboBox_tipo_Diracion.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox_tipo_DiracionItemStateChanged(evt);
+            }
+        });
+        jPanel_cont_duracion.add(jComboBox_tipo_Diracion);
+
+        jLabel8.setText("Multiplicador");
+        jPanel_cont_duracion.add(jLabel8);
+
+        jComboBox_mult_duracion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fijo", "Nivel", "5 de Fallo TR", "10 de Fallo TR" }));
+        jComboBox_mult_duracion.setEnabled(false);
+        jPanel_cont_duracion.add(jComboBox_mult_duracion);
+
+        jPanel7.add(jPanel_cont_duracion);
+
+        jPanel_cont_alcance.setBorder(javax.swing.BorderFactory.createTitledBorder("Alcance"));
+
+        jLabel13.setText("Unidad");
+        jPanel_cont_alcance.add(jLabel13);
+
+        jSpinner_unidad_Alcance.setEnabled(false);
+        jSpinner_unidad_Alcance.setPreferredSize(new java.awt.Dimension(45, 20));
+        jPanel_cont_alcance.add(jSpinner_unidad_Alcance);
+
+        jLabel6.setText("Tipo");
+        jPanel_cont_alcance.add(jLabel6);
+
+        jComboBox_tipo_Alcance.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Uno Mismo", "Contacto", "Cm", "Metros", "Varia" }));
+        jComboBox_tipo_Alcance.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox_tipo_AlcanceItemStateChanged(evt);
+            }
+        });
+        jPanel_cont_alcance.add(jComboBox_tipo_Alcance);
+
+        jLabel12.setText("Multiplicador");
+        jPanel_cont_alcance.add(jLabel12);
+
+        jComboBox_mult_Alcance.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fijo", "Nivel" }));
+        jComboBox_mult_Alcance.setEnabled(false);
+        jPanel_cont_alcance.add(jComboBox_mult_Alcance);
+
+        jPanel7.add(jPanel_cont_alcance);
 
         jPanel_Alteracion.setBorder(javax.swing.BorderFactory.createTitledBorder("Alteracion"));
 
@@ -238,16 +270,18 @@ public class NuevoSortilegio extends javax.swing.JDialog {
         jPanel7.add(jPanel_Alteracion);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Descripcion"));
-        jPanel3.setMaximumSize(new java.awt.Dimension(32779, 56));
-        jPanel3.setPreferredSize(new java.awt.Dimension(178, 56));
+        jPanel3.setMaximumSize(new java.awt.Dimension(32779, 86));
+        jPanel3.setPreferredSize(new java.awt.Dimension(178, 86));
         jPanel3.setLayout(new javax.swing.BoxLayout(jPanel3, javax.swing.BoxLayout.LINE_AXIS));
 
         jScrollPane1.setMaximumSize(new java.awt.Dimension(32767, 54));
 
         jTextArea_desc.setColumns(20);
+        jTextArea_desc.setLineWrap(true);
         jTextArea_desc.setRows(5);
-        jTextArea_desc.setMaximumSize(new java.awt.Dimension(2147483647, 54));
-        jTextArea_desc.setPreferredSize(new java.awt.Dimension(164, 54));
+        jTextArea_desc.setMaximumSize(new java.awt.Dimension(2147483647, 84));
+        jTextArea_desc.setName(""); // NOI18N
+        jTextArea_desc.setPreferredSize(new java.awt.Dimension(164, 84));
         jScrollPane1.setViewportView(jTextArea_desc);
 
         jPanel3.add(jScrollPane1);
@@ -286,10 +320,13 @@ public class NuevoSortilegio extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton_copiarActionPerformed
 
     private void jButton_guardar_sortilegioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_guardar_sortilegioActionPerformed
-        if (token != null)
+
+        if (token != null) {
             asignarSortilegioAToken();
-        if (lista != null)
+        }
+        if (lista != null) {
             asignarSortilegioALista();
+        }
     }//GEN-LAST:event_jButton_guardar_sortilegioActionPerformed
 
     private void jButton_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_cancelarActionPerformed
@@ -312,90 +349,133 @@ public class NuevoSortilegio extends javax.swing.JDialog {
         agregarEfecto();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jComboBox_tipo_DiracionItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_tipo_DiracionItemStateChanged
+        int sel = jComboBox_tipo_Diracion.getSelectedIndex();
+        if (sel <= DuracionSortilegio.TIPO_DURACION_CONCENTRACION || sel >= DuracionSortilegio.TIPO_DURACION_PERMANENTE) {
+            jComboBox_mult_duracion.setEnabled(false);
+            jSpinner_unidad_duracion.setEnabled(false);
+        } else {
+            jComboBox_mult_duracion.setEnabled(true);
+            jSpinner_unidad_duracion.setEnabled(true);
+        }
+    }//GEN-LAST:event_jComboBox_tipo_DiracionItemStateChanged
+
+    private void jComboBox_tipo_AlcanceItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_tipo_AlcanceItemStateChanged
+        int sel = jComboBox_tipo_Alcance.getSelectedIndex();
+        if (sel <= AlcanceSortilegio.TIPO_ALCANCE_CONTACTO || sel >= DuracionSortilegio.TIPO_DURACION_VARIA) {
+            jComboBox_mult_Alcance.setEnabled(false);
+            jSpinner_unidad_Alcance.setEnabled(false);
+        } else {
+            jComboBox_mult_Alcance.setEnabled(true);
+            jSpinner_unidad_Alcance.setEnabled(true);
+        }
+    }//GEN-LAST:event_jComboBox_tipo_AlcanceItemStateChanged
+
     private void asignarSortilegioAToken() {
         Sortilegio s = new Sortilegio();
         s.setNombre(jTextField_Nombre.getText());
         s.setLv((Integer) jSpinner_lv.getValue());
-        //s.setDuracion(jt);
+        s.setClase(jComboBox_clase.getSelectedIndex());
         s.setDominio(jComboBox_dominio.getSelectedIndex());
-        AlcanceSortilegio alc= new AlcanceSortilegio();
+        AlcanceSortilegio alc = new AlcanceSortilegio();
         alc.setMultiplicador(jComboBox_mult_Alcance.getSelectedIndex());
-        alc.setUnidad((Integer)jSpinner_unidad_Alcance.getValue());
-        alc.setTipo_duracion(jComboBox_tipo_Alcance.getSelectedIndex());
-        
-        DuracionSortilegio dur= new DuracionSortilegio();
+        alc.setUnidad((Integer) jSpinner_unidad_Alcance.getValue());
+        alc.setTipo_alcance(jComboBox_tipo_Alcance.getSelectedIndex());
+
+        DuracionSortilegio dur = new DuracionSortilegio();
         dur.setMultiplicador(jComboBox_mult_duracion.getSelectedIndex());
-        dur.setUnidad((Integer)jSpinner_unidad_duracion.getValue());
+        dur.setUnidad((Integer) jSpinner_unidad_duracion.getValue());
         dur.setTipo_duracion(jComboBox_tipo_Diracion.getSelectedIndex());
-        
-        AreaDeEfectoSortilegio ade= new AreaDeEfectoSortilegio();
+
+        AreaDeEfectoSortilegio ade = new AreaDeEfectoSortilegio();
         ade.setMultiplicador(jComboBox_multiplicador_area.getSelectedIndex());
-        ade.setUnidad((Integer)jSpinner_unidad_area.getValue());
+        ade.setUnidad((Float) jSpinner_unidad_area.getValue());
         ade.setDescp(jTextField_area_desc.getText());
         s.setDescp(jTextArea_desc.getText());
         s.setConsumePP(jCheckBox_consume.isSelected());
 
+        s.setAlcance(alc);
+        s.setDuracion(dur);
+        s.setAreaDeEfecto(ade);
+
         int ind_ns = Principal.crearSortilegioNuevo(s);
-        if (token != null)
+        if (token != null) {
             token.aprenderSortilegio(ind_ns);
+        }
         this.dispose();
 
     }
-    
+
     private void asignarSortilegioALista() {
         Sortilegio s = new Sortilegio();
         s.setNombre(jTextField_Nombre.getText());
         s.setLv((Integer) jSpinner_lv.getValue());
-        //s.setDuracion(jt);
+        s.setClase(jComboBox_clase.getSelectedIndex());
         s.setDominio(lista.getDominio());
-        AlcanceSortilegio alc= new AlcanceSortilegio();
+        AlcanceSortilegio alc = new AlcanceSortilegio();
         alc.setMultiplicador(jComboBox_mult_Alcance.getSelectedIndex());
-        alc.setUnidad((Integer)jSpinner_unidad_Alcance.getValue());
-        alc.setTipo_duracion(jComboBox_tipo_Alcance.getSelectedIndex());
-        
-        DuracionSortilegio dur= new DuracionSortilegio();
+        alc.setUnidad((Integer) jSpinner_unidad_Alcance.getValue());
+        alc.setTipo_alcance(jComboBox_tipo_Alcance.getSelectedIndex());
+
+        DuracionSortilegio dur = new DuracionSortilegio();
         dur.setMultiplicador(jComboBox_mult_duracion.getSelectedIndex());
-        dur.setUnidad((Integer)jSpinner_unidad_duracion.getValue());
+        dur.setUnidad((Integer) jSpinner_unidad_duracion.getValue());
         dur.setTipo_duracion(jComboBox_tipo_Diracion.getSelectedIndex());
-        
-        AreaDeEfectoSortilegio ade= new AreaDeEfectoSortilegio();
+
+        AreaDeEfectoSortilegio ade = new AreaDeEfectoSortilegio();
         ade.setMultiplicador(jComboBox_multiplicador_area.getSelectedIndex());
-        ade.setUnidad((Integer)jSpinner_unidad_area.getValue());
+        ade.setUnidad((Float) jSpinner_unidad_area.getValue());
         ade.setDescp(jTextField_area_desc.getText());
-        
-        
-        alc.setMultiplicador(WIDTH);
+
+        s.setAlcance(alc);
+        s.setDuracion(dur);
+        s.setAreaDeEfecto(ade);
+
         //s.setAlcance_string(jTextField_alcance.getText());
         s.setDescp(jTextArea_desc.getText());
-        s.setConsumePP(jCheckBox_consume.isSelected());        
-        lista.agregarSortilegio(s);
-        sortilegioNuevo = s.getLv();
-        this.dispose();
+        s.setConsumePP(jCheckBox_consume.isSelected());
+        s.setLista(lista.getNombre());
+        if (lista.contineSortilegiodeLv(s.getLv())) {
+            int r = JOptionPane.showConfirmDialog(null, "Esta lista ya contiene el sortilegio " + lista.getLista().get(s.getLv()).getNombre() + " con este Lv. Desea Reemplazarlo?");
+            if (r == JOptionPane.OK_OPTION) {
+                lista.agregarSortilegio(s);
+                sortilegioNuevo = s.getLv();
+                this.dispose();
+            }
+        } else {
+            lista.agregarSortilegio(s);
+            sortilegioNuevo = s.getLv();
+            this.dispose();
+        }
 
     }
 
     private void copiarSortilegio() {
+
         Sortilegio s = (Sortilegio) jComboBox_todosLosSortilegios.getSelectedItem();
         jTextArea_desc.setText(s.getDescp());
         jTextField_Nombre.setText(s.getNombre());
         jCheckBox_consume.setSelected(s.isConsumePP());
         jComboBox_dominio.setSelectedIndex(s.getDominio());
-        
+        jComboBox_clase.setSelectedIndex(s.getClase());
+
         jComboBox_mult_Alcance.setSelectedIndex(s.getAlcance().getMultiplicador());
         jSpinner_unidad_Alcance.setValue(s.getAlcance().getUnidad());
-        jComboBox_tipo_Alcance.setSelectedIndex(s.getAlcance().getTipo_duracion());        
-        
+        jComboBox_tipo_Alcance.setSelectedIndex(s.getAlcance().getTipo_alcance());
+
         jComboBox_mult_duracion.setSelectedIndex(s.getDuracion().getMultiplicador());
         jSpinner_unidad_duracion.setValue(s.getDuracion().getUnidad());
         jComboBox_tipo_Diracion.setSelectedIndex(s.getDuracion().getTipo_duracion());
-                
+
         jComboBox_multiplicador_area.setSelectedIndex(s.getAreaDeEfecto().getMultiplicador());
         jSpinner_unidad_area.setValue(s.getAreaDeEfecto().getUnidad());
         jTextField_area_desc.setText(s.getAreaDeEfecto().getDescp());
-        
-        jSpinner_lv.setValue(s.getLv());
-        //jTextField_alcance.setText(s.getAlcance_string());
 
+        //jSpinner_lv.setValue(s.getLv());
+        //jTextField_alcance.setText(s.getAlcance_string());
+        if (s.getEfectoMagico() != null) {
+            alt = s.getEfectoMagico();
+        }
     }
 
 
@@ -406,6 +486,7 @@ public class NuevoSortilegio extends javax.swing.JDialog {
     private javax.swing.JButton jButton_copiar;
     private javax.swing.JButton jButton_guardar_sortilegio;
     private javax.swing.JCheckBox jCheckBox_consume;
+    private javax.swing.JComboBox<String> jComboBox_clase;
     private javax.swing.JComboBox<String> jComboBox_dominio;
     private javax.swing.JComboBox<String> jComboBox_mult_Alcance;
     private javax.swing.JComboBox<String> jComboBox_mult_duracion;
@@ -419,6 +500,7 @@ public class NuevoSortilegio extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -432,10 +514,10 @@ public class NuevoSortilegio extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
     private javax.swing.JPanel jPanel_Alteracion;
-    private javax.swing.JPanel jPanel_alcance;
+    private javax.swing.JPanel jPanel_cont_alcance;
+    private javax.swing.JPanel jPanel_cont_area;
+    private javax.swing.JPanel jPanel_cont_duracion;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSpinner jSpinner_lv;
     private javax.swing.JSpinner jSpinner_unidad_Alcance;
@@ -446,10 +528,10 @@ public class NuevoSortilegio extends javax.swing.JDialog {
     private javax.swing.JTextField jTextField_area_desc;
     private javax.swing.JTextField jTextField_efectos;
     // End of variables declaration//GEN-END:variables
-    
+
     private Token token;
     private ListaDeSortilegios lista;
-    private Alteracion alt = null;
+    private Alteracion alt = new Alteracion();
 
     public static int sortilegioNuevo = -1;
 
@@ -460,22 +542,22 @@ public class NuevoSortilegio extends javax.swing.JDialog {
 
         return sortilegioNuevo;
     }
-    
+
     public static int Crear(Principal parent, boolean modal, ListaDeSortilegios list) {
         NuevoSortilegio ns = new NuevoSortilegio(parent, modal, list);
         ns.setLocationRelativeTo(null);
         ns.setVisible(true);
         ns.alt = new Alteracion();
-        ns.alt.setActivo(true);        
+        ns.alt.setActivo(true);
         return sortilegioNuevo;
     }
 
     private void agregarEfecto() {
         Efecto ef = CrearEfecto.CrearEfecto(null, true);
-        if (ef!= null){
+        if (ef != null) {
             alt.agregarEfecto(ef);
             jTextField_efectos.setText(alt.toString());
         }
-            
+
     }
 }

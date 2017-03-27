@@ -6,15 +6,22 @@
 package superrolbattle.ventanas;
 
 import instancias.Accion;
+import instancias.ListaDeSortilegios;
 import instancias.Sortilegio;
 import instancias.Token;
 import instancias.properties.Arma;
 import instancias.properties.Bo;
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SingleSelectionModel;
 import recursos.Constantes;
+import recursos.Recursos;
 import superrolbattle.Principal;
 
 /**
@@ -47,7 +54,9 @@ public class DeclaraAccion extends javax.swing.JDialog {
         int tipo = token.getLastAction().getTipo();
 
         jComboBox_sotilegios.setModel(new DefaultComboBoxModel(token.getSortilegios().toArray()));
-        jComboBox_sotilegios_Realiza.setModel(new DefaultComboBoxModel(token.getSortilegios().toArray()));
+        jComboBox_sotilegios_Realiza.setModel(new DefaultComboBoxModel(token.getSortilegios().toArray()));        
+        jComboBox_Lista_sotilegios.setModel(new DefaultComboBoxModel(token.getListasDeSortilegios().toArray()));
+        jComboBox_Lista_sotilegios_realiza.setModel(new DefaultComboBoxModel(token.getListasDeSortilegios().toArray()));
         jComboBoxArmas_Proy.setModel(new DefaultComboBoxModel(token.getArmasProyectiles().toArray()));
         jComboBoxArmas_cac.setModel(new DefaultComboBoxModel(token.getArmasCuerpoACuerpo().toArray()));
 
@@ -123,8 +132,8 @@ public class DeclaraAccion extends javax.swing.JDialog {
             jComboBox_sotilegios_Realiza.setSelectedItem(s);
         }
         if (token_accion.getTipoDeAccion() > 0) {
-            int s = token_accion.getTipoDeAccion() -1;
-            jTabbedPane_SeleccionAccion.setSelectedIndex(s);            
+            int s = token_accion.getTipoDeAccion() - 1;
+            jTabbedPane_SeleccionAccion.setSelectedIndex(s);
         }
     }
 
@@ -150,19 +159,32 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jLabel23 = new javax.swing.JLabel();
         jTextField_sort_bono = new javax.swing.JTextField();
         jPanel_carga_sort_nombre_carga = new javax.swing.JPanel();
+        jComboBox_Lista_sotilegios = new javax.swing.JComboBox<>();
+        jButton_crearSortilegio_Carga1 = new javax.swing.JButton();
         jComboBox_sotilegios = new javax.swing.JComboBox<>();
         jButton_crearSortilegio_Carga = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
         jPanel_carga_sort_datos_Cargado = new javax.swing.JPanel();
+        jPanel7 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jTextField_lv_sort_carga = new javax.swing.JTextField();
+        jPanel10 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jTextField_Dominio_sort_carga = new javax.swing.JTextField();
+        jPanel12 = new javax.swing.JPanel();
         jCheckBox_consume_sort_carga = new javax.swing.JCheckBox();
-        jLabel9 = new javax.swing.JLabel();
-        jTextField_alcance_sort_carga = new javax.swing.JTextField();
+        jPanel18 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         jTextField_PPActual_carga = new javax.swing.JTextField();
+        jPanel13 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        jTextField_alcance_sort_carga = new javax.swing.JTextField();
+        jPanel23 = new javax.swing.JPanel();
+        jLabel15 = new javax.swing.JLabel();
+        jTextField_duracion_sort_carga = new javax.swing.JTextField();
+        jPanel24 = new javax.swing.JPanel();
+        jLabel18 = new javax.swing.JLabel();
+        jTextField_area_sort_carga = new javax.swing.JTextField();
         jPanel_Realiza_Sortilegio_tabPanel = new javax.swing.JPanel();
         jPanel21 = new javax.swing.JPanel();
         jTextField_sort_cargado = new javax.swing.JTextField();
@@ -170,20 +192,33 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jTextField_sort_num_cargas = new javax.swing.JTextField();
         jLabel27 = new javax.swing.JLabel();
         jTextField_sort_bono1 = new javax.swing.JTextField();
-        jPanel_carga_sort_nombre_realiza = new javax.swing.JPanel();
+        jPanel_carga_sort_nombre_Realiza = new javax.swing.JPanel();
+        jComboBox_Lista_sotilegios_realiza = new javax.swing.JComboBox<>();
+        jButton_crearSortilegio_Carga2 = new javax.swing.JButton();
         jComboBox_sotilegios_Realiza = new javax.swing.JComboBox<>();
-        jButton_crearSortilegio_Realiza = new javax.swing.JButton();
-        jPanel11 = new javax.swing.JPanel();
+        jButton_crearSortilegio_Carga3 = new javax.swing.JButton();
         jPanel_carga_sort_datos_Realiza = new javax.swing.JPanel();
-        jLabel10 = new javax.swing.JLabel();
+        jPanel_carga_sort_datos_Cargado1 = new javax.swing.JPanel();
+        jPanel26 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
         jTextField_lv_sort_realiza = new javax.swing.JTextField();
-        jLabel11 = new javax.swing.JLabel();
+        jPanel28 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
         jTextField_Dominio_sort_realiza = new javax.swing.JTextField();
+        jPanel29 = new javax.swing.JPanel();
         jCheckBox_consume_sort_realiza = new javax.swing.JCheckBox();
-        jLabel12 = new javax.swing.JLabel();
-        jTextField_alcance_sort_realiza = new javax.swing.JTextField();
-        jLabel14 = new javax.swing.JLabel();
+        jPanel30 = new javax.swing.JPanel();
+        jLabel19 = new javax.swing.JLabel();
         jTextField_PPActual_ls_realiza = new javax.swing.JTextField();
+        jPanel31 = new javax.swing.JPanel();
+        jLabel20 = new javax.swing.JLabel();
+        jTextField_alcance_sort_realiza = new javax.swing.JTextField();
+        jPanel32 = new javax.swing.JPanel();
+        jLabel21 = new javax.swing.JLabel();
+        jTextField_duracion_sort_realiza = new javax.swing.JTextField();
+        jPanel34 = new javax.swing.JPanel();
+        jLabel28 = new javax.swing.JLabel();
+        jTextField_area_sort_realiza = new javax.swing.JTextField();
         jPanel_Dispara_Proyectil_tabPanel = new javax.swing.JPanel();
         jPanel27 = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
@@ -277,6 +312,8 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jPanel_Carga_Sortilegio_tabPanel1.setLayout(new javax.swing.BoxLayout(jPanel_Carga_Sortilegio_tabPanel1, javax.swing.BoxLayout.PAGE_AXIS));
 
         jPanel20.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel20.setMinimumSize(new java.awt.Dimension(472, 14));
+        jPanel20.setPreferredSize(new java.awt.Dimension(472, 14));
 
         jTextField_sort_cargado1.setEditable(false);
         jTextField_sort_cargado1.setText("No hay Sortilegio cargado");
@@ -308,6 +345,31 @@ public class DeclaraAccion extends javax.swing.JDialog {
 
         jPanel_Carga_Sortilegio_tabPanel1.add(jPanel20);
 
+        jPanel_carga_sort_nombre_carga.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 2));
+
+        jComboBox_Lista_sotilegios.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox_Lista_sotilegios.setMinimumSize(new java.awt.Dimension(156, 20));
+        jComboBox_Lista_sotilegios.setPreferredSize(new java.awt.Dimension(330, 20));
+        jComboBox_Lista_sotilegios.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox_Lista_sotilegiosItemStateChanged(evt);
+            }
+        });
+        jComboBox_Lista_sotilegios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox_Lista_sotilegiosActionPerformed(evt);
+            }
+        });
+        jPanel_carga_sort_nombre_carga.add(jComboBox_Lista_sotilegios);
+
+        jButton_crearSortilegio_Carga1.setText("N. Lista Sort");
+        jButton_crearSortilegio_Carga1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_crearSortilegio_Carga1ActionPerformed(evt);
+            }
+        });
+        jPanel_carga_sort_nombre_carga.add(jButton_crearSortilegio_Carga1);
+
         jComboBox_sotilegios.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox_sotilegios.setMinimumSize(new java.awt.Dimension(156, 20));
         jComboBox_sotilegios.setPreferredSize(new java.awt.Dimension(330, 20));
@@ -323,7 +385,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
         });
         jPanel_carga_sort_nombre_carga.add(jComboBox_sotilegios);
 
-        jButton_crearSortilegio_Carga.setText("Crear Nuevo");
+        jButton_crearSortilegio_Carga.setText("N. Sortilegio");
         jButton_crearSortilegio_Carga.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_crearSortilegio_CargaActionPerformed(evt);
@@ -333,43 +395,90 @@ public class DeclaraAccion extends javax.swing.JDialog {
 
         jPanel_Carga_Sortilegio_tabPanel1.add(jPanel_carga_sort_nombre_carga);
 
-        jPanel8.setLayout(new javax.swing.BoxLayout(jPanel8, javax.swing.BoxLayout.PAGE_AXIS));
+        jPanel8.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 15, 5));
+
+        jPanel_carga_sort_datos_Cargado.setPreferredSize(new java.awt.Dimension(476, 35));
+        jPanel_carga_sort_datos_Cargado.setLayout(new java.awt.GridLayout(2, 0, 3, 3));
+
+        jPanel7.setLayout(new java.awt.GridLayout());
 
         jLabel3.setText("Lv");
-        jPanel_carga_sort_datos_Cargado.add(jLabel3);
+        jPanel7.add(jLabel3);
 
         jTextField_lv_sort_carga.setEditable(false);
         jTextField_lv_sort_carga.setMinimumSize(new java.awt.Dimension(66, 20));
         jTextField_lv_sort_carga.setPreferredSize(new java.awt.Dimension(20, 20));
-        jPanel_carga_sort_datos_Cargado.add(jTextField_lv_sort_carga);
+        jPanel7.add(jTextField_lv_sort_carga);
+
+        jPanel_carga_sort_datos_Cargado.add(jPanel7);
+
+        jPanel10.setLayout(new java.awt.GridLayout());
 
         jLabel4.setText("Dominio");
-        jPanel_carga_sort_datos_Cargado.add(jLabel4);
+        jPanel10.add(jLabel4);
 
         jTextField_Dominio_sort_carga.setEditable(false);
         jTextField_Dominio_sort_carga.setMinimumSize(new java.awt.Dimension(66, 20));
         jTextField_Dominio_sort_carga.setPreferredSize(new java.awt.Dimension(66, 20));
-        jPanel_carga_sort_datos_Cargado.add(jTextField_Dominio_sort_carga);
+        jPanel10.add(jTextField_Dominio_sort_carga);
+
+        jPanel_carga_sort_datos_Cargado.add(jPanel10);
+
+        jPanel12.setLayout(new java.awt.GridLayout());
 
         jCheckBox_consume_sort_carga.setText("Consume PP");
         jCheckBox_consume_sort_carga.setEnabled(false);
-        jPanel_carga_sort_datos_Cargado.add(jCheckBox_consume_sort_carga);
+        jPanel12.add(jCheckBox_consume_sort_carga);
 
-        jLabel9.setText("Alcance");
-        jPanel_carga_sort_datos_Cargado.add(jLabel9);
+        jPanel_carga_sort_datos_Cargado.add(jPanel12);
 
-        jTextField_alcance_sort_carga.setEditable(false);
-        jTextField_alcance_sort_carga.setText(" ");
-        jTextField_alcance_sort_carga.setPreferredSize(new java.awt.Dimension(50, 20));
-        jPanel_carga_sort_datos_Cargado.add(jTextField_alcance_sort_carga);
+        jPanel18.setLayout(new java.awt.GridLayout());
 
         jLabel13.setText("PP Actual");
-        jPanel_carga_sort_datos_Cargado.add(jLabel13);
+        jPanel18.add(jLabel13);
 
         jTextField_PPActual_carga.setEditable(false);
         jTextField_PPActual_carga.setText(" ");
         jTextField_PPActual_carga.setPreferredSize(new java.awt.Dimension(50, 20));
-        jPanel_carga_sort_datos_Cargado.add(jTextField_PPActual_carga);
+        jPanel18.add(jTextField_PPActual_carga);
+
+        jPanel_carga_sort_datos_Cargado.add(jPanel18);
+
+        jPanel13.setLayout(new java.awt.GridLayout());
+
+        jLabel9.setText("Alcance");
+        jPanel13.add(jLabel9);
+
+        jTextField_alcance_sort_carga.setEditable(false);
+        jTextField_alcance_sort_carga.setText(" ");
+        jTextField_alcance_sort_carga.setPreferredSize(new java.awt.Dimension(50, 20));
+        jPanel13.add(jTextField_alcance_sort_carga);
+
+        jPanel_carga_sort_datos_Cargado.add(jPanel13);
+
+        jPanel23.setLayout(new java.awt.GridLayout());
+
+        jLabel15.setText("Duracion");
+        jPanel23.add(jLabel15);
+
+        jTextField_duracion_sort_carga.setEditable(false);
+        jTextField_duracion_sort_carga.setText(" ");
+        jTextField_duracion_sort_carga.setPreferredSize(new java.awt.Dimension(50, 20));
+        jPanel23.add(jTextField_duracion_sort_carga);
+
+        jPanel_carga_sort_datos_Cargado.add(jPanel23);
+
+        jPanel24.setLayout(new java.awt.GridLayout());
+
+        jLabel18.setText("Area Efecto");
+        jPanel24.add(jLabel18);
+
+        jTextField_area_sort_carga.setEditable(false);
+        jTextField_area_sort_carga.setText(" ");
+        jTextField_area_sort_carga.setPreferredSize(new java.awt.Dimension(50, 20));
+        jPanel24.add(jTextField_area_sort_carga);
+
+        jPanel_carga_sort_datos_Cargado.add(jPanel24);
 
         jPanel8.add(jPanel_carga_sort_datos_Cargado);
 
@@ -383,6 +492,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jPanel_Realiza_Sortilegio_tabPanel.setLayout(new javax.swing.BoxLayout(jPanel_Realiza_Sortilegio_tabPanel, javax.swing.BoxLayout.PAGE_AXIS));
 
         jPanel21.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel21.setPreferredSize(new java.awt.Dimension(472, 14));
 
         jTextField_sort_cargado.setEditable(false);
         jTextField_sort_cargado.setText("No hay Sortilegio cargado");
@@ -414,6 +524,31 @@ public class DeclaraAccion extends javax.swing.JDialog {
 
         jPanel_Realiza_Sortilegio_tabPanel.add(jPanel21);
 
+        jPanel_carga_sort_nombre_Realiza.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 2));
+
+        jComboBox_Lista_sotilegios_realiza.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox_Lista_sotilegios_realiza.setMinimumSize(new java.awt.Dimension(156, 20));
+        jComboBox_Lista_sotilegios_realiza.setPreferredSize(new java.awt.Dimension(330, 20));
+        jComboBox_Lista_sotilegios_realiza.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox_Lista_sotilegios_realizaItemStateChanged(evt);
+            }
+        });
+        jComboBox_Lista_sotilegios_realiza.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox_Lista_sotilegios_realizaActionPerformed(evt);
+            }
+        });
+        jPanel_carga_sort_nombre_Realiza.add(jComboBox_Lista_sotilegios_realiza);
+
+        jButton_crearSortilegio_Carga2.setText("N. Lista Sort");
+        jButton_crearSortilegio_Carga2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_crearSortilegio_Carga2ActionPerformed(evt);
+            }
+        });
+        jPanel_carga_sort_nombre_Realiza.add(jButton_crearSortilegio_Carga2);
+
         jComboBox_sotilegios_Realiza.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox_sotilegios_Realiza.setMinimumSize(new java.awt.Dimension(156, 20));
         jComboBox_sotilegios_Realiza.setPreferredSize(new java.awt.Dimension(330, 20));
@@ -427,59 +562,106 @@ public class DeclaraAccion extends javax.swing.JDialog {
                 jComboBox_sotilegios_RealizaActionPerformed(evt);
             }
         });
-        jPanel_carga_sort_nombre_realiza.add(jComboBox_sotilegios_Realiza);
+        jPanel_carga_sort_nombre_Realiza.add(jComboBox_sotilegios_Realiza);
 
-        jButton_crearSortilegio_Realiza.setText("Crear Nuevo");
-        jButton_crearSortilegio_Realiza.addActionListener(new java.awt.event.ActionListener() {
+        jButton_crearSortilegio_Carga3.setText("N. Sortilegio");
+        jButton_crearSortilegio_Carga3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_crearSortilegio_RealizaActionPerformed(evt);
+                jButton_crearSortilegio_Carga3ActionPerformed(evt);
             }
         });
-        jPanel_carga_sort_nombre_realiza.add(jButton_crearSortilegio_Realiza);
+        jPanel_carga_sort_nombre_Realiza.add(jButton_crearSortilegio_Carga3);
 
-        jPanel_Realiza_Sortilegio_tabPanel.add(jPanel_carga_sort_nombre_realiza);
+        jPanel_Realiza_Sortilegio_tabPanel.add(jPanel_carga_sort_nombre_Realiza);
 
-        jPanel11.setLayout(new javax.swing.BoxLayout(jPanel11, javax.swing.BoxLayout.PAGE_AXIS));
+        jPanel_carga_sort_datos_Realiza.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 15, 5));
 
-        jLabel10.setText("Lv");
-        jPanel_carga_sort_datos_Realiza.add(jLabel10);
+        jPanel_carga_sort_datos_Cargado1.setPreferredSize(new java.awt.Dimension(476, 35));
+        jPanel_carga_sort_datos_Cargado1.setLayout(new java.awt.GridLayout(2, 0, 3, 3));
+
+        jPanel26.setLayout(new java.awt.GridLayout());
+
+        jLabel5.setText("Lv");
+        jPanel26.add(jLabel5);
 
         jTextField_lv_sort_realiza.setEditable(false);
         jTextField_lv_sort_realiza.setMinimumSize(new java.awt.Dimension(66, 20));
         jTextField_lv_sort_realiza.setPreferredSize(new java.awt.Dimension(20, 20));
-        jPanel_carga_sort_datos_Realiza.add(jTextField_lv_sort_realiza);
+        jPanel26.add(jTextField_lv_sort_realiza);
 
-        jLabel11.setText("Dominio");
-        jPanel_carga_sort_datos_Realiza.add(jLabel11);
+        jPanel_carga_sort_datos_Cargado1.add(jPanel26);
+
+        jPanel28.setLayout(new java.awt.GridLayout());
+
+        jLabel6.setText("Dominio");
+        jPanel28.add(jLabel6);
 
         jTextField_Dominio_sort_realiza.setEditable(false);
         jTextField_Dominio_sort_realiza.setMinimumSize(new java.awt.Dimension(66, 20));
         jTextField_Dominio_sort_realiza.setPreferredSize(new java.awt.Dimension(66, 20));
-        jPanel_carga_sort_datos_Realiza.add(jTextField_Dominio_sort_realiza);
+        jPanel28.add(jTextField_Dominio_sort_realiza);
+
+        jPanel_carga_sort_datos_Cargado1.add(jPanel28);
+
+        jPanel29.setLayout(new java.awt.GridLayout());
 
         jCheckBox_consume_sort_realiza.setText("Consume PP");
         jCheckBox_consume_sort_realiza.setEnabled(false);
-        jPanel_carga_sort_datos_Realiza.add(jCheckBox_consume_sort_realiza);
+        jPanel29.add(jCheckBox_consume_sort_realiza);
 
-        jLabel12.setText("Alcance");
-        jPanel_carga_sort_datos_Realiza.add(jLabel12);
+        jPanel_carga_sort_datos_Cargado1.add(jPanel29);
 
-        jTextField_alcance_sort_realiza.setEditable(false);
-        jTextField_alcance_sort_realiza.setText(" ");
-        jTextField_alcance_sort_realiza.setPreferredSize(new java.awt.Dimension(50, 20));
-        jPanel_carga_sort_datos_Realiza.add(jTextField_alcance_sort_realiza);
+        jPanel30.setLayout(new java.awt.GridLayout());
 
-        jLabel14.setText("PP Actual");
-        jPanel_carga_sort_datos_Realiza.add(jLabel14);
+        jLabel19.setText("PP Actual");
+        jPanel30.add(jLabel19);
 
         jTextField_PPActual_ls_realiza.setEditable(false);
         jTextField_PPActual_ls_realiza.setText(" ");
         jTextField_PPActual_ls_realiza.setPreferredSize(new java.awt.Dimension(50, 20));
-        jPanel_carga_sort_datos_Realiza.add(jTextField_PPActual_ls_realiza);
+        jPanel30.add(jTextField_PPActual_ls_realiza);
 
-        jPanel11.add(jPanel_carga_sort_datos_Realiza);
+        jPanel_carga_sort_datos_Cargado1.add(jPanel30);
 
-        jPanel_Realiza_Sortilegio_tabPanel.add(jPanel11);
+        jPanel31.setLayout(new java.awt.GridLayout());
+
+        jLabel20.setText("Alcance");
+        jPanel31.add(jLabel20);
+
+        jTextField_alcance_sort_realiza.setEditable(false);
+        jTextField_alcance_sort_realiza.setText(" ");
+        jTextField_alcance_sort_realiza.setPreferredSize(new java.awt.Dimension(50, 20));
+        jPanel31.add(jTextField_alcance_sort_realiza);
+
+        jPanel_carga_sort_datos_Cargado1.add(jPanel31);
+
+        jPanel32.setLayout(new java.awt.GridLayout());
+
+        jLabel21.setText("Duracion");
+        jPanel32.add(jLabel21);
+
+        jTextField_duracion_sort_realiza.setEditable(false);
+        jTextField_duracion_sort_realiza.setText(" ");
+        jTextField_duracion_sort_realiza.setPreferredSize(new java.awt.Dimension(50, 20));
+        jPanel32.add(jTextField_duracion_sort_realiza);
+
+        jPanel_carga_sort_datos_Cargado1.add(jPanel32);
+
+        jPanel34.setLayout(new java.awt.GridLayout());
+
+        jLabel28.setText("Area Efecto");
+        jPanel34.add(jLabel28);
+
+        jTextField_area_sort_realiza.setEditable(false);
+        jTextField_area_sort_realiza.setText(" ");
+        jTextField_area_sort_realiza.setPreferredSize(new java.awt.Dimension(50, 20));
+        jPanel34.add(jTextField_area_sort_realiza);
+
+        jPanel_carga_sort_datos_Cargado1.add(jPanel34);
+
+        jPanel_carga_sort_datos_Realiza.add(jPanel_carga_sort_datos_Cargado1);
+
+        jPanel_Realiza_Sortilegio_tabPanel.add(jPanel_carga_sort_datos_Realiza);
 
         jTabbedPane_SeleccionAccion.addTab("Realiza Sortilegio", jPanel_Realiza_Sortilegio_tabPanel);
 
@@ -829,7 +1011,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        declarar();        
+        declarar();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField_BoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_BoActionPerformed
@@ -857,14 +1039,6 @@ public class DeclaraAccion extends javax.swing.JDialog {
 
     }//GEN-LAST:event_jComboBox_sotilegiosActionPerformed
 
-    private void jComboBox_sotilegios_RealizaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_sotilegios_RealizaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox_sotilegios_RealizaActionPerformed
-
-    private void jButton_crearSortilegio_RealizaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_crearSortilegio_RealizaActionPerformed
-        nuevoSortilegio(false);
-    }//GEN-LAST:event_jButton_crearSortilegio_RealizaActionPerformed
-
     private void jComboBox_sotilegiosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_sotilegiosItemStateChanged
         actualizarSortilegioCarga();
     }//GEN-LAST:event_jComboBox_sotilegiosItemStateChanged
@@ -877,9 +1051,49 @@ public class DeclaraAccion extends javax.swing.JDialog {
         moverBo();
     }//GEN-LAST:event_jSlider_BoStateChanged
 
+    private void jComboBox_Lista_sotilegiosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_Lista_sotilegiosItemStateChanged
+        if (jComboBox_Lista_sotilegios.getSelectedIndex() > -1) {
+            ListaDeSortilegios lds = (ListaDeSortilegios) jComboBox_Lista_sotilegios.getSelectedItem();
+            mostrarLista(lds);
+        }
+    }//GEN-LAST:event_jComboBox_Lista_sotilegiosItemStateChanged
+
+    private void jComboBox_Lista_sotilegiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_Lista_sotilegiosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox_Lista_sotilegiosActionPerformed
+
+    private void jButton_crearSortilegio_Carga1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_crearSortilegio_Carga1ActionPerformed
+        ListaDeSortilegios lds = ElejirListaSortilegio.NuevaListaDeSortilegios(null, true);
+        if (lds != null) {
+            token_accion.getToken().aprenderListaDeSortilegio(lds.getId(), 50);
+            jComboBox_Lista_sotilegios.setModel(new DefaultComboBoxModel(token_accion.getToken().getListasDeSortilegios().toArray()));
+            jComboBox_Lista_sotilegios.setSelectedIndex(jComboBox_Lista_sotilegios.getComponentCount()-1);
+        }
+    }//GEN-LAST:event_jButton_crearSortilegio_Carga1ActionPerformed
+
+    private void jComboBox_Lista_sotilegios_realizaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_Lista_sotilegios_realizaItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox_Lista_sotilegios_realizaItemStateChanged
+
+    private void jComboBox_Lista_sotilegios_realizaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_Lista_sotilegios_realizaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox_Lista_sotilegios_realizaActionPerformed
+
+    private void jButton_crearSortilegio_Carga2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_crearSortilegio_Carga2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton_crearSortilegio_Carga2ActionPerformed
+
     private void jComboBox_sotilegios_RealizaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_sotilegios_RealizaItemStateChanged
-        actualizarSortilegioRealiza();
+        // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox_sotilegios_RealizaItemStateChanged
+
+    private void jComboBox_sotilegios_RealizaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_sotilegios_RealizaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox_sotilegios_RealizaActionPerformed
+
+    private void jButton_crearSortilegio_Carga3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_crearSortilegio_Carga3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton_crearSortilegio_Carga3ActionPerformed
 
     private void nuevoSortilegio(boolean carga) {
         int sa = token_accion.getToken().getSortilegios().size();
@@ -887,6 +1101,31 @@ public class DeclaraAccion extends javax.swing.JDialog {
 
         if (s > -1) {
             token_accion.getToken().aprenderSortilegio(s);
+        }
+
+        if (token_accion.getToken().getSortilegios().size() > sa) {
+            jComboBox_sotilegios.removeAllItems();
+            jComboBox_sotilegios.setModel(new DefaultComboBoxModel(token_accion.getToken().getSortilegios().toArray()));
+            jComboBox_sotilegios.setSelectedIndex(token_accion.getToken().getSortilegios().size() - 1);
+            jComboBox_sotilegios_Realiza.removeAllItems();
+            jComboBox_sotilegios_Realiza.setModel(new DefaultComboBoxModel(token_accion.getToken().getSortilegios().toArray()));
+            jComboBox_sotilegios_Realiza.setSelectedIndex(token_accion.getToken().getSortilegios().size() - 1);
+            if (carga) {
+                actualizarSortilegioCarga();
+            } else {
+                actualizarSortilegioRealiza();
+            }
+        }
+    }
+
+    private void nuevaListaDeSortilegios(boolean carga) {
+        int sa = token_accion.getToken().getListasDeSortilegios().size();
+        // int lds = jop  //NuevoSortilegio.Crear(principal, true, token_accion.getToken());
+        ListaDeSortilegios lds = (ListaDeSortilegios) JOptionPane.showInputDialog(null,
+                "Selecciona Arma", "ShowInputDialog",
+                JOptionPane.PLAIN_MESSAGE, null, Principal.dataRecursos.getListasDeSortilegios().values().toArray(), "Seleccion una Lista de Sortilegios");
+        if (lds != null) {
+            token_accion.getToken().aprenderListaDeSortilegio(sa, sa);
         }
 
         if (token_accion.getToken().getSortilegios().size() > sa) {
@@ -913,8 +1152,9 @@ public class DeclaraAccion extends javax.swing.JDialog {
             jPanel_carga_sort_nombre_carga.setToolTipText(s.getDescp());
             jPanel_carga_sort_datos_Cargado.setToolTipText(s.getDescp());
             jCheckBox_consume_sort_carga.setSelected(s.isConsumePP());
-            jTextField_alcance_sort_carga.setText(s.getAlcance_string());
-
+            jTextField_alcance_sort_carga.setText(s.getAlcance().toString());
+            jTextField_duracion_sort_carga.setText(s.getDuracion().toString());
+            jTextField_area_sort_carga.setText(s.getAreaDeEfecto().toString());
         }
     }
 
@@ -924,10 +1164,12 @@ public class DeclaraAccion extends javax.swing.JDialog {
 
             jTextField_Dominio_sort_realiza.setText(s.getDominioStr());
             jTextField_lv_sort_realiza.setText(s.getLv() + "");
-            jPanel_carga_sort_nombre_realiza.setToolTipText(s.getDescp());
+            jPanel_carga_sort_nombre_Realiza.setToolTipText(s.getDescp());
             jPanel_carga_sort_datos_Realiza.setToolTipText(s.getDescp());
             jCheckBox_consume_sort_realiza.setSelected(s.isConsumePP());
-            jTextField_alcance_sort_realiza.setText(s.getAlcance_string());
+            jTextField_alcance_sort_realiza.setText(s.getAlcance().toString());
+            jTextField_duracion_sort_realiza.setText(s.getDuracion().toString());
+            jTextField_area_sort_realiza.setText(s.getAreaDeEfecto().toString());
         }
     }
 
@@ -949,7 +1191,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
             str_carga = "\nCarga " + cargas + " (" + bono + ")";
         }
 
-        int tipoAcion = this.jTabbedPane_SeleccionAccion.getSelectedIndex() +1;
+        int tipoAcion = this.jTabbedPane_SeleccionAccion.getSelectedIndex() + 1;
         Accion acc = null;
         int orden = 1;
         String fullDesc = "";
@@ -960,7 +1202,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
                 break;
             }
             case Constantes.TIPO_ACCION_CARGA_SORTILEGIO: {
-                Sortilegio sort_intencion = (Sortilegio) jComboBox_sotilegios_Realiza.getSelectedItem();
+                Sortilegio sort_intencion = (Sortilegio) jComboBox_sotilegios.getSelectedItem();
                 if (sort_intencion != null) {
 
                     if (token.puedeRealizarSortilegio(sort_intencion)) {
@@ -974,7 +1216,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
                             fullDesc += str_carga + "\n";
                         }
                         fullDesc += jTextArea_desc.getText();
-                    } else {                        
+                    } else {
                         recursos.Recursos.informar("No puede realizar este Sortilegio");
                     }
                 } else {
@@ -996,7 +1238,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
                         fullDesc += str_carga + "\n";
                     }
                     fullDesc += jTextArea_desc.getText();
-                } else {                    
+                } else {
                     recursos.Recursos.informar("No puede realizar este Sortilegio");
                 }
                 break;
@@ -1046,13 +1288,13 @@ public class DeclaraAccion extends javax.swing.JDialog {
             }
         }
         accionSeleccionada = acc;
-        if (accionSeleccionada != null ) {
+        if (accionSeleccionada != null) {
             acc.setFullDescp(fullDesc);
             acc.setDescp(jTextArea_desc.getText());
-            
+
             token_accion.AccionDefinidaEnEsteAsalto();
             this.dispose();
-        }        
+        }
     }
 
     private void moverBo() {
@@ -1070,52 +1312,73 @@ public class DeclaraAccion extends javax.swing.JDialog {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton_cancelar;
     private javax.swing.JButton jButton_crearSortilegio_Carga;
-    private javax.swing.JButton jButton_crearSortilegio_Realiza;
+    private javax.swing.JButton jButton_crearSortilegio_Carga1;
+    private javax.swing.JButton jButton_crearSortilegio_Carga2;
+    private javax.swing.JButton jButton_crearSortilegio_Carga3;
     private javax.swing.JCheckBox jCheckBox_consume_sort_carga;
     private javax.swing.JCheckBox jCheckBox_consume_sort_realiza;
     private javax.swing.JComboBox jComboBoxArmas_Proy;
     private javax.swing.JComboBox jComboBoxArmas_cac;
     private javax.swing.JComboBox jComboBoxEnemigos;
     private javax.swing.JComboBox jComboBoxEnemigos1;
+    private javax.swing.JComboBox<String> jComboBox_Lista_sotilegios;
+    private javax.swing.JComboBox<String> jComboBox_Lista_sotilegios_realiza;
     private javax.swing.JComboBox<String> jComboBox_sotilegios;
     private javax.swing.JComboBox<String> jComboBox_sotilegios_Realiza;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabel_distancia;
     private javax.swing.JLabel jLabel_distancia1;
     private javax.swing.JLabel jLabel_distancia2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
+    private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel22;
+    private javax.swing.JPanel jPanel23;
+    private javax.swing.JPanel jPanel24;
+    private javax.swing.JPanel jPanel26;
     private javax.swing.JPanel jPanel27;
+    private javax.swing.JPanel jPanel28;
+    private javax.swing.JPanel jPanel29;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel30;
+    private javax.swing.JPanel jPanel31;
+    private javax.swing.JPanel jPanel32;
     private javax.swing.JPanel jPanel33;
+    private javax.swing.JPanel jPanel34;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JPanel jPanel_Ataque_Cuerpo_a_Cuerpo_tabDA;
@@ -1128,9 +1391,10 @@ public class DeclaraAccion extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel_Parar_Proyectil_tabPanel;
     private javax.swing.JPanel jPanel_Realiza_Sortilegio_tabPanel;
     private javax.swing.JPanel jPanel_carga_sort_datos_Cargado;
+    private javax.swing.JPanel jPanel_carga_sort_datos_Cargado1;
     private javax.swing.JPanel jPanel_carga_sort_datos_Realiza;
+    private javax.swing.JPanel jPanel_carga_sort_nombre_Realiza;
     private javax.swing.JPanel jPanel_carga_sort_nombre_carga;
-    private javax.swing.JPanel jPanel_carga_sort_nombre_realiza;
     private javax.swing.JPanel jPanel_desc_Accion;
     private javax.swing.JPanel jPanel_distancia;
     private javax.swing.JPanel jPanel_distancia1;
@@ -1166,7 +1430,11 @@ public class DeclaraAccion extends javax.swing.JDialog {
     private javax.swing.JTextField jTextField_PPActual_ls_realiza;
     private javax.swing.JTextField jTextField_alcance_sort_carga;
     private javax.swing.JTextField jTextField_alcance_sort_realiza;
+    private javax.swing.JTextField jTextField_area_sort_carga;
+    private javax.swing.JTextField jTextField_area_sort_realiza;
     private javax.swing.JTextField jTextField_bono_mm;
+    private javax.swing.JTextField jTextField_duracion_sort_carga;
+    private javax.swing.JTextField jTextField_duracion_sort_realiza;
     private javax.swing.JTextField jTextField_lv_sort_carga;
     private javax.swing.JTextField jTextField_lv_sort_realiza;
     private javax.swing.JTextField jTextField_sort_bono;
@@ -1213,6 +1481,26 @@ public class DeclaraAccion extends javax.swing.JDialog {
             jSlider_Bo.setMajorTickSpacing(1);
             jSlider_Bo.setMinimum(0);
             jSlider_Bo.setMaximum(actual);
+        }
+    }
+
+    private void mostrarLista(ListaDeSortilegios lds) {
+        HashMap<Integer, Sortilegio> li = lds.getLista();
+        ArrayList<Sortilegio> listaFinal = new ArrayList<>();
+        if (lds.getId() != -1) {
+            int maxLevel = token_accion.getToken().getHabilidades().getHm_listasDeSortilegios().get(lds.getId());
+            for (Map.Entry<Integer, Sortilegio> entry : li.entrySet()) {
+
+                Sortilegio value = entry.getValue();
+                if (value.getLv() <= maxLevel) {
+                    listaFinal.add(value);
+                }
+            }
+            jComboBox_sotilegios.setModel(new DefaultComboBoxModel(listaFinal.toArray()));
+            jComboBox_sotilegios_Realiza.setModel(new DefaultComboBoxModel(listaFinal.toArray()));
+        } else {
+            jComboBox_sotilegios.removeAllItems();
+            jComboBox_sotilegios_Realiza.removeAllItems();
         }
     }
 }

@@ -31,24 +31,50 @@ public class CrearListaSortilegio extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel2 = new javax.swing.JPanel();
         jTextField_nombre_lds = new javax.swing.JTextField();
-        jComboBox_tipo_lista_sortilegio = new javax.swing.JComboBox<>();
         jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox_tipo_lista_sortilegio = new javax.swing.JComboBox<>();
+        jTextField_profesion_lds = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Nueva Lista de Sortilegios");
+        setMaximumSize(new java.awt.Dimension(211, 175));
+        setMinimumSize(new java.awt.Dimension(211, 168));
+        setPreferredSize(new java.awt.Dimension(211, 175));
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.PAGE_AXIS));
 
-        jTextField_nombre_lds.setText("Nombre");
-        getContentPane().add(jTextField_nombre_lds);
+        java.awt.FlowLayout flowLayout1 = new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 35, 5);
+        flowLayout1.setAlignOnBaseline(true);
+        jPanel2.setLayout(flowLayout1);
 
-        jComboBox_tipo_lista_sortilegio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lista Abierta", "Lista Cerrada", "LIsta Cerrada de Profesion" }));
-        getContentPane().add(jComboBox_tipo_lista_sortilegio);
+        jTextField_nombre_lds.setText("Nombre");
+        jTextField_nombre_lds.setPreferredSize(new java.awt.Dimension(143, 20));
+        jPanel2.add(jTextField_nombre_lds);
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Dominio Canalizacion", "Dominio Escencia", "Dominion Mentalismo" }));
-        getContentPane().add(jComboBox1);
+        jPanel2.add(jComboBox1);
+
+        jComboBox_tipo_lista_sortilegio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lista Abierta", "Lista Cerrada", "Lista Básica de Profesion" }));
+        jComboBox_tipo_lista_sortilegio.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox_tipo_lista_sortilegioItemStateChanged(evt);
+            }
+        });
+        jPanel2.add(jComboBox_tipo_lista_sortilegio);
+
+        jTextField_profesion_lds.setEditable(false);
+        jTextField_profesion_lds.setText("Profesion");
+        jTextField_profesion_lds.setPreferredSize(new java.awt.Dimension(143, 20));
+        jPanel2.add(jTextField_profesion_lds);
+
+        getContentPane().add(jPanel2);
+
+        jPanel1.setMaximumSize(new java.awt.Dimension(32767, 33));
+        jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
         jButton1.setText("Crear");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -79,6 +105,10 @@ public class CrearListaSortilegio extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jComboBox_tipo_lista_sortilegioItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_tipo_lista_sortilegioItemStateChanged
+        jTextField_profesion_lds.setEditable(true);
+    }//GEN-LAST:event_jComboBox_tipo_lista_sortilegioItemStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -86,7 +116,9 @@ public class CrearListaSortilegio extends javax.swing.JDialog {
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox_tipo_lista_sortilegio;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField jTextField_nombre_lds;
+    private javax.swing.JTextField jTextField_profesion_lds;
     // End of variables declaration//GEN-END:variables
 
     public static ListaDeSortilegios lds;
@@ -104,6 +136,9 @@ public class CrearListaSortilegio extends javax.swing.JDialog {
         lds.setNombre(jTextField_nombre_lds.getText());
         lds.setDominio(jComboBox1.getSelectedIndex());
         lds.setTipo_lista(jComboBox_tipo_lista_sortilegio.getSelectedIndex());
+        if (jComboBox_tipo_lista_sortilegio.getSelectedIndex() == ListaDeSortilegios.TIPO_LISTA_BASICA_PROFESION){
+            lds.setProfesion(jTextField_profesion_lds.getText());
+        }
         this.dispose();
     }
 

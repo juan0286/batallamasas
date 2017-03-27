@@ -5,12 +5,16 @@
  */
 package superrolbattle.ventanas;
 
+import instancias.Dado;
+import instancias.ListaDeSortilegios;
+import instancias.Sortilegio;
 import instancias.Token;
 import instancias.properties.Arma;
 import instancias.properties.Bo;
 import instancias.properties.Brazo;
 import instancias.properties.Caracteristicas;
 import instancias.properties.Extremidad;
+import instancias.properties.Habilidad;
 import instancias.properties.Status;
 import java.awt.Color;
 import java.awt.event.ItemEvent;
@@ -55,7 +59,7 @@ public class CrearToken extends javax.swing.JDialog {
         this.setearPanel();
 
         agregarArmaALalista(new Arma("Mano Desnuda", Constantes.CLASE_MANO_DESNUDA, 0, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_PELEA));
-        for (int i = 0; i < Constantes.ESTILO_ASTA; i++) {            
+        for (int i = 0; i < Constantes.ESTILO_ASTA; i++) {
             Bo b = new Bo(i, 0);
             //b.setValue(Recursos.nuevaBo(1, i));
             agregarBoALaLista(b);
@@ -105,7 +109,7 @@ public class CrearToken extends javax.swing.JDialog {
         jList_Bos = new javax.swing.JList<>();
         jPanel_caract2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jSpinner_crearBo = new javax.swing.JSpinner();
+        jComboBox_dom = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
         jSpinner_crearBD = new javax.swing.JSpinner();
         jLabel9 = new javax.swing.JLabel();
@@ -268,11 +272,11 @@ public class CrearToken extends javax.swing.JDialog {
         jPanel_caract2.setBorder(javax.swing.BorderFactory.createTitledBorder("Habilidades"));
         jPanel_caract2.setLayout(new javax.swing.BoxLayout(jPanel_caract2, javax.swing.BoxLayout.LINE_AXIS));
 
-        jLabel5.setText("BO    ");
+        jLabel5.setText("Dominio");
         jPanel_caract2.add(jLabel5);
 
-        jSpinner_crearBo.setModel(new javax.swing.SpinnerNumberModel(0, null, null, 5));
-        jPanel_caract2.add(jSpinner_crearBo);
+        jComboBox_dom.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Canalizacion", "Escencia", "Mentalismo", "Hibrido Can Men", "Hibrido Esc Men", "Hibrido Men Can", "Arcano" }));
+        jPanel_caract2.add(jComboBox_dom);
 
         jLabel8.setText("AGI");
         jPanel_caract2.add(jLabel8);
@@ -384,7 +388,14 @@ public class CrearToken extends javax.swing.JDialog {
     private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
 
         newToken = new Token();
-        Caracteristicas hab = new Caracteristicas();
+
+        Caracteristicas hab;
+
+        if (newhabHabilidad == null) {
+            hab = new Caracteristicas();
+        } else {
+            hab = newhabHabilidad;
+        }
 
         // Brazos
         Extremidad bi = new Extremidad(true, true, false, Extremidad.MIEMBRO_SUPERIOR_IZQUIERDO, null);
@@ -413,7 +424,7 @@ public class CrearToken extends javax.swing.JDialog {
             newToken.setNivel((Integer) this.jSpinner_crearNIvel.getValue());
             newToken.setGrupo(Recursos.grupos.get(this.jComboBox_crearGrupo.getSelectedIndex()));
             int pv = (Integer) this.jSpinner_crearPV.getValue();
-            hab.setPuntosVida(pv);            
+            hab.setPuntosVida(pv);
             int pp = (Integer) this.jSpinner_crearPP.getValue();
             hab.setPp(pp);
 
@@ -464,8 +475,9 @@ public class CrearToken extends javax.swing.JDialog {
                 hm_bos.put(b.getEstilo(), b);
 
             }
+            newToken.setDominio(jComboBox_dom.getSelectedIndex());
             newToken.setBos(hm_bos);
-            newToken.setEstado(est);            
+            newToken.setEstado(est);
             newToken.setColor(Recursos.getHexaColor(Color.BLUE));
 
             if (personajeCorrecto(newToken)) {
@@ -492,7 +504,7 @@ public class CrearToken extends javax.swing.JDialog {
     }
 
     private void jButton_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_cancelarActionPerformed
-        newToken = null;
+
         this.dispose();
     }//GEN-LAST:event_jButton_cancelarActionPerformed
 
@@ -527,14 +539,58 @@ public class CrearToken extends javax.swing.JDialog {
         jdlmo.removeAllElements();
         bos.clear();
 
+        // Dominio y sortilegios
+        Dado d100 = new Dado();
+        int pos = d100.lanzarAbierta();
+        if (pos < 49) {
+            jComboBox_dom.setSelectedIndex(0);
+        }
+        if (pos > 49) {
+            jComboBox_dom.setSelectedIndex(1);
+        }
+        if (pos > 100) {
+            jComboBox_dom.setSelectedIndex(2);
+        }
+        if (pos > 150) {
+            jComboBox_dom.setSelectedIndex(3);
+        }
+        if (pos > 200) {
+            jComboBox_dom.setSelectedIndex(4);
+        }
+        if (pos > 250) {
+            jComboBox_dom.setSelectedIndex(5);
+        }
+        if (pos > 300) {
+            jComboBox_dom.setSelectedIndex(6);
+        }
+        newhabHabilidad = new Caracteristicas();
+        newToken.setHabilidades(newhabHabilidad);
+        int chance = 25;
+        for (int i = 0; i < Recursos.aleatorioEntre(1, 10); i++) {
+            
+            if (d100.lanzarCerrada() < chance) {
+                ListaDeSortilegios lds = (ListaDeSortilegios) Recursos.aleatorioDe(Principal.getTodasLasListasDeSortilegiosAbiertas(newToken.getDominio()));
+
+                newToken.aprenderListaDeSortilegio(lds.getId(), 50);
+
+            }
+            if (d100.lanzarAbierta() > 150) {
+                Sortilegio s = (Sortilegio) Recursos.aleatorioDe(Principal.getTodosLosSortilegios());
+                if (newToken.getDominio() == s.getDominio() || newToken.getDominio() > 2) {
+                    newToken.aprenderSortilegio(s.getId());
+                }
+            }
+            chance -= Recursos.aleatorioEntre(1, 5);
+        }
+
         agregarArmaALalista(new Arma("Mano Desnuda", Constantes.CLASE_MANO_DESNUDA, 0, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_PELEA));
         agregarBoALaLista(new Bo(Constantes.ESTILO_PELEA, Recursos.nuevaBo(nivel, Recursos.aleatorioEntre(0, 4))));
 
         for (int i = 0; i < cant_armas; i++) {
             Arma a = Recursos.armeria.get(Recursos.aleatorioEntre(0, 23));
-            agregarArmaALalista(a);            
+            agregarArmaALalista(a);
         }
-        for (int i = 1; i <= Constantes.ESTILO_ASTA; i++) {            
+        for (int i = 1; i <= Constantes.ESTILO_ASTA; i++) {
             Bo b = new Bo(i, 0);
             b.setValue(Recursos.nuevaBo(nivel, i));
             agregarBoALaLista(b);
@@ -602,6 +658,7 @@ public class CrearToken extends javax.swing.JDialog {
     private javax.swing.JButton jButton_cancelar;
     private javax.swing.JButton jButton_generaNombreAleatorio;
     private javax.swing.JComboBox jComboBox_crearGrupo;
+    private javax.swing.JComboBox<String> jComboBox_dom;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -639,7 +696,6 @@ public class CrearToken extends javax.swing.JDialog {
     private javax.swing.JSlider jSlider_crearPvActuales;
     private javax.swing.JSpinner jSpinner_crearArmadura;
     private javax.swing.JSpinner jSpinner_crearBD;
-    private javax.swing.JSpinner jSpinner_crearBo;
     private javax.swing.JSpinner jSpinner_crearNIvel;
     private javax.swing.JSpinner jSpinner_crearPP;
     private javax.swing.JSpinner jSpinner_crearPV;
@@ -647,7 +703,10 @@ public class CrearToken extends javax.swing.JDialog {
     private javax.swing.JToggleButton jToggleButton_Panel;
     private javax.swing.ButtonGroup jbuttonGroup_crearEstilo;
     // End of variables declaration//GEN-END:variables
-    private static Token newToken;
+    private static Token newToken = new Token();
+    private static Caracteristicas newhabHabilidad;
+    ;
+    
     private ArrayList<Bo> bos;
     private static boolean panelLado = true;
 
@@ -657,7 +716,7 @@ public class CrearToken extends javax.swing.JDialog {
             if (!nt.getHabilidades().getHm_bos().containsKey(arma.getEstilo())) {
                 Recursos.informar("Agregar Bo para " + arma.getNombre());
                 return false;
-            }            
+            }
         }
         return true;
     }

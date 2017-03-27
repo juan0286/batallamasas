@@ -8,12 +8,14 @@ package instancias.properties.alteracion;
 import instancias.properties.Extremidad;
 import java.util.ArrayList;
 import java.util.HashMap;
+import javax.xml.bind.annotation.XmlType;
 import recursos.Recursos;
 
 /**
  *
  * @author TiranoJuan
  */
+@XmlType
 public class Efecto {
 
     static final public int TIPO_QUEMADURA = 1;

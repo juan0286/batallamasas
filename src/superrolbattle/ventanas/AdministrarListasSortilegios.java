@@ -9,6 +9,10 @@ import instancias.ListaDeSortilegios;
 import instancias.Sortilegio;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.SwingConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import recursos.DataRecursos;
 import superrolbattle.Principal;
@@ -26,12 +30,31 @@ public class AdministrarListasSortilegios extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         modelo = (DefaultTableModel) jTable1.getModel();
-        
-        for (Map.Entry<Integer, ListaDeSortilegios> entry : hmlds.entrySet()) {            
+
+        for (Map.Entry<Integer, ListaDeSortilegios> entry : hmlds.entrySet()) {
             ListaDeSortilegios value = entry.getValue();
             jComboBox_Listas.addItem(value.toString());
+
+        }
+//        if (jComboBox_Listas.getSelectedIndex() > -1){
+//            ListaDeSortilegios lds = hmlds.get(jComboBox_Listas.getSelectedIndex());
+//            mostrarListaEnLaTabla(lds);
+//        }
+
+        for (int i = 0; i < jTable1.getColumnCount(); i++) {
+            DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+            tcr.setHorizontalAlignment(SwingConstants.CENTER);
+            jTable1.getColumnModel().getColumn(i).setCellRenderer(tcr);
         }
 
+        jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent event) {
+                if (jTable1.getSelectedRow() > -1) {
+                    String desc = (String) jTable1.getValueAt(jTable1.getSelectedRow(), 5);
+                    jTextArea_descp.setText(desc);
+                }
+            }
+        });
     }
 
     /**
@@ -55,11 +78,15 @@ public class AdministrarListasSortilegios extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jTextField_Tipo_lista = new javax.swing.JTextField();
         jButton_ns = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea_descp = new javax.swing.JTextArea();
         jPanel3 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Administrar Listas de Sortilegio");
+        setPreferredSize(new java.awt.Dimension(580, 400));
 
         jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
@@ -92,7 +119,7 @@ public class AdministrarListasSortilegios extends javax.swing.JDialog {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false
@@ -107,6 +134,15 @@ public class AdministrarListasSortilegios extends javax.swing.JDialog {
             }
         });
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(25);
+            jTable1.getColumnModel().getColumn(1).setPreferredWidth(70);
+            jTable1.getColumnModel().getColumn(2).setPreferredWidth(30);
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(30);
+            jTable1.getColumnModel().getColumn(4).setPreferredWidth(30);
+            jTable1.getColumnModel().getColumn(5).setPreferredWidth(100);
+            jTable1.getColumnModel().getColumn(6).setPreferredWidth(25);
+        }
 
         jPanel2.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -115,19 +151,22 @@ public class AdministrarListasSortilegios extends javax.swing.JDialog {
         jLabel1.setText("Dominio");
         jPanel4.add(jLabel1);
 
+        jTextField_Dominio.setEditable(false);
         jTextField_Dominio.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
         jTextField_Dominio.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField_Dominio.setMinimumSize(new java.awt.Dimension(156, 20));
-        jTextField_Dominio.setPreferredSize(new java.awt.Dimension(156, 20));
+        jTextField_Dominio.setMinimumSize(new java.awt.Dimension(136, 20));
+        jTextField_Dominio.setName(""); // NOI18N
+        jTextField_Dominio.setPreferredSize(new java.awt.Dimension(136, 20));
         jPanel4.add(jTextField_Dominio);
 
         jLabel2.setText("Tipo de Lista");
         jPanel4.add(jLabel2);
 
+        jTextField_Tipo_lista.setEditable(false);
         jTextField_Tipo_lista.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
         jTextField_Tipo_lista.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField_Tipo_lista.setMinimumSize(new java.awt.Dimension(156, 20));
-        jTextField_Tipo_lista.setPreferredSize(new java.awt.Dimension(156, 20));
+        jTextField_Tipo_lista.setMinimumSize(new java.awt.Dimension(176, 20));
+        jTextField_Tipo_lista.setPreferredSize(new java.awt.Dimension(176, 20));
         jPanel4.add(jTextField_Tipo_lista);
 
         jButton_ns.setText("Nuevo Sortilegio");
@@ -140,11 +179,32 @@ public class AdministrarListasSortilegios extends javax.swing.JDialog {
 
         jPanel2.add(jPanel4, java.awt.BorderLayout.NORTH);
 
+        jPanel5.setMaximumSize(new java.awt.Dimension(32767, 37));
+        jPanel5.setPreferredSize(new java.awt.Dimension(166, 70));
+        jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.LINE_AXIS));
+
+        jTextArea_descp.setEditable(false);
+        jTextArea_descp.setColumns(20);
+        jTextArea_descp.setLineWrap(true);
+        jTextArea_descp.setRows(5);
+        jTextArea_descp.setMaximumSize(new java.awt.Dimension(2147483647, 35));
+        jTextArea_descp.setPreferredSize(new java.awt.Dimension(164, 34));
+        jScrollPane2.setViewportView(jTextArea_descp);
+
+        jPanel5.add(jScrollPane2);
+
+        jPanel2.add(jPanel5, java.awt.BorderLayout.PAGE_END);
+
         getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
         jPanel3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-        jButton1.setText("Cerrar");
+        jButton1.setText("Guardar Cambios");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         jPanel3.add(jButton1);
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.PAGE_END);
@@ -154,26 +214,35 @@ public class AdministrarListasSortilegios extends javax.swing.JDialog {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         ListaDeSortilegios lds = CrearListaSortilegio.NuevaListaDeSortilegios(null, true);
-        if (lds != null){
+        if (lds != null) {
             Principal.crearListaDeSortilegiosNueva(lds);
             jComboBox_Listas.addItem(lds.toString());
+            jComboBox_Listas.setSelectedItem(lds.toString());
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jComboBox_ListasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_ListasItemStateChanged
-        if (hmlds.containsKey(jComboBox_Listas.getSelectedIndex())){
-            jTextField_Dominio.setText(ListaDeSortilegios.getDominioStr(hmlds.get(jComboBox_Listas.getSelectedIndex()).getDominio()));
-            jTextField_Tipo_lista.setText(ListaDeSortilegios.txtTipoLista(hmlds.get(jComboBox_Listas.getSelectedIndex()).getTipo_lista()));
+        if (hmlds.containsKey(jComboBox_Listas.getSelectedIndex())) {
+            ListaDeSortilegios lds = hmlds.get(jComboBox_Listas.getSelectedIndex());
+            jTextField_Dominio.setText(ListaDeSortilegios.getDominioStr(lds.getDominio()));
+            jTextField_Tipo_lista.setText(lds.TipoListaString());
+            mostrarListaEnLaTabla(lds);
+            jTextArea_descp.setText("");
         }
     }//GEN-LAST:event_jComboBox_ListasItemStateChanged
 
     private void jButton_nsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_nsActionPerformed
-       int s = jComboBox_Listas.getSelectedIndex();
-       int lv = NuevoSortilegio.Crear(null, rootPaneCheckingEnabled, hmlds.get(s));
-       agregarSortilegioaLatabla(hmlds.get(s).getSortilegio(lv));
+        int s = jComboBox_Listas.getSelectedIndex();
+        int lv = NuevoSortilegio.Crear(null, true, hmlds.get(s));
+        if (lv > 0) {
+            mostrarListaEnLaTabla(hmlds.get(s));
+        }
     }//GEN-LAST:event_jButton_nsActionPerformed
 
-    
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -186,17 +255,40 @@ public class AdministrarListasSortilegios extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextArea jTextArea_descp;
     private javax.swing.JTextField jTextField_Dominio;
     private javax.swing.JTextField jTextField_Tipo_lista;
     // End of variables declaration//GEN-END:variables
 
-    HashMap<Integer,ListaDeSortilegios> hmlds = Principal.dataRecursos.getListasDeSortilegios();
+    HashMap<Integer, ListaDeSortilegios> hmlds = Principal.dataRecursos.getListasDeSortilegios();
     DefaultTableModel modelo;
 
-    private void agregarSortilegioaLatabla(Sortilegio s) {
-        Object[] sort = {s.getNombre(),s.getLv(),s.getAreaDeEfecto(),s.getDuracion(),s.getAlcance(),s.getDescp(),s.getClase()};
-        modelo.addRow(sort);
+    private void mostrarListaEnLaTabla(ListaDeSortilegios lds) {
+        vaciarTabla();
+        for (Map.Entry<Integer, Sortilegio> entry : lds.getLista().entrySet()) {
+            Sortilegio value = entry.getValue();
+            agregarSortilegioaLatabla(value);
+        }
     }
+
+    private void agregarSortilegioaLatabla(Sortilegio s) {
+        Object[] sort = {s.getLv(), s.getNombre(), s.getAreaDeEfecto().toString(), s.getDuracion().toString(), s.getAlcance().toString(), s.getDescp(), s.getClaseStr()};
+        modelo.addRow(sort);
+        jTable1.setModel(modelo);
+    }
+
+    private void vaciarTabla() {
+        modelo = (DefaultTableModel) jTable1.getModel();
+        int c = jTable1.getRowCount();
+        for (int i = 0; i < c; i++) {
+            modelo.removeRow(0);
+
+        }
+        jTable1.setModel(modelo);
+    }
+
 }

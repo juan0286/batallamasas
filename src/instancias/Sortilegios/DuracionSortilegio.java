@@ -5,12 +5,14 @@
  */
 package instancias.Sortilegios;
 
+import javax.xml.bind.annotation.XmlType;
 import recursos.Constantes;
 
 /**
  *
  * @author TiranoJuan
  */
+@XmlType
 public class DuracionSortilegio {
 
     public static final int TIPO_DURACION_INSTANTE = 0;
@@ -31,6 +33,9 @@ public class DuracionSortilegio {
     public static String txtTipo(int tipo) {
 
         switch (tipo) {
+            case TIPO_DURACION_INSTANTE: {
+                return "-";
+            }
             case TIPO_DURACION_CONCENTRACION: {
                 return "C";
             }
@@ -144,6 +149,20 @@ public class DuracionSortilegio {
 
     public void setUnidad(int unidad) {
         this.unidad = unidad;
+    }
+
+    @Override
+    public String toString() {
+        String r = "";
+        if (tipo_duracion == TIPO_DURACION_PERMANENTE || 
+                tipo_duracion == TIPO_DURACION_VARIA || 
+                tipo_duracion == TIPO_DURACION_CONCENTRACION ||
+                tipo_duracion == TIPO_DURACION_INSTANTE ){
+            r=txtTipo(tipo_duracion);
+        } else {
+            r = unidad + txtTipo(tipo_duracion) + ((multiplicador != TIPO_MULTIPLICADOR_FIJO) ? "/" + txtTipoMultiplicador(multiplicador) : "");
+        }
+        return r;
     }
 
 }

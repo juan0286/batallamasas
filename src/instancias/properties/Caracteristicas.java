@@ -40,6 +40,7 @@ public class Caracteristicas implements Serializable {
     private int bo_pri;
     
     public Caracteristicas() {
+        
     }
 
     public int getPp() {
@@ -139,9 +140,22 @@ public class Caracteristicas implements Serializable {
         al_sortilegios.add(s);
 
     }
+    
+    public void aprenderListaDeSortilegio(int lista,int maxl) {
+        hm_listasDeSortilegios.put(lista, maxl);
+
+    }
 
     public boolean conoceSortilegio(int id) {
         return al_sortilegios.contains(id);
+    }
+
+    public HashMap<Integer, Integer> getHm_listasDeSortilegios() {
+        return hm_listasDeSortilegios;
+    }
+
+    public void setHm_listasDeSortilegios(HashMap<Integer, Integer> hm_listasDeSortilegios) {
+        this.hm_listasDeSortilegios = hm_listasDeSortilegios;
     }
 
 }

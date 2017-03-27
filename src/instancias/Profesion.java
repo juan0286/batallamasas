@@ -3,22 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package instancias.properties.alteracion;
-
-import javax.xml.bind.annotation.XmlType;
+package instancias;
 
 /**
  *
  * @author TiranoJuan
  */
-@XmlType
-public class Mod extends Alteracion{
-
-    public Mod() {
-        super();
-    }
-    
-       
-    
+public class Profesion {
     
 }

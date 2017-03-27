@@ -16,6 +16,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import javax.xml.bind.annotation.XmlType;
@@ -41,162 +42,191 @@ public class Token implements Serializable {
     private String nombre;
     private int nivel;
     private String grupo;
-    //private int puntosVida;
+    
     private Caracteristicas habilidades;
-    //private ArrayList daños;
+   
     private Status estado;
     private int estilo_de_pelea;
-    //private boolean ladoIzquierdo;
+    
     private int armaduraPuesta;
-    //private int porcentajeAtque = 100;
+    private int dominio;
+
     private boolean visible; // Si los jugadores pueden verlos
     private String color;
-    
+
     private String urlIcon;
-    
-    private ArrayList<Arma> armas = new ArrayList<Arma>();     
+
+    private ArrayList<Arma> armas = new ArrayList<Arma>();
     private ArrayList<Accion> acciones = new ArrayList<Accion>();
     private ArrayList<Extremidad> extremidades = new ArrayList<Extremidad>();
-    
-    
+
     public Token(String nombre, int nivel, String grupo, int puntosVida, Caracteristicas habilidades, ArrayList daños, Status estado, int estilo, boolean ladoIzquierdo) {
         this.nombre = nombre;
         this.nivel = nivel;
-        this.grupo = grupo;   
-        this.habilidades = habilidades;        
+        this.grupo = grupo;
+        this.habilidades = habilidades;
         this.estado = estado;
-        this.estilo_de_pelea = estilo;        
+        this.estilo_de_pelea = estilo;
     }
-    
-    public Token(String nombre, int nivel, String grupo, int puntosVida,  Caracteristicas habilidades, ArrayList daños, Status estado, int estilo) {
+
+    public Token(String nombre, int nivel, String grupo, int puntosVida, Caracteristicas habilidades, ArrayList daños, Status estado, int estilo) {
         this.nombre = nombre;
         this.nivel = nivel;
-        this.grupo = grupo;           
-        this.habilidades = habilidades;       
+        this.grupo = grupo;
+        this.habilidades = habilidades;
         this.estado = estado;
-        this.estilo_de_pelea = estilo;        
+        this.estilo_de_pelea = estilo;
     }
-    
+
     public Token(String nombre, int nivel, String grupo, int puntosVida, Caracteristicas habilidades, ArrayList daños, Status estado, int estilo, Asalto asalto, boolean lado) {
         this.nombre = nombre;
         this.nivel = nivel;
-        this.grupo = grupo;             
-        this.habilidades = habilidades;       
+        this.grupo = grupo;
+        this.habilidades = habilidades;
         this.estado = estado;
-        this.estilo_de_pelea = estilo;        
+        this.estilo_de_pelea = estilo;
     }
-    
-    public Token() {        
+
+    public Token() {
     }
-   
-    public void setBos(HashMap<Integer,Bo> bos){
+
+    public void setBos(HashMap<Integer, Bo> bos) {
         habilidades.setHm_bos(bos);
     }
-    
+
     public int getEstilo_de_pelea() {
         return estilo_de_pelea;
     }
-    
+
     public String getColor() {
         return color;
     }
-    
+
     public void setColor(String color) {
         this.color = color;
     }
-    
+
     public void setEstilo_de_pelea(int estilo_de_pelea) {
         this.estilo_de_pelea = estilo_de_pelea;
     }
-    
+
     public String getNombre() {
         return nombre;
     }
-    
+
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    
+
+    public int getDominio() {
+        return dominio;
+    }
+
+    public String getDominioString() {
+        if (dominio == Constantes.DOMINIO_CANALIZACION) {
+            return "Canalizacion";
+        } else if (dominio == Constantes.DOMINIO_ESCENCIA) {
+            return "Escencia";
+        } else if (dominio == Constantes.DOMINIO_MENTALISMO) {
+            return "Mentalismo";
+        } else if (dominio == Constantes.DOMINIO_HIBRIDO_CAN_ESCE) {
+            return "Hibrido Can-Esce";
+        } else if (dominio == Constantes.DOMINIO_HIBRIDO_CAN_MENT) {
+            return "Hibrido Can-Ment";        
+        } else if (dominio == Constantes.DOMINIO_HIBRIDO_MEN_ESCE) {
+            return "Hibrido Men-Esce";
+        } else {
+            return "Arcano";
+        }
+    }
+
+    public void setDominio(int dominio) {
+        this.dominio = dominio;
+    }
+
     public int getNivel() {
         return nivel;
     }
-    
+
     public void setNivel(int nivel) {
         this.nivel = nivel;
     }
-    
+
     public String getGrupo() {
         return grupo;
     }
-    
+
     public void setGrupo(String grupo) {
         this.grupo = grupo;
     }
-    
+
     public int getPuntosVida() {
         //return habilidades.getPuntosVida();
         return estado.getPvActual();
     }
-           
+
     public Caracteristicas getHabilidades() {
         return habilidades;
     }
-    
+
     public void setHabilidades(Caracteristicas habilidades) {
         this.habilidades = habilidades;
     }
-    
+
     public ArrayList<Arma> getArmas() {
         return armas;
     }
+
     public ArrayList<Arma> getArmasProyectiles() {
         ArrayList<Arma> al_a_p = new ArrayList<Arma>();
         for (Object arma : armas.toArray()) {
             Arma a = (Arma) arma;
-            if (a.getEstilo() == Constantes.ESTILO_PROYECTILES)
+            if (a.getEstilo() == Constantes.ESTILO_PROYECTILES) {
                 al_a_p.add(a);
+            }
         }
         return al_a_p;
     }
+
     public ArrayList<Arma> getArmasCuerpoACuerpo() {
         ArrayList<Arma> al_a_p = new ArrayList<Arma>();
         for (Object arma : armas.toArray()) {
             Arma a = (Arma) arma;
-            if (a.getEstilo() != Constantes.ESTILO_PROYECTILES)
+            if (a.getEstilo() != Constantes.ESTILO_PROYECTILES) {
                 al_a_p.add(a);
+            }
         }
         return al_a_p;
     }
 
-    public void agregarArma(Arma a){
+    public void agregarArma(Arma a) {
         armas.add(a);
     }
-   
 
     public void setArmas(ArrayList<Arma> armas) {
         this.armas = armas;
     }
-    
+
     public Status getEstado() {
         return estado;
     }
-    
+
     public void setEstado(Status estado) {
         this.estado = estado;
     }
-        
+
     public String getUrlIcon() {
         return urlIcon;
     }
-    
+
     public void setUrlIcon(String urlIcon) {
         this.urlIcon = urlIcon;
     }
-    
+
     public int getArmaduraPuesta() {
         return armaduraPuesta;
     }
-    
+
     public void setArmaduraPuesta(int armaduraPuesta) {
         this.armaduraPuesta = armaduraPuesta;
     }
@@ -208,28 +238,27 @@ public class Token implements Serializable {
     public void setExtremidades(ArrayList<Extremidad> extremidades) {
         this.extremidades = extremidades;
     }
-    
-    
-    
+
     public boolean isVisible() {
         return visible;
     }
-    
+
     public void setVisible(boolean visible) {
         this.visible = visible;
     }
-    
+
     public String vidatxt() {
         return this.getEstado().getPtsDeVidaPerdidos() + "  /  " + this.getPuntosVida();
     }
+
     public String podertxt() {
         return this.getEstado().getPtsDePoderPerdidos() + "  /  " + this.getHabilidades().getPp();
     }
-    public Bo bo_pri(){        
+
+    public Bo bo_pri() {
         return habilidades.getHm_bos().get(habilidades.getBo_pri());
     }
-    
-    
+
     public int compareTo(Token o) {
         int resultado = 0;
         if (this.estado.getModsDeMm() < o.estado.getModsDeMm()) {
@@ -245,7 +274,7 @@ public class Token implements Serializable {
         }
         return resultado;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -260,11 +289,11 @@ public class Token implements Serializable {
         }
         return true;
     }
-    
+
     public void updateEstado(int asaltos) {
-        estado.aplicarAsaltoNuevo(nombre,asaltos);
+        estado.aplicarAsaltoNuevo(nombre, asaltos);
         estado.update();
-        
+
     }
 
 //        Brazo d = new Brazo();
@@ -294,10 +323,10 @@ public class Token implements Serializable {
             // debo parar, aturdido y sin poder parar y obligado
 
         }
-        */
+         */
         this.estado.update();
     }
-    
+
     public int definirPorcTactica() {
         // devuelve la cantidad de BO destinada a atacar
         int porcReturn = 50;
@@ -306,27 +335,27 @@ public class Token implements Serializable {
                 porcReturn = Recursos.aleatorioEntre(0, 10);
                 break;
             }
-            
+
             case Token.PRECAVIDO: {
                 porcReturn = Recursos.aleatorioEntre(11, 34);
                 break;
             }
-            
+
             case Token.NORMAL: {
                 porcReturn = Recursos.aleatorioEntre(35, 64);
                 break;
             }
-            
+
             case Token.ATAQUE: {
                 porcReturn = Recursos.aleatorioEntre(66, 90);
                 break;
             }
-            
+
             case Token.TODO_O_NADA: {
                 porcReturn = Recursos.aleatorioEntre(91, 100);
                 break;
             }
-            
+
         }
         if (Recursos.imprimirPorConsola) {
             System.out.println("\nDefiniendo tatica de " + this.nombre);
@@ -334,33 +363,33 @@ public class Token implements Serializable {
         }
         return porcReturn;
     }
-    
+
     private int definirTactica(int estilo) {
 
         // devuelve la cantidad de BO destinada a atacar
         // int boReturn = this.habilidades.getBo_pri();
         int boReturn = habilidades.getBodeEstilo(estilo).getValue();
         boReturn = (int) ((float) boReturn / 100.0 * this.definirPorcTactica());
-        
+
         return boReturn;
     }
-    
+
     public ArrayList<Accion> getAcciones() {
         return acciones;
     }
-    
+
     public void setAcciones(ArrayList<Accion> acciones) {
         this.acciones = acciones;
     }
-    
+
     public void AgregarAccion(Accion accion) {
         this.acciones.add(accion);
     }
-    
+
     public Accion ultimaAccion() {
         return this.acciones.get(acciones.size() - 1);
     }
-    
+
     public void formatearAcciones() {
         this.acciones.clear();
     }
@@ -375,25 +404,25 @@ public class Token implements Serializable {
     public String toString() {
         return nombre;
     }
-    
+
     public int boDisponible(int estilo) {
-        int boDisponible = (habilidades.getBodeEstilo(estilo).getValue() + this.estado.getActividadActual()) ;
+        int boDisponible = (habilidades.getBodeEstilo(estilo).getValue() + this.estado.getActividadActual());
         boDisponible = boDisponible + estado.getModsDeBo(estilo);
         return boDisponible;
     }
-    
+
     public int boDisponibleAtaque(int estilo) {
         //int boDisponible = Recursos.porcentajeDe(this.getPorcentajeAtque(), this.boDisponible());
         int boDisponible = habilidades.getBodeEstilo(estilo).getValue() + estado.getModsDeBo(estilo) + estado.getActividadActual();
         return boDisponible;
-        
+
     }
-    
+
     public int boDisponibleDefensa(int estilo) {
         int boDisponible = this.boDisponible(estilo) - this.boDisponibleAtaque(estilo);
         return boDisponible;
     }
-    
+
 //    public int bonoEscudo() {
 //        
 //        if (manoDER.isHabilitado() && manoDER.getArmaEquipada().getClase() == Constantes.CLASE_ESCUDO) {
@@ -405,99 +434,131 @@ public class Token implements Serializable {
 //            return 0;
 //        }
 //    }
-    
     public String getpv() {
         return this.estado.getPtsDeVidaPerdidos() + " / " + this.habilidades.getPuntosVida();
     }
-    
+
     public String getpp() {
-        return this.estado.getPtsDePoderPerdidos()+ " / " + this.habilidades.getPp();
+        return this.estado.getPtsDePoderPerdidos() + " / " + this.habilidades.getPp();
     }
-    
-    public String textEstado() {        
+
+    public String textEstado() {
         return estado.getTextEstado();
     }
-    
+
     public final static Token nadie() {
         Token nadie = new Token();
         nadie.setNivel(0);
         nadie.setNombre("NADIE");
-        
+
         return nadie;
     }
-    
+
     public Accion getLastAction() {
         return (Accion) acciones.get(acciones.size() - 1);
-        
+
     }
-    
+
     public ArrayList<Sortilegio> getSortilegios() {
         ArrayList<Sortilegio> sort = new ArrayList<Sortilegio>();
         for (int i = 0; i < habilidades.getAl_sortilegios().size(); i++) {
             Sortilegio s = Principal.dataRecursos.getSortilegiosSueltos().get(habilidades.getAl_sortilegios().get(i));
-            if (s !=  null)
+            if (s != null) {
                 sort.add(s);
+            }
         }
-        return sort;        
+        return sort;
     }
-    
-    public void agregarExtremidad(Extremidad e) {        
+
+    public ArrayList<ListaDeSortilegios> getListasDeSortilegios() {
+        ArrayList<ListaDeSortilegios> sort = new ArrayList<>();
+        ListaDeSortilegios lista_sueltos = new ListaDeSortilegios();
+        lista_sueltos.setId(-1);
+        lista_sueltos.setNombre("Sortilegios sin lista");
+        lista_sueltos.setTipo_lista(ListaDeSortilegios.TIPO_LISTA_BASICA_PROFESION);
+
+        HashMap<Integer, Sortilegio> list = new HashMap<>();
+        for (Sortilegio s : getSortilegios()) {
+            list.put(s.getId(), s);
+        }
+
+        lista_sueltos.setLista(list);
+        sort.add(lista_sueltos);
+        for (Map.Entry<Integer, Integer> entry : habilidades.getHm_listasDeSortilegios().entrySet()) {
+            Integer key = entry.getKey();
+            ListaDeSortilegios s = Principal.dataRecursos.getListasDeSortilegios().get(key);
+            if (s != null) {
+                sort.add(s);
+            }
+        }
+
+        return sort;
+    }
+
+    public void agregarExtremidad(Extremidad e) {
         extremidades.add(e);
     }
-    
-    public void agregarHerida(Herida a) {        
+
+    public void agregarHerida(Herida a) {
         estado.aplicarHerida(a);
     }
-    
-    public void agregarMod(Mod m) {        
+
+    public void agregarMod(Mod m) {
         estado.aplicarMod(m);
     }
-    
-    public void agregarCuracion(Curacion c) {        
+
+    public void agregarCuracion(Curacion c) {
         estado.aplicarCuracion(c);
     }
-    
-    
-    public void aprenderSortilegio(int s) {        
+
+    public void aprenderSortilegio(int s) {
         habilidades.aprenderSortilegio(s);
     }
-    
-    public int puntosPoderRestantes() {        
+
+    public void aprenderListaDeSortilegio(int lista, int maxlv) {
+        habilidades.aprenderListaDeSortilegio(lista, maxlv);
+    }
+
+    public int puntosPoderRestantes() {
         return this.habilidades.getPp() - estado.getPtsDePoderPerdidos();
-    }    
-    
-    public boolean puedeRealizarSortilegio(Sortilegio s){
+    }
+
+    public boolean puedeRealizarSortilegio(Sortilegio s) {
         boolean re = true;
-        if (false)  // validar armadura
-        if (!s.isConsumePP() && (puntosPoderRestantes() > s.getLv()) )    
-            re = false;
+        if (false) // validar armadura
+        {
+            if (!s.isConsumePP() && (puntosPoderRestantes() > s.getLv())) {
+                re = false;
+            }
+        }
         return re;
     }
-    
-    public void cargarUnSortilegio(Sortilegio s) {        
-        estado.cargarUnSortilegio(s);        
+
+    public void cargarUnSortilegio(Sortilegio s) {
+        estado.cargarUnSortilegio(s);
     }
-    
-    public Object getSortilegioCargado(){
+
+    public Object getSortilegioCargado() {
         return estado.getSortilegioCargado();
     }
-    
-    public boolean isSortiCargado(){
+
+    public boolean isSortiCargado() {
         return estado.isSortiCargado();
     }
-            
+
     public void lanzarUnSortilegio(Sortilegio sort_intencion) {
         perderLaCarga();
-        if (sort_intencion.isConsumePP())
+        if (sort_intencion.isConsumePP()) {
             this.estado.perderPp(sort_intencion.getLv());
+        }
     }
-    
-    public boolean puedeRealizarElSortilegio(Sortilegio s){
-    int pp_final = estado.getPtsDePoderPerdidos() + s.getLv();
-        return (pp_final <= habilidades.getPp()); 
+
+    public boolean puedeRealizarElSortilegio(Sortilegio s) {
+        int pp_final = estado.getPtsDePoderPerdidos() + s.getLv();
+        return (pp_final <= habilidades.getPp());
     }
-    
-    public boolean conoceSortilegio(int id){
+
+    public boolean conoceSortilegio(int id) {
         return habilidades.conoceSortilegio(id);
     }
 
@@ -508,10 +569,10 @@ public class Token implements Serializable {
     public void intentarSortilegio(Sortilegio s) {
         getLastAction().setSort_intencion(s);
     }
-    
-    public boolean puedeActuar(){
-    
+
+    public boolean puedeActuar() {
+
         return estado.getCuerpo() < Status.DORMIDO_INCONSCIENTE;
     }
-    
+
 }
