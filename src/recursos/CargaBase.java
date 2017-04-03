@@ -26,6 +26,16 @@ import recursos.Recursos.*;
 import recursos.Constantes.*;
 import static recursos.Recursos.informar;
 import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
 
 
 /**
@@ -187,6 +197,12 @@ public class CargaBase {
         Arma arma21 = new Arma("Tridente", Constantes.CLASE_LANZA, 0, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_ASTA);
         Arma arma22 = new Arma("Tridente(2m)", Constantes.CLASE_LANZA_CABALLERIA, 0, Constantes.TIPO_ARMA_NORMAL, true, Constantes.ESTILO_ASTA);
         Arma arma23 = new Arma("Florete", Constantes.CLASE_ESPADA_ANCHA, 5, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_FILO);
+        
+        Arma golpeArteMarcial = new Arma("Golpe A.M.", Constantes.CLASE_MANO_DESNUDA, 0, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_GOLPE_ARTE_MARCIAL);
+        Arma golpeArteMarcialBaston = new Arma("Barrido A.M.", Constantes.CLASE_MANO_DESNUDA, 0, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_BARRIDO_ARTE_MARCIAL);
+        Arma bastonArteMarcial = new Arma("Baston A.M.", Constantes.CLASE_BASTON, 0, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_GOLPE_ARTE_MARCIAL);
+        
+        
 
         Arma khalel = new Arma("Espada Khal-El", Constantes.CLASE_ESPADA_ANCHA, 30, Constantes.TIPO_ARMA_MAGICA, false, Constantes.ESTILO_FILO);
         Arma hachaOso = new Arma("Hacha Oso", Constantes.CLASE_HACHA, 30, Constantes.TIPO_ARMA_MITRIL, false, Constantes.ESTILO_FILO);
@@ -201,7 +217,7 @@ public class CargaBase {
         Arma comboKyoLanzaEspada = new Arma("Combo Kyoros Feroz", Constantes.CLASE_ESPADA_ANCHA, 50, Constantes.TIPO_ARMA_MAGICA, true, Constantes.ESTILO_COMBO_ASTA_FILO);
         
         Arma comboNeoOsoDragon = new Arma("Combo Oso Dragon", Constantes.CLASE_HACHA, 45, Constantes.TIPO_ARMA_MITRIL, true, Constantes.ESTILO_COMBO_FILO_FILO);
-        Arma comboNeoOsoKhal = new Arma("Combo Oso Dragon", Constantes.CLASE_HACHA, 45, Constantes.TIPO_ARMA_MITRIL, true, Constantes.ESTILO_COMBO_FILO_FILO);
+        Arma comboNeoOsoKhal = new Arma("Combo Oso Khal", Constantes.CLASE_HACHA, 45, Constantes.TIPO_ARMA_MITRIL, true, Constantes.ESTILO_COMBO_FILO_FILO);
         Arma comboNeoKhalDragon = new Arma("Combo Khal Dragon", Constantes.CLASE_ESPADA_ANCHA, 45, Constantes.TIPO_ARMA_MAGICA, true, Constantes.ESTILO_COMBO_FILO_FILO);
 
         Recursos.armeria.add(puños);
@@ -228,6 +244,9 @@ public class CargaBase {
         Recursos.armeria.add(arma21);
         Recursos.armeria.add(arma22);
         Recursos.armeria.add(arma23);
+        Recursos.armeria.add(golpeArteMarcial);
+        Recursos.armeria.add(golpeArteMarcialBaston);
+        Recursos.armeria.add(bastonArteMarcial);
         
         Recursos.armeria.add(khalel);
         Recursos.armeria.add(hachaOso);
@@ -335,7 +354,7 @@ public class CargaBase {
             
             hab.setBo_sec_tipo(izq.getArmaEquipada().getClase());
              */
-            hab.setArmadura(Recursos.aleatorioEntre(1, 20));
+            est.setArmadura_puesta((Recursos.aleatorioEntre(1, 20)));
 
             newToken.setEstilo_de_pelea(Recursos.aleatorioEntre(0, 4));
             

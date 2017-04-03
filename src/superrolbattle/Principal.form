@@ -519,7 +519,7 @@
 
                                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                                   <SubComponents>
-                                    <Container class="javax.swing.JPanel" name="jPanel_sinAcciones_tokens">
+                                    <Container class="javax.swing.JPanel" name="jPanel_campo_sinAcciones">
                                       <Properties>
                                         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                           <Dimension value="[600, 32767]"/>
@@ -607,7 +607,7 @@
                                     </Component>
                                   </SubComponents>
                                 </Container>
-                                <Container class="javax.swing.JScrollPane" name="jPanel_SinAcciones_panel1">
+                                <Container class="javax.swing.JScrollPane" name="jPanel_CargaSortilegios_panel">
 
                                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                                   <SubComponents>
@@ -699,11 +699,11 @@
                                     </Component>
                                   </SubComponents>
                                 </Container>
-                                <Container class="javax.swing.JScrollPane" name="jPanel_SinAcciones_panel2">
+                                <Container class="javax.swing.JScrollPane" name="jPanel_RealizaSortilegios_panel">
 
                                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                                   <SubComponents>
-                                    <Container class="javax.swing.JPanel" name="jPanel_RealizaSortilegios_campo">
+                                    <Container class="javax.swing.JPanel" name="jPanel_campo_RealizaSortilegios">
                                       <Properties>
                                         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                           <Dimension value="[600, 32767]"/>
@@ -795,7 +795,7 @@
 
                                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                                   <SubComponents>
-                                    <Container class="javax.swing.JPanel" name="jPanel_LanzaProyectiles_campo">
+                                    <Container class="javax.swing.JPanel" name="jPanel_campo_LanzaProyectiles">
                                       <Properties>
                                         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                           <Dimension value="[1360, 32767]"/>
@@ -883,11 +883,11 @@
                                     </Component>
                                   </SubComponents>
                                 </Container>
-                                <Container class="javax.swing.JScrollPane" name="jPanel_SinAcciones_panel3">
+                                <Container class="javax.swing.JScrollPane" name="jPanel_CargaProyectiles_panel">
 
                                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                                   <SubComponents>
-                                    <Container class="javax.swing.JPanel" name="jPanel_CargaProyectiles_campo">
+                                    <Container class="javax.swing.JPanel" name="jPanel_campo_CargaProyectiles">
                                       <Properties>
                                         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                           <Dimension value="[600, 32767]"/>
@@ -975,11 +975,11 @@
                                     </Component>
                                   </SubComponents>
                                 </Container>
-                                <Container class="javax.swing.JScrollPane" name="jPanel_SinAcciones_panel4">
+                                <Container class="javax.swing.JScrollPane" name="jPanel_pararProyectil_panel">
 
                                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                                   <SubComponents>
-                                    <Container class="javax.swing.JPanel" name="jPanel_PararProyectiles_campo">
+                                    <Container class="javax.swing.JPanel" name="jPanel_campo_PararProyectiles">
                                       <Properties>
                                         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                           <Dimension value="[600, 32767]"/>
@@ -1067,11 +1067,11 @@
                                     </Component>
                                   </SubComponents>
                                 </Container>
-                                <Container class="javax.swing.JScrollPane" name="jPanel_SinAcciones_panel5">
+                                <Container class="javax.swing.JScrollPane" name="jPanel_MovimientoYManiobra_panel">
 
                                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                                   <SubComponents>
-                                    <Container class="javax.swing.JPanel" name="jPanel_movimientoYmaniobra_campo">
+                                    <Container class="javax.swing.JPanel" name="jPanel_campo_movimientoYmaniobra">
                                       <Properties>
                                         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                           <Dimension value="[600, 32767]"/>
@@ -1159,11 +1159,11 @@
                                     </Component>
                                   </SubComponents>
                                 </Container>
-                                <Container class="javax.swing.JScrollPane" name="jPanel_SinAcciones_panel6">
+                                <Container class="javax.swing.JScrollPane" name="jPanel_AtaqueCuperpoaCuerpo_panel">
 
                                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                                   <SubComponents>
-                                    <Container class="javax.swing.JPanel" name="jPanel_AtaqueCuerpoaCuerpo_campo">
+                                    <Container class="javax.swing.JPanel" name="jPanel_campo_AtaqueCuerpoaCuerpo">
                                       <Properties>
                                         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                           <Dimension value="[600, 32767]"/>
@@ -1251,11 +1251,11 @@
                                     </Component>
                                   </SubComponents>
                                 </Container>
-                                <Container class="javax.swing.JScrollPane" name="jPanel_SinAcciones_panel7">
+                                <Container class="javax.swing.JScrollPane" name="jPanel_Movimiento_panel">
 
                                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                                   <SubComponents>
-                                    <Container class="javax.swing.JPanel" name="jPanel_Movimiento_campo">
+                                    <Container class="javax.swing.JPanel" name="jPanel_campo_Movimiento">
                                       <Properties>
                                         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                           <Dimension value="[600, 32767]"/>
@@ -1343,11 +1343,11 @@
                                     </Component>
                                   </SubComponents>
                                 </Container>
-                                <Container class="javax.swing.JScrollPane" name="jPanel_SinAcciones_panel8">
+                                <Container class="javax.swing.JScrollPane" name="jPanel_MovimientoEstatico_panel">
 
                                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                                   <SubComponents>
-                                    <Container class="javax.swing.JPanel" name="jPanel_MovimientoEstatic_campo">
+                                    <Container class="javax.swing.JPanel" name="jPanel_campo_MovimientoEstatico">
                                       <Properties>
                                         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                           <Dimension value="[600, 32767]"/>

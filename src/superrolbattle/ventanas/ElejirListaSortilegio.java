@@ -52,7 +52,7 @@ public class ElejirListaSortilegio extends javax.swing.JDialog {
         jComboBox_profesion = new javax.swing.JComboBox<>();
         jComboBox_listas = new javax.swing.JComboBox<>();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        jButton_aprender = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -81,7 +81,7 @@ public class ElejirListaSortilegio extends javax.swing.JDialog {
         });
         jPanel2.add(jComboBox_tipo_lista_sortilegio);
 
-        jComboBox_profesion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lista Abierta", "Lista Cerrada", "LIsta Cerrada de Profesion" }));
+        jComboBox_profesion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lista Abierta", "Lista Cerrada", "Lista Cerrada de Profesion" }));
         jComboBox_profesion.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 jComboBox_profesionItemStateChanged(evt);
@@ -98,13 +98,13 @@ public class ElejirListaSortilegio extends javax.swing.JDialog {
 
         jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-        jButton1.setText("Crear");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButton_aprender.setText("Aprender");
+        jButton_aprender.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButton_aprenderActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1);
+        jPanel1.add(jButton_aprender);
 
         jButton2.setText("Cancelar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -119,9 +119,9 @@ public class ElejirListaSortilegio extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButton_aprenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_aprenderActionPerformed
         seleccionarLista();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButton_aprenderActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.dispose();
@@ -141,8 +141,8 @@ public class ElejirListaSortilegio extends javax.swing.JDialog {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton_aprender;
     private javax.swing.JComboBox<String> jComboBox_dominio;
     private javax.swing.JComboBox<String> jComboBox_listas;
     private javax.swing.JComboBox<String> jComboBox_profesion;

@@ -199,6 +199,8 @@ public class Efecto {
         efs.add(new Efecto(TIPO_AUMENTA_ACTIVIDAD));
         efs.add(new Efecto(TIPO_AUMENTO_DE_MM));
         efs.add(new Efecto(TIPO_AUMENTO_DE_TR));
+        efs.add(new Efecto(TIPO_RESTA_DE_RESISTENCIA_CALOR));
+        efs.add(new Efecto(TIPO_RESTA_DE_RESISTENCIA_FRIO));
         efs.add(new Efecto(TIPO_AUMENTO_DE_BO));
         efs.add(new Efecto(TIPO_AUMENTO_DE_BO_FILO));
         efs.add(new Efecto(TIPO_AUMENTO_DE_BO_CONTUNDENTE));

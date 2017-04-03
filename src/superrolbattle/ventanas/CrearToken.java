@@ -5,6 +5,7 @@
  */
 package superrolbattle.ventanas;
 
+import com.sun.corba.se.impl.orbutil.closure.Constant;
 import instancias.Dado;
 import instancias.ListaDeSortilegios;
 import instancias.Sortilegio;
@@ -14,7 +15,6 @@ import instancias.properties.Bo;
 import instancias.properties.Brazo;
 import instancias.properties.Caracteristicas;
 import instancias.properties.Extremidad;
-import instancias.properties.Habilidad;
 import instancias.properties.Status;
 import java.awt.Color;
 import java.awt.event.ItemEvent;
@@ -31,7 +31,10 @@ import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
 import javax.swing.ListModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import recursos.Constantes;
 import recursos.Recursos;
 import superrolbattle.Principal;
@@ -52,18 +55,71 @@ public class CrearToken extends javax.swing.JDialog {
         bos = new ArrayList<Bo>();
         this.setTitle("Crear Nuevo Personaje");
 
+        spin_mm.put(Constantes.HABILIDAD_MM_SINARMADURA, jSpinner_crearMMSA);
+        spin_mm.put(Constantes.HABILIDAD_MM_CUERO, jSpinner_crearMMC);
+        spin_mm.put(Constantes.HABILIDAD_MM_CUERO_ENDURECIDO, jSpinner_crearMMCE);
+        spin_mm.put(Constantes.HABILIDAD_MM_COTA_DE_MALLA, jSpinner_crearMMCM);
+        spin_mm.put(Constantes.HABILIDAD_MM_CORAZA, jSpinner_crearMMCO);
+
         this.jComboBox_crearGrupo.removeAllItems();
         this.jComboBox_crearGrupo.setModel(new DefaultComboBoxModel(Recursos.grupos.toArray()));
 
-        this.jToggleButton_Panel.setSelected(CrearToken.panelLado);
-        this.setearPanel();
-
         agregarArmaALalista(new Arma("Mano Desnuda", Constantes.CLASE_MANO_DESNUDA, 0, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_PELEA));
-        for (int i = 0; i < Constantes.ESTILO_ASTA; i++) {
+        for (int i = 0; i <= Constantes.ESTILO_ASTA; i++) {
             Bo b = new Bo(i, 0);
             //b.setValue(Recursos.nuevaBo(1, i));
             agregarBoALaLista(b);
         }
+
+    }
+
+    private CrearToken(boolean modal, Token token) {
+        super(Principal.ventana, modal);
+        initComponents();
+        this.setLocationRelativeTo(Principal.ventana);
+
+        newToken = token;
+        newhabHabilidad = token.getHabilidades();
+        this.setTitle("Editar a " + token.getNombre());
+
+        jButton_generaNombreAleatorio.setEnabled(false);
+        jTextField_crearnombre.setText(token.getNombre());
+        jTextField_crearnombre.setEditable(false);
+        jSpinner_crearNIvel.setValue(token.getNivel());
+        jSpinner_crearPV.setValue(token.getHabilidades().getPuntosVida());
+        jSpinner_crearPP.setValue(token.getHabilidades().getPp());
+
+        for (Arma a : token.getArmas()) {
+            agregarArmaALalista(a);
+        }
+        for (Bo bo : token.getHabilidades().getHm_bos().values()) {
+            agregarBoALaLista(bo);
+        }
+        jComboBox_dom.setSelectedIndex(token.getDominio());
+        jSpinner_crearArmadura.setValue(token.getArmaduraPuesta());
+
+        jSpinner_crear_car_fue.setValue(token.getHabilidad(Constantes.HABILIDAD_CAR_FUE));
+        jSpinner_crear_car_agi.setValue(token.getHabilidad(Constantes.HABILIDAD_CAR_AGI));
+        jSpinner_crear_car_con.setValue(token.getHabilidad(Constantes.HABILIDAD_CAR_CON));
+        jSpinner_crear_car_I.setValue(token.getHabilidad(Constantes.HABILIDAD_CAR_I));
+        jSpinner_crear_car_int.setValue(token.getHabilidad(Constantes.HABILIDAD_CAR_INT));
+        jSpinner_crear_car_pre.setValue(token.getHabilidad(Constantes.HABILIDAD_CAR_PRE));
+
+        jSpinner_crearMMSA.setValue(token.getHabilidad(Constantes.HABILIDAD_MM_SINARMADURA));
+        jSpinner_crearMMC.setValue(token.getHabilidad(Constantes.HABILIDAD_MM_CUERO));
+        jSpinner_crearMMCE.setValue(token.getHabilidad(Constantes.HABILIDAD_MM_CUERO_ENDURECIDO));
+        jSpinner_crearMMCM.setValue(token.getHabilidad(Constantes.HABILIDAD_MM_COTA_DE_MALLA));
+        jSpinner_crearMMCO.setValue(token.getHabilidad(Constantes.HABILIDAD_MM_CORAZA));
+
+        spin_mm.put(Constantes.HABILIDAD_MM_SINARMADURA, jSpinner_crearMMSA);
+        spin_mm.put(Constantes.HABILIDAD_MM_CUERO, jSpinner_crearMMC);
+        spin_mm.put(Constantes.HABILIDAD_MM_CUERO_ENDURECIDO, jSpinner_crearMMCE);
+        spin_mm.put(Constantes.HABILIDAD_MM_COTA_DE_MALLA, jSpinner_crearMMCM);
+        spin_mm.put(Constantes.HABILIDAD_MM_CORAZA, jSpinner_crearMMCO);
+
+        this.jComboBox_crearGrupo.removeAllItems();
+        this.jComboBox_crearGrupo.setModel(new DefaultComboBoxModel(Recursos.grupos.toArray()));
+
     }
 
     /**
@@ -77,8 +133,12 @@ public class CrearToken extends javax.swing.JDialog {
 
         jbuttonGroup_crearEstilo = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
-        jPanel9 = new javax.swing.JPanel();
-        jToggleButton_Panel = new javax.swing.JToggleButton();
+        jPanel6 = new javax.swing.JPanel();
+        jPanel10 = new javax.swing.JPanel();
+        jButtonAceptar = new javax.swing.JButton();
+        jPanel11 = new javax.swing.JPanel();
+        jButton_cancelar = new javax.swing.JButton();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel7 = new javax.swing.JPanel();
         jPanel_caract1 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
@@ -110,21 +170,52 @@ public class CrearToken extends javax.swing.JDialog {
         jPanel_caract2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jComboBox_dom = new javax.swing.JComboBox<>();
-        jLabel8 = new javax.swing.JLabel();
-        jSpinner_crearBD = new javax.swing.JSpinner();
         jLabel9 = new javax.swing.JLabel();
         jSpinner_crearArmadura = new javax.swing.JSpinner();
+        jTextField_arm = new javax.swing.JTextField();
         jPanel_caract3 = new javax.swing.JPanel();
         jRadioButton_crearEstilo1 = new javax.swing.JRadioButton();
         jRadioButton_crearEstilo2 = new javax.swing.JRadioButton();
         jRadioButton_crearEstilo4 = new javax.swing.JRadioButton();
         jRadioButton_crearEstilo3 = new javax.swing.JRadioButton();
         jRadioButton_crearEstilo5 = new javax.swing.JRadioButton();
-        jPanel6 = new javax.swing.JPanel();
-        jPanel10 = new javax.swing.JPanel();
-        jButtonAceptar = new javax.swing.JButton();
-        jPanel11 = new javax.swing.JPanel();
-        jButton_cancelar = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jPanel_caract_fue = new javax.swing.JPanel();
+        jLabel14 = new javax.swing.JLabel();
+        jSpinner_crear_car_fue = new javax.swing.JSpinner();
+        jPanel_caract_Agi = new javax.swing.JPanel();
+        jLabel15 = new javax.swing.JLabel();
+        jSpinner_crear_car_agi = new javax.swing.JSpinner();
+        jPanel_caract_Con = new javax.swing.JPanel();
+        jLabel16 = new javax.swing.JLabel();
+        jSpinner_crear_car_con = new javax.swing.JSpinner();
+        jPanel_caract_Int = new javax.swing.JPanel();
+        jLabel17 = new javax.swing.JLabel();
+        jSpinner_crear_car_int = new javax.swing.JSpinner();
+        jPanel_caract_i = new javax.swing.JPanel();
+        jLabel18 = new javax.swing.JLabel();
+        jSpinner_crear_car_I = new javax.swing.JSpinner();
+        jPanel_caract_pre = new javax.swing.JPanel();
+        jLabel19 = new javax.swing.JLabel();
+        jSpinner_crear_car_pre = new javax.swing.JSpinner();
+        jPanel17 = new javax.swing.JPanel();
+        jPanel_mmsa = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        jSpinner_crearMMSA = new javax.swing.JSpinner();
+        jPanel_mmsa1 = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        jSpinner_crearMMC = new javax.swing.JSpinner();
+        jPanel_mmsa2 = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        jSpinner_crearMMCE = new javax.swing.JSpinner();
+        jPanel_mmsa3 = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        jSpinner_crearMMCM = new javax.swing.JSpinner();
+        jPanel_mmsa4 = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
+        jSpinner_crearMMCO = new javax.swing.JSpinner();
+        jPanel18 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(252, 515));
@@ -135,20 +226,56 @@ public class CrearToken extends javax.swing.JDialog {
         jPanel1.setMaximumSize(new java.awt.Dimension(98439, 229491));
         jPanel1.setLayout(new java.awt.BorderLayout());
 
-        jToggleButton_Panel.setText("Panel Derecho");
-        jToggleButton_Panel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jToggleButton_Panel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jToggleButton_Panel.setMaximumSize(new java.awt.Dimension(500, 23));
-        jToggleButton_Panel.setMinimumSize(new java.awt.Dimension(57, 23));
-        jToggleButton_Panel.setPreferredSize(new java.awt.Dimension(157, 23));
-        jToggleButton_Panel.addActionListener(new java.awt.event.ActionListener() {
+        jPanel6.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel6.setMinimumSize(new java.awt.Dimension(341, 60));
+        jPanel6.setPreferredSize(new java.awt.Dimension(335, 60));
+        jPanel6.setLayout(new javax.swing.BoxLayout(jPanel6, javax.swing.BoxLayout.LINE_AXIS));
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 164, Short.MAX_VALUE)
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 54, Short.MAX_VALUE)
+        );
+
+        jPanel6.add(jPanel10);
+
+        jButtonAceptar.setText("Aceptar");
+        jButtonAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton_PanelActionPerformed(evt);
+                jButtonAceptarActionPerformed(evt);
             }
         });
-        jPanel9.add(jToggleButton_Panel);
+        jPanel6.add(jButtonAceptar);
 
-        jPanel1.add(jPanel9, java.awt.BorderLayout.PAGE_START);
+        jPanel11.setPreferredSize(new java.awt.Dimension(25, 57));
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 25, Short.MAX_VALUE)
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 54, Short.MAX_VALUE)
+        );
+
+        jPanel6.add(jPanel11);
+
+        jButton_cancelar.setText("Cancelar");
+        jButton_cancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_cancelarActionPerformed(evt);
+            }
+        });
+        jPanel6.add(jButton_cancelar);
+
+        jPanel1.add(jPanel6, java.awt.BorderLayout.SOUTH);
 
         jPanel7.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel7.setLayout(new javax.swing.BoxLayout(jPanel7, javax.swing.BoxLayout.PAGE_AXIS));
@@ -203,7 +330,7 @@ public class CrearToken extends javax.swing.JDialog {
         jLabel6.setText("P.P.");
         jPanel5.add(jLabel6);
 
-        jSpinner_crearPP.setModel(new javax.swing.SpinnerNumberModel(30, 30, 600, 5));
+        jSpinner_crearPP.setModel(new javax.swing.SpinnerNumberModel(0, 0, 600, 1));
         jPanel5.add(jSpinner_crearPP);
 
         jPanel_caract1.add(jPanel5);
@@ -278,17 +405,22 @@ public class CrearToken extends javax.swing.JDialog {
         jComboBox_dom.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Canalizacion", "Escencia", "Mentalismo", "Hibrido Can Men", "Hibrido Esc Men", "Hibrido Men Can", "Arcano" }));
         jPanel_caract2.add(jComboBox_dom);
 
-        jLabel8.setText("AGI");
-        jPanel_caract2.add(jLabel8);
-
-        jSpinner_crearBD.setModel(new javax.swing.SpinnerNumberModel(0, null, null, 5));
-        jPanel_caract2.add(jSpinner_crearBD);
-
         jLabel9.setText("   Armadura   ");
         jPanel_caract2.add(jLabel9);
 
         jSpinner_crearArmadura.setModel(new javax.swing.SpinnerNumberModel(4, 1, 20, 1));
+        jSpinner_crearArmadura.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSpinner_crearArmaduraStateChanged(evt);
+            }
+        });
         jPanel_caract2.add(jSpinner_crearArmadura);
+
+        jTextField_arm.setEditable(false);
+        jTextField_arm.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextField_arm.setText("SA");
+        jTextField_arm.setMaximumSize(new java.awt.Dimension(2147483647, 20));
+        jPanel_caract2.add(jTextField_arm);
 
         jPanel7.add(jPanel_caract2);
 
@@ -323,58 +455,159 @@ public class CrearToken extends javax.swing.JDialog {
 
         jPanel7.add(jPanel_caract3);
 
-        jPanel6.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel6.setMinimumSize(new java.awt.Dimension(341, 60));
-        jPanel6.setPreferredSize(new java.awt.Dimension(335, 60));
-        jPanel6.setLayout(new javax.swing.BoxLayout(jPanel6, javax.swing.BoxLayout.LINE_AXIS));
+        jTabbedPane1.addTab("Principal", jPanel7);
 
-        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
-        jPanel10.setLayout(jPanel10Layout);
-        jPanel10Layout.setHorizontalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 159, Short.MAX_VALUE)
+        jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.Y_AXIS));
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel3.setMinimumSize(new java.awt.Dimension(250, 64));
+        jPanel3.setLayout(new java.awt.GridLayout(0, 2));
+
+        jPanel_caract_fue.setLayout(new java.awt.GridLayout(1, 0));
+
+        jLabel14.setText("FUERZA");
+        jPanel_caract_fue.add(jLabel14);
+
+        jSpinner_crear_car_fue.setModel(new javax.swing.SpinnerNumberModel(0, null, null, 5));
+        jSpinner_crear_car_fue.setPreferredSize(new java.awt.Dimension(49, 20));
+        jPanel_caract_fue.add(jSpinner_crear_car_fue);
+
+        jPanel3.add(jPanel_caract_fue);
+
+        jPanel_caract_Agi.setLayout(new java.awt.GridLayout(1, 0));
+
+        jLabel15.setText("AGILIDAD");
+        jPanel_caract_Agi.add(jLabel15);
+
+        jSpinner_crear_car_agi.setModel(new javax.swing.SpinnerNumberModel(0, null, null, 5));
+        jSpinner_crear_car_agi.setPreferredSize(new java.awt.Dimension(49, 20));
+        jPanel_caract_Agi.add(jSpinner_crear_car_agi);
+
+        jPanel3.add(jPanel_caract_Agi);
+
+        jPanel_caract_Con.setLayout(new java.awt.GridLayout(1, 0));
+
+        jLabel16.setText("CONSTITUCION");
+        jPanel_caract_Con.add(jLabel16);
+
+        jSpinner_crear_car_con.setModel(new javax.swing.SpinnerNumberModel(0, null, null, 5));
+        jSpinner_crear_car_con.setPreferredSize(new java.awt.Dimension(49, 20));
+        jPanel_caract_Con.add(jSpinner_crear_car_con);
+
+        jPanel3.add(jPanel_caract_Con);
+
+        jPanel_caract_Int.setLayout(new java.awt.GridLayout(1, 0));
+
+        jLabel17.setText("INTELIGENCIA");
+        jPanel_caract_Int.add(jLabel17);
+
+        jSpinner_crear_car_int.setModel(new javax.swing.SpinnerNumberModel(0, null, null, 5));
+        jSpinner_crear_car_int.setPreferredSize(new java.awt.Dimension(49, 20));
+        jPanel_caract_Int.add(jSpinner_crear_car_int);
+
+        jPanel3.add(jPanel_caract_Int);
+
+        jPanel_caract_i.setLayout(new java.awt.GridLayout(1, 0));
+
+        jLabel18.setText("INTUICION");
+        jPanel_caract_i.add(jLabel18);
+
+        jSpinner_crear_car_I.setModel(new javax.swing.SpinnerNumberModel(0, null, null, 5));
+        jSpinner_crear_car_I.setPreferredSize(new java.awt.Dimension(49, 20));
+        jPanel_caract_i.add(jSpinner_crear_car_I);
+
+        jPanel3.add(jPanel_caract_i);
+
+        jPanel_caract_pre.setLayout(new java.awt.GridLayout(1, 0));
+
+        jLabel19.setText("PRESCENCIA");
+        jPanel_caract_pre.add(jLabel19);
+
+        jSpinner_crear_car_pre.setModel(new javax.swing.SpinnerNumberModel(0, null, null, 5));
+        jSpinner_crear_car_pre.setPreferredSize(new java.awt.Dimension(49, 20));
+        jPanel_caract_pre.add(jSpinner_crear_car_pre);
+
+        jPanel3.add(jPanel_caract_pre);
+
+        jPanel2.add(jPanel3);
+
+        jPanel17.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel17.setMinimumSize(new java.awt.Dimension(250, 64));
+        jPanel17.setLayout(new java.awt.GridLayout(0, 2));
+
+        jPanel_mmsa.setLayout(new java.awt.GridLayout(1, 0));
+
+        jLabel7.setText("MM Sin Armadura");
+        jPanel_mmsa.add(jLabel7);
+
+        jSpinner_crearMMSA.setModel(new javax.swing.SpinnerNumberModel(0, null, null, 5));
+        jSpinner_crearMMSA.setPreferredSize(new java.awt.Dimension(49, 20));
+        jPanel_mmsa.add(jSpinner_crearMMSA);
+
+        jPanel17.add(jPanel_mmsa);
+
+        jPanel_mmsa1.setLayout(new java.awt.GridLayout(1, 0));
+
+        jLabel10.setText("MM Cuero");
+        jPanel_mmsa1.add(jLabel10);
+
+        jSpinner_crearMMC.setModel(new javax.swing.SpinnerNumberModel(0, null, null, 5));
+        jSpinner_crearMMC.setPreferredSize(new java.awt.Dimension(49, 20));
+        jPanel_mmsa1.add(jSpinner_crearMMC);
+
+        jPanel17.add(jPanel_mmsa1);
+
+        jPanel_mmsa2.setLayout(new java.awt.GridLayout(1, 0));
+
+        jLabel11.setText("MM Cuero Endurecido");
+        jPanel_mmsa2.add(jLabel11);
+
+        jSpinner_crearMMCE.setModel(new javax.swing.SpinnerNumberModel(0, null, null, 5));
+        jSpinner_crearMMCE.setPreferredSize(new java.awt.Dimension(49, 20));
+        jPanel_mmsa2.add(jSpinner_crearMMCE);
+
+        jPanel17.add(jPanel_mmsa2);
+
+        jPanel_mmsa3.setLayout(new java.awt.GridLayout(1, 0));
+
+        jLabel12.setText("MM Cota de Malla");
+        jPanel_mmsa3.add(jLabel12);
+
+        jSpinner_crearMMCM.setModel(new javax.swing.SpinnerNumberModel(0, null, null, 5));
+        jSpinner_crearMMCM.setPreferredSize(new java.awt.Dimension(49, 20));
+        jPanel_mmsa3.add(jSpinner_crearMMCM);
+
+        jPanel17.add(jPanel_mmsa3);
+
+        jPanel_mmsa4.setLayout(new java.awt.GridLayout(1, 0));
+
+        jLabel13.setText("MM Coraza");
+        jPanel_mmsa4.add(jLabel13);
+
+        jSpinner_crearMMCO.setModel(new javax.swing.SpinnerNumberModel(0, null, null, 5));
+        jSpinner_crearMMCO.setPreferredSize(new java.awt.Dimension(49, 20));
+        jPanel_mmsa4.add(jSpinner_crearMMCO);
+
+        jPanel17.add(jPanel_mmsa4);
+
+        jPanel2.add(jPanel17);
+
+        javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
+        jPanel18.setLayout(jPanel18Layout);
+        jPanel18Layout.setHorizontalGroup(
+            jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 336, Short.MAX_VALUE)
         );
-        jPanel10Layout.setVerticalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 54, Short.MAX_VALUE)
+        jPanel18Layout.setVerticalGroup(
+            jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 144, Short.MAX_VALUE)
         );
 
-        jPanel6.add(jPanel10);
+        jPanel2.add(jPanel18);
 
-        jButtonAceptar.setText("Aceptar");
-        jButtonAceptar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAceptarActionPerformed(evt);
-            }
-        });
-        jPanel6.add(jButtonAceptar);
+        jTabbedPane1.addTab("Detalle", jPanel2);
 
-        jPanel11.setPreferredSize(new java.awt.Dimension(25, 57));
-
-        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
-        jPanel11.setLayout(jPanel11Layout);
-        jPanel11Layout.setHorizontalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 29, Short.MAX_VALUE)
-        );
-        jPanel11Layout.setVerticalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 54, Short.MAX_VALUE)
-        );
-
-        jPanel6.add(jPanel11);
-
-        jButton_cancelar.setText("Cancelar");
-        jButton_cancelar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_cancelarActionPerformed(evt);
-            }
-        });
-        jPanel6.add(jButton_cancelar);
-
-        jPanel7.add(jPanel6);
-
-        jPanel1.add(jPanel7, java.awt.BorderLayout.CENTER);
+        jPanel1.add(jTabbedPane1, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(jPanel1);
 
@@ -387,7 +620,19 @@ public class CrearToken extends javax.swing.JDialog {
 
     private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
 
-        newToken = new Token();
+        if (newToken == null) {
+            newToken = new Token();
+            // Brazos
+            Extremidad bi = new Extremidad(true, true, false, Extremidad.MIEMBRO_SUPERIOR_IZQUIERDO, null);
+            newToken.agregarExtremidad(bi);
+            Extremidad bd = new Extremidad(true, true, true, Extremidad.MIEMBRO_SUPERIOR_IZQUIERDO, null);
+            newToken.agregarExtremidad(bd);
+            // Piernas
+            Extremidad pi = new Extremidad(true, false, false, Extremidad.MIEMBRO_SUPERIOR_IZQUIERDO, null);
+            newToken.agregarExtremidad(pi);
+            Extremidad pd = new Extremidad(true, false, true, Extremidad.MIEMBRO_SUPERIOR_IZQUIERDO, null);
+            newToken.agregarExtremidad(pd);
+        }
 
         Caracteristicas hab;
 
@@ -397,16 +642,18 @@ public class CrearToken extends javax.swing.JDialog {
             hab = newhabHabilidad;
         }
 
-        // Brazos
-        Extremidad bi = new Extremidad(true, true, false, Extremidad.MIEMBRO_SUPERIOR_IZQUIERDO, null);
-        newToken.agregarExtremidad(bi);
-        Extremidad bd = new Extremidad(true, true, true, Extremidad.MIEMBRO_SUPERIOR_IZQUIERDO, null);
-        newToken.agregarExtremidad(bd);
-        // Piernas
-        Extremidad pi = new Extremidad(true, false, false, Extremidad.MIEMBRO_SUPERIOR_IZQUIERDO, null);
-        newToken.agregarExtremidad(pi);
-        Extremidad pd = new Extremidad(true, false, true, Extremidad.MIEMBRO_SUPERIOR_IZQUIERDO, null);
-        newToken.agregarExtremidad(pd);
+        hab.getHm_habilidades().put(Constantes.HABILIDAD_CAR_FUE, (Integer) jSpinner_crear_car_fue.getValue());
+        hab.getHm_habilidades().put(Constantes.HABILIDAD_CAR_AGI, (Integer) jSpinner_crear_car_agi.getValue());
+        hab.getHm_habilidades().put(Constantes.HABILIDAD_CAR_CON, (Integer) jSpinner_crear_car_con.getValue());
+        hab.getHm_habilidades().put(Constantes.HABILIDAD_CAR_I, (Integer) jSpinner_crear_car_I.getValue());
+        hab.getHm_habilidades().put(Constantes.HABILIDAD_CAR_INT, (Integer) jSpinner_crear_car_int.getValue());
+        hab.getHm_habilidades().put(Constantes.HABILIDAD_CAR_PRE, (Integer) jSpinner_crear_car_pre.getValue());
+
+        hab.getHm_habilidades().put(Constantes.HABILIDAD_MM_SINARMADURA, (Integer) jSpinner_crearMMSA.getValue());
+        hab.getHm_habilidades().put(Constantes.HABILIDAD_MM_CUERO, (Integer) jSpinner_crearMMC.getValue());
+        hab.getHm_habilidades().put(Constantes.HABILIDAD_MM_CUERO_ENDURECIDO, (Integer) jSpinner_crearMMCE.getValue());
+        hab.getHm_habilidades().put(Constantes.HABILIDAD_MM_COTA_DE_MALLA, (Integer) jSpinner_crearMMCM.getValue());
+        hab.getHm_habilidades().put(Constantes.HABILIDAD_MM_CORAZA, (Integer) jSpinner_crearMMCO.getValue());
 
         Status est = new Status(hab, newToken.getExtremidades());
         creacion:
@@ -439,11 +686,8 @@ public class CrearToken extends javax.swing.JDialog {
             }
             newToken.setArmas(arm);
 
-            //hab.setBo_pri((Integer) this.jSpinner_crearBo.getValue());
-            hab.setBd((Integer) this.jSpinner_crearBD.getValue());
-
             //hab.setAgi((Integer) this.jSpinner_crearBD.getValue());
-            hab.setArmadura((Integer) this.jSpinner_crearArmadura.getValue());
+            est.setArmadura_puesta(((Integer) this.jSpinner_crearArmadura.getValue()));
 
             if (this.jRadioButton_crearEstilo1.isSelected()) {
                 newToken.setEstilo_de_pelea(Token.DEFENSA_TOTAL);
@@ -488,23 +732,9 @@ public class CrearToken extends javax.swing.JDialog {
 
     }//GEN-LAST:event_jButtonAceptarActionPerformed
 
-    private void jToggleButton_PanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton_PanelActionPerformed
-        setearPanel();
-    }//GEN-LAST:event_jToggleButton_PanelActionPerformed
-
-    private void setearPanel() {
-        if (jToggleButton_Panel.isSelected()) {
-            jToggleButton_Panel.setText("Panel Izquierdo");
-
-        } else {
-            jToggleButton_Panel.setText("Panel Derecho");
-        }
-        CrearToken.panelLado = jToggleButton_Panel.isSelected();
-
-    }
 
     private void jButton_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_cancelarActionPerformed
-
+        newToken = null;
         this.dispose();
     }//GEN-LAST:event_jButton_cancelarActionPerformed
 
@@ -514,7 +744,50 @@ public class CrearToken extends javax.swing.JDialog {
 
         int nivel = (Integer) jSpinner_crearNIvel.getValue();
 
-        int pv = 30;
+        int fue = recursos.Recursos.generarCaracteristica(25);
+        int con = recursos.Recursos.generarCaracteristica(25);
+        int agi = recursos.Recursos.generarCaracteristica(25);
+        int inte = recursos.Recursos.generarCaracteristica(25);
+        jSpinner_crear_car_fue.setValue(fue);
+        jSpinner_crear_car_agi.setValue(agi);
+        jSpinner_crear_car_con.setValue(con);
+        jSpinner_crear_car_int.setValue(inte);
+        jSpinner_crear_car_I.setValue(recursos.Recursos.generarCaracteristica(25));
+        jSpinner_crear_car_pre.setValue(recursos.Recursos.generarCaracteristica(25));
+
+        // seteo armadura
+        int arm = 1;
+        if (fue > agi && Recursos.posibilidad(70)) {
+            arm = Recursos.aleatorioEntre(13, 20);
+        } else {
+            arm = Recursos.aleatorioEntre(13, 20);
+        }
+
+        jSpinner_crearArmadura.setValue(Recursos.aleatorioEntre(1, 12));
+
+        jSpinner_crearMMSA.setValue(agi);
+        jSpinner_crearMMC.setValue(agi - 15);
+        jSpinner_crearMMCE.setValue(agi - 30);
+        jSpinner_crearMMCM.setValue(fue - 45);
+        jSpinner_crearMMCO.setValue(fue - 60);
+
+        int puntos = Recursos.aleatorioEntre(1, 5) * nivel;
+        for (int j = 0; j < puntos; j++) {
+
+            if (Recursos.posibilidad(60)) {
+                int armaduraAmentar = Recursos.movManParaArmadura(arm);
+                int nuevoValor = ((Integer) spin_mm.get(armaduraAmentar).getValue()) + 5;
+                spin_mm.get(armaduraAmentar).setValue(nuevoValor);
+            } else {
+                int armaduraAmentar = Recursos.aleatorioEntre(Constantes.HABILIDAD_MM_SINARMADURA, Constantes.HABILIDAD_MM_CORAZA);
+                int nuevoValor = ((Integer) spin_mm.get(armaduraAmentar).getValue()) + 5;
+                spin_mm.get(armaduraAmentar).setValue(nuevoValor);
+            }
+
+        }
+
+        // seteo puntos de vida;
+        int pv = 5 + con;
         for (int j = 0; j < nivel; j++) {
 
             boolean yes = Recursos.posibilidad(90);
@@ -526,7 +799,7 @@ public class CrearToken extends javax.swing.JDialog {
             }
 
         }
-        int pp = nivel * Recursos.aleatorioEntre(1, 3);
+        int pp = Recursos.generarPuntosDePoder(inte, nivel);
         jSpinner_crearPP.setValue(pp);
         jSpinner_crearPV.setValue(pv);
 
@@ -542,62 +815,119 @@ public class CrearToken extends javax.swing.JDialog {
         // Dominio y sortilegios
         Dado d100 = new Dado();
         int pos = d100.lanzarAbierta();
+        int dominio= 0;
         if (pos < 49) {
-            jComboBox_dom.setSelectedIndex(0);
+            dominio= 0;
         }
-        if (pos > 49) {
-            jComboBox_dom.setSelectedIndex(1);
+        if (pos > 49) {            
+            dominio = 1;
         }
         if (pos > 100) {
-            jComboBox_dom.setSelectedIndex(2);
+            dominio = 2;
         }
         if (pos > 150) {
-            jComboBox_dom.setSelectedIndex(3);
+            dominio = 3;
         }
         if (pos > 200) {
-            jComboBox_dom.setSelectedIndex(4);
+            dominio = 4;
         }
         if (pos > 250) {
-            jComboBox_dom.setSelectedIndex(5);
+            dominio = 5;
         }
         if (pos > 300) {
-            jComboBox_dom.setSelectedIndex(6);
+            dominio = 6;
         }
+        jComboBox_dom.setSelectedIndex(dominio);
+        
+        
         newhabHabilidad = new Caracteristicas();
-        newToken.setHabilidades(newhabHabilidad);
+        //newToken.setHabilidades(newhabHabilidad);
         int chance = 25;
         for (int i = 0; i < Recursos.aleatorioEntre(1, 10); i++) {
-            
-            if (d100.lanzarCerrada() < chance) {
-                ListaDeSortilegios lds = (ListaDeSortilegios) Recursos.aleatorioDe(Principal.getTodasLasListasDeSortilegiosAbiertas(newToken.getDominio()));
 
-                newToken.aprenderListaDeSortilegio(lds.getId(), 50);
+            if (d100.lanzarCerrada() < chance) {
+                ListaDeSortilegios lds = (ListaDeSortilegios) Recursos.aleatorioDe(Principal.getTodasLasListasDeSortilegiosAbiertas(dominio));
+                if (lds != null) {
+                    newhabHabilidad.aprenderListaDeSortilegio(lds.getId(), 50);
+                }
 
             }
             if (d100.lanzarAbierta() > 150) {
                 Sortilegio s = (Sortilegio) Recursos.aleatorioDe(Principal.getTodosLosSortilegios());
-                if (newToken.getDominio() == s.getDominio() || newToken.getDominio() > 2) {
-                    newToken.aprenderSortilegio(s.getId());
+                if (dominio == s.getDominio() || dominio > 2) {
+                    newhabHabilidad.aprenderSortilegio(s.getId());
                 }
             }
             chance -= Recursos.aleatorioEntre(1, 5);
         }
 
         agregarArmaALalista(new Arma("Mano Desnuda", Constantes.CLASE_MANO_DESNUDA, 0, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_PELEA));
-        agregarBoALaLista(new Bo(Constantes.ESTILO_PELEA, Recursos.nuevaBo(nivel, Recursos.aleatorioEntre(0, 4))));
+        //agregarBoALaLista(new Bo(Constantes.ESTILO_PELEA, Recursos.nuevaBo(nivel, Recursos.aleatorioEntre(0, 4))));
 
+        ArrayList<Integer> est_armas = new ArrayList<>();
         for (int i = 0; i < cant_armas; i++) {
-            Arma a = Recursos.armeria.get(Recursos.aleatorioEntre(0, 23));
+            Arma a = Recursos.armeria.get(Recursos.aleatorioEntre(1, 23));
+            est_armas.add(a.getEstilo());
             agregarArmaALalista(a);
         }
+
+        bos.add(new Bo(Constantes.ESTILO_PELEA, Recursos.aleatorioEntre(0, 4)));
+        bos.add(new Bo(Constantes.ESTILO_FILO, Recursos.aleatorioEntre(0, 4)));
+        bos.add(new Bo(Constantes.ESTILO_CONTUNDENTE, Recursos.aleatorioEntre(0, 4)));
+        bos.add(new Bo(Constantes.ESTILO_DOS_MANOS, Recursos.aleatorioEntre(0, 4)));
+        bos.add(new Bo(Constantes.ESTILO_ARROJADIZA, Recursos.aleatorioEntre(0, 4)));
+        bos.add(new Bo(Constantes.ESTILO_PROYECTILES, Recursos.aleatorioEntre(0, 4)));
+        bos.add(new Bo(Constantes.ESTILO_ASTA, Recursos.aleatorioEntre(0, 3)));
+        // agrego al menos 1 punto, para que la Bo de su arma no sea negativa
+        bos.get(est_armas.get(0)).setValue(bos.get(est_armas.get(0)).getValue() + 1);
+
+        puntos = recursos.Recursos.aleatorioEntre(4, 7) * nivel;
+        for (int j = 0; j < puntos; j++) {
+            int posi = 70;
+            boolean puntodado = false;
+            for (Integer est : est_armas) {
+                if (Recursos.posibilidad(posi)) {
+                    int nuevoValor = bos.get(est).getValue() + Recursos.aleatorioEntre(1, 2);
+                    bos.get(est).setValue(nuevoValor);
+                    puntodado = true;
+                }
+            }
+            if (!puntodado) {
+                int boA = Recursos.aleatorioEntre(Constantes.ESTILO_FILO, Constantes.ESTILO_ASTA);
+                int nuevoValor = bos.get(boA).getValue() + 1;
+                bos.get(boA).setValue(nuevoValor);
+            }
+            // pelea se sube aparte como secundaria
+
+            int nuevoValor = bos.get(Constantes.ESTILO_PELEA).getValue() + Recursos.aleatorioEntre(0, 2);
+            bos.get(Constantes.ESTILO_PELEA).setValue(nuevoValor);
+        }
+
+        int bono_prof = nivel * Recursos.aleatorioEntre(1, 3);
+
+//        
+//        bos.get(Constantes.ESTILO_PELEA).setValue(Recursos.cuadraditosABono(bos.get(Constantes.ESTILO_PELEA).getValue()) + fue + bono_prof);
+//        bos.get(Constantes.ESTILO_FILO).setValue(Recursos.cuadraditosABono(bos.get(Constantes.ESTILO_FILO).getValue()) + fue + bono_prof);
+//        bos.get(Constantes.ESTILO_CONTUNDENTE).setValue(Recursos.cuadraditosABono(bos.get(Constantes.ESTILO_CONTUNDENTE).getValue()) + fue + bono_prof);
+//        bos.get(Constantes.ESTILO_DOS_MANOS).setValue(Recursos.cuadraditosABono(bos.get(Constantes.ESTILO_DOS_MANOS).getValue()) + fue + bono_prof);
+//        bos.get(Constantes.ESTILO_ARROJADIZA).setValue(Recursos.cuadraditosABono(bos.get(Constantes.ESTILO_ARROJADIZA).getValue()) + agi + bono_prof);
+//        bos.get(Constantes.ESTILO_PROYECTILES).setValue(Recursos.cuadraditosABono(bos.get(Constantes.ESTILO_PROYECTILES).getValue()) + agi + bono_prof);
+//        bos.get(Constantes.ESTILO_ASTA).setValue(Recursos.cuadraditosABono(bos.get(Constantes.ESTILO_ASTA).getValue()) + fue + bono_prof);
+        for (Bo bo : bos) {
+            int estilo = bo.getEstilo();
+            int sumar = bono_prof + ((estilo == Constantes.ESTILO_PROYECTILES || estilo == Constantes.ESTILO_ARROJADIZA) ? agi : fue);
+            int bono = Recursos.cuadraditosABono(bo.getValue());
+            bo.setValue(sumar + bono);
+            agregarBoALaLista(bo);
+        }
+
+        /*
         for (int i = 1; i <= Constantes.ESTILO_ASTA; i++) {
             Bo b = new Bo(i, 0);
             b.setValue(Recursos.nuevaBo(nivel, i));
             agregarBoALaLista(b);
         }
-
-        jSpinner_crearBD.setValue(5 * Recursos.aleatorioEntre(1, 8));
-        jSpinner_crearArmadura.setValue(Recursos.aleatorioEntre(1, 20));
+         */
 
     }//GEN-LAST:event_jButton_generaNombreAleatorioActionPerformed
 
@@ -614,10 +944,15 @@ public class CrearToken extends javax.swing.JDialog {
 
     }//GEN-LAST:event_jButton_agregarBOActionPerformed
 
+    private void jSpinner_crearArmaduraStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner_crearArmaduraStateChanged
+        int arm = (Integer) jSpinner_crearArmadura.getValue();
+        jTextField_arm.setText(Recursos.tipoArmadura(arm));
+
+    }//GEN-LAST:event_jSpinner_crearArmaduraStateChanged
+
     private void agregarArmaALalista(Arma a) {
         if (a != null) {
             DefaultListModel jdlm = (DefaultListModel) jList_Armas.getModel();
-
             jdlm.addElement(a);
             jList_Armas.setModel(jdlm);
         }
@@ -635,7 +970,9 @@ public class CrearToken extends javax.swing.JDialog {
             }
             jdlm.addElement(bo);
             jList_Bos.setModel(jdlm);
-            bos.add(bo);
+            if (!bos.contains(bo)) {
+                bos.add(bo);
+            }
         }
     }
 
@@ -644,10 +981,12 @@ public class CrearToken extends javax.swing.JDialog {
         return Recursos.armeria.toArray();
     }
 
-    public static Object[] nuevoToken() {
+    public static Token nuevoToken() {
+        newhabHabilidad = null;
+        newToken = null;
         CrearToken ct = new CrearToken(true);
         ct.setVisible(true);
-        return new Object[]{panelLado, newToken};
+        return newToken;
     }
 
 
@@ -660,12 +999,22 @@ public class CrearToken extends javax.swing.JDialog {
     private javax.swing.JComboBox jComboBox_crearGrupo;
     private javax.swing.JComboBox<String> jComboBox_dom;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JList<String> jList_Armas;
     private javax.swing.JList<String> jList_Bos;
@@ -677,15 +1026,29 @@ public class CrearToken extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
+    private javax.swing.JPanel jPanel17;
+    private javax.swing.JPanel jPanel18;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
     private javax.swing.JPanel jPanel_caract1;
     private javax.swing.JPanel jPanel_caract2;
     private javax.swing.JPanel jPanel_caract3;
+    private javax.swing.JPanel jPanel_caract_Agi;
+    private javax.swing.JPanel jPanel_caract_Con;
+    private javax.swing.JPanel jPanel_caract_Int;
+    private javax.swing.JPanel jPanel_caract_fue;
+    private javax.swing.JPanel jPanel_caract_i;
+    private javax.swing.JPanel jPanel_caract_pre;
+    private javax.swing.JPanel jPanel_mmsa;
+    private javax.swing.JPanel jPanel_mmsa1;
+    private javax.swing.JPanel jPanel_mmsa2;
+    private javax.swing.JPanel jPanel_mmsa3;
+    private javax.swing.JPanel jPanel_mmsa4;
     private javax.swing.JRadioButton jRadioButton_crearEstilo1;
     private javax.swing.JRadioButton jRadioButton_crearEstilo2;
     private javax.swing.JRadioButton jRadioButton_crearEstilo3;
@@ -695,19 +1058,32 @@ public class CrearToken extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSlider jSlider_crearPvActuales;
     private javax.swing.JSpinner jSpinner_crearArmadura;
-    private javax.swing.JSpinner jSpinner_crearBD;
+    private javax.swing.JSpinner jSpinner_crearMMC;
+    private javax.swing.JSpinner jSpinner_crearMMCE;
+    private javax.swing.JSpinner jSpinner_crearMMCM;
+    private javax.swing.JSpinner jSpinner_crearMMCO;
+    private javax.swing.JSpinner jSpinner_crearMMSA;
     private javax.swing.JSpinner jSpinner_crearNIvel;
     private javax.swing.JSpinner jSpinner_crearPP;
     private javax.swing.JSpinner jSpinner_crearPV;
+    private javax.swing.JSpinner jSpinner_crear_car_I;
+    private javax.swing.JSpinner jSpinner_crear_car_agi;
+    private javax.swing.JSpinner jSpinner_crear_car_con;
+    private javax.swing.JSpinner jSpinner_crear_car_fue;
+    private javax.swing.JSpinner jSpinner_crear_car_int;
+    private javax.swing.JSpinner jSpinner_crear_car_pre;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTextField jTextField_arm;
     private javax.swing.JTextField jTextField_crearnombre;
-    private javax.swing.JToggleButton jToggleButton_Panel;
     private javax.swing.ButtonGroup jbuttonGroup_crearEstilo;
     // End of variables declaration//GEN-END:variables
-    private static Token newToken = new Token();
+    private static Token newToken;
     private static Caracteristicas newhabHabilidad;
     ;
-    
-    private ArrayList<Bo> bos;
+    // hashmap de MM para ahorrar codigo
+    private HashMap<Integer, JSpinner> spin_mm = new HashMap<Integer, JSpinner>();
+
+    private ArrayList<Bo> bos = new ArrayList<>();
     private static boolean panelLado = true;
 
     private boolean personajeCorrecto(Token nt) {
@@ -720,4 +1096,12 @@ public class CrearToken extends javax.swing.JDialog {
         }
         return true;
     }
+
+    public static Token editarToken(boolean modal, Token token) {
+        CrearToken ct = new CrearToken(modal, token);
+        ct.setLocationRelativeTo(null);
+        ct.setVisible(true);
+        return newToken;
+    }
+
 }

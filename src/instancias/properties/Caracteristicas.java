@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import javax.xml.bind.annotation.XmlType;
+import recursos.Constantes;
 
 /**
  *
@@ -26,10 +27,10 @@ public class Caracteristicas implements Serializable {
     private int bo_sec_tipo;
     */
     
-    private int bd;
-    private int armadura;
+   
+    
     private int puntosVida;
-    private int agi;
+    
     private int pp;
     private ArrayList<Integer> al_sortilegios = new ArrayList<Integer>();
     
@@ -37,10 +38,24 @@ public class Caracteristicas implements Serializable {
     private HashMap<Integer,Integer> hm_listasDeSortilegios = new HashMap<>();
     
     private HashMap<Integer, Bo> hm_bos = new HashMap<Integer, Bo>();
+    
     private int bo_pri;
+    
+    private HashMap<Integer, Integer> hm_habilidades = new HashMap<Integer, Integer>();
     
     public Caracteristicas() {
         
+        hm_habilidades.put(Constantes.HABILIDAD_CAR_FUE,0);
+        hm_habilidades.put(Constantes.HABILIDAD_CAR_AGI,0);
+        hm_habilidades.put(Constantes.HABILIDAD_CAR_CON,0);
+        hm_habilidades.put(Constantes.HABILIDAD_CAR_INT,0);
+        hm_habilidades.put(Constantes.HABILIDAD_MM_CORAZA,0);
+        
+        hm_habilidades.put(Constantes.HABILIDAD_MM_SINARMADURA,0);
+        hm_habilidades.put(Constantes.HABILIDAD_MM_CUERO,0);
+        hm_habilidades.put(Constantes.HABILIDAD_MM_CUERO_ENDURECIDO,0);
+        hm_habilidades.put(Constantes.HABILIDAD_MM_COTA_DE_MALLA,0);
+        hm_habilidades.put(Constantes.HABILIDAD_MM_CORAZA,0);
     }
 
     public int getPp() {
@@ -90,28 +105,8 @@ public class Caracteristicas implements Serializable {
     }
 
     public int getBd() {
-        return bd;
-    }
-
-    /**
-     * @param bd the bd to set
-     */
-    public void setBd(int bd) {
-        this.bd = bd;
-    }
-
-    /**
-     * @return the armadura
-     */
-    public int getArmadura() {
-        return armadura;
-    }
-
-    /**
-     * @param armadura the armadura to set
-     */
-    public void setArmadura(int armadura) {
-        this.armadura = armadura;
+        int da = (hm_habilidades.containsKey(Constantes.HABILIDAD_BD_DEFENSA_ADRENAL)) ? hm_habilidades.get(Constantes.HABILIDAD_BD_DEFENSA_ADRENAL) : 0;
+        return hm_habilidades.get(Constantes.HABILIDAD_CAR_AGI) + da;
     }
 
     /**
@@ -129,11 +124,7 @@ public class Caracteristicas implements Serializable {
     }
 
     public int getAgi() {
-        return agi;
-    }
-
-    public void setAgi(int agi) {
-        this.agi = agi;
+         return hm_habilidades.get(Constantes.HABILIDAD_CAR_AGI);
     }
 
     public void aprenderSortilegio(int s) {
@@ -158,4 +149,16 @@ public class Caracteristicas implements Serializable {
         this.hm_listasDeSortilegios = hm_listasDeSortilegios;
     }
 
+    public HashMap<Integer, Integer> getHm_habilidades() {
+        return hm_habilidades;
+    }
+
+    public void setHm_habilidades(HashMap<Integer, Integer> hm_habilidades) {
+        this.hm_habilidades = hm_habilidades;
+    }
+
+    public int getCaracteristica(int t){
+        return hm_habilidades.get(t);
+    }
+    
 }

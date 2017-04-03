@@ -83,5 +83,38 @@ public abstract class Constantes {
     public static final int DOMINIO_HIBRIDO_MEN_ESCE = 5;    
     public static final int DOMINIO_ARCANO = 6;
     
+    // Tipo_MM
+    public static final int HABILIDAD_CAR_FUE = 0;
+    public static final int HABILIDAD_CAR_AGI = 1;
+    public static final int HABILIDAD_CAR_CON = 2;
+    public static final int HABILIDAD_CAR_INT = 3;
+    public static final int HABILIDAD_CAR_I = 4;
+    public static final int HABILIDAD_CAR_PRE = 5;
+    
+    public static final int HABILIDAD_MM_SINARMADURA = 6;
+    public static final int HABILIDAD_MM_CUERO = 7;
+    public static final int HABILIDAD_MM_CUERO_ENDURECIDO = 8;
+    public static final int HABILIDAD_MM_COTA_DE_MALLA = 9;
+    public static final int HABILIDAD_MM_CORAZA = 10;
+    
+    public static final int HABILIDAD_BD_DEFENSA_ADRENAL = 50;
+    
+    public static final int MARCHA_CAMINAR = 0;
+    public static final int MARCHA_TROTAR = 1;
+    public static final int MARCHA_CORRER = 2;
+    
+    public static final int DIFICULTAD_RUTINA = 0;
+    public static final int DIFICULTAD_MUY_FACIL = 1;
+    public static final int DIFICULTAD_FACIL = 2;
+    public static final int DIFICULTAD_MEDIA = 3;
+    public static final int DIFICULTAD_DIFICIL = 4;
+    public static final int DIFICULTAD_MUY_DIFICIL = 5;
+    public static final int DIFICULTAD_EXT_DIFICIL = 6;
+    public static final int DIFICULTAD_LOCURA = 7;
+    public static final int DIFICULTAD_ABSURDO = 8;
+    
+    
+    
+    
 
 }

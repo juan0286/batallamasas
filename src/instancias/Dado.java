@@ -13,26 +13,23 @@ import static recursos.Recursos.aleatorioEntre;
  */
 public class Dado {
 
-    int caras;
-    boolean abierto;
+    int caras;    
     int abiertoArribaCon;
     int abiertoAbajoCon;
 
-    public Dado() {
-        this.abierto = true;
+    public Dado() {        
         this.caras = 100;
         int naux = caras / 20;
         this.abiertoAbajoCon = naux;
         this.abiertoArribaCon = (caras - naux);
     }
 
-    public Dado(int caras, boolean abierto, int abiertoArribaCon, int abiertoAbajoCon) {
-        this.caras = caras;
-        this.abierto = abierto;
+    public Dado(int caras, int abiertoArribaCon, int abiertoAbajoCon) {
+        this.caras = caras;        
         this.abiertoArribaCon = abiertoArribaCon;
         this.abiertoAbajoCon = abiertoAbajoCon;
-    }
-
+    } 
+    
     public Dado(int caras) {
         this.caras = caras;
         int naux = caras / 20;
@@ -48,13 +45,7 @@ public class Dado {
         this.caras = caras;
     }
 
-    public boolean isAbierto() {
-        return abierto;
-    }
 
-    public void setAbierto(boolean abierto) {
-        this.abierto = abierto;
-    }
 
     public int getAbiertoArribaCon() {
         return abiertoArribaCon;
@@ -74,16 +65,20 @@ public class Dado {
 
     public int lanzarAbierta() {
         int dado = lanzarCerrada();
+        System.out.println("Lanzo Abierta 1D"+caras + ": "+dado);        
         boolean abierta_arr = dado > abiertoArribaCon;
         boolean abierta_abj = dado <= abiertoAbajoCon;
         int dadoT = dado;
         if (abierta_arr || abierta_abj) {            
+            System.out.println("Abierta" + dado);
             dado = lanzarCerrada();
             do {
                 dadoT = (abierta_abj) ? dadoT - dado : dadoT + dado;
                 dado = lanzarCerrada();
+                System.out.println("Lanzo de nuevo: "+dado);
             } while (dado > abiertoArribaCon);
         } 
+        System.out.println("Guardo Dados");        
         return dadoT;
     }
 

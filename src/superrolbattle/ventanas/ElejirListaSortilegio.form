@@ -80,7 +80,7 @@
               <StringArray count="3">
                 <StringItem index="0" value="Lista Abierta"/>
                 <StringItem index="1" value="Lista Cerrada"/>
-                <StringItem index="2" value="LIsta Cerrada de Profesion"/>
+                <StringItem index="2" value="Lista Cerrada de Profesion"/>
               </StringArray>
             </Property>
           </Properties>
@@ -251,12 +251,12 @@
         <Property name="alignment" type="int" value="2"/>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="jButton_aprender">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Crear"/>
+            <Property name="text" type="java.lang.String" value="Aprender"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_aprenderActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButton2">

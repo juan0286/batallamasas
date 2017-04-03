@@ -7,6 +7,7 @@ package recursos;
 
 import com.csvreader.CsvReader;
 import instancias.Accion;
+import instancias.Dado;
 import instancias.Evento;
 import instancias.Sortilegio;
 import instancias.Token;
@@ -133,6 +134,9 @@ public class Recursos {
 
     public static Object aleatorioDe(ArrayList lista) {
 
+        if (lista.size() == 0) {
+            return null;
+        }
         return lista.get(aleatorioEntre(0, lista.size() - 1));
     }
 
@@ -264,6 +268,61 @@ public class Recursos {
 
     }
 
+    public static int generarCaracteristica(int minimo) {
+        Dado d100 = new Dado(100);
+        int car = d100.lanzarCerrada();
+        int ret = 0;
+        while (car < minimo) {
+            car = d100.lanzarCerrada();
+        }
+        if (car < 25) {
+            ret -= 5;
+        }
+        if (car > 74) {
+            ret += 5;
+        }
+        if (car > 89) {
+            ret += 5;
+        }
+        if (car > 94) {
+            ret += 5;
+        }
+        if (car > 97) {
+            ret += 5;
+        }
+        if (car > 99) {
+            ret += 5;
+        }
+        if (car > 100) {
+            ret += 5;
+        }
+        if (car > 101) {
+            ret += 5;
+        }
+
+        ret += 5;
+
+        return ret;
+    }
+
+    public static int generarPuntosDePoder(int inte, int nivel) {
+        int ret = 0;
+
+        if (inte > 5) {
+            ret += 1;
+        }
+        if (inte > 15) {
+            ret += 1;
+        }
+        if (inte > 25) {
+            ret += 1;
+        }
+        if (inte > 30) {
+            ret += 1;
+        }
+        return ret * nivel;
+    }
+
     public static String[] darResultadoGolpe(String tablaArmaName, String valor) {
         String dañoUnido = "0";
         HashMap<String, String> tablaActual = tablasDaño.get(tablaArmaName);
@@ -312,9 +371,9 @@ public class Recursos {
     public static Vector ObjSoldado(Token sold) {
         Vector obj = new Vector();
         JProgressBar jpg = new JProgressBar(0, sold.getHabilidades().getPuntosVida());
-        jpg.setValue(sold.getPuntosVida());
+        jpg.setValue(sold.getPuntosVidaActual());
         jpg.setStringPainted(true);
-        jpg.setString("" + sold.getPuntosVida());
+        jpg.setString("" + sold.getPuntosVidaActual());
 
         obj.add(sold);
         obj.add(sold.getGrupo());
@@ -330,13 +389,13 @@ public class Recursos {
         Vector obj = new Vector();
         for (int i = 0; i < soldados.size(); i++) {
             Token sold = soldados.get(i);
-           
-                JProgressBar jpg = new JProgressBar(0, sold.getHabilidades().getPuntosVida());
-                jpg.setValue(sold.getPuntosVida());
-                jpg.setStringPainted(true);
-                jpg.setString("" + sold.getPuntosVida());
-                obj.add(ObjSoldado(sold));
-           
+
+            JProgressBar jpg = new JProgressBar(0, sold.getHabilidades().getPuntosVida());
+            jpg.setValue(sold.getPuntosVidaActual());
+            jpg.setStringPainted(true);
+            jpg.setString("" + sold.getPuntosVidaActual());
+            obj.add(ObjSoldado(sold));
+
         }
         return obj;
     }
@@ -427,6 +486,22 @@ public class Recursos {
         return ret + " espera una oportunidad para realizar su acción</blockquote>";
     }
 
+    public static int cuadraditosABono(int cantidad) {
+        int ret = -25;
+        for (int i = 0; i < cantidad; i++) {
+            if (i < 10) {
+                ret += 5;
+            }
+            if (i > 10 && i < 20) {
+                ret += 2;
+            }
+            if (i > 20) {
+                ret += 1;
+            }
+        }
+        return ret;
+    }
+
     public static File copiarIcono(File origen, String name) {
         boolean res = false;
         File destino = new File(newPathFor(origen, name));
@@ -473,7 +548,7 @@ public class Recursos {
     }
 
     public static int asaltosParse(int cant, int tiempo) {
-        
+
         if (tiempo == Constantes.TIEMPO_SEGUNDOS) {
             return (cant / 10);
         }
@@ -488,9 +563,9 @@ public class Recursos {
         }
         if (tiempo == Constantes.TIEMPO_SEMANAS) {
             return (cant / 60480);
-        } else 
+        } else {
             return cant;
-        
+        }
 
     }
 
@@ -506,28 +581,30 @@ public class Recursos {
         }
         if (tiempo == Constantes.TIEMPO_SEMANAS) {
             return (cant * 6 * 60 * 24 * 7);
-        } else 
+        } else {
             return cant;
-        
+        }
 
     }
 
-    public static String mostrarDuracion(int as){
+    public static String mostrarDuracion(int as) {
         String r = "";
         Double t = (Double) (as / 1.0);
-        if (as > 60480)
+        if (as > 60480) {
             r += asaltosParse(as, Constantes.TIEMPO_SEMANAS) + " Sem.";
-        else if (as > 8640)
-            r += asaltosParse(as, Constantes.TIEMPO_DIAS)+ " Dias";
-        else if (as > 360)
-            r += asaltosParse(as, Constantes.TIEMPO_HORAS)+ " Hrs.";
-        else if (as > 12)
-            r += asaltosParse(as, Constantes.TIEMPO_MINUTOS)+ " Min.";
-        else r += as + " As.";
-        
+        } else if (as > 8640) {
+            r += asaltosParse(as, Constantes.TIEMPO_DIAS) + " Dias";
+        } else if (as > 360) {
+            r += asaltosParse(as, Constantes.TIEMPO_HORAS) + " Hrs.";
+        } else if (as > 12) {
+            r += asaltosParse(as, Constantes.TIEMPO_MINUTOS) + " Min.";
+        } else {
+            r += as + " As.";
+        }
+
         return r;
     }
-    
+
     public static void nuevoSortilegio(Sortilegio s) {
         Principal.dataRecursos.getSortilegiosSueltos().put(s.getId(), s);
 
@@ -536,8 +613,7 @@ public class Recursos {
     public static int nuevoIndiceSortilegio() {
         return Principal.dataRecursos.getSortilegiosSueltos().size();
     }
-    
-    
+
     public static int nuevaBo(int nivel, int rango) {
 
         int bonoBo = 0;
@@ -558,4 +634,89 @@ public class Recursos {
         float aux = (35 + nivel * 3 + nivel + bonoBo + Recursos.aleatorioEntre(1, 5)) * factor;
         return Math.round(aux);
     }
+
+    public static int movManParaArmadura(int armadura_puesta) {
+        if (armadura_puesta > 16) {
+            return Constantes.HABILIDAD_MM_CORAZA;
+        }
+        if (armadura_puesta > 12) {
+            return Constantes.HABILIDAD_MM_COTA_DE_MALLA;
+        }
+        if (armadura_puesta > 8) {
+            return Constantes.HABILIDAD_MM_CUERO_ENDURECIDO;
+        }
+        if (armadura_puesta > 4) {
+            return Constantes.HABILIDAD_MM_CUERO;
+        } else {
+            return Constantes.HABILIDAD_MM_SINARMADURA;
+        }
+    }
+
+    public static String tipoArmadura(int armadura_puesta) {
+
+        int arm = movManParaArmadura(armadura_puesta);
+        return armaduraTxt(arm);
+
+    }
+
+    public static String armaduraTxt(int arm) {
+
+        if (arm == Constantes.HABILIDAD_MM_SINARMADURA) {
+            return "SA";
+        }
+
+        if (arm == Constantes.HABILIDAD_MM_CUERO) {
+            return "C";
+        }
+
+        if (arm == Constantes.HABILIDAD_MM_CUERO_ENDURECIDO) {
+            return "CE";
+        }
+
+        if (arm == Constantes.HABILIDAD_MM_COTA_DE_MALLA) {
+            return "CM";
+        }
+
+        if (arm == Constantes.HABILIDAD_MM_CORAZA) {
+            return "CO";
+        } else {
+            return "SA";
+        }
+
+    }
+
+    public static String dificultadTxt(int dif) {
+
+        if (dif == Constantes.DIFICULTAD_RUTINA) {
+            return "Rutina";
+        }
+        if (dif == Constantes.DIFICULTAD_FACIL) {
+            return "Facil";
+        }
+        if (dif == Constantes.DIFICULTAD_MUY_FACIL) {
+            return "Muy Facil";
+        }
+        if (dif == Constantes.DIFICULTAD_MEDIA) {
+            return "Media";
+        }
+        if (dif == Constantes.DIFICULTAD_DIFICIL) {
+            return "Dificil";
+        }
+        if (dif == Constantes.DIFICULTAD_MUY_DIFICIL) {
+            return "Muy Dificil";
+        }
+        if (dif == Constantes.DIFICULTAD_EXT_DIFICIL) {
+            return "Extremandamente Dificil";
+        }
+        if (dif == Constantes.DIFICULTAD_LOCURA) {
+            return "Locura";
+        }
+        if (dif == Constantes.DIFICULTAD_ABSURDO) {
+            return "Absurdo";
+        } else {
+            return "SA";
+        }
+
+    }
+
 }

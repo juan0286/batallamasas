@@ -12,7 +12,9 @@ import instancias.Token;
 import instancias.properties.Status;
 import instancias.properties.alteracion.Alteracion;
 import instancias.properties.alteracion.Curacion;
+import instancias.properties.alteracion.Efecto;
 import instancias.properties.alteracion.Herida;
+import instancias.properties.alteracion.Mod;
 import java.awt.Color;
 import java.awt.Image;
 import java.net.URL;
@@ -22,6 +24,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JProgressBar;
+import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import recursos.Constantes;
 import superrolbattle.Principal;
@@ -49,7 +52,7 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
         initComponents();
 
         jProgressBar_vida.setMinimum(0);
-        jProgressBar_vida.setMaximum(token.getPuntosVida());
+        jProgressBar_vida.setMaximum(token.getPuntosVidaActual());
         jProgressBar_vida.setValue(0);
         jProgressBar_vida.setStringPainted(true);
         // UIManager.put("jProgressBar_vida.selectionBackground", Color.RED);
@@ -132,64 +135,66 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
 
     public void update_jTokenAction() {
 
-        if (accion.isDone() ){// && token.getEstado().getCuerpo() < Status.DORMIDO_INCONSCIENTE) {
-            verComoDone();
+        if (activo) {
+            if (accion.isDone()) {// && token.getEstado().getCuerpo() < Status.DORMIDO_INCONSCIENTE) {
+                verComoDone();
+            }
+            if (accion.isAccionDeOportunidad()) {
+                verComoAccOportunidad();
+            }
+            jProgressBar_vida.setMaximum(token.getPuntosVidaActual());
+            int n = jProgressBar_vida.getValue() - token.getEstado().getPtsDeVidaPerdidos();
+            UpdaterProgresBar up = new UpdaterProgresBar(jProgressBar_vida, n);
+            up.start();
+            jProgressBar_vida.setString(token.vidatxt());
+
+            if (token.getEstado().getCuerpo() == Status.DORMIDO_INCONSCIENTE) {
+                jProgressBar_vida.setForeground(Color.LIGHT_GRAY);
+                dejarFueraDeCombate();
+                this.setBackground(Color.GRAY);
+            } else if (token.getEstado().getCuerpo() == Status.MUERTO) {
+                jProgressBar_vida.setForeground(Color.BLACK);
+                jTextArea_estado.setBackground(Color.LIGHT_GRAY);
+                dejarFueraDeCombate();
+                this.setBackground(Color.BLACK);
+            } else if (token.getEstado().getCuerpo() == Status.MORIBUNDO) {
+                jProgressBar_vida.setForeground(Color.GRAY);
+                this.setBackground(Color.GRAY);
+            } else if (token.getEstado().getCuerpo() != Status.MUERTO) {
+                jTextArea_estado.setBackground(new java.awt.Color(204, 255, 204));
+            }
+
+            if (token.getEstado().menteEstado() == Status.MENTE_ATURDIDO) {
+                jTextArea_estado.setBackground(Color.YELLOW);
+            } else if (token.getEstado().menteEstado() == Status.MENTE_ATURDIDO_Y_SIN_PODER_PARAR) {
+                jTextArea_estado.setBackground(Color.red);
+            } else if (token.getEstado().menteEstado() == Status.MENTE_OBLIGADO_A_PARAR) {
+                jTextArea_estado.setBackground(Color.WHITE);
+            } else if (token.getEstado().menteEstado() == Status.MENTE_ENFOCADO) {
+                jTextArea_estado.setBackground(new java.awt.Color(204, 255, 204));
+            }
+            //jProgressBar_vida.setForeground(Color.YELLOW);
+
+            this.jLabel_Nombre.setText("" + token.getNombre());
+            this.jTextArea_estado.setText(token.textEstado());
+
+            // tooltip
+            String tooltip
+                    = "<html>"
+                    + "Nivel: " + token.getNivel() + "<br/>"
+                    + "Puntos de Vida: " + token.vidatxt() + "<br/>"
+                    + "Estado Fisico: " + token.getEstado().cuerpoString() + "<br/>"
+                    + "Estado Mental: " + token.getEstado().menteEstadoTxt() + "<br/>"
+                    + "Actividad: " + token.getEstado().getActividadActual() + "<br/>"
+                    + "Puntos de poder: " + token.podertxt() + "<br/>"
+                    //+ "Bd Actual: " + token.getHabilidades().getBd()+ "<br/>"
+                    //+ "Equipo: " + token.getManoDER().getArmaEquipada().getNombre() + "<br/>"
+                    //+ "" + token.getManoIZQ().getArmaEquipada().getNombre() + "<br/>"
+                    + "</html>";
+            this.setToolTipText(tooltip);
+            principal.reordenarAcciones();
+            this.repaint();
         }
-        if (accion.isAccionDeOportunidad()) {
-            verComoAccOportunidad();
-        }
-        jProgressBar_vida.setMaximum(token.getPuntosVida());
-        int n = jProgressBar_vida.getValue() - token.getEstado().getPtsDeVidaPerdidos();
-        UpdaterProgresBar up = new UpdaterProgresBar(jProgressBar_vida, n);
-        up.start();
-        jProgressBar_vida.setString(token.vidatxt());
-
-        if (token.getEstado().getCuerpo() == Status.DORMIDO_INCONSCIENTE) {
-            jProgressBar_vida.setForeground(Color.LIGHT_GRAY);
-            dejarFueraDeCombate();
-            this.setBackground(Color.GRAY);
-        } else if (token.getEstado().getCuerpo() == Status.MUERTO) {
-            jProgressBar_vida.setForeground(Color.BLACK);
-            jTextArea_estado.setBackground(Color.LIGHT_GRAY);
-            dejarFueraDeCombate();
-            this.setBackground(Color.BLACK);
-        } else if (token.getEstado().getCuerpo() == Status.MORIBUNDO) {
-            jProgressBar_vida.setForeground(Color.GRAY);            
-            this.setBackground(Color.GRAY);
-        } else if (token.getEstado().getCuerpo() != Status.MUERTO) {
-            jTextArea_estado.setBackground(new java.awt.Color(204, 255, 204));
-        }
-
-        if (token.getEstado().menteEstado() == Status.MENTE_ATURDIDO) {
-            jTextArea_estado.setBackground(Color.YELLOW);
-        } else if (token.getEstado().menteEstado() == Status.MENTE_ATURDIDO_Y_SIN_PODER_PARAR) {
-            jTextArea_estado.setBackground(Color.red);
-        } else if (token.getEstado().menteEstado() == Status.MENTE_OBLIGADO_A_PARAR) {
-            jTextArea_estado.setBackground(Color.WHITE);
-        } else if (token.getEstado().menteEstado() == Status.MENTE_ENFOCADO) {
-            jTextArea_estado.setBackground(new java.awt.Color(204, 255, 204));
-        }
-        //jProgressBar_vida.setForeground(Color.YELLOW);
-
-        this.jLabel_Nombre.setText("" + token.getNombre());
-        this.jTextArea_estado.setText(token.textEstado());
-
-        // tooltip
-        String tooltip
-                = "<html>"
-                + "Nivel: " + token.getNivel() + "<br/>"
-                + "Puntos de Vida: " + token.vidatxt() + "<br/>"
-                + "Estado Fisico: " + token.getEstado().cuerpoString() + "<br/>"
-                + "Estado Mental: " + token.getEstado().menteEstadoTxt() + "<br/>"
-                + "Actividad: " + token.getEstado().getActividadActual() + "<br/>"
-                + "Puntos de poder: " + token.podertxt() + "<br/>"
-                //+ "Bd Actual: " + token.getHabilidades().getBd()+ "<br/>"
-                //+ "Equipo: " + token.getManoDER().getArmaEquipada().getNombre() + "<br/>"
-                //+ "" + token.getManoIZQ().getArmaEquipada().getNombre() + "<br/>"
-                + "</html>";
-        this.setToolTipText(tooltip);
-
-        this.repaint();
     }
 
     public void updateTodo() {
@@ -244,7 +249,26 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
                 break;
             }
             case Constantes.TIPO_ACCION_DESPLAZAMIENTO: {
-
+                if (accion.getMarcha() == Constantes.MARCHA_TROTAR) {
+                    Mod m = new Mod();
+                    Efecto ef = new Efecto();
+                    ef.setDuracion(1);
+                    ef.setActivo(true);
+                    ef.setRegeneracion_progresiva(true);
+                    ef.setTipo(Efecto.TIPO_RESTA_DE_ACTIVIDAD);
+                    ef.setValue(-20);
+                    token.agregarMod(m);
+                }
+                if (accion.getMarcha() == Constantes.MARCHA_CORRER) {
+                    Mod m = new Mod();
+                    Efecto ef = new Efecto();
+                    ef.setDuracion(1);
+                    ef.setActivo(true);
+                    ef.setRegeneracion_progresiva(true);
+                    ef.setTipo(Efecto.TIPO_RESTA_DE_ACTIVIDAD);
+                    ef.setValue(-30);
+                    token.agregarMod(m);
+                }
                 break;
             }
             case Constantes.TIPO_ACCION_MOVIMIENTO_ESTATICO: {
@@ -445,6 +469,7 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
     private Principal principal;
     private Accion accion;
     private int tipoDeAccion;
+    private boolean activo = true;
 
     /*private boolean done = false;
     private boolean accionDeOportunidad = false;
@@ -454,4 +479,21 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
 
     }
      */
+    public int compareTo(JPanelFormToken_Accion o) {
+        return this.token.compareTo(o.getToken());
+    }
+
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+        this.setVisible(activo);
+    }
+
+    public void mostrar() {
+        jTextArea_Desc_accion.grabFocus();        
+    }
+
 }

@@ -5,7 +5,6 @@
  */
 package instancias;
 
-import java.awt.Color;
 import java.io.Serializable;
 import javax.xml.bind.annotation.XmlType;
 import recursos.Constantes;
@@ -29,6 +28,10 @@ public class Accion implements Serializable {
     private String Descp;
     private String fullDescp;
 
+    private int marcha;
+    
+    
+    
     public Accion(int tipo, int nro_Asalto, int orden) {
         this.tipo = tipo;
         this.nro_Asalto = nro_Asalto;
@@ -141,6 +144,14 @@ public class Accion implements Serializable {
 
     public void setFullDescp(String fullDescp) {
         this.fullDescp = fullDescp;
+    }
+
+    public int getMarcha() {
+        return marcha;
+    }
+
+    public void setMarcha(int marcha) {
+        this.marcha = marcha;
     }
 
     public static boolean isRealizableAturdido(int tipo) {

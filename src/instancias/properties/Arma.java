@@ -14,9 +14,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlType
 public class Arma implements Serializable{
-
-   
-    
+ 
     
     public Arma() {
     }
@@ -119,4 +117,6 @@ public class Arma implements Serializable{
     private int estilo;    // que tipo de Bo utiliza
     private boolean dosManos;
 
+    private int pifia;
+    
 }

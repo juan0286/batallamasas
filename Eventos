@@ -74,12 +74,25 @@ Agregar Listas
 Agregar Sortilegios a las listas
 Duracion tipo Float
 Los tokens aprenden listas de Sortilegio
+Decalrar carga y realizacion de sortilegios arreglados
+Agrego atributo Dominio al token
+Al crear Tokens, hay posibilidades de aprender magias
 
 
 
-
-
-
+0.20
+Se mejora la accion desplazamiento, calculando por MM la cantidad de metros que recorre.
+Agrego a token caracteristicas y habilidad MM
+Array de habilidades implementado
+Seteo de caracteristicas en crearToken
+Mejoras en crearPj Automatico, mm y bo por subida de cuadraditos
+Las bo de las armas que tiene el pj tienen prioridad
+Solucionado bug de cancelar crear nuevo token
+Agregadas opciones con el boton derecho
+Se permite editar Tokens en seccion Campo
+Se editan y guardan correctamente
+Checkbox de Visibilidad, para quitar pjs innecesarios del campo de batalla.
+ubicar jpaction tocando el nombre del jpanelToken
 
 
 

@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import javax.xml.bind.annotation.XmlType;
 import recursos.Constantes;
+import recursos.Recursos;
 
 /**
  *
@@ -51,11 +52,16 @@ public class Status implements Serializable {
     private int ptsDeVidaPerdidos = 0;
     private int ptsDePoderPerdidos = 0;
 
+    private int armadura_puesta;
+    
     private Caracteristicas c;
     private ArrayList<Extremidad> ext = new ArrayList<Extremidad>();
 
     private Sortilegio sortilegioCargado;
     private int cargasDelSortilegio;
+    
+    private Arma armaCargada;
+    private int asaltosProyectilCargado;
 
     private ArrayList<Alteracion> alteraciones = new ArrayList<Alteracion>();
 
@@ -73,6 +79,30 @@ public class Status implements Serializable {
 
     public void setCuerpo(int cuerpo) {
         this.cuerpo = cuerpo;
+    }
+
+    public int getArmadura_puesta() {
+        return armadura_puesta;
+    }
+
+    public void setArmadura_puesta(int armadura_puesta) {
+        this.armadura_puesta = armadura_puesta;
+    }
+
+    public Arma getArmaCargada() {
+        return armaCargada;
+    }
+
+    public void setArmaCargada(Arma armaCargada) {
+        this.armaCargada = armaCargada;
+    }
+
+    public int getAsaltosProyectilCargado() {
+        return asaltosProyectilCargado;
+    }
+
+    public void setAsaltosProyectilCargado(int asaltosProyectilCargado) {
+        this.asaltosProyectilCargado = asaltosProyectilCargado;
     }
 
     public int getAturdido() {
@@ -108,6 +138,10 @@ public class Status implements Serializable {
         return isInEstado(Efecto.TIPO_SANGRADO) || isInEstado(Efecto.TIPO_QUEMADURA) || isInEstado(Efecto.TIPO_CONGELAMIENTO);
     }
 
+    public int getMM(){    
+        return c.getHm_habilidades().get(Recursos.movManParaArmadura(armadura_puesta));
+    }
+    
     public boolean isPostrado() {
         return postrado;
     }

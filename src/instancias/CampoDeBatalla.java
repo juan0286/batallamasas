@@ -112,9 +112,7 @@ public class CampoDeBatalla implements Serializable {
     
     }
     
-    
-    
-    
+       
     
     public void agregarToken(Token token) {
         this.tokens.add(token);

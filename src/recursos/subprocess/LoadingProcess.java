@@ -34,7 +34,7 @@ public class LoadingProcess extends Thread {
     private void cargarLosTokens() {        
         p.showLoading(true);
         for (Iterator iterator = p.campo.getTokens().iterator(); iterator.hasNext();) {
-            esperarPor(50);
+            esperarPor(5);
             Token next = (Token) iterator.next();
             JPanelFormToken_Accion jpa = new JPanelFormToken_Accion(next, p);
             p.aws.add(jpa);

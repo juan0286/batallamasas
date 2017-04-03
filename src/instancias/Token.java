@@ -48,7 +48,7 @@ public class Token implements Serializable {
     private Status estado;
     private int estilo_de_pelea;
     
-    private int armaduraPuesta;
+    
     private int dominio;
 
     private boolean visible; // Si los jugadores pueden verlos
@@ -160,7 +160,7 @@ public class Token implements Serializable {
         this.grupo = grupo;
     }
 
-    public int getPuntosVida() {
+    public int getPuntosVidaActual() {
         //return habilidades.getPuntosVida();
         return estado.getPvActual();
     }
@@ -224,13 +224,9 @@ public class Token implements Serializable {
     }
 
     public int getArmaduraPuesta() {
-        return armaduraPuesta;
+        return estado.getArmadura_puesta();
     }
-
-    public void setArmaduraPuesta(int armaduraPuesta) {
-        this.armaduraPuesta = armaduraPuesta;
-    }
-
+ 
     public ArrayList<Extremidad> getExtremidades() {
         return extremidades;
     }
@@ -248,7 +244,7 @@ public class Token implements Serializable {
     }
 
     public String vidatxt() {
-        return this.getEstado().getPtsDeVidaPerdidos() + "  /  " + this.getPuntosVida();
+        return this.getEstado().getPtsDeVidaPerdidos() + "  /  " + this.getPuntosVidaActual();
     }
 
     public String podertxt() {
@@ -261,17 +257,25 @@ public class Token implements Serializable {
 
     public int compareTo(Token o) {
         int resultado = 0;
-        if (this.estado.getModsDeMm() < o.estado.getModsDeMm()) {
+        if (this.getMmActual()< o.getMmActual()) {
             resultado = -1;
-        } else if (this.estado.getModsDeMm() > o.estado.getModsDeMm()) {
+//            System.out.println(this.getNombre()+" màs rapido que "+o.getNombre()+" por mm <");
+        } else if (this.getMmActual()> o.getMmActual()) {
             resultado = 1;
+//            System.out.println(this.getNombre()+" màs rapido que "+o.getNombre()+" por mm >");
         } else if (this.getArmaduraPuesta() < o.getArmaduraPuesta()) {
             resultado = 1;
+//            System.out.println(this.getNombre()+" màs rapido que "+o.getNombre()+" por arm <");
         } else if (this.getArmaduraPuesta() > o.getArmaduraPuesta()) {
             resultado = -1;
-        } else {
-            resultado = 0;
-        }
+//            System.out.println(this.getNombre()+" màs rapido que "+o.getNombre()+" por arm >");
+        } else if (this.getHabilidades().getAgi() > o.getHabilidades().getAgi()) {
+            resultado = 1;
+//            System.out.println(this.getNombre()+" màs rapido que "+o.getNombre()+" por Agi >");
+        } else if (this.getHabilidades().getAgi() < o.getHabilidades().getAgi()) {
+            resultado = -1;
+//            System.out.println(this.getNombre()+" màs rapido que "+o.getNombre()+" por Agi <");
+        } 
         return resultado;
     }
 
@@ -410,6 +414,16 @@ public class Token implements Serializable {
         boDisponible = boDisponible + estado.getModsDeBo(estilo);
         return boDisponible;
     }
+    
+    public int getMmActual() {
+        int mm = estado.getMM();
+        mm += estado.getModsDeMm() + this.estado.getActividadActual();        
+        return mm;
+    }
+    
+    public String getMmActualTxt() {        
+        return Recursos.tipoArmadura(estado.getArmadura_puesta()) + " " + getMmActual();
+    }
 
     public int boDisponibleAtaque(int estilo) {
         //int boDisponible = Recursos.porcentajeDe(this.getPorcentajeAtque(), this.boDisponible());
@@ -439,7 +453,7 @@ public class Token implements Serializable {
     }
 
     public String getpp() {
-        return this.estado.getPtsDePoderPerdidos() + " / " + this.habilidades.getPp();
+        return this.habilidades.getPp() - this.estado.getPtsDePoderPerdidos() + " / " + this.habilidades.getPp();
     }
 
     public String textEstado() {
@@ -455,10 +469,20 @@ public class Token implements Serializable {
     }
 
     public Accion getLastAction() {
+        if (acciones.size() == 0){
+            Accion a = new Accion(Constantes.TIPO_ACCION_SIN_ACCION, 0, 0);
+            this.AgregarAccion(a);
+        }
         return (Accion) acciones.get(acciones.size() - 1);
 
     }
 
+    public int getHabilidad(int tipo){
+        if (habilidades.getHm_habilidades().containsKey(tipo))
+            return habilidades.getHm_habilidades().get(tipo);
+        else return -25;
+    }
+    
     public ArrayList<Sortilegio> getSortilegios() {
         ArrayList<Sortilegio> sort = new ArrayList<Sortilegio>();
         for (int i = 0; i < habilidades.getAl_sortilegios().size(); i++) {
