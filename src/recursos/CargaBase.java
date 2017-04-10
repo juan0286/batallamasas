@@ -8,6 +8,8 @@ package recursos;
 import com.csvreader.CsvReader;
 import instancias.Asalto;
 import instancias.CampoDeBatalla;
+import instancias.ListaDeSortilegios;
+import instancias.Sortilegio;
 import instancias.Token;
 import instancias.properties.Arma;
 import instancias.properties.Bo;
@@ -22,8 +24,22 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import recursos.Recursos.*;
 import recursos.Constantes.*;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import static recursos.Recursos.informar;
+import superrolbattle.Principal;
 import static recursos.Recursos.informar;
 import static recursos.Recursos.informar;
 import static recursos.Recursos.informar;
@@ -52,6 +68,7 @@ public class CargaBase {
         cargarNombres(); // importante, siempre antes de cargaSoldados
         //cargaSoldados();
         cargaCampoDeBatalla();
+        
 
     }
 
@@ -158,6 +175,8 @@ public class CargaBase {
             System.out.println("Excepcion leyendo fichero " + fichero + ": " + e);
         }
     }
+
+    
 
     private String rangoCritico(String codeCrit) {
         String letra = "A";

@@ -205,14 +205,16 @@ public class Recursos {
     }
 
     public static void informar(String mensaje) {
-
-        JOptionPane.showMessageDialog(null, mensaje, "IMPORTANTE", JOptionPane.WARNING_MESSAGE);
+        if (Principal.mostrarInformes) {
+            JOptionPane.showMessageDialog(null, mensaje, "IMPORTANTE", JOptionPane.WARNING_MESSAGE);
+        }
         System.out.println("Aviso:   " + mensaje);
     }
 
     public static void informar(String mensaje, String Titulo) {
-
-        JOptionPane.showMessageDialog(null, mensaje, Titulo, JOptionPane.WARNING_MESSAGE);
+        if (Principal.mostrarInformes) {
+            JOptionPane.showMessageDialog(null, mensaje, Titulo, JOptionPane.WARNING_MESSAGE);
+        }
         System.out.println(Titulo + "  " + mensaje);
     }
 
@@ -429,7 +431,7 @@ public class Recursos {
                 break;
             }
             case Constantes.TIPO_ACCION_REALIZA_SORTILEGIO: {
-                ret += " <span> Lanza sortilegio " + acc.getSortilegio().toString();
+                ret += " <span> Lanza sortilegio " + acc.get_sortilegio_a_realizar().toString();
                 break;
             }
             case Constantes.TIPO_ACCION_DISPARA_PROYECTIL: {

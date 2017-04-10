@@ -33,7 +33,7 @@ public class Sortilegio implements Serializable {
     private String Descp;
     private int duracoinAs;
     private String profesion;
-    private String lista;
+    private int lista;
     private boolean consumePP;
     private boolean regeneraPorDia;
     private int vecesRegeneraPorDia;
@@ -100,11 +100,11 @@ public class Sortilegio implements Serializable {
         this.profesion = profesion;
     }
 
-    public String getLista() {
+    public int getLista() {
         return lista;
     }
 
-    public void setLista(String lista) {
+    public void setLista(int lista) {
         this.lista = lista;
     }
 

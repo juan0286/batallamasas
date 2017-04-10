@@ -31,7 +31,8 @@ public class LoadingProcess extends Thread {
         cargarLosTokens();
     }
 
-    private void cargarLosTokens() {        
+    private void cargarLosTokens() {    
+        Principal.mostrarInformes = false;
         p.showLoading(true);
         for (Iterator iterator = p.campo.getTokens().iterator(); iterator.hasNext();) {
             esperarPor(5);
@@ -46,6 +47,7 @@ public class LoadingProcess extends Thread {
                 p.jPanel_Pnj.add(jpft);
             }
         }
+        Principal.mostrarInformes = true;
         p.showLoading(false);
     }
 

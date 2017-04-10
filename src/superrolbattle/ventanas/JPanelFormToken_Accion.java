@@ -18,6 +18,8 @@ import instancias.properties.alteracion.Mod;
 import java.awt.Color;
 import java.awt.Image;
 import java.net.URL;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Icon;
@@ -192,7 +194,6 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
                     //+ "" + token.getManoIZQ().getArmaEquipada().getNombre() + "<br/>"
                     + "</html>";
             this.setToolTipText(tooltip);
-            principal.reordenarAcciones();
             this.repaint();
         }
     }
@@ -218,14 +219,15 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
                 break;
             }
             case Constantes.TIPO_ACCION_CARGA_SORTILEGIO: {
-                token.cargarUnSortilegio(accion.getSort_intencion());
-                accion.setSortilegio(accion.getSort_intencion());
+                token.cargarUnSortilegio(accion.getId_sort_intencion());
+                //accion.setSortilegio(accion.getSort_intencion());
+                
                 break;
             }
             case Constantes.TIPO_ACCION_REALIZA_SORTILEGIO: {
-                Sortilegio s = accion.getSort_intencion();
+                Sortilegio s = accion.get_sort_intencion();
                 token.lanzarUnSortilegio(s);
-                accion.setSortilegio(accion.getSort_intencion());
+                accion.setId_sortilegio_a_realizar(accion.getId_sort_intencion());
                 break;
             }
             case Constantes.TIPO_ACCION_DISPARA_PROYECTIL: {
@@ -377,8 +379,8 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
 
     }//GEN-LAST:event_formMouseClicked
 
-    public void intentarSortilegio(Sortilegio s) {
-        token.intentarSortilegio(s);
+    public void intentarSortilegio(int id_s) {
+        token.intentarSortilegio(id_s);
     }
 
     public void clickAccion(boolean shift, boolean ctrl, boolean clickDerecho) {
@@ -424,11 +426,7 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
         }
         if (a != null) {
             accion = a;
-            tipoDeAccion = a.getTipo();
-            jTextArea_Desc_accion.setText(a.getFullDescp());
-            jTextArea_Desc_accion.setToolTipText(a.getFullDescp());
-
-            mover(accion.getTipo());
+            mover(accion);
         }
     }
 
@@ -442,14 +440,19 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
 
     public void dejarFueraDeCombate() {
         if (tipoDeAccion != Constantes.TIPO_ACCION_SIN_ACCION) {
-            Recursos.informar(token.getNombre() + " Queda Fuera de Combate");
-            tipoDeAccion = Constantes.TIPO_ACCION_SIN_ACCION;
-            mover(Constantes.TIPO_ACCION_SIN_ACCION);
+            Recursos.informar(token.getNombre() + " Queda Fuera de Combate");            
+            Accion newAccion = new Accion(tipoDeAccion, principal.getAsaltoActual(), 0);
+            token.AgregarAccion(newAccion);
+            mover(newAccion);
         }
     }
 
-    public void mover(int destino) {
-        principal.moverAccion(this, destino);
+    public void mover(Accion a) {
+        accion = a;
+        tipoDeAccion = a.getTipo();
+        jTextArea_Desc_accion.setText(a.getFullDescp());
+        jTextArea_Desc_accion.setToolTipText(a.getFullDescp());
+        principal.moverAccion(this, a.getTipo());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -490,10 +493,11 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
     public void setActivo(boolean activo) {
         this.activo = activo;
         this.setVisible(activo);
+        this.repaint();
     }
 
     public void mostrar() {
-        jTextArea_Desc_accion.grabFocus();        
+        jTextArea_Desc_accion.grabFocus();
     }
 
 }

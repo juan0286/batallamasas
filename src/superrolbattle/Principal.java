@@ -11,6 +11,7 @@ import instancias.Evento;
 import instancias.ListaDeSortilegios;
 import instancias.Sortilegio;
 import instancias.Token;
+import instancias.properties.Status;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.Vector;
@@ -103,6 +105,23 @@ public class Principal extends javax.swing.JFrame {
         Principal.ventana = this;
         loadCampoDeBatalla();
         setLocationRelativeTo(null);
+
+        // Este metodo pone el nombre de la lista de sortilegio en cad sortielgio
+        /*
+        ArrayList<ListaDeSortilegios> arr = Principal.getTodasLasListasDeSortilegios();
+        int id = 0;
+        for (ListaDeSortilegios lds : arr) {
+            lds.getLista();
+            for (Map.Entry<Integer, Sortilegio> en : lds.getLista().entrySet()) {
+                Integer key = en.getKey();
+                Sortilegio sort = en.getValue();
+                sort.setLista(lds.getId());
+                sort.setId(id);
+                id++;
+            }
+        }
+        guardarConfig(dataRecursos);
+         */
     }
 
     /**
@@ -1031,7 +1050,7 @@ public class Principal extends javax.swing.JFrame {
         if (todosActuaron(jp)) {
             avanzarFaseDeAsalto(-1);
         } else {
-            JOptionPane.showMessageDialog(this, "Aún hay personajes sin actuar");
+            Recursos.informar("Aún hay personajes sin actuar");
         }
     }
 
@@ -1108,25 +1127,12 @@ public class Principal extends javax.swing.JFrame {
 
         LoadingProcess lp = new LoadingProcess(this);
         lp.start();
-        /*
-        for (Iterator iterator = campo.getTokens().iterator(); iterator.hasNext();) {
 
-            Token next = (Token) iterator.next();
-            JPanelFormToken_Accion jpa = new JPanelFormToken_Accion(next, this);
-            aws.add(jpa);
-            moverAccion(jpa, jpa.getAccion().getTipo());
-            JPanelFormToken jpft = new JPanelFormToken(jpa.getToken(), this,jpa);
-            if (next.isVisible()) {
-                jPanel_Pjs.add(jpft);
-            } else {
-                jPanel_Pnj.add(jpft);
-            }
-        }
-         */
         deshechoTodos();
         moverTodos();
         publicarTodosLosEventos();
         jPanel_Asaltos.repaint();
+
         this.repaint();
     }
 
@@ -1213,7 +1219,7 @@ public class Principal extends javax.swing.JFrame {
     public void avanzarButtonFase(int fase) {
         fase = (fase == -1) ? butonFase + 1 : fase;
         butonFase = fase;
-
+        reordenarAcciones();
         switch (fase) {
             case BUTTONFASE_DEFINICION: {
                 jPanel_barra_acciones.setBackground(new Color(252, 241, 138));
@@ -1335,6 +1341,8 @@ public class Principal extends javax.swing.JFrame {
                 jPanel_Titulo_MovimientoEstatico.setBackground(new java.awt.Color(204, 204, 255));
                 if (jPanel_campo_CargaSortilegios.getComponentCount() == 0) {
                     avanzarFaseDeAsalto(-1);
+                } else {
+                    jPanel_CargaSortilegios_panel.getVerticalScrollBar().setValue(0);
                 }
 
                 break;
@@ -1350,6 +1358,7 @@ public class Principal extends javax.swing.JFrame {
                     avanzarFaseDeAsalto(-1);
                 } else {
                     publicarEvento(new Evento("<br/>--------------<br/>", campo.getnAsalto(), true));
+                    jPanel_RealizaSortilegios_panel.getVerticalScrollBar().setValue(0);
                 }
 
                 break;
@@ -1365,6 +1374,7 @@ public class Principal extends javax.swing.JFrame {
                     avanzarFaseDeAsalto(-1);
                 } else {
                     publicarEvento(new Evento("<br/>--------------<br/>", campo.getnAsalto(), true));
+                    jPanel_LanzaProyectiles_panel.getVerticalScrollBar().setValue(0);
                 }
 
                 break;
@@ -1380,6 +1390,7 @@ public class Principal extends javax.swing.JFrame {
                     avanzarFaseDeAsalto(-1);
                 } else {
                     publicarEvento(new Evento("<br/>--------------<br/>", campo.getnAsalto(), true));
+                    jPanel_CargaProyectiles_panel.getVerticalScrollBar().setValue(0);
                 }
 
                 break;
@@ -1395,6 +1406,7 @@ public class Principal extends javax.swing.JFrame {
                     avanzarFaseDeAsalto(-1);
                 } else {
                     publicarEvento(new Evento("<br/>--------------<br/>", campo.getnAsalto(), true));
+                    jPanel_pararProyectil_panel.getVerticalScrollBar().setValue(0);
                 }
 
                 break;
@@ -1410,6 +1422,7 @@ public class Principal extends javax.swing.JFrame {
                     avanzarFaseDeAsalto(-1);
                 } else {
                     publicarEvento(new Evento("<br/>--------------<br/>", campo.getnAsalto(), true));
+                    jPanel_MovimientoYManiobra_panel.getVerticalScrollBar().setValue(0);
                 }
 
                 break;
@@ -1425,6 +1438,7 @@ public class Principal extends javax.swing.JFrame {
                     avanzarFaseDeAsalto(-1);
                 } else {
                     publicarEvento(new Evento("<br/>--------------<br/>", campo.getnAsalto(), true));
+                    jPanel_AtaqueCuperpoaCuerpo_panel.getVerticalScrollBar().setValue(0);
                 }
 
                 break;
@@ -1440,6 +1454,7 @@ public class Principal extends javax.swing.JFrame {
                     avanzarFaseDeAsalto(-1);
                 } else {
                     publicarEvento(new Evento("<br/>--------------<br/>", campo.getnAsalto(), true));
+                    jPanel_Movimiento_panel.getVerticalScrollBar().setValue(0);
                 }
 
                 break;
@@ -1455,6 +1470,7 @@ public class Principal extends javax.swing.JFrame {
                     avanzarFaseDeAsalto(-1);
                 } else {
                     publicarEvento(new Evento("<br/>--------------<br/>", campo.getnAsalto(), true));
+                    jPanel_MovimientoEstatico_panel.getVerticalScrollBar().setValue(0);
                 }
 
                 break;
@@ -1622,6 +1638,7 @@ public class Principal extends javax.swing.JFrame {
     public ArrayList<JPanelFormToken_Accion> aws;
     private AbrirGuardar ag;
     public static DataRecursos dataRecursos;
+    public static boolean mostrarInformes = true;
     public static final String TITULO = "Super Rolmaster Battle";
     private JPanel jloading;
 
@@ -1694,6 +1711,56 @@ public class Principal extends javax.swing.JFrame {
         return lista;
     }
 
+    public static Sortilegio getSortilegioById(int id) {
+
+        Sortilegio s = null;
+        busqueda:
+        for (ListaDeSortilegios lds : Principal.getTodasLasListasDeSortilegios()) {
+            for (Map.Entry<Integer, Sortilegio> en : lds.getLista().entrySet()) {
+
+                Sortilegio sort = en.getValue();
+                if (sort.getId() == id) {
+                    s = sort;
+                    break busqueda;
+                }
+            }
+        }
+        //jComboBox_profesion.setModel(new DefaultComboBoxModel(profesiones.toArray()));
+        return s;
+    }
+    
+    public static ListaDeSortilegios getListaDeSortilegioById(int id) {
+
+        ListaDeSortilegios ldsu = null;
+        busqueda:
+        for (ListaDeSortilegios lds : Principal.getTodasLasListasDeSortilegios()) {                       
+                if (lds.getId() == id) {
+                    ldsu = lds;
+                    break busqueda;
+                }            
+        }
+        
+        return ldsu;
+    }
+
+    public static Sortilegio getSortilegioByIdAndLista(int id, int lista) {
+
+        Sortilegio s = null;
+        busqueda:
+        for (ListaDeSortilegios lds : Principal.getTodasLasListasDeSortilegios()) {
+            for (Map.Entry<Integer, Sortilegio> en : lds.getLista().entrySet()) {
+
+                Sortilegio sort = en.getValue();
+                if (sort.getId() == id) {
+                    s = sort;
+                    break busqueda;
+                }
+            }
+        }
+        //jComboBox_profesion.setModel(new DefaultComboBoxModel(profesiones.toArray()));
+        return s;
+    }
+
     public static ArrayList<ListaDeSortilegios> getTodasLasListasDeSortilegiosBasicasDeProfesion(String profesion) {
 
         ArrayList<ListaDeSortilegios> lista = new ArrayList<ListaDeSortilegios>();
@@ -1764,17 +1831,22 @@ public class Principal extends javax.swing.JFrame {
     private boolean verificarAturdidos() {
         boolean re = true;
         String pjs = "";
+        JPanelFormToken_Accion jpa = null;
         for (int i = 0; i < aws.size(); i++) {
             JPanelFormToken_Accion jpta = aws.get(i);
             if (jpta.isActivo()) {
                 if (jpta.getToken().getEstado().isAturdido() && !Accion.isRealizableAturdido(jpta.getTipoDeAccion())) {
                     jpta.clickAccion(false, false, false);
+                    jpa = jpta;
                     pjs += "> " + jpta.getToken().getNombre();
                     re = false;
                 }
             }
         }
-        Recursos.informar("Hay personajes Aturdidos que no pueden realizar las acciones Actualmente definidas\n" + pjs);
+        if (!re) {
+            mostrarPersonaje(jpa);
+            Recursos.informar("Hay personajes Aturdidos que no pueden realizar las acciones Actualmente definidas\n" + pjs);
+        }
         return re;
     }
 
@@ -1782,7 +1854,7 @@ public class Principal extends javax.swing.JFrame {
 
         for (int i = 0; i < aws.size(); i++) {
             JPanelFormToken_Accion jpta = aws.get(i);
-            moverAccion(jpta, jpta.getToken().getLastAction().getTipo());
+            jpta.mover(jpta.getAccion());
         }
 
     }
@@ -1843,17 +1915,17 @@ public class Principal extends javax.swing.JFrame {
 
             JPanelFormToken_Accion jpta = aws.get(i);
             if (jpta.isActivo()) {
-                moverAccion(jpta, jpta.getAccion().getTipo());
+                moverAccion(jpta, jpta.getTipoDeAccion());
             }
         }
     }
 
-    public void cambiarAAsaltopanel(JPanelFormToken_Accion jpa) {
+    public void mostrarPersonaje(JPanelFormToken_Accion jpa) {
 
         boolean enc = false;
         int vert = jpa.getSize().height;
         if (jpa.isActivo()) {
-            int tipo_acc = jpa.getAccion().getTipo();
+            int tipo_acc = jpa.getTipoDeAccion();
             jScrollPane_asaltos.getHorizontalScrollBar().setValue(278 * tipo_acc);
 
             if (tipo_acc == ASALTOFASE_SINACCION) {

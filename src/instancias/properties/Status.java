@@ -20,6 +20,7 @@ import java.util.TreeMap;
 import javax.xml.bind.annotation.XmlType;
 import recursos.Constantes;
 import recursos.Recursos;
+import superrolbattle.Principal;
 
 /**
  *
@@ -57,7 +58,7 @@ public class Status implements Serializable {
     private Caracteristicas c;
     private ArrayList<Extremidad> ext = new ArrayList<Extremidad>();
 
-    private Sortilegio sortilegioCargado;
+    private int id_sortilegioCargado;
     private int cargasDelSortilegio;
     
     private Arma armaCargada;
@@ -452,19 +453,24 @@ public class Status implements Serializable {
 
     }
 
-    public void cargarUnSortilegio(Sortilegio s) {
-        if (cargasDelSortilegio > 0 && sortilegioCargado.equals(s)) {
+    public void cargarUnSortilegio(int s_id) {
+        
+        if (cargasDelSortilegio > 0 && id_sortilegioCargado == s_id) {
             cargasDelSortilegio++;
         } else {
-            sortilegioCargado = s;
+            id_sortilegioCargado = s_id;
             cargasDelSortilegio = 1;
         }
 
         cargasDelSortilegio = (cargasDelSortilegio > 4) ? 4 : cargasDelSortilegio;
     }
 
-    public Object getSortilegioCargado() {
-        return new Object[]{cargasDelSortilegio, sortilegioCargado, bonoParaSortilegio()};
+    public Sortilegio get_sort_cargado() {
+        return Principal.getSortilegioById(id_sortilegioCargado);
+    }
+    
+    public Object getInfoSortilegioCargado() {        
+        return new Object[]{cargasDelSortilegio, get_sort_cargado(), bonoParaSortilegio()};
     }
 
     public boolean isSortiCargado() {
@@ -493,7 +499,7 @@ public class Status implements Serializable {
     }
 
     public void perderLaCarga() {
-        sortilegioCargado = null;
+       id_sortilegioCargado = -1;
         cargasDelSortilegio = 0;
 
     }

@@ -6,8 +6,10 @@
 package instancias;
 
 import java.io.Serializable;
+import java.util.Map;
 import javax.xml.bind.annotation.XmlType;
 import recursos.Constantes;
+import superrolbattle.Principal;
 
 /**
  *
@@ -22,9 +24,10 @@ public class Accion implements Serializable {
     private boolean done = false;
     private boolean accionDeOportunidad = false;
     private boolean cambioDeAccion = false;
-    private Sortilegio sortilegio;
+    //private Sortilegio sortilegio;
+    private int id_sortilegio_a_realizar; 
     private String Dificultad;
-    private Sortilegio sort_intencion;
+    private int id_sort_intencion;
     private String Descp;
     private String fullDescp;
 
@@ -43,14 +46,20 @@ public class Accion implements Serializable {
         this.Descp = "";
     }
 
-    public Sortilegio getSortilegio() {
-        return sortilegio;
+    public int getId_sortilegio_a_realizar() {
+        return id_sortilegio_a_realizar;
+    }
+    
+    public Sortilegio get_sortilegio_a_realizar() {
+        return Principal.getSortilegioById(id_sortilegio_a_realizar);
     }
 
-    public void setSortilegio(Sortilegio sortilegio) {
-        this.sortilegio = sortilegio;
+    public void setId_sortilegio_a_realizar(int id_sortilegio_a_realizar) {
+        this.id_sortilegio_a_realizar = id_sortilegio_a_realizar;
     }
 
+    
+    
     public String getDificultad() {
         return Dificultad;
     }
@@ -114,12 +123,17 @@ public class Accion implements Serializable {
         this.orden = orden;
     }
 
-    public Sortilegio getSort_intencion() {
-        return sort_intencion;
+    public int getId_sort_intencion() {
+        return id_sort_intencion;
     }
+    public Sortilegio get_sort_intencion() {
+        return Principal.getSortilegioById(id_sort_intencion);
+    }
+    
+    
 
-    public void setSort_intencion(Sortilegio sort_intencion) {
-        this.sort_intencion = sort_intencion;
+    public void setId_sort_intencion(int id_sort_intencion) {
+        this.id_sort_intencion = id_sort_intencion;
     }
 
     public boolean isCambioDeAccion() {

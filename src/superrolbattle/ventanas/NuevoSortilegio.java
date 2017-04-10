@@ -434,7 +434,7 @@ public class NuevoSortilegio extends javax.swing.JDialog {
         //s.setAlcance_string(jTextField_alcance.getText());
         s.setDescp(jTextArea_desc.getText());
         s.setConsumePP(jCheckBox_consume.isSelected());
-        s.setLista(lista.getNombre());
+        s.setLista(lista.getId());
         if (lista.contineSortilegiodeLv(s.getLv())) {
             int r = JOptionPane.showConfirmDialog(null, "Esta lista ya contiene el sortilegio " + lista.getLista().get(s.getLv()).getNombre() + " con este Lv. Desea Reemplazarlo?");
             if (r == JOptionPane.OK_OPTION) {

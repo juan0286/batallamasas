@@ -247,7 +247,7 @@ public class JPanelFormToken extends javax.swing.JPanel {
 
     private void jLabel_NombreMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_NombreMouseClicked
         Principal p = (Principal) principal;
-        p.cambiarAAsaltopanel(jpa);        
+        p.mostrarPersonaje(jpa);        
     }//GEN-LAST:event_jLabel_NombreMouseClicked
 
 

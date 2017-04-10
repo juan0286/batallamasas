@@ -558,12 +558,12 @@ public class Token implements Serializable {
         return re;
     }
 
-    public void cargarUnSortilegio(Sortilegio s) {
+    public void cargarUnSortilegio(int s) {
         estado.cargarUnSortilegio(s);
     }
 
     public Object getSortilegioCargado() {
-        return estado.getSortilegioCargado();
+        return estado.getInfoSortilegioCargado();
     }
 
     public boolean isSortiCargado() {
@@ -590,8 +590,8 @@ public class Token implements Serializable {
         estado.perderLaCarga();
     }
 
-    public void intentarSortilegio(Sortilegio s) {
-        getLastAction().setSort_intencion(s);
+    public void intentarSortilegio(int s) {
+        getLastAction().setId_sort_intencion(s);
     }
 
     public boolean puedeActuar() {
