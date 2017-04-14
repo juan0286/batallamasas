@@ -87,7 +87,7 @@ public class Extremidad {
                 resp = "Inferior Derecho";
             } else if (tipo_ext == MIEMBRO_SUPERIOR_IZQUIERDO) {
                 resp = "Superior Izquierdo";
-            } else if (tipo_ext == MIEMBRO_INFERIOR_DERECHO) {
+            } else if (tipo_ext == MIEMBRO_INFERIOR_IZQUIERDO) {
                 resp = "Inferior Izquierdo";
             }
         

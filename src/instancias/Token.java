@@ -230,7 +230,24 @@ public class Token implements Serializable {
     public ArrayList<Extremidad> getExtremidades() {
         return extremidades;
     }
-
+    
+    public Extremidad getExtremidad(int tipoExtremidad) {
+        for (Extremidad ext : extremidades) {
+            if (ext.getTipo_miembro() == tipoExtremidad)
+                return ext;
+        }
+        return null;
+    }
+    
+    public Arma getArmaByClass(int tipoArma) {
+        for (Arma arm : armas) {
+            if (arm.getClase()== tipoArma)
+                return arm;
+        }
+        return null;
+    }
+    
+    
     public void setExtremidades(ArrayList<Extremidad> extremidades) {
         this.extremidades = extremidades;
     }
@@ -568,6 +585,13 @@ public class Token implements Serializable {
 
     public boolean isSortiCargado() {
         return estado.isSortiCargado();
+    }
+    public boolean tieneEscudo() {
+        for (Arma arma : armas) {
+            if (arma.getClase() == Constantes.CLASE_ESCUDO)
+                return true;
+        }
+        return false;
     }
 
     public void lanzarUnSortilegio(Sortilegio sort_intencion) {

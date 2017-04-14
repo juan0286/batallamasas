@@ -52,6 +52,7 @@ public class Recursos {
 
     public static ArrayList<String> grupos = new ArrayList<String>();
     public static ArrayList<Arma> armeria = new ArrayList<Arma>();
+    public static ArrayList<Arma> escudos = new ArrayList<Arma>();
 
     public static ArrayList<String> nombres = new ArrayList<String>();
 
@@ -384,6 +385,10 @@ public class Recursos {
         obj.add(true);
         obj.add(new JButton("Atacar"));
         return obj;
+    }
+    
+    public static Arma escudoAlAzar(){
+        return (Arma) aleatorioDe(escudos);
     }
 
     public static Vector objetoSoldadosstatic(boolean lado) {

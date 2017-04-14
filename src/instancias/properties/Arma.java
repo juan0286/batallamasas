@@ -29,7 +29,7 @@ public class Arma implements Serializable{
         this.dosManos = manos;
     }
 
-    public Arma(String Nombre, int tipo, int bono, int clase, boolean dosManos, int Estilo) {
+    public Arma(String Nombre, int clase, int bono, int tipo, boolean dosManos, int Estilo) {
         this.Nombre = Nombre;
         this.factura = tipo;
         this.bono = bono;
@@ -108,6 +108,22 @@ public class Arma implements Serializable{
     public void setEstilo(int estilo) {
         this.estilo = estilo;
     }
+
+    public String getIconoUrl() {
+        return iconoUrl;
+    }
+
+    public void setIconoUrl(String iconoUrl) {
+        this.iconoUrl = iconoUrl;
+    }
+
+    public int getPifia() {
+        return pifia;
+    }
+
+    public void setPifia(int pifia) {
+        this.pifia = pifia;
+    }
     
     
     private String Nombre;
@@ -116,7 +132,9 @@ public class Arma implements Serializable{
     private int clase;  // // tabla que usa para definir el resultado del ataque
     private int estilo;    // que tipo de Bo utiliza
     private boolean dosManos;
+    private String iconoUrl;
 
+    
     private int pifia;
     
 }

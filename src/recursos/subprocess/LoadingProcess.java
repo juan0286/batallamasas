@@ -6,6 +6,8 @@
 package recursos.subprocess;
 
 import instancias.Token;
+import instancias.properties.Extremidad;
+import instancias.properties.ProteccionMiembro;
 import java.awt.Color;
 import java.util.Iterator;
 import java.util.logging.Level;
@@ -21,17 +23,17 @@ import superrolbattle.ventanas.JPanelFormToken_Accion;
  */
 public class LoadingProcess extends Thread {
 
-    Principal p;    
+    Principal p;
 
     public LoadingProcess(Principal p) {
-        this.p = p;        
+        this.p = p;
     }
 
     public void run() {
         cargarLosTokens();
     }
 
-    private void cargarLosTokens() {    
+    private void cargarLosTokens() {
         Principal.mostrarInformes = false;
         p.showLoading(true);
         for (Iterator iterator = p.campo.getTokens().iterator(); iterator.hasNext();) {
@@ -39,8 +41,24 @@ public class LoadingProcess extends Thread {
             Token next = (Token) iterator.next();
             JPanelFormToken_Accion jpa = new JPanelFormToken_Accion(next, p);
             p.aws.add(jpa);
+
+            //  poner brazo derecho
+            
+            Token t = jpa.getToken();
+            t.getExtremidades().clear();
+            Extremidad bi = new Extremidad(true, true, false, Extremidad.MIEMBRO_SUPERIOR_IZQUIERDO, null);
+            t.agregarExtremidad(bi);
+            Extremidad bd = new Extremidad(true, true, true, Extremidad.MIEMBRO_SUPERIOR_DERECHO, null);
+            t.agregarExtremidad(bd);
+            // Piernas
+            Extremidad pi = new Extremidad(true, false, false, Extremidad.MIEMBRO_INFERIOR_DERECHO, null);
+            t.agregarExtremidad(pi);
+            Extremidad pd = new Extremidad(true, false, true, Extremidad.MIEMBRO_INFERIOR_IZQUIERDO, null);
+            t.agregarExtremidad(pd);
+            
+            
             p.moverAccion(jpa, jpa.getAccion().getTipo());
-            JPanelFormToken jpft = new JPanelFormToken(jpa.getToken(), p,jpa);
+            JPanelFormToken jpft = new JPanelFormToken(jpa.getToken(), p, jpa);
             if (next.isVisible()) {
                 p.jPanel_Pjs.add(jpft);
             } else {

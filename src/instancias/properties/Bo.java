@@ -27,8 +27,8 @@ public class Bo implements Serializable,Comparable {
     public Bo() {
     }
 
-    public Bo(int tipo, int value) {
-        this.estilo = tipo;
+    public Bo(int estilo, int value) {
+        this.estilo = estilo;
         this.value = value;
     }
 
@@ -64,9 +64,11 @@ public class Bo implements Serializable,Comparable {
                 break;
             }
             case BO_TIPO_DOS_MANOS: {
+                bd = value - bo;
                 break;
             }
             case BO_TIPO_MANOS_DESNUDAS: {
+                bd = value - bo;
                 break;
             }
             default: {

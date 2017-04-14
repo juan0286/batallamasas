@@ -192,27 +192,74 @@ public class CargaBase {
 
     private static void cargaArmeria() {
 
-        Arma puños = new Arma("Mano Desnuda", Constantes.CLASE_MANO_DESNUDA, -50, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_PELEA);
+        Arma puños = new Arma("Mano Desnuda", Constantes.CLASE_MANO_DESNUDA, 0, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_PELEA);
+        puños.setIconoUrl("weapIcons\\mano.png");
+        
         Arma arma1 = new Arma("Espada Ancha", Constantes.CLASE_ESPADA_ANCHA, 0, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_FILO);
+        arma1.setIconoUrl("weapIcons\\espadaAncha.png");
+        
+        
         Arma arma2 = new Arma("Espada Alfanje", Constantes.CLASE_ALFANJE, 0, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_FILO);
+        arma2.setIconoUrl("weapIcons\\chafarote.png");
+        
         Arma arma3 = new Arma("Arco Corto", Constantes.CLASE_ARCO_CORTO, 0, Constantes.TIPO_ARMA_NORMAL, true, Constantes.ESTILO_PROYECTILES);
+        arma3.setIconoUrl("weapIcons\\arcoCorto.png");
         Arma arma4 = new Arma("Arco Compuesto", Constantes.CLASE_ARCO_LARGO, 0, Constantes.TIPO_ARMA_NORMAL, true, Constantes.ESTILO_PROYECTILES);
+        arma4.setIconoUrl("weapIcons\\arcoCompuesto.png");
         Arma arma5 = new Arma("Arco Largo", Constantes.CLASE_ARCO_LARGO, 0, Constantes.TIPO_ARMA_NORMAL, true, Constantes.ESTILO_PROYECTILES);
+        arma5.setIconoUrl("weapIcons\\arcoLargo.png");
         Arma arma6 = new Arma("Baston", Constantes.CLASE_BASTON, 0, Constantes.TIPO_ARMA_NORMAL, true, Constantes.ESTILO_DOS_MANOS);
+        arma6.setIconoUrl("weapIcons\\baston.png");
+        
         Arma arma7 = new Arma("Espada Cimitarra", Constantes.CLASE_CIMITARRA, 0, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_FILO);
+        arma7.setIconoUrl("weapIcons\\cimitarra.png");
         Arma arma8 = new Arma("Daga", Constantes.CLASE_DAGA, 0, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_FILO);
+        arma8.setIconoUrl("weapIcons\\daga.png");
+        
         Arma arma9 = new Arma("Espada Corta", Constantes.CLASE_ESPADA_CORTA, 0, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_FILO);
+        arma9.setIconoUrl("weapIcons\\espadaCorta.png");
+        
         Arma arma10 = new Arma("Espadon", Constantes.CLASE_ESPADON, 0, Constantes.TIPO_ARMA_NORMAL, true, Constantes.ESTILO_DOS_MANOS);
+        arma10.setIconoUrl("weapIcons\\espadon.png");
         Arma arma11 = new Arma("Garrote", Constantes.CLASE_GARROTE, 0, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_CONTUNDENTE);
+        arma11.setIconoUrl("weapIcons\\garrote.png");
+        
+        
         Arma arma12 = new Arma("Hacha de mano", Constantes.CLASE_HACHA, 0, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_FILO);
+        arma12.setIconoUrl("weapIcons\\hachademano.png");
+        
+        
         Arma arma13 = new Arma("Hacha de mano(C)", Constantes.CLASE_HACHA, 0, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_CONTUNDENTE);
+        arma13.setIconoUrl("weapIcons\\hachacombate.png");
+        
         Arma arma14 = new Arma("Lanza", Constantes.CLASE_LANZA, 0, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_ASTA);
+        arma14.setIconoUrl("weapIcons\\lanza.png");
+        
         Arma arma15 = new Arma("Maza de Mano", Constantes.CLASE_MAZA, 0, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_CONTUNDENTE);
+        arma15.setIconoUrl("weapIcons\\maza.png");
+        
+        Arma arma151 = new Arma("Martillo de guerra", Constantes.CLASE_MAZA, 0, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_CONTUNDENTE);
+        arma15.setIconoUrl("weapIcons\\martillo.png");
+        
         Arma arma16 = new Arma("Lanza de Caballeria", Constantes.CLASE_LANZA_CABALLERIA, 0, Constantes.TIPO_ARMA_NORMAL, true, Constantes.ESTILO_ASTA);
         Arma arma17 = new Arma("Rompe Cabezas", Constantes.CLASE_ROMPE_CABEZAS, 0, Constantes.TIPO_ARMA_NORMAL, true, Constantes.ESTILO_DOS_MANOS);
-        Arma arma18 = new Arma("Escudo", Constantes.CLASE_ESCUDO, -50, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_PELEA);
+        Arma arma18 = new Arma("Escudo Normal", Constantes.CLASE_ESCUDO, 25, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_PELEA);
+        arma18.setIconoUrl("weapIcons\\escudo.png");
+        
+        Arma arma181 = new Arma("Escudo Rodela", Constantes.CLASE_ESCUDO, 20, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_PELEA);
+        arma18.setIconoUrl("weapIcons\\escudoRodela.png");
+        
+        Arma arma182 = new Arma("Escudo Torreon", Constantes.CLASE_ESCUDO, 40, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_PELEA);
+        arma182.setIconoUrl("weapIcons\\escudoTorreon.png");
+        
+        Arma arma183 = new Arma("Escudo chico", Constantes.CLASE_ESCUDO, 10, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_PELEA);
+        arma183.setIconoUrl("weapIcons\\escudoChico.png");
+        
         Arma arma19 = new Arma("Hacha de Combate", Constantes.CLASE_ESPADON, 0, Constantes.TIPO_ARMA_NORMAL, true, Constantes.ESTILO_DOS_MANOS);
-        Arma arma20 = new Arma("Alabarda", Constantes.CLASE_ESCUDO, 0, Constantes.TIPO_ARMA_NORMAL, true, Constantes.ESTILO_ASTA);
+        arma19.setIconoUrl("weapIcons\\hachacombate.png");
+        
+        Arma arma20 = new Arma("Alabarda", Constantes.CLASE_LANZA, 0, Constantes.TIPO_ARMA_NORMAL, true, Constantes.ESTILO_ASTA);
+        arma20.setIconoUrl("weapIcons\\alabarda.png");
         Arma arma21 = new Arma("Tridente", Constantes.CLASE_LANZA, 0, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_ASTA);
         Arma arma22 = new Arma("Tridente(2m)", Constantes.CLASE_LANZA_CABALLERIA, 0, Constantes.TIPO_ARMA_NORMAL, true, Constantes.ESTILO_ASTA);
         Arma arma23 = new Arma("Florete", Constantes.CLASE_ESPADA_ANCHA, 5, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_FILO);
@@ -228,12 +275,18 @@ public class CargaBase {
         Arma hachaOsoC = new Arma("Hacha Oso Cont.", Constantes.CLASE_HACHA, 30, Constantes.TIPO_ARMA_MITRIL, false, Constantes.ESTILO_CONTUNDENTE);
         Arma hachaOsoDM = new Arma("Hacha Oso 2Ma", Constantes.CLASE_ESPADON, 35, Constantes.TIPO_ARMA_MITRIL, true, Constantes.ESTILO_DOS_MANOS);
         Arma espDragon = new Arma("Espada Dragon", Constantes.CLASE_ESPADA_ANCHA, 30, Constantes.TIPO_ARMA_MAGICA, false, Constantes.ESTILO_FILO);
-
+        espDragon.setIconoUrl("weapIcons\\chafarote.png");
+        
         Arma EspKyoros = new Arma("Espada Kyoros", Constantes.CLASE_ESPADA_ANCHA, 40, Constantes.TIPO_ARMA_MAGICA, false, Constantes.ESTILO_FILO);
+        EspKyoros.setIconoUrl("weapIcons\\chafarote.png");
+        
         Arma EspKyoros2M = new Arma("Espada Kyoros 2M", Constantes.CLASE_ESPADA_ANCHA, 40, Constantes.TIPO_ARMA_MAGICA, false, Constantes.ESTILO_DOS_MANOS);
+        EspKyoros2M.setIconoUrl("weapIcons\\chafarote.png");
+        
         Arma lanzaFeros = new Arma("Lanza Feroz", Constantes.CLASE_LANZA_CABALLERIA, 30, Constantes.TIPO_ARMA_MAGICA, false, Constantes.ESTILO_ASTA);
 
         Arma comboKyoLanzaEspada = new Arma("Combo Kyoros Feroz", Constantes.CLASE_ESPADA_ANCHA, 50, Constantes.TIPO_ARMA_MAGICA, true, Constantes.ESTILO_COMBO_ASTA_FILO);
+        Arma comboKyoLanzaKatana = new Arma("Combo Katana Feroz", Constantes.CLASE_ESPADA_ANCHA, 50, Constantes.TIPO_ARMA_MAGICA, true, Constantes.ESTILO_COMBO_ASTA_FILO);
         
         Arma comboNeoOsoDragon = new Arma("Combo Oso Dragon", Constantes.CLASE_HACHA, 45, Constantes.TIPO_ARMA_MITRIL, true, Constantes.ESTILO_COMBO_FILO_FILO);
         Arma comboNeoOsoKhal = new Arma("Combo Oso Khal", Constantes.CLASE_HACHA, 45, Constantes.TIPO_ARMA_MITRIL, true, Constantes.ESTILO_COMBO_FILO_FILO);
@@ -255,9 +308,13 @@ public class CargaBase {
         Recursos.armeria.add(arma13);
         Recursos.armeria.add(arma14);
         Recursos.armeria.add(arma15);
+        Recursos.armeria.add(arma151);
         Recursos.armeria.add(arma16);
         Recursos.armeria.add(arma17);
         Recursos.armeria.add(arma18);
+        Recursos.armeria.add(arma181);
+        Recursos.armeria.add(arma182);
+        Recursos.armeria.add(arma183);
         Recursos.armeria.add(arma19);
         Recursos.armeria.add(arma20);
         Recursos.armeria.add(arma21);
@@ -280,6 +337,10 @@ public class CargaBase {
         Recursos.armeria.add(comboNeoOsoKhal);
         Recursos.armeria.add(comboNeoKhalDragon);
         
+        Recursos.escudos.add(arma18);
+        Recursos.escudos.add(arma181);
+        Recursos.escudos.add(arma182);
+        Recursos.escudos.add(arma183);
 
     }
 

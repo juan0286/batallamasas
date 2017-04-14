@@ -35,7 +35,7 @@ import javax.swing.JSpinner;
 import javax.swing.ListModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import recursos.Constantes;
+import static recursos.Constantes.*;
 import recursos.Recursos;
 import superrolbattle.Principal;
 
@@ -55,17 +55,17 @@ public class CrearToken extends javax.swing.JDialog {
         bos = new ArrayList<Bo>();
         this.setTitle("Crear Nuevo Personaje");
 
-        spin_mm.put(Constantes.HABILIDAD_MM_SINARMADURA, jSpinner_crearMMSA);
-        spin_mm.put(Constantes.HABILIDAD_MM_CUERO, jSpinner_crearMMC);
-        spin_mm.put(Constantes.HABILIDAD_MM_CUERO_ENDURECIDO, jSpinner_crearMMCE);
-        spin_mm.put(Constantes.HABILIDAD_MM_COTA_DE_MALLA, jSpinner_crearMMCM);
-        spin_mm.put(Constantes.HABILIDAD_MM_CORAZA, jSpinner_crearMMCO);
+        spin_mm.put(HABILIDAD_MM_SINARMADURA, jSpinner_crearMMSA);
+        spin_mm.put(HABILIDAD_MM_CUERO, jSpinner_crearMMC);
+        spin_mm.put(HABILIDAD_MM_CUERO_ENDURECIDO, jSpinner_crearMMCE);
+        spin_mm.put(HABILIDAD_MM_COTA_DE_MALLA, jSpinner_crearMMCM);
+        spin_mm.put(HABILIDAD_MM_CORAZA, jSpinner_crearMMCO);
 
         this.jComboBox_crearGrupo.removeAllItems();
         this.jComboBox_crearGrupo.setModel(new DefaultComboBoxModel(Recursos.grupos.toArray()));
 
-        agregarArmaALalista(new Arma("Mano Desnuda", Constantes.CLASE_MANO_DESNUDA, 0, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_PELEA));
-        for (int i = 0; i <= Constantes.ESTILO_ASTA; i++) {
+        agregarArmaALalista(new Arma("Mano Desnuda", CLASE_MANO_DESNUDA, 0, TIPO_ARMA_NORMAL, false, ESTILO_PELEA));
+        for (int i = 0; i <= ESTILO_ASTA; i++) {
             Bo b = new Bo(i, 0);
             //b.setValue(Recursos.nuevaBo(1, i));
             agregarBoALaLista(b);
@@ -98,24 +98,24 @@ public class CrearToken extends javax.swing.JDialog {
         jComboBox_dom.setSelectedIndex(token.getDominio());
         jSpinner_crearArmadura.setValue(token.getArmaduraPuesta());
 
-        jSpinner_crear_car_fue.setValue(token.getHabilidad(Constantes.HABILIDAD_CAR_FUE));
-        jSpinner_crear_car_agi.setValue(token.getHabilidad(Constantes.HABILIDAD_CAR_AGI));
-        jSpinner_crear_car_con.setValue(token.getHabilidad(Constantes.HABILIDAD_CAR_CON));
-        jSpinner_crear_car_I.setValue(token.getHabilidad(Constantes.HABILIDAD_CAR_I));
-        jSpinner_crear_car_int.setValue(token.getHabilidad(Constantes.HABILIDAD_CAR_INT));
-        jSpinner_crear_car_pre.setValue(token.getHabilidad(Constantes.HABILIDAD_CAR_PRE));
+        jSpinner_crear_car_fue.setValue(token.getHabilidad(HABILIDAD_CAR_FUE));
+        jSpinner_crear_car_agi.setValue(token.getHabilidad(HABILIDAD_CAR_AGI));
+        jSpinner_crear_car_con.setValue(token.getHabilidad(HABILIDAD_CAR_CON));
+        jSpinner_crear_car_I.setValue(token.getHabilidad(HABILIDAD_CAR_I));
+        jSpinner_crear_car_int.setValue(token.getHabilidad(HABILIDAD_CAR_INT));
+        jSpinner_crear_car_pre.setValue(token.getHabilidad(HABILIDAD_CAR_PRE));
 
-        jSpinner_crearMMSA.setValue(token.getHabilidad(Constantes.HABILIDAD_MM_SINARMADURA));
-        jSpinner_crearMMC.setValue(token.getHabilidad(Constantes.HABILIDAD_MM_CUERO));
-        jSpinner_crearMMCE.setValue(token.getHabilidad(Constantes.HABILIDAD_MM_CUERO_ENDURECIDO));
-        jSpinner_crearMMCM.setValue(token.getHabilidad(Constantes.HABILIDAD_MM_COTA_DE_MALLA));
-        jSpinner_crearMMCO.setValue(token.getHabilidad(Constantes.HABILIDAD_MM_CORAZA));
+        jSpinner_crearMMSA.setValue(token.getHabilidad(HABILIDAD_MM_SINARMADURA));
+        jSpinner_crearMMC.setValue(token.getHabilidad(HABILIDAD_MM_CUERO));
+        jSpinner_crearMMCE.setValue(token.getHabilidad(HABILIDAD_MM_CUERO_ENDURECIDO));
+        jSpinner_crearMMCM.setValue(token.getHabilidad(HABILIDAD_MM_COTA_DE_MALLA));
+        jSpinner_crearMMCO.setValue(token.getHabilidad(HABILIDAD_MM_CORAZA));
 
-        spin_mm.put(Constantes.HABILIDAD_MM_SINARMADURA, jSpinner_crearMMSA);
-        spin_mm.put(Constantes.HABILIDAD_MM_CUERO, jSpinner_crearMMC);
-        spin_mm.put(Constantes.HABILIDAD_MM_CUERO_ENDURECIDO, jSpinner_crearMMCE);
-        spin_mm.put(Constantes.HABILIDAD_MM_COTA_DE_MALLA, jSpinner_crearMMCM);
-        spin_mm.put(Constantes.HABILIDAD_MM_CORAZA, jSpinner_crearMMCO);
+        spin_mm.put(HABILIDAD_MM_SINARMADURA, jSpinner_crearMMSA);
+        spin_mm.put(HABILIDAD_MM_CUERO, jSpinner_crearMMC);
+        spin_mm.put(HABILIDAD_MM_CUERO_ENDURECIDO, jSpinner_crearMMCE);
+        spin_mm.put(HABILIDAD_MM_COTA_DE_MALLA, jSpinner_crearMMCM);
+        spin_mm.put(HABILIDAD_MM_CORAZA, jSpinner_crearMMCO);
 
         this.jComboBox_crearGrupo.removeAllItems();
         this.jComboBox_crearGrupo.setModel(new DefaultComboBoxModel(Recursos.grupos.toArray()));
@@ -216,6 +216,8 @@ public class CrearToken extends javax.swing.JDialog {
         jLabel13 = new javax.swing.JLabel();
         jSpinner_crearMMCO = new javax.swing.JSpinner();
         jPanel18 = new javax.swing.JPanel();
+        jPanel9 = new javax.swing.JPanel();
+        jPanel19 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(252, 515));
@@ -607,6 +609,32 @@ public class CrearToken extends javax.swing.JDialog {
 
         jTabbedPane1.addTab("Detalle", jPanel2);
 
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 336, Short.MAX_VALUE)
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 310, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Sortilegios", jPanel9);
+
+        javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
+        jPanel19.setLayout(jPanel19Layout);
+        jPanel19Layout.setHorizontalGroup(
+            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 336, Short.MAX_VALUE)
+        );
+        jPanel19Layout.setVerticalGroup(
+            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 310, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Extremidades", jPanel19);
+
         jPanel1.add(jTabbedPane1, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(jPanel1);
@@ -625,12 +653,12 @@ public class CrearToken extends javax.swing.JDialog {
             // Brazos
             Extremidad bi = new Extremidad(true, true, false, Extremidad.MIEMBRO_SUPERIOR_IZQUIERDO, null);
             newToken.agregarExtremidad(bi);
-            Extremidad bd = new Extremidad(true, true, true, Extremidad.MIEMBRO_SUPERIOR_IZQUIERDO, null);
+            Extremidad bd = new Extremidad(true, true, true, Extremidad.MIEMBRO_SUPERIOR_DERECHO, null);
             newToken.agregarExtremidad(bd);
             // Piernas
-            Extremidad pi = new Extremidad(true, false, false, Extremidad.MIEMBRO_SUPERIOR_IZQUIERDO, null);
+            Extremidad pi = new Extremidad(true, false, false, Extremidad.MIEMBRO_INFERIOR_DERECHO, null);
             newToken.agregarExtremidad(pi);
-            Extremidad pd = new Extremidad(true, false, true, Extremidad.MIEMBRO_SUPERIOR_IZQUIERDO, null);
+            Extremidad pd = new Extremidad(true, false, true, Extremidad.MIEMBRO_INFERIOR_IZQUIERDO, null);
             newToken.agregarExtremidad(pd);
         }
 
@@ -642,18 +670,18 @@ public class CrearToken extends javax.swing.JDialog {
             hab = newhabHabilidad;
         }
 
-        hab.getHm_habilidades().put(Constantes.HABILIDAD_CAR_FUE, (Integer) jSpinner_crear_car_fue.getValue());
-        hab.getHm_habilidades().put(Constantes.HABILIDAD_CAR_AGI, (Integer) jSpinner_crear_car_agi.getValue());
-        hab.getHm_habilidades().put(Constantes.HABILIDAD_CAR_CON, (Integer) jSpinner_crear_car_con.getValue());
-        hab.getHm_habilidades().put(Constantes.HABILIDAD_CAR_I, (Integer) jSpinner_crear_car_I.getValue());
-        hab.getHm_habilidades().put(Constantes.HABILIDAD_CAR_INT, (Integer) jSpinner_crear_car_int.getValue());
-        hab.getHm_habilidades().put(Constantes.HABILIDAD_CAR_PRE, (Integer) jSpinner_crear_car_pre.getValue());
+        hab.getHm_habilidades().put(HABILIDAD_CAR_FUE, (Integer) jSpinner_crear_car_fue.getValue());
+        hab.getHm_habilidades().put(HABILIDAD_CAR_AGI, (Integer) jSpinner_crear_car_agi.getValue());
+        hab.getHm_habilidades().put(HABILIDAD_CAR_CON, (Integer) jSpinner_crear_car_con.getValue());
+        hab.getHm_habilidades().put(HABILIDAD_CAR_I, (Integer) jSpinner_crear_car_I.getValue());
+        hab.getHm_habilidades().put(HABILIDAD_CAR_INT, (Integer) jSpinner_crear_car_int.getValue());
+        hab.getHm_habilidades().put(HABILIDAD_CAR_PRE, (Integer) jSpinner_crear_car_pre.getValue());
 
-        hab.getHm_habilidades().put(Constantes.HABILIDAD_MM_SINARMADURA, (Integer) jSpinner_crearMMSA.getValue());
-        hab.getHm_habilidades().put(Constantes.HABILIDAD_MM_CUERO, (Integer) jSpinner_crearMMC.getValue());
-        hab.getHm_habilidades().put(Constantes.HABILIDAD_MM_CUERO_ENDURECIDO, (Integer) jSpinner_crearMMCE.getValue());
-        hab.getHm_habilidades().put(Constantes.HABILIDAD_MM_COTA_DE_MALLA, (Integer) jSpinner_crearMMCM.getValue());
-        hab.getHm_habilidades().put(Constantes.HABILIDAD_MM_CORAZA, (Integer) jSpinner_crearMMCO.getValue());
+        hab.getHm_habilidades().put(HABILIDAD_MM_SINARMADURA, (Integer) jSpinner_crearMMSA.getValue());
+        hab.getHm_habilidades().put(HABILIDAD_MM_CUERO, (Integer) jSpinner_crearMMC.getValue());
+        hab.getHm_habilidades().put(HABILIDAD_MM_CUERO_ENDURECIDO, (Integer) jSpinner_crearMMCE.getValue());
+        hab.getHm_habilidades().put(HABILIDAD_MM_COTA_DE_MALLA, (Integer) jSpinner_crearMMCM.getValue());
+        hab.getHm_habilidades().put(HABILIDAD_MM_CORAZA, (Integer) jSpinner_crearMMCO.getValue());
 
         Status est = new Status(hab, newToken.getExtremidades());
         creacion:
@@ -779,7 +807,7 @@ public class CrearToken extends javax.swing.JDialog {
                 int nuevoValor = ((Integer) spin_mm.get(armaduraAmentar).getValue()) + 5;
                 spin_mm.get(armaduraAmentar).setValue(nuevoValor);
             } else {
-                int armaduraAmentar = Recursos.aleatorioEntre(Constantes.HABILIDAD_MM_SINARMADURA, Constantes.HABILIDAD_MM_CORAZA);
+                int armaduraAmentar = Recursos.aleatorioEntre(HABILIDAD_MM_SINARMADURA, HABILIDAD_MM_CORAZA);
                 int nuevoValor = ((Integer) spin_mm.get(armaduraAmentar).getValue()) + 5;
                 spin_mm.get(armaduraAmentar).setValue(nuevoValor);
             }
@@ -805,7 +833,7 @@ public class CrearToken extends javax.swing.JDialog {
 
         //jComboBox_crearBDArma.setSelectedIndex(Recursos.aleatorioEntre(0, Recursos.armeria.size() - 1));
         //Arma der = (Arma) jComboBox_crearBDArma.getSelectedItem();
-        int cant_armas = Recursos.aleatorioEntre(1, 3);
+        
         DefaultListModel jdlm = (DefaultListModel) jList_Armas.getModel();
         jdlm.removeAllElements();
         DefaultListModel jdlmo = (DefaultListModel) jList_Bos.getModel();
@@ -815,11 +843,11 @@ public class CrearToken extends javax.swing.JDialog {
         // Dominio y sortilegios
         Dado d100 = new Dado();
         int pos = d100.lanzarAbierta();
-        int dominio= 0;
+        int dominio = 0;
         if (pos < 49) {
-            dominio= 0;
+            dominio = 0;
         }
-        if (pos > 49) {            
+        if (pos > 49) {
             dominio = 1;
         }
         if (pos > 100) {
@@ -838,10 +866,9 @@ public class CrearToken extends javax.swing.JDialog {
             dominio = 6;
         }
         jComboBox_dom.setSelectedIndex(dominio);
-        
-        
+
         newhabHabilidad = new Caracteristicas();
-        //newToken.setHabilidades(newhabHabilidad);
+
         int chance = 25;
         for (int i = 0; i < Recursos.aleatorioEntre(1, 10); i++) {
 
@@ -861,68 +888,93 @@ public class CrearToken extends javax.swing.JDialog {
             chance -= Recursos.aleatorioEntre(1, 5);
         }
 
-        agregarArmaALalista(new Arma("Mano Desnuda", Constantes.CLASE_MANO_DESNUDA, 0, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_PELEA));
-        //agregarBoALaLista(new Bo(Constantes.ESTILO_PELEA, Recursos.nuevaBo(nivel, Recursos.aleatorioEntre(0, 4))));
+        agregarArmaALalista(Recursos.armeria.get(0));
 
+        int cant_armas = Recursos.aleatorioEntre(1, 3);
+        boolean tieneEscudo = false;
         ArrayList<Integer> est_armas = new ArrayList<>();
         for (int i = 0; i < cant_armas; i++) {
-            Arma a = Recursos.armeria.get(Recursos.aleatorioEntre(1, 23));
-            est_armas.add(a.getEstilo());
-            agregarArmaALalista(a);
+            Arma a = Recursos.armeria.get(Recursos.aleatorioEntre(1, 30));                       
+                
+            if ((a.getClase() == ESTILO_FILO || a.getClase() == ESTILO_CONTUNDENTE) && !tieneEscudo) {
+                agregarArmaALalista(Recursos.escudoAlAzar());
+                tieneEscudo = true;
+            }
+            if (a.getClase() != CLASE_ESCUDO) {
+                est_armas.add(a.getEstilo());
+                agregarArmaALalista(a);
+            } else {
+             i--;   
+            }
         }
 
-        bos.add(new Bo(Constantes.ESTILO_PELEA, Recursos.aleatorioEntre(0, 4)));
-        bos.add(new Bo(Constantes.ESTILO_FILO, Recursos.aleatorioEntre(0, 4)));
-        bos.add(new Bo(Constantes.ESTILO_CONTUNDENTE, Recursos.aleatorioEntre(0, 4)));
-        bos.add(new Bo(Constantes.ESTILO_DOS_MANOS, Recursos.aleatorioEntre(0, 4)));
-        bos.add(new Bo(Constantes.ESTILO_ARROJADIZA, Recursos.aleatorioEntre(0, 4)));
-        bos.add(new Bo(Constantes.ESTILO_PROYECTILES, Recursos.aleatorioEntre(0, 4)));
-        bos.add(new Bo(Constantes.ESTILO_ASTA, Recursos.aleatorioEntre(0, 3)));
-        // agrego al menos 1 punto, para que la Bo de su arma no sea negativa
-        bos.get(est_armas.get(0)).setValue(bos.get(est_armas.get(0)).getValue() + 1);
+        bos.add(new Bo(ESTILO_PELEA, Recursos.aleatorioEntre(0, 4)));
+        bos.add(new Bo(ESTILO_FILO, Recursos.aleatorioEntre(0, 4)));
+        bos.add(new Bo(ESTILO_CONTUNDENTE, Recursos.aleatorioEntre(0, 4)));
+        bos.add(new Bo(ESTILO_DOS_MANOS, Recursos.aleatorioEntre(0, 4)));
+        bos.add(new Bo(ESTILO_ARROJADIZA, Recursos.aleatorioEntre(0, 4)));
+        bos.add(new Bo(ESTILO_PROYECTILES, Recursos.aleatorioEntre(0, 4)));
+        bos.add(new Bo(ESTILO_ASTA, Recursos.aleatorioEntre(0, 3)));
 
-        puntos = recursos.Recursos.aleatorioEntre(4, 7) * nivel;
+        // verifico que si existe un arma cuyo estilo no tiene una Bo correspondiente cargada, la cargue
+        for (Integer est : est_armas) {
+            boolean existe = false;
+            for (Bo bo : bos) {
+                if (bo.getEstilo() == est) {
+                    bo.setValue(1);
+                    existe = true;
+                    break;
+                }
+            }
+            if (!existe) {
+                bos.add(new Bo(est, Recursos.aleatorioEntre(1, 3)));
+                
+            }
+        }
+        // agrego al menos 1 punto, para que la Bo de su arma no sea negativa
+        
+        puntos = recursos.Recursos.aleatorioEntre(6, 9) * nivel;
         for (int j = 0; j < puntos; j++) {
-            int posi = 70;
+            int posi = 50;
             boolean puntodado = false;
             for (Integer est : est_armas) {
                 if (Recursos.posibilidad(posi)) {
-                    int nuevoValor = bos.get(est).getValue() + Recursos.aleatorioEntre(1, 2);
-                    bos.get(est).setValue(nuevoValor);
+                    int nuevoValor = boPorEstilo(est).getValue() + Recursos.aleatorioEntre(1, 3);
+                    boPorEstilo(est).setValue(nuevoValor);
                     puntodado = true;
                 }
             }
             if (!puntodado) {
-                int boA = Recursos.aleatorioEntre(Constantes.ESTILO_FILO, Constantes.ESTILO_ASTA);
-                int nuevoValor = bos.get(boA).getValue() + 1;
+                int boA = Recursos.aleatorioEntre(ESTILO_FILO, ESTILO_ASTA);
+                int nuevoValor = bos.get(boA).getValue() + Recursos.aleatorioEntre(1, 2);
                 bos.get(boA).setValue(nuevoValor);
             }
             // pelea se sube aparte como secundaria
 
-            int nuevoValor = bos.get(Constantes.ESTILO_PELEA).getValue() + Recursos.aleatorioEntre(0, 2);
-            bos.get(Constantes.ESTILO_PELEA).setValue(nuevoValor);
+            int nuevoValor = bos.get(ESTILO_PELEA).getValue() + Recursos.aleatorioEntre(0, 2);
+            bos.get(ESTILO_PELEA).setValue(nuevoValor);
         }
 
         int bono_prof = nivel * Recursos.aleatorioEntre(1, 3);
 
 //        
-//        bos.get(Constantes.ESTILO_PELEA).setValue(Recursos.cuadraditosABono(bos.get(Constantes.ESTILO_PELEA).getValue()) + fue + bono_prof);
-//        bos.get(Constantes.ESTILO_FILO).setValue(Recursos.cuadraditosABono(bos.get(Constantes.ESTILO_FILO).getValue()) + fue + bono_prof);
-//        bos.get(Constantes.ESTILO_CONTUNDENTE).setValue(Recursos.cuadraditosABono(bos.get(Constantes.ESTILO_CONTUNDENTE).getValue()) + fue + bono_prof);
-//        bos.get(Constantes.ESTILO_DOS_MANOS).setValue(Recursos.cuadraditosABono(bos.get(Constantes.ESTILO_DOS_MANOS).getValue()) + fue + bono_prof);
-//        bos.get(Constantes.ESTILO_ARROJADIZA).setValue(Recursos.cuadraditosABono(bos.get(Constantes.ESTILO_ARROJADIZA).getValue()) + agi + bono_prof);
-//        bos.get(Constantes.ESTILO_PROYECTILES).setValue(Recursos.cuadraditosABono(bos.get(Constantes.ESTILO_PROYECTILES).getValue()) + agi + bono_prof);
-//        bos.get(Constantes.ESTILO_ASTA).setValue(Recursos.cuadraditosABono(bos.get(Constantes.ESTILO_ASTA).getValue()) + fue + bono_prof);
+//        bos.get(ESTILO_PELEA).setValue(Recursos.cuadraditosABono(bos.get(ESTILO_PELEA).getValue()) + fue + bono_prof);
+//        bos.get(ESTILO_FILO).setValue(Recursos.cuadraditosABono(bos.get(ESTILO_FILO).getValue()) + fue + bono_prof);
+//        bos.get(ESTILO_CONTUNDENTE).setValue(Recursos.cuadraditosABono(bos.get(ESTILO_CONTUNDENTE).getValue()) + fue + bono_prof);
+//        bos.get(ESTILO_DOS_MANOS).setValue(Recursos.cuadraditosABono(bos.get(ESTILO_DOS_MANOS).getValue()) + fue + bono_prof);
+//        bos.get(ESTILO_ARROJADIZA).setValue(Recursos.cuadraditosABono(bos.get(ESTILO_ARROJADIZA).getValue()) + agi + bono_prof);
+//        bos.get(ESTILO_PROYECTILES).setValue(Recursos.cuadraditosABono(bos.get(ESTILO_PROYECTILES).getValue()) + agi + bono_prof);
+//        bos.get(ESTILO_ASTA).setValue(Recursos.cuadraditosABono(bos.get(ESTILO_ASTA).getValue()) + fue + bono_prof);
         for (Bo bo : bos) {
             int estilo = bo.getEstilo();
-            int sumar = bono_prof + ((estilo == Constantes.ESTILO_PROYECTILES || estilo == Constantes.ESTILO_ARROJADIZA) ? agi : fue);
+            int sumar = bono_prof + ((estilo == ESTILO_PROYECTILES || estilo == ESTILO_ARROJADIZA) ? agi : fue);
             int bono = Recursos.cuadraditosABono(bo.getValue());
             bo.setValue(sumar + bono);
             agregarBoALaLista(bo);
         }
 
         /*
-        for (int i = 1; i <= Constantes.ESTILO_ASTA; i++) {
+        for (int i = 1; i <= ESTILO_ASTA; i++) {
             Bo b = new Bo(i, 0);
             b.setValue(Recursos.nuevaBo(nivel, i));
             agregarBoALaLista(b);
@@ -989,7 +1041,15 @@ public class CrearToken extends javax.swing.JDialog {
         return newToken;
     }
 
-
+    private Bo boPorEstilo(int estilo){
+        for (Bo bo : bos) {
+            if (bo.getEstilo() == estilo)
+                return bo;
+        }
+        return null;
+    }
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAceptar;
     private javax.swing.JButton jButton_agregarArma;
@@ -1028,6 +1088,7 @@ public class CrearToken extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
+    private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -1035,6 +1096,7 @@ public class CrearToken extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JPanel jPanel_caract1;
     private javax.swing.JPanel jPanel_caract2;
     private javax.swing.JPanel jPanel_caract3;
