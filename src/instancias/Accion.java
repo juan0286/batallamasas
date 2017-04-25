@@ -5,6 +5,8 @@
  */
 package instancias;
 
+import instancias.properties.Arma;
+import instancias.properties.DatosCombate;
 import java.io.Serializable;
 import java.util.Map;
 import javax.xml.bind.annotation.XmlType;
@@ -27,10 +29,10 @@ public class Accion implements Serializable {
     //private Sortilegio sortilegio;
     private int id_sortilegio_a_realizar; 
     private String Dificultad;
-    private int id_sort_intencion;
+    private int id_sort_intencion;    
     private String Descp;
     private String fullDescp;
-
+    private DatosCombate combate;
     private int marcha;
     
     
@@ -129,8 +131,6 @@ public class Accion implements Serializable {
     public Sortilegio get_sort_intencion() {
         return Principal.getSortilegioById(id_sort_intencion);
     }
-    
-    
 
     public void setId_sort_intencion(int id_sort_intencion) {
         this.id_sort_intencion = id_sort_intencion;
@@ -168,6 +168,14 @@ public class Accion implements Serializable {
         this.marcha = marcha;
     }
 
+    public DatosCombate getCombate() {
+        return combate;
+    }
+
+    public void setCombate(DatosCombate combate) {
+        this.combate = combate;
+    }
+
     public static boolean isRealizableAturdido(int tipo) {
 
         if (tipo == Constantes.TIPO_ACCION_SIN_ACCION) {
@@ -192,6 +200,6 @@ public class Accion implements Serializable {
             return false;
         }
 
-    }
-
+    }     
+    
 }

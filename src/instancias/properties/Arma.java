@@ -19,15 +19,6 @@ public class Arma implements Serializable{
     public Arma() {
     }
 
-   
-
-    public Arma(String Nombre, int clase, int bono,int tipo, boolean manos) {
-        this.Nombre = Nombre;
-        this.factura = tipo;
-        this.bono = bono;
-        this.clase = clase;
-        this.dosManos = manos;
-    }
 
     public Arma(String Nombre, int clase, int bono, int tipo, boolean dosManos, int Estilo) {
         this.Nombre = Nombre;
@@ -39,7 +30,13 @@ public class Arma implements Serializable{
        
     }
 
+    public boolean isDosManos() {
+        return dosManos;
+    }
 
+
+    
+    
     /**
      * @return the tipo
      */
@@ -91,10 +88,6 @@ public class Arma implements Serializable{
 
     public boolean isdosManos() {
         return dosManos;
-    }
-
-    public void setManos(boolean manos) {
-        this.dosManos = manos;
     }
 
     public void setDosManos(boolean dosManos) {

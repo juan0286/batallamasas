@@ -23,6 +23,7 @@ public abstract class Constantes {
     static final public int CLASE_ESPADA_CORTA = 8;
     static final public int CLASE_ESPADON = 9;
     static final public int CLASE_GARROTE = 10;
+    
     static final public int CLASE_HACHA = 11;
     static final public int CLASE_LANZA = 12;
     static final public int CLASE_MAZA = 13;
@@ -30,6 +31,10 @@ public abstract class Constantes {
     static final public int CLASE_ROMPE_CABEZAS = 15;
     public static final int CLASE_ESCUDO = 16;
 
+    static final public int CLASE_GARRAS = 17;
+    static final public int CLASE_KARATE = 18;
+    static final public int CLASE_MORDISCO = 19;
+    
     // ESTILOS 
     static final public int ESTILO_TODOS = 100;
     static final public int ESTILO_PELEA = 0;

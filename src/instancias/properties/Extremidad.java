@@ -25,6 +25,7 @@ public class Extremidad {
     private boolean puedePortarArma;
     private boolean miembroHabil;    
     private int tipo_miembro;
+    private Arma armaEquipada = null;
     private ProteccionMiembro prot;
 
     public Extremidad() {
@@ -44,6 +45,18 @@ public class Extremidad {
 
     public void setUtil(boolean util) {
         this.util = util;
+    }
+
+    public Arma getArmaEquipada() {
+        return armaEquipada;
+    }
+    
+    public boolean tieneArmaEquipada(){
+        return armaEquipada != null;
+    }
+
+    public void setArmaEquipada(Arma armaEquipada) {
+        this.armaEquipada = armaEquipada;
     }
 
     public boolean isPuedePortarArma() {

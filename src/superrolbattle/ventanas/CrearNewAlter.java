@@ -768,7 +768,7 @@ public class CrearNewAlter extends javax.swing.JDialog {
     private void sanarHerida() {
         DefaultListModel dlm = (DefaultListModel) jList_editar_Alteraciones.getModel();
         if (jList_editar_Alteraciones.getSelectedIndex() > -1) {
-            Herida h = (Herida) dlm.get(jList_editar_Alteraciones.getSelectedIndex());
+            Alteracion h = (Alteracion) dlm.get(jList_editar_Alteraciones.getSelectedIndex());
             int dialogButton = JOptionPane.YES_NO_OPTION;
             JOptionPane.showConfirmDialog(null, "Esto sanarà la herida " + h.toString() + " y todos sus Efectos. Curar la herida?", "Atencion", dialogButton);
             if (dialogButton == JOptionPane.YES_OPTION) {

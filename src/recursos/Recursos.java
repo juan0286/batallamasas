@@ -35,6 +35,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 import superrolbattle.Principal;
 import superrolbattle.ventanas.JPanelFormToken_Accion;
+import static recursos.Constantes.*;
 
 /**
  *
@@ -326,20 +327,117 @@ public class Recursos {
         return ret * nivel;
     }
 
-    public static String[] darResultadoGolpe(String tablaArmaName, String valor) {
-        String dañoUnido = "0";
+    public static String[] darResultadoGolpe(int clase, int valor, int armadura) {
+        String hitUnido = "0";
+        String tablaArmaName = tablaPorClaseDeArma(clase);
+        valor = (valor < 0) ? 0 : valor;
+        valor = (valor > 150) ? 150 : valor;
         HashMap<String, String> tablaActual = tablasDaño.get(tablaArmaName);
         if (tablaActual == null) {
-
             Recursos.informar("No esta cargada la tabla para el Arma con la que golpea el personaje");
-
         } else {
-            dañoUnido = tablaActual.get(valor);
+            hitUnido = tablaActual.get(valor + "-" + armadura);
         }
-
-        return separarNumerosDeLetras(dañoUnido);
+        hitUnido = (hitUnido != null) ? hitUnido : "0";
+        return separarNumerosDeLetras(hitUnido);
     }
 
+    private static String tablaPorClaseDeArma(int clase) {
+
+        switch (clase) {
+
+            case CLASE_MANO_DESNUDA: {
+
+                return "ataqueKarate";
+            }
+            case CLASE_ALFANJE: {
+
+                return "ataqueAlfanje";
+            }
+            case CLASE_ARCO_CORTO: {
+
+                return "ataqueArcoCorto";
+            }
+            case CLASE_ARCO_LARGO: {
+
+                return "ataqueArcoLargo";
+            }
+            case CLASE_BASTON: {
+
+                return "ataqueBaston";
+            }
+            case CLASE_CIMITARRA: {
+
+                return "ataqueCimitarra";
+            }
+            case CLASE_DAGA: {
+
+                return "ataqueDaga";
+            }
+            case CLASE_ESPADA_ANCHA: {
+
+                return "ataqueEspadaAncha";
+            }
+            case CLASE_ESPADA_CORTA: {
+
+                return "ataqueEspadaCorta";
+            }
+            case CLASE_ESPADON: {
+
+                return "ataqueEspadon";
+            }
+            case CLASE_GARRAS: {
+
+                return "ataqueGarras";
+            }
+            case CLASE_GARROTE: {
+
+                return "ataqueGarrote";
+            }
+            case CLASE_HACHA: {
+
+                return "ataqueHacha";
+            }
+            case CLASE_KARATE: {
+
+                return "ataqueKarate";
+            }
+            case CLASE_LANZA: {
+                return "ataqueLanza";
+
+            }
+            case CLASE_MAZA: {
+                return "ataqueMaza";
+
+            }
+            case CLASE_MORDISCO: {
+                return "ataqueMordisco";
+
+            }
+            case CLASE_LANZA_CABALLERIA: {
+                return "ataqueLanzaCaballeria";
+            }
+            case CLASE_ROMPE_CABEZAS: {
+                return "ataqueRompecabezas";
+
+            }
+            default: {
+                return "ataqueKarate";
+            }
+        }
+
+    }
+
+    public static ArrayList<Arma> todosLosEscudos(){
+        ArrayList<Arma> escudos = new ArrayList<>();
+        for (Arma arm : armeria) {
+            if (arm.getClase() == CLASE_ESCUDO)
+                escudos.add(arm);
+        }
+        return escudos;
+    }
+    
+    
     private static String textoEstado(int v) {
         String ret = "";
         switch (v) {
@@ -386,8 +484,8 @@ public class Recursos {
         obj.add(new JButton("Atacar"));
         return obj;
     }
-    
-    public static Arma escudoAlAzar(){
+
+    public static Arma escudoAlAzar() {
         return (Arma) aleatorioDe(escudos);
     }
 

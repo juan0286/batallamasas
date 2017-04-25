@@ -11,12 +11,14 @@ import instancias.Sortilegio;
 import instancias.Token;
 import instancias.properties.Arma;
 import instancias.properties.Bo;
+import instancias.properties.DatosCombate;
 import instancias.properties.Extremidad;
 import java.awt.Color;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import javafx.scene.control.SelectionMode;
 import javax.swing.AbstractSpinnerModel;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
@@ -28,6 +30,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SingleSelectionModel;
 import javax.swing.SpinnerNumberModel;
+import recursos.AccionConfig;
 import static recursos.Constantes.*;
 import recursos.Recursos;
 import superrolbattle.Principal;
@@ -63,6 +66,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
             iconar(token.getUrlIcon());
         }
         jTextField_name.setText(token.getNombre());
+        Accion accion = token.getLastAction();
         int tipo = token.getLastAction().getTipo();
 
         for (Extremidad ext : token.getExtremidades()) {
@@ -78,15 +82,27 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jComboBox_Lista_sotilegios.setModel(new DefaultComboBoxModel(token.getListasDeSortilegios().toArray()));
         jComboBox_Lista_sotilegios_realiza.setModel(new DefaultComboBoxModel(token.getListasDeSortilegios().toArray()));
 
-        jComboBoxEnemigos.setModel(new DefaultComboBoxModel(principal.getTodosLosEnemigos(token).toArray()));
         jComboBoxEnemigos1.setModel(new DefaultComboBoxModel(principal.getTodosLosEnemigos(token).toArray()));
 
-        for (Arma a : token.getArmasCuerpoACuerpo()) {
-            agregarArmaALalista(a);
+        DefaultListModel jdlm = (DefaultListModel) jList_extremidades.getModel();
+        for (Extremidad ext : token.getExtremidadesEquipables()) {
+            jdlm.addElement(ext);
+        }
+        int cantEx = jdlm.getSize();
+        jList_extremidades.setModel(jdlm);
+        if (cantEx > 0) {
+            for (Arma a : token.getArmasCuerpoACuerpo()) {
+                if (a.isdosManos() && cantEx < 2) {
+                    continue;
+                }
+                agregarArmaALalista(a);
+            }
+        }
+        for (Arma a : token.getEscudos()) {
+            agregarEscudoALalista(a);
         }
 
         jComboBoxArmas_Proy.setModel(new DefaultComboBoxModel(token.getArmasProyectiles().toArray()));
-        //jComboBoxArmas_cac.setModel(new DefaultComboBoxModel(token.getArmasCuerpoACuerpo().toArray()));
 
         // mov y maniobra
         jTextField_mmActual.setText(token.getMmActualTxt());
@@ -107,7 +123,6 @@ public class DeclaraAccion extends javax.swing.JDialog {
             jTabbedPane_SeleccionAccion.setEnabledAt(8, false);
             jTabbedPane_SeleccionAccion.setSelectedIndex(6);
             jTextField_bono_mm.setText("-50");
-            jComboBoxEnemigos.setEnabled(false);
             jSlider_Bo.setValue(0);
             jSlider_Bo.setEnabled(false);
 
@@ -140,7 +155,43 @@ public class DeclaraAccion extends javax.swing.JDialog {
             jTabbedPane_SeleccionAccion.setSelectedIndex(TIPO_ACCION_ATAQUE_CUERPO_A_CUERPO - 1);
         }
         if (tipo > TIPO_ACCION_SIN_ACCION) {
+
             jTabbedPane_SeleccionAccion.setSelectedIndex(tipo - 1);
+            AccionConfig ac = this.token_accion.getAccionConfig();
+            if (ac != null) {
+                if (ac.getBlanco() != null) {
+                    jComboBoxEnemigos1.setSelectedItem(ac.getBlanco());
+                }
+                if (ac.getBoConf() > -1) {
+                    jSlider_Bo.setValue(ac.getBoConf());
+                    jComboBoxEnemigos1.setSelectedItem(ac.getBlanco());
+                }
+                if (ac.getBonoExtra() > -1) {
+                    jSpinner_bono_mm.setValue(ac.getBonoExtra());
+                }
+                if (ac.getDesc() != null) {
+                    jTextArea_desc.setText(ac.getDesc());
+                }
+                if (ac.getDificultadManiobra() > -1) {
+                    // en construccion
+                }
+                if (ac.getDistancia() > -1) {
+                    jSpinner_distancia1.setValue(ac.getDistancia());
+                }
+                if (ac.getDistanciaAtaque() > -1) {
+                    jSpinner_distanciaCaC.setValue(ac.getDistancia());
+                }
+            }
+            Arma bd = token.getExtremidad(Extremidad.MIEMBRO_SUPERIOR_DERECHO).getArmaEquipada();
+            Arma bi = token.getExtremidad(Extremidad.MIEMBRO_SUPERIOR_IZQUIERDO).getArmaEquipada();
+            if (bd != null) {
+                if (bd.getEstilo() == ESTILO_PROYECTILES) {
+                    jComboBoxArmas_Proy1.setSelectedItem(bd);
+                } else {
+
+                }
+            }
+
         }
         if (token.getSortilegios().size() > 0) {
             actualizarSortilegioCarga();
@@ -172,114 +223,98 @@ public class DeclaraAccion extends javax.swing.JDialog {
 
     private void cambiarArmaDeLista() {
 
-        Extremidad b_dere = getExtremidad(Extremidad.MIEMBRO_SUPERIOR_DERECHO);
-        Extremidad b_izq = getExtremidad(Extremidad.MIEMBRO_SUPERIOR_IZQUIERDO);
-
-        Extremidad mejor = (b_dere.isMiembroHabil()) ? b_dere : b_izq;
-        Extremidad segundo = (b_dere.isMiembroHabil()) ? b_izq : b_dere;
-
         DefaultListModel jdlm = (DefaultListModel) jList_armas.getModel();
         Arma a = (Arma) jdlm.getElementAt(jList_armas.getSelectedIndex());
 
-        if (a.isdosManos() && (!mejor.isUtil() || !segundo.isUtil() || !jCheckBox_bd_enUso.isSelected() || !jCheckBox_bi_enUso.isSelected())) {
-            Recursos.informar("No se puede usar esta Arma", "Imposible Accionar");
-        } else if (mejor.isUtil() && jCheckBox_bd_enUso.isSelected()) {
-            if (isArmaPortable(a)) {
-                colocarArmaDer(mejor, a);
-                if (segundo.isUtil()) {
-                    Arma escudo = token_accion.getToken().getArmaByClass(CLASE_ESCUDO);
-                    if (a.isdosManos()) {
-                        colocarArmaIzq(segundo, a);
-                    } else if (escudo != null) {
-                        colocarArmaIzq(segundo, escudo);
+        int extremidadesDisponibles = jdlm.getSize();
+        jdlm = (DefaultListModel) jList_extremidades.getModel();
 
-                    } else {
-                        colocarArmaIzq(segundo, token_accion.getToken().getArmaByClass(CLASE_MANO_DESNUDA));
+        ArrayList<Integer> habiles = new ArrayList<>();
+        ArrayList<Integer> malas = new ArrayList<>();
+        ArrayList<Integer> selecciones = new ArrayList<>();
+
+        for (int i = 0; i < jdlm.getSize(); i++) {
+            Extremidad ext = (Extremidad) jdlm.get(i);
+            if (ext.isMiembroHabil()) {
+                habiles.add(i);
+            } else {
+                malas.add(i);
+            }
+        }
+
+        Token tok = token_accion.getToken();
+
+        int ext_aux = (a.isdosManos()) ? 2 : 1;  // esta variable es cuantos brazos necesita
+
+        if (a.isdosManos()) {
+            jList_extremidades.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        } else {
+            jList_extremidades.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        }
+
+        if (extremidadesDisponibles >= ext_aux) {
+            while (ext_aux > 0) {
+                for (Integer habil : habiles) {
+                    selecciones.add(habil);
+                    ((Extremidad) jdlm.get(habil)).setArmaEquipada(a);
+                    ext_aux--;
+                    extremidadesDisponibles--;
+                }
+                if (ext_aux > 0) {
+                    for (Integer mala : malas) {
+                        selecciones.add(mala);
+                        ((Extremidad) jdlm.get(mala)).setArmaEquipada(a);
+                        ext_aux--;
+                        extremidadesDisponibles--;
                     }
                 }
+            }
+        }
+        
+        int[] c = new int[selecciones.size()];
+        for (int i = 0; i < selecciones.size(); i++) {
+            c[i] = selecciones.get(i);
+        }
 
-            } else {
-                colocarArmaDer(mejor, a);
-                if (a.isdosManos()) {
-                    colocarArmaIzq(segundo, a);
+        jList_extremidades.setSelectedIndices(c);
+        iconarArma(a, jLabel_icono_armas);
+        this.repaint();
 
+        // si seleccione todas las extremidades, entonces deshabilito los escudos
+        jList_escudos.setEnabled(jList_extremidades.getSelectedIndices().length < jdlm.size());
+
+        // poner escudo automatico
+        /*
+        jdlm = (DefaultListModel) jList_escudos.getModel();
+        if (extremidadesDisponibles > 0 && jdlm.size() > 0) {
+            while (ext_aux > 0) {
+                for (Integer habil : habiles) {
+                    jList_extremidades.setSelectedIndex(habil);
+                    ext_aux--;
+                    extremidadesDisponibles--;
+                }
+                if (ext_aux > 0) {
+                    for (Integer mala : malas) {
+                        jList_extremidades.setSelectedIndex(mala);
+                        ext_aux--;
+                        extremidadesDisponibles--;
+                    }
                 }
             }
-
-        } else if (segundo.isUtil() && jCheckBox_bi_enUso.isSelected()) {
-            colocarArmaIzq(mejor, a);
-
-        } else {
-
         }
+         */
         cambiarBo();
+
     }
 
-    private void cambiarArma(int ext) {
+    private void cambiarEscudoLista() {
 
-//        Extremidad mejor = getExtremidad(ext);
-//        //Extremidad b_izq = getExtremidad(Extremidad.MIEMBRO_SUPERIOR_IZQUIERDO);
-//
-//        //Extremidad mejor = (b_dere.isMiembroHabil()) ? b_dere : b_izq;
-//        //Extremidad segundo = (b_dere.isMiembroHabil()) ? b_dere : b_izq;
-//        Arma a = (Arma) JOptionPane.showInputDialog(null,
-//                "Selecciona Arma", "ShowInputDialog",
-//                JOptionPane.PLAIN_MESSAGE, null, token_accion.getToken().getArmasCuerpoACuerpo().toArray(), "Seleccion de Arma");
-//        
-//
-//        DefaultListModel jdlm = (DefaultListModel) jList_armas.getModel();
-//        //Arma a = (Arma) jdlm.getElementAt(jList_armas.getSelectedIndex());
-//
-//        if (a.isdosManos() && (!mejor.isUtil() || !segundo.isUtil() || !jCheckBox_bd_enUso.isSelected() || !jCheckBox_bi_enUso.isSelected())) {
-//            Recursos.informar("No se puede usar esta Arma", "Imposible Accionar");
-//        } else if (mejor.isUtil() && jCheckBox_bd_enUso.isSelected()) {
-//            if (isArmaPortable(a)) {
-//                colocarArmaDer(mejor, a);
-//                if (segundo.isUtil()) {
-//                    Arma escudo = token_accion.getToken().getArmaByClass(CLASE_ESCUDO);
-//                    if (a.isdosManos()) {
-//                        colocarArmaIzq(segundo, a);
-//                    } else if (escudo != null) {
-//                        colocarArmaIzq(segundo, escudo);
-//
-//                    } else {
-//                        colocarArmaIzq(segundo, token_accion.getToken().getArmaByClass(CLASE_MANO_DESNUDA));
-//                    }
-//                }
-//
-//            } else {
-//                colocarArmaDer(mejor, a);
-//                if (a.isdosManos()) {
-//                    colocarArmaIzq(segundo, a);
-//
-//                }
-//            }
-//
-//        } else if (segundo.isUtil() && jCheckBox_bi_enUso.isSelected()) {
-//            colocarArmaIzq(mejor, a);
-//
-//        } else {
-//
-//        }
-//        cambiarBo();
-    }
+        DefaultListModel jdlm = (DefaultListModel) jList_escudos.getModel();
+        Arma a = (Arma) jdlm.getElementAt(jList_escudos.getSelectedIndex());
 
-    private void colocarArmaIzq(Extremidad e, Arma a) {
-        hm_extremidades.put(e, a);
-        jTextField_desc_arma_bi.setText(a.getNombre());
-        iconarArma(a, jLabel_icono_bi);
+        iconarArma(a, jLabel_icono_escudo);
         this.repaint();
-    }
-
-    private void colocarArmaDer(Extremidad e, Arma a) {
-        hm_extremidades.put(e, a);
-        jTextField_desc_arma_bd.setText(a.getNombre());
-        iconarArma(a, jLabel_icono_bd);
-        this.repaint();
-    }
-
-    private boolean isArmaPortable(Arma a) {
-        return (a.getClase() != CLASE_ESCUDO && a.getClase() != CLASE_MANO_DESNUDA);
+        cambiarBo();
     }
 
     private void agregarArmaALalista(Arma a) {
@@ -287,6 +322,15 @@ public class DeclaraAccion extends javax.swing.JDialog {
             DefaultListModel jdlm = (DefaultListModel) jList_armas.getModel();
             jdlm.addElement(a);
             jList_armas.setModel(jdlm);
+
+        }
+    }
+
+    private void agregarEscudoALalista(Arma a) {
+        if (a != null) {
+            DefaultListModel jdlm = (DefaultListModel) jList_escudos.getModel();
+            jdlm.addElement(a);
+            jList_escudos.setModel(jdlm);
 
         }
     }
@@ -447,31 +491,33 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jTextField_mmActual_mm = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jTextField_bono_mm = new javax.swing.JTextField();
+        jSpinner_bono_mm = new javax.swing.JSpinner();
         jPanel_Ataque_Cuerpo_a_Cuerpo_tabDA = new javax.swing.JPanel();
         jPanel15 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
         jPanel_brazo_derecho = new javax.swing.JPanel();
-        jLabel_icono_bd = new javax.swing.JLabel();
-        jPanel43 = new javax.swing.JPanel();
-        jCheckBox_bd_enUso = new javax.swing.JCheckBox();
-        jTextField_desc_arma_bd = new javax.swing.JTextField();
         jPanel_armas = new javax.swing.JPanel();
+        jPanel45 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
+        jLabel_icono_armas = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList_armas = new javax.swing.JList<>();
+        jPanel_brazos = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jList_extremidades = new javax.swing.JList<>();
         jPanel_brazo_izquierdo = new javax.swing.JPanel();
-        jLabel_icono_bi = new javax.swing.JLabel();
-        jPanel42 = new javax.swing.JPanel();
-        jCheckBox_bi_enUso = new javax.swing.JCheckBox();
-        jTextField_desc_arma_bi = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jList_escudos = new javax.swing.JList<>();
+        jPanel44 = new javax.swing.JPanel();
+        jButton4 = new javax.swing.JButton();
+        jLabel_icono_escudo = new javax.swing.JLabel();
         jPanel16 = new javax.swing.JPanel();
         jPanel_distancia = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
-        jSpinner_distancia = new javax.swing.JSpinner();
+        jSpinner_distanciaCaC = new javax.swing.JSpinner();
         jLabel7 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        jComboBoxEnemigos = new javax.swing.JComboBox();
+        jPanel_distancia3 = new javax.swing.JPanel();
+        jSpinner_Cambios = new javax.swing.JSpinner();
+        jLabel8 = new javax.swing.JLabel();
         jPanel17 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jSlider_Bo = new javax.swing.JSlider();
@@ -508,9 +554,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(626, 366));
         setMinimumSize(new java.awt.Dimension(626, 226));
-        setPreferredSize(new java.awt.Dimension(626, 366));
         setResizable(false);
 
         jPanel41.setPreferredSize(new java.awt.Dimension(621, 50));
@@ -1124,6 +1168,11 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jTextField_bono_mm.setPreferredSize(new java.awt.Dimension(50, 20));
         jPanel2.add(jTextField_bono_mm);
 
+        jSpinner_bono_mm.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 5));
+        jSpinner_bono_mm.setMinimumSize(new java.awt.Dimension(51, 20));
+        jSpinner_bono_mm.setPreferredSize(new java.awt.Dimension(51, 20));
+        jPanel2.add(jSpinner_bono_mm);
+
         jPanel_Movimiento_Y_maniobra_tabPanel.add(jPanel2);
 
         jTabbedPane_SeleccionAccion.addTab("Movimiento Y maniobra", jPanel_Movimiento_Y_maniobra_tabPanel);
@@ -1137,50 +1186,34 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jPanel15.setMaximumSize(new java.awt.Dimension(224, 185));
         jPanel15.setLayout(new javax.swing.BoxLayout(jPanel15, javax.swing.BoxLayout.PAGE_AXIS));
 
+        jPanel9.setMinimumSize(new java.awt.Dimension(234, 100));
+        jPanel9.setPreferredSize(new java.awt.Dimension(513, 110));
         jPanel9.setLayout(new javax.swing.BoxLayout(jPanel9, javax.swing.BoxLayout.LINE_AXIS));
 
-        jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel5.setMaximumSize(new java.awt.Dimension(513, 100));
-        jPanel5.setMinimumSize(new java.awt.Dimension(234, 85));
-        jPanel5.setPreferredSize(new java.awt.Dimension(513, 90));
-        jPanel5.setLayout(new java.awt.GridLayout(1, 0));
-
-        jPanel_brazo_derecho.setBorder(javax.swing.BorderFactory.createTitledBorder("Brazo Derecho"));
+        jPanel_brazo_derecho.setBorder(javax.swing.BorderFactory.createTitledBorder("Arma"));
         jPanel_brazo_derecho.setMinimumSize(new java.awt.Dimension(0, 80));
         jPanel_brazo_derecho.setPreferredSize(new java.awt.Dimension(185, 80));
-        jPanel_brazo_derecho.setLayout(new java.awt.BorderLayout());
+        jPanel_brazo_derecho.setLayout(new javax.swing.BoxLayout(jPanel_brazo_derecho, javax.swing.BoxLayout.LINE_AXIS));
 
-        jLabel_icono_bd.setText("Icon");
-        jLabel_icono_bd.setMaximumSize(new java.awt.Dimension(50, 50));
-        jLabel_icono_bd.setMinimumSize(new java.awt.Dimension(50, 50));
-        jLabel_icono_bd.setName(""); // NOI18N
-        jLabel_icono_bd.setPreferredSize(new java.awt.Dimension(50, 50));
-        jLabel_icono_bd.setRequestFocusEnabled(false);
-        jPanel_brazo_derecho.add(jLabel_icono_bd, java.awt.BorderLayout.WEST);
-
-        jPanel43.setPreferredSize(new java.awt.Dimension(178, 60));
-        jPanel43.setLayout(new javax.swing.BoxLayout(jPanel43, javax.swing.BoxLayout.PAGE_AXIS));
-
-        jCheckBox_bd_enUso.setSelected(true);
-        jCheckBox_bd_enUso.setText("En Uso");
-        jPanel43.add(jCheckBox_bd_enUso);
-
-        jTextField_desc_arma_bd.setEditable(false);
-        jTextField_desc_arma_bd.setMaximumSize(new java.awt.Dimension(2147483647, 20));
-        jPanel43.add(jTextField_desc_arma_bd);
-
-        jPanel_brazo_derecho.add(jPanel43, java.awt.BorderLayout.CENTER);
-
-        jPanel5.add(jPanel_brazo_derecho);
-
-        jPanel_armas.setMaximumSize(new java.awt.Dimension(32767, 100));
-        jPanel_armas.setPreferredSize(new java.awt.Dimension(157, 80));
+        jPanel_armas.setPreferredSize(new java.awt.Dimension(137, 60));
         jPanel_armas.setLayout(new javax.swing.BoxLayout(jPanel_armas, javax.swing.BoxLayout.LINE_AXIS));
 
-        jButton3.setText("+");
-        jPanel_armas.add(jButton3);
+        jPanel45.setLayout(new javax.swing.BoxLayout(jPanel45, javax.swing.BoxLayout.PAGE_AXIS));
 
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(258, 80));
+        jButton3.setText("+");
+        jPanel45.add(jButton3);
+
+        jLabel_icono_armas.setText("Icon");
+        jLabel_icono_armas.setMaximumSize(new java.awt.Dimension(50, 50));
+        jLabel_icono_armas.setMinimumSize(new java.awt.Dimension(50, 50));
+        jLabel_icono_armas.setName(""); // NOI18N
+        jLabel_icono_armas.setPreferredSize(new java.awt.Dimension(50, 50));
+        jLabel_icono_armas.setRequestFocusEnabled(false);
+        jPanel45.add(jLabel_icono_armas);
+
+        jPanel_armas.add(jPanel45);
+
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(228, 80));
 
         jList_armas.setModel(new DefaultListModel());
         jList_armas.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -1193,83 +1226,120 @@ public class DeclaraAccion extends javax.swing.JDialog {
 
         jPanel_armas.add(jScrollPane1);
 
-        jPanel5.add(jPanel_armas);
+        jPanel_brazo_derecho.add(jPanel_armas);
 
-        jPanel_brazo_izquierdo.setBorder(javax.swing.BorderFactory.createTitledBorder("Brazo Izquierdo"));
-        jPanel_brazo_izquierdo.setMinimumSize(new java.awt.Dimension(0, 80));
-        jPanel_brazo_izquierdo.setPreferredSize(new java.awt.Dimension(185, 80));
-        jPanel_brazo_izquierdo.setLayout(new java.awt.BorderLayout());
+        jPanel_brazos.setPreferredSize(new java.awt.Dimension(90, 100));
+        jPanel_brazos.setLayout(new javax.swing.BoxLayout(jPanel_brazos, javax.swing.BoxLayout.PAGE_AXIS));
 
-        jLabel_icono_bi.setText("Icon");
-        jLabel_icono_bi.setMaximumSize(new java.awt.Dimension(50, 50));
-        jLabel_icono_bi.setMinimumSize(new java.awt.Dimension(50, 50));
-        jLabel_icono_bi.setName(""); // NOI18N
-        jLabel_icono_bi.setPreferredSize(new java.awt.Dimension(50, 50));
-        jLabel_icono_bi.setRequestFocusEnabled(false);
-        jLabel_icono_bi.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel_icono_biMouseClicked(evt);
+        jScrollPane4.setPreferredSize(new java.awt.Dimension(123, 23));
+
+        jList_extremidades.setModel(new DefaultListModel());
+        jList_extremidades.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jList_extremidades.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                jList_extremidadesValueChanged(evt);
             }
         });
-        jPanel_brazo_izquierdo.add(jLabel_icono_bi, java.awt.BorderLayout.WEST);
+        jScrollPane4.setViewportView(jList_extremidades);
 
-        jPanel42.setPreferredSize(new java.awt.Dimension(218, 50));
-        jPanel42.setLayout(new javax.swing.BoxLayout(jPanel42, javax.swing.BoxLayout.PAGE_AXIS));
+        jPanel_brazos.add(jScrollPane4);
 
-        jCheckBox_bi_enUso.setSelected(true);
-        jCheckBox_bi_enUso.setText("En Uso");
-        jPanel42.add(jCheckBox_bi_enUso);
+        jPanel_brazo_derecho.add(jPanel_brazos);
 
-        jTextField_desc_arma_bi.setEditable(false);
-        jTextField_desc_arma_bi.setMaximumSize(new java.awt.Dimension(2147483647, 20));
-        jPanel42.add(jTextField_desc_arma_bi);
+        jPanel9.add(jPanel_brazo_derecho);
 
-        jPanel_brazo_izquierdo.add(jPanel42, java.awt.BorderLayout.CENTER);
+        jPanel_brazo_izquierdo.setBorder(javax.swing.BorderFactory.createTitledBorder("Escudo"));
+        jPanel_brazo_izquierdo.setMinimumSize(new java.awt.Dimension(0, 80));
+        jPanel_brazo_izquierdo.setPreferredSize(new java.awt.Dimension(135, 80));
+        jPanel_brazo_izquierdo.setLayout(new javax.swing.BoxLayout(jPanel_brazo_izquierdo, javax.swing.BoxLayout.LINE_AXIS));
 
-        jPanel5.add(jPanel_brazo_izquierdo);
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(258, 80));
 
-        jPanel9.add(jPanel5);
+        jList_escudos.setModel(new DefaultListModel());
+        jList_escudos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jList_escudos.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                jList_escudosValueChanged(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jList_escudos);
+
+        jPanel_brazo_izquierdo.add(jScrollPane2);
+
+        jPanel44.setLayout(new javax.swing.BoxLayout(jPanel44, javax.swing.BoxLayout.PAGE_AXIS));
+
+        jButton4.setText("+");
+        jPanel44.add(jButton4);
+
+        jLabel_icono_escudo.setText("Icon");
+        jLabel_icono_escudo.setMaximumSize(new java.awt.Dimension(50, 50));
+        jLabel_icono_escudo.setMinimumSize(new java.awt.Dimension(50, 50));
+        jLabel_icono_escudo.setName(""); // NOI18N
+        jLabel_icono_escudo.setPreferredSize(new java.awt.Dimension(50, 50));
+        jLabel_icono_escudo.setRequestFocusEnabled(false);
+        jLabel_icono_escudo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel_icono_escudoMouseClicked(evt);
+            }
+        });
+        jPanel44.add(jLabel_icono_escudo);
+
+        jPanel_brazo_izquierdo.add(jPanel44);
+
+        jPanel9.add(jPanel_brazo_izquierdo);
 
         jPanel15.add(jPanel9);
 
         jPanel16.setLayout(new javax.swing.BoxLayout(jPanel16, javax.swing.BoxLayout.LINE_AXIS));
 
-        jPanel_distancia.setLayout(new javax.swing.BoxLayout(jPanel_distancia, javax.swing.BoxLayout.LINE_AXIS));
+        jPanel_distancia.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel_distancia.setPreferredSize(new java.awt.Dimension(50, 30));
+        jPanel_distancia.setLayout(new java.awt.GridLayout(1, 0));
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Distancia"));
-        jPanel4.setMinimumSize(new java.awt.Dimension(64, 61));
-        jPanel4.setPreferredSize(new java.awt.Dimension(64, 61));
+        jSpinner_distanciaCaC.setModel(new javax.swing.SpinnerNumberModel(3, 3, null, 3));
+        jSpinner_distanciaCaC.setPreferredSize(new java.awt.Dimension(51, 20));
+        jSpinner_distanciaCaC.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSpinner_distanciaCaCStateChanged(evt);
+            }
+        });
+        jPanel_distancia.add(jSpinner_distanciaCaC);
 
-        jSpinner_distancia.setModel(new javax.swing.SpinnerNumberModel(3, 3, null, 3));
-        jSpinner_distancia.setMinimumSize(new java.awt.Dimension(61, 20));
-        jSpinner_distancia.setPreferredSize(new java.awt.Dimension(61, 20));
-        jPanel4.add(jSpinner_distancia);
-
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Mts");
-        jPanel4.add(jLabel7);
-
-        jPanel_distancia.add(jPanel4);
-
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Blanco"));
-
-        jComboBoxEnemigos.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBoxEnemigos.setPreferredSize(new java.awt.Dimension(106, 20));
-        jPanel3.add(jComboBoxEnemigos);
-
-        jPanel_distancia.add(jPanel3);
+        jPanel_distancia.add(jLabel7);
 
         jPanel16.add(jPanel_distancia);
 
+        jPanel_distancia3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel_distancia3.setPreferredSize(new java.awt.Dimension(50, 30));
+        jPanel_distancia3.setLayout(new javax.swing.BoxLayout(jPanel_distancia3, javax.swing.BoxLayout.LINE_AXIS));
+
+        jSpinner_Cambios.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        jSpinner_Cambios.setPreferredSize(new java.awt.Dimension(51, 20));
+        jSpinner_Cambios.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSpinner_CambiosStateChanged(evt);
+            }
+        });
+        jPanel_distancia3.add(jSpinner_Cambios);
+
+        jLabel8.setText("Cambios");
+        jPanel_distancia3.add(jLabel8);
+
+        jPanel16.add(jPanel_distancia3);
+
         jPanel17.setMaximumSize(new java.awt.Dimension(32767, 159));
         jPanel17.setMinimumSize(new java.awt.Dimension(133, 100));
-        jPanel17.setPreferredSize(new java.awt.Dimension(201, 40));
+        jPanel17.setPreferredSize(new java.awt.Dimension(301, 40));
         jPanel17.setLayout(new javax.swing.BoxLayout(jPanel17, javax.swing.BoxLayout.LINE_AXIS));
 
-        jPanel1.setPreferredSize(new java.awt.Dimension(100, 40));
+        jPanel1.setPreferredSize(new java.awt.Dimension(200, 40));
         jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
         jSlider_Bo.setForeground(new java.awt.Color(102, 102, 102));
         jSlider_Bo.setMajorTickSpacing(token_accion.getToken().bo_pri().getValue() / 8);
+        jSlider_Bo.setMaximum(30);
         jSlider_Bo.setPaintLabels(true);
         jSlider_Bo.setPaintTicks(true);
         jSlider_Bo.setPreferredSize(new java.awt.Dimension(200, 35));
@@ -1283,10 +1353,11 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jPanel17.add(jPanel1);
 
         jPanel14.setMaximumSize(new java.awt.Dimension(72, 100));
-        jPanel14.setPreferredSize(new java.awt.Dimension(70, 40));
-        jPanel14.setLayout(new javax.swing.BoxLayout(jPanel14, javax.swing.BoxLayout.PAGE_AXIS));
+        jPanel14.setPreferredSize(new java.awt.Dimension(170, 40));
+        jPanel14.setLayout(new javax.swing.BoxLayout(jPanel14, javax.swing.BoxLayout.LINE_AXIS));
 
         jTextField_Bo.setEditable(false);
+        jTextField_Bo.setFont(new java.awt.Font("Tempus Sans ITC", 3, 14)); // NOI18N
         jTextField_Bo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField_Bo.setText("BO ");
         jTextField_Bo.addActionListener(new java.awt.event.ActionListener() {
@@ -1297,6 +1368,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
         jPanel14.add(jTextField_Bo);
 
         jTextField8.setEditable(false);
+        jTextField8.setFont(new java.awt.Font("Tempus Sans ITC", 3, 14)); // NOI18N
         jTextField8.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField8.setText("BD");
         jTextField8.addActionListener(new java.awt.event.ActionListener() {
@@ -1518,9 +1590,26 @@ public class DeclaraAccion extends javax.swing.JDialog {
         cambiarArmaDeLista();
     }//GEN-LAST:event_jList_armasValueChanged
 
-    private void jLabel_icono_biMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_icono_biMouseClicked
+    private void jLabel_icono_escudoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_icono_escudoMouseClicked
 
-    }//GEN-LAST:event_jLabel_icono_biMouseClicked
+    }//GEN-LAST:event_jLabel_icono_escudoMouseClicked
+
+    private void jList_escudosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList_escudosValueChanged
+        cambiarEscudoLista();
+        moverBo();
+    }//GEN-LAST:event_jList_escudosValueChanged
+
+    private void jList_extremidadesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList_extremidadesValueChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jList_extremidadesValueChanged
+
+    private void jSpinner_CambiosStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner_CambiosStateChanged
+        cambiarBo();
+    }//GEN-LAST:event_jSpinner_CambiosStateChanged
+
+    private void jSpinner_distanciaCaCStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner_distanciaCaCStateChanged
+        cambiarBo();
+    }//GEN-LAST:event_jSpinner_distanciaCaCStateChanged
 
     private void nuevoSortilegio(boolean carga) {
         int sa = token_accion.getToken().getSortilegios().size();
@@ -1623,6 +1712,9 @@ public class DeclaraAccion extends javax.swing.JDialog {
         int orden = 1;
         String fullDesc = "";
 
+        DatosCombate combate = new DatosCombate();
+        combate.setBd_Disponible(token.getBd());
+
         switch (tipoAcion) {
             case TIPO_ACCION_SIN_ACCION: {
 
@@ -1723,9 +1815,21 @@ public class DeclaraAccion extends javax.swing.JDialog {
                 break;
             }
             case TIPO_ACCION_ATAQUE_CUERPO_A_CUERPO: {
+
                 acc = new Accion(tipoAcion, principal.getAsaltoActual(), orden);
+                int bo = jSlider_Bo.getValue() + ((Integer) jSpinner_Cambios.getValue()) * 30;
+                combate.setCantidadCambios((Integer) jSpinner_Cambios.getValue());
+                combate.setBo_Disponible(bo);
+                int bd = token.getBd() + jSlider_Bo.getMaximum() - bo;
+                combate.setBd_Disponible(bd);
+                combate.setPuedeUsarEscudo(tieneEscudo() != null);
+                if (combate.isPuedeUsarEscudo()) {
+                    combate.setEscudo(tieneEscudo());
+                }
                 DefaultListModel jdlm = (DefaultListModel) jList_armas.getModel();
                 Arma a = (Arma) jdlm.getElementAt(jList_armas.getSelectedIndex());
+                combate.setArmaUsada(a);
+                combate.setBo(token.getBo(a.getEstilo()));
                 fullDesc += "Ataca con\n" + a.toString();
                 fullDesc += "\n" + jTextField_Bo.getText() + " / " + jTextField8.getText();
                 fullDesc += "\n" + jTextArea_desc.getText();
@@ -1758,25 +1862,132 @@ public class DeclaraAccion extends javax.swing.JDialog {
                 break;
             }
         }
+        acc.setCombate(combate);
         accionSeleccionada = acc;
         if (accionSeleccionada != null) {
             acc.setFullDescp(fullDesc);
             acc.setDescp(jTextArea_desc.getText());
 
             token_accion.AccionDefinidaEnEsteAsalto();
+            salvarAccionConfig(tipoAcion);
             this.dispose();
         }
+    }
+
+    private void salvarAccionConfig(int tipoAcion) {
+
+        AccionConfig ac = new AccionConfig();
+        switch (tipoAcion) {
+            case TIPO_ACCION_SIN_ACCION: {
+
+                break;
+            }
+            case TIPO_ACCION_CARGA_SORTILEGIO: {
+                Sortilegio sort_intencion = (Sortilegio) jComboBox_sotilegios.getSelectedItem();
+
+                break;
+            }
+            case TIPO_ACCION_REALIZA_SORTILEGIO: {
+
+                break;
+            }
+            case TIPO_ACCION_DISPARA_PROYECTIL: {
+                ac.setProySeleccionado((Arma) jComboBoxArmas_Proy.getSelectedItem());
+                ac.setBlanco((Token) jComboBoxEnemigos1.getSelectedItem());
+                break;
+            }
+            case TIPO_ACCION_CARGA_PROYECTIL: {
+                ac.setProySeleccionado((Arma) jComboBoxArmas_Proy1.getSelectedItem());
+                break;
+            }
+            case TIPO_ACCION_PARAR_PROYECTIL: {
+
+                break;
+            }
+            case TIPO_ACCION_MOVIMIENTO_Y_MANIOBRA: {
+
+                if (jRadioButton_rutina.isSelected()) {
+                    ac.setDificultadManiobra(DIFICULTAD_RUTINA);
+                }
+                if (jRadioButton_muyFacil.isSelected()) {
+                    ac.setDificultadManiobra(DIFICULTAD_FACIL);
+                }
+                if (jRadioButton_facil.isSelected()) {
+                    ac.setDificultadManiobra(DIFICULTAD_MUY_FACIL);
+                }
+                if (jRadioButton_media.isSelected()) {
+                    ac.setDificultadManiobra(DIFICULTAD_MEDIA);
+                }
+                if (jRadioButton_dificil.isSelected()) {
+                    ac.setDificultadManiobra(DIFICULTAD_DIFICIL);
+                }
+                if (jRadioButton_muydificil.isSelected()) {
+                    ac.setDificultadManiobra(DIFICULTAD_MUY_DIFICIL);
+                }
+                if (jRadioButton_extDificil.isSelected()) {
+                    ac.setDificultadManiobra(DIFICULTAD_EXT_DIFICIL);
+                }
+                if (jRadioButton_locura.isSelected()) {
+                    ac.setDificultadManiobra(DIFICULTAD_LOCURA);
+                }
+                if (jRadioButton_absurdo.isSelected()) {
+                    ac.setDificultadManiobra(DIFICULTAD_ABSURDO);
+                }
+                ac.setBonoExtra((Integer) jSpinner_bono_mm.getValue());
+                break;
+            }
+            case TIPO_ACCION_ATAQUE_CUERPO_A_CUERPO: {
+
+                break;
+            }
+            case TIPO_ACCION_DESPLAZAMIENTO: {
+
+                if (jRadioButton_caminar.isSelected()) {
+                    ac.setRitmo(0);
+                }
+                if (jRadioButton_trotar.isSelected()) {
+                    ac.setRitmo(1);
+                }
+                if (jRadioButton_correr.isSelected()) {
+                    ac.setRitmo(2);
+                }
+                ac.setDistancia((Integer) jSpinner_distancia_desplazamiento.getValue());
+                break;
+            }
+            case TIPO_ACCION_MOVIMIENTO_ESTATICO: {
+                break;
+            }
+
+        }
+        ac.setDesc(jTextArea_desc.getText());
+        token_accion.setAccionConfig(ac);
+    }
+
+    private Arma tieneEscudo() {
+        Arma esc = null;
+        if (!jList_escudos.isSelectionEmpty()) {
+            DefaultListModel jdlm = (DefaultListModel) jList_escudos.getModel();
+            Arma a = (Arma) jdlm.getElementAt(jList_escudos.getSelectedIndex());
+            if (a.getClase() == CLASE_ESCUDO) {
+                esc = a;
+            }
+        }
+
+        return esc;
+
     }
 
     private void moverBo() {
         Token tok = token_accion.getToken();
         jTextField_Bo.setText("BO " + jSlider_Bo.getValue());
         int paraLaBd = jSlider_Bo.getMaximum() - jSlider_Bo.getValue();
-        Extremidad bi = tok.getExtremidad(Extremidad.MIEMBRO_SUPERIOR_IZQUIERDO);
-        Arma escudo = hm_extremidades.get(bi);
-        if (escudo != null && escudo.getClase() == CLASE_ESCUDO) {
-            paraLaBd += escudo.getBono();
+        Arma esc = tieneEscudo();
+        if (esc != null) {
+            paraLaBd += esc.getBono();
         }
+        /*
+        
+         */
         jTextField8.setText("BD " + (tok.getHabilidades().getBd() + paraLaBd));
 
     }
@@ -1788,18 +1999,16 @@ public class DeclaraAccion extends javax.swing.JDialog {
     private javax.swing.ButtonGroup buttonGroup_tipo_desplazamiento;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton_cancelar;
     private javax.swing.JButton jButton_crearSortilegio_Carga;
     private javax.swing.JButton jButton_crearSortilegio_Carga1;
     private javax.swing.JButton jButton_crearSortilegio_Carga2;
     private javax.swing.JButton jButton_crearSortilegio_Carga3;
-    private javax.swing.JCheckBox jCheckBox_bd_enUso;
-    private javax.swing.JCheckBox jCheckBox_bi_enUso;
     private javax.swing.JCheckBox jCheckBox_consume_sort_carga;
     private javax.swing.JCheckBox jCheckBox_consume_sort_realiza;
     private javax.swing.JComboBox jComboBoxArmas_Proy;
     private javax.swing.JComboBox jComboBoxArmas_Proy1;
-    private javax.swing.JComboBox jComboBoxEnemigos;
     private javax.swing.JComboBox jComboBoxEnemigos1;
     private javax.swing.JComboBox<String> jComboBox_Lista_sotilegios;
     private javax.swing.JComboBox<String> jComboBox_Lista_sotilegios_realiza;
@@ -1830,15 +2039,18 @@ public class DeclaraAccion extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabel_avatar;
     private javax.swing.JLabel jLabel_distancia1;
     private javax.swing.JLabel jLabel_distancia2;
     private javax.swing.JLabel jLabel_distancia3;
     private javax.swing.JLabel jLabel_distancia4;
-    private javax.swing.JLabel jLabel_icono_bd;
-    private javax.swing.JLabel jLabel_icono_bi;
+    private javax.swing.JLabel jLabel_icono_armas;
+    private javax.swing.JLabel jLabel_icono_escudo;
     private javax.swing.JList<String> jList_armas;
+    private javax.swing.JList<String> jList_escudos;
+    private javax.swing.JList<String> jList_extremidades;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -1861,7 +2073,6 @@ public class DeclaraAccion extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel27;
     private javax.swing.JPanel jPanel28;
     private javax.swing.JPanel jPanel29;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel30;
     private javax.swing.JPanel jPanel31;
     private javax.swing.JPanel jPanel32;
@@ -1872,12 +2083,10 @@ public class DeclaraAccion extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel37;
     private javax.swing.JPanel jPanel38;
     private javax.swing.JPanel jPanel39;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel40;
     private javax.swing.JPanel jPanel41;
-    private javax.swing.JPanel jPanel42;
-    private javax.swing.JPanel jPanel43;
-    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel44;
+    private javax.swing.JPanel jPanel45;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
@@ -1894,6 +2103,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel_armas;
     private javax.swing.JPanel jPanel_brazo_derecho;
     private javax.swing.JPanel jPanel_brazo_izquierdo;
+    private javax.swing.JPanel jPanel_brazos;
     private javax.swing.JPanel jPanel_carga_sort_datos_Cargado;
     private javax.swing.JPanel jPanel_carga_sort_datos_Cargado1;
     private javax.swing.JPanel jPanel_carga_sort_datos_Realiza;
@@ -1903,6 +2113,7 @@ public class DeclaraAccion extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel_distancia;
     private javax.swing.JPanel jPanel_distancia1;
     private javax.swing.JPanel jPanel_distancia2;
+    private javax.swing.JPanel jPanel_distancia3;
     private javax.swing.JRadioButton jRadioButton_absurdo;
     private javax.swing.JRadioButton jRadioButton_caminar;
     private javax.swing.JRadioButton jRadioButton_correr;
@@ -1916,10 +2127,14 @@ public class DeclaraAccion extends javax.swing.JDialog {
     private javax.swing.JRadioButton jRadioButton_rutina;
     private javax.swing.JRadioButton jRadioButton_trotar;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSlider jSlider_Bo;
-    private javax.swing.JSpinner jSpinner_distancia;
+    private javax.swing.JSpinner jSpinner_Cambios;
+    private javax.swing.JSpinner jSpinner_bono_mm;
     private javax.swing.JSpinner jSpinner_distancia1;
+    private javax.swing.JSpinner jSpinner_distanciaCaC;
     private javax.swing.JSpinner jSpinner_distancia_desplazamiento;
     private javax.swing.JTabbedPane jTabbedPane_SeleccionAccion;
     private javax.swing.JTextArea jTextArea_desc;
@@ -1940,8 +2155,6 @@ public class DeclaraAccion extends javax.swing.JDialog {
     private javax.swing.JTextField jTextField_area_sort_carga;
     private javax.swing.JTextField jTextField_area_sort_realiza;
     private javax.swing.JTextField jTextField_bono_mm;
-    private javax.swing.JTextField jTextField_desc_arma_bd;
-    private javax.swing.JTextField jTextField_desc_arma_bi;
     private javax.swing.JTextField jTextField_duracion_sort_carga;
     private javax.swing.JTextField jTextField_duracion_sort_realiza;
     private javax.swing.JTextField jTextField_lv_sort_carga;
@@ -1983,12 +2196,15 @@ public class DeclaraAccion extends javax.swing.JDialog {
         DefaultListModel jdlm = (DefaultListModel) jList_armas.getModel();
         int arm_sel = jList_armas.getSelectedIndex();
         if (arm_sel > -1) {
+
             Arma a = (Arma) jdlm.getElementAt(arm_sel);
 
             if (a != null) {
 
                 int actual = token_accion.getToken().boDisponible(a.getEstilo());
                 //jSlider_Bo.setMaximum(actual);
+                int cambios = ((Integer) jSpinner_Cambios.getValue());
+                actual = actual + (cambios * -30);
                 if (actual > 16) {
                     jSlider_Bo.setMinimum(0);
                     jSlider_Bo.setMaximum(actual);
@@ -2002,8 +2218,10 @@ public class DeclaraAccion extends javax.swing.JDialog {
                     jSlider_Bo.setMinimum(0);
                     jSlider_Bo.setMaximum(actual);
                 }
+                jSlider_Bo.setValue(actual);
             }
         }
+
     }
 
     private void mostrarLista(ListaDeSortilegios lds) {
@@ -2064,17 +2282,6 @@ public class DeclaraAccion extends javax.swing.JDialog {
             jComboBox_Lista_sotilegios_realiza.setModel(new DefaultComboBoxModel(token_accion.getToken().getListasDeSortilegios().toArray()));
             jComboBox_Lista_sotilegios_realiza.setSelectedIndex(jComboBox_Lista_sotilegios.getComponentCount() - 1);
         }
-    }
-
-    public Extremidad getExtremidad(int tipoExtremidad) {
-        for (Map.Entry<Extremidad, Arma> entry : hm_extremidades.entrySet()) {
-            Extremidad ext = entry.getKey();
-            if (ext.getTipo_miembro() == tipoExtremidad) {
-                return ext;
-            }
-
-        }
-        return null;
     }
 
 }

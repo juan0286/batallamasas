@@ -42,13 +42,12 @@ public class Token implements Serializable {
     private String nombre;
     private int nivel;
     private String grupo;
-    
+
     private Caracteristicas habilidades;
-   
+
     private Status estado;
     private int estilo_de_pelea;
-    
-    
+
     private int dominio;
 
     private boolean visible; // Si los jugadores pueden verlos
@@ -132,7 +131,7 @@ public class Token implements Serializable {
         } else if (dominio == Constantes.DOMINIO_HIBRIDO_CAN_ESCE) {
             return "Hibrido Can-Esce";
         } else if (dominio == Constantes.DOMINIO_HIBRIDO_CAN_MENT) {
-            return "Hibrido Can-Ment";        
+            return "Hibrido Can-Ment";
         } else if (dominio == Constantes.DOMINIO_HIBRIDO_MEN_ESCE) {
             return "Hibrido Men-Esce";
         } else {
@@ -192,7 +191,18 @@ public class Token implements Serializable {
         ArrayList<Arma> al_a_p = new ArrayList<Arma>();
         for (Object arma : armas.toArray()) {
             Arma a = (Arma) arma;
-            if (a.getEstilo() != Constantes.ESTILO_PROYECTILES) {
+            if (a.getEstilo() != Constantes.ESTILO_PROYECTILES && a.getClase() != Constantes.CLASE_ESCUDO) {
+                al_a_p.add(a);
+            }
+        }
+        return al_a_p;
+    }
+
+    public ArrayList<Arma> getEscudos() {
+        ArrayList<Arma> al_a_p = new ArrayList<Arma>();
+        for (Object arma : armas.toArray()) {
+            Arma a = (Arma) arma;
+            if (a.getEstilo() == Constantes.CLASE_ESCUDO || a.getEstilo() == Constantes.ESTILO_PELEA) {
                 al_a_p.add(a);
             }
         }
@@ -226,28 +236,55 @@ public class Token implements Serializable {
     public int getArmaduraPuesta() {
         return estado.getArmadura_puesta();
     }
- 
+
     public ArrayList<Extremidad> getExtremidades() {
         return extremidades;
     }
     
+    public ArrayList<Extremidad> getExtremidadesEquipables() {
+        ArrayList<Extremidad> exts = new ArrayList<>();
+        for (Extremidad ext : extremidades) {
+            if (ext.isPuedePortarArma() && ext.isUtil()){
+                exts.add(ext);
+            }
+        }
+        return exts;
+    }
+
     public Extremidad getExtremidad(int tipoExtremidad) {
         for (Extremidad ext : extremidades) {
-            if (ext.getTipo_miembro() == tipoExtremidad)
+            if (ext.getTipo_miembro() == tipoExtremidad) {
                 return ext;
+            }
         }
         return null;
     }
+
+    public void equiparEn(int tipoExtremidad, Arma arma) {
+        for (Extremidad ext : extremidades) {
+            if (ext.getTipo_miembro() == tipoExtremidad) {
+                ext.setArmaEquipada(arma);
+            }
+        }
+    }
     
+    public void desEquiparEn(int tipoExtremidad) {
+        for (Extremidad ext : extremidades) {
+            if (ext.getTipo_miembro() == tipoExtremidad) {
+                ext.setArmaEquipada(null);
+            }
+        }
+    }
+
     public Arma getArmaByClass(int tipoArma) {
         for (Arma arm : armas) {
-            if (arm.getClase()== tipoArma)
+            if (arm.getClase() == tipoArma) {
                 return arm;
+            }
         }
         return null;
     }
-    
-    
+
     public void setExtremidades(ArrayList<Extremidad> extremidades) {
         this.extremidades = extremidades;
     }
@@ -274,10 +311,10 @@ public class Token implements Serializable {
 
     public int compareTo(Token o) {
         int resultado = 0;
-        if (this.getMmActual()< o.getMmActual()) {
+        if (this.getMmActual() < o.getMmActual()) {
             resultado = -1;
 //            System.out.println(this.getNombre()+" màs rapido que "+o.getNombre()+" por mm <");
-        } else if (this.getMmActual()> o.getMmActual()) {
+        } else if (this.getMmActual() > o.getMmActual()) {
             resultado = 1;
 //            System.out.println(this.getNombre()+" màs rapido que "+o.getNombre()+" por mm >");
         } else if (this.getArmaduraPuesta() < o.getArmaduraPuesta()) {
@@ -292,7 +329,7 @@ public class Token implements Serializable {
         } else if (this.getHabilidades().getAgi() < o.getHabilidades().getAgi()) {
             resultado = -1;
 //            System.out.println(this.getNombre()+" màs rapido que "+o.getNombre()+" por Agi <");
-        } 
+        }
         return resultado;
     }
 
@@ -431,14 +468,23 @@ public class Token implements Serializable {
         boDisponible = boDisponible + estado.getModsDeBo(estilo);
         return boDisponible;
     }
+
+    public Bo getBo(int estilo){
+        return habilidades.getBodeEstilo(estilo);
+    }
+    
+    public int getBd(){
+        int bonos = estado.getModsDeBD();
+        return habilidades.getBd() + bonos;
+    }
     
     public int getMmActual() {
         int mm = estado.getMM();
-        mm += estado.getModsDeMm() + this.estado.getActividadActual();        
+        mm += estado.getModsDeMm() + this.estado.getActividadActual();
         return mm;
     }
-    
-    public String getMmActualTxt() {        
+
+    public String getMmActualTxt() {
         return Recursos.tipoArmadura(estado.getArmadura_puesta()) + " " + getMmActual();
     }
 
@@ -486,7 +532,7 @@ public class Token implements Serializable {
     }
 
     public Accion getLastAction() {
-        if (acciones.size() == 0){
+        if (acciones.size() == 0) {
             Accion a = new Accion(Constantes.TIPO_ACCION_SIN_ACCION, 0, 0);
             this.AgregarAccion(a);
         }
@@ -494,12 +540,14 @@ public class Token implements Serializable {
 
     }
 
-    public int getHabilidad(int tipo){
-        if (habilidades.getHm_habilidades().containsKey(tipo))
+    public int getHabilidad(int tipo) {
+        if (habilidades.getHm_habilidades().containsKey(tipo)) {
             return habilidades.getHm_habilidades().get(tipo);
-        else return -25;
+        } else {
+            return -25;
+        }
     }
-    
+
     public ArrayList<Sortilegio> getSortilegios() {
         ArrayList<Sortilegio> sort = new ArrayList<Sortilegio>();
         for (int i = 0; i < habilidades.getAl_sortilegios().size(); i++) {
@@ -586,10 +634,12 @@ public class Token implements Serializable {
     public boolean isSortiCargado() {
         return estado.isSortiCargado();
     }
+
     public boolean tieneEscudo() {
         for (Arma arma : armas) {
-            if (arma.getClase() == Constantes.CLASE_ESCUDO)
+            if (arma.getClase() == Constantes.CLASE_ESCUDO) {
                 return true;
+            }
         }
         return false;
     }

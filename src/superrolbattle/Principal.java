@@ -1064,6 +1064,17 @@ public class Principal extends javax.swing.JFrame {
         }
         return lista;
     }
+    
+    public ArrayList<JPanelFormToken_Accion> getTodosLosJPanelEnemigos(Token token) {
+        ArrayList<JPanelFormToken_Accion> lista = new ArrayList<>();
+        for (int i = 0; i < aws.size(); i++) {
+            Token actual = aws.get(i).getToken();
+            if (!actual.equals(token) && (actual.isVisible() != token.isVisible())) {
+                lista.add(aws.get(i));
+            }
+        }
+        return lista;
+    }
 
     public void abrirArchivo() {
         CampoDeBatalla field = null;
@@ -1918,6 +1929,20 @@ public class Principal extends javax.swing.JFrame {
                 moverAccion(jpta, jpta.getTipoDeAccion());
             }
         }
+    }
+    
+    public ArrayList<JPanelFormToken_Accion> getCombatesCaC() {
+        
+        ArrayList<JPanelFormToken_Accion> aws_aux = new ArrayList<>();
+        
+        for (int i = 0; i < aws.size(); i++) {
+
+            JPanelFormToken_Accion jpta = aws.get(i);
+            if (jpta.isActivo() && jpta.getTipoDeAccion() == ASALTOFASE_ATAQUE_CUERPO_A_CUERPO) {
+                aws_aux.add(jpta);
+            }
+        }
+        return aws_aux;
     }
 
     public void mostrarPersonaje(JPanelFormToken_Accion jpa) {

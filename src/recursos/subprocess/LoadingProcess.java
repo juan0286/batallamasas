@@ -40,7 +40,7 @@ public class LoadingProcess extends Thread {
             esperarPor(5);
             Token next = (Token) iterator.next();
             JPanelFormToken_Accion jpa = new JPanelFormToken_Accion(next, p);
-            p.aws.add(jpa);
+            p.aws.add(jpa);                   
 
             //  poner brazo derecho
             

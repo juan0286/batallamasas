@@ -12,7 +12,6 @@ import instancias.Sortilegio;
 import instancias.Token;
 import instancias.properties.Arma;
 import instancias.properties.Bo;
-import instancias.properties.Brazo;
 import instancias.properties.Caracteristicas;
 import instancias.properties.Extremidad;
 import instancias.properties.Status;
@@ -160,6 +159,7 @@ public class CrearToken extends javax.swing.JDialog {
         jPanel12 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
         jButton_agregarArma = new javax.swing.JButton();
+        jButton_agregarArma1 = new javax.swing.JButton();
         jPanel15 = new javax.swing.JPanel();
         jButton_agregarBO = new javax.swing.JButton();
         jPanel14 = new javax.swing.JPanel();
@@ -364,6 +364,14 @@ public class CrearToken extends javax.swing.JDialog {
             }
         });
         jPanel13.add(jButton_agregarArma);
+
+        jButton_agregarArma1.setText("+ Escudo");
+        jButton_agregarArma1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_agregarArma1ActionPerformed(evt);
+            }
+        });
+        jPanel13.add(jButton_agregarArma1);
 
         jPanel12.add(jPanel13);
 
@@ -684,6 +692,7 @@ public class CrearToken extends javax.swing.JDialog {
         hab.getHm_habilidades().put(HABILIDAD_MM_CORAZA, (Integer) jSpinner_crearMMCO.getValue());
 
         Status est = new Status(hab, newToken.getExtremidades());
+        
         creacion:
         {
             String n = this.jTextField_crearnombre.getText().trim();
@@ -1002,6 +1011,13 @@ public class CrearToken extends javax.swing.JDialog {
 
     }//GEN-LAST:event_jSpinner_crearArmaduraStateChanged
 
+    private void jButton_agregarArma1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_agregarArma1ActionPerformed
+      Arma a = (Arma) JOptionPane.showInputDialog(null,
+                "Selecciona Arma", "ShowInputDialog",
+                JOptionPane.PLAIN_MESSAGE, null, Recursos.todosLosEscudos().toArray(), "Seleccion de Arma");
+        agregarArmaALalista(a);
+    }//GEN-LAST:event_jButton_agregarArma1ActionPerformed
+
     private void agregarArmaALalista(Arma a) {
         if (a != null) {
             DefaultListModel jdlm = (DefaultListModel) jList_Armas.getModel();
@@ -1053,6 +1069,7 @@ public class CrearToken extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAceptar;
     private javax.swing.JButton jButton_agregarArma;
+    private javax.swing.JButton jButton_agregarArma1;
     private javax.swing.JButton jButton_agregarBO;
     private javax.swing.JButton jButton_cancelar;
     private javax.swing.JButton jButton_generaNombreAleatorio;

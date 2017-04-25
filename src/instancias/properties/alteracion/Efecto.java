@@ -66,6 +66,7 @@ public class Efecto {
 
     static final public int TIPO_LEVANTARSE = 51;
     static final public int TIPO_POSTRADO = 52;
+    static final public int TIPO_DERRIBADO = 53;
 
     static final public int TIPOS_SOLO_UNO = 60;
 
@@ -123,7 +124,8 @@ public class Efecto {
         hm.put(TIPO_RESTA_DE_RESISTENCIA_MENTALISMO, "Resta de TR Mentalismo");
 
         hm.put(TIPO_LEVANTARSE, "Levantarse");
-        hm.put(TIPO_POSTRADO, "Dejar Postrado");
+        hm.put(TIPO_POSTRADO, "Postrado");
+        hm.put(TIPO_DERRIBADO, "Derribado");        
 
         hm.put(TIPO_DESACTIVAR_EXTREMIDAD, "Inhabilitar Extremidad");
         hm.put(TIPO_ACTIVAR_EXTREMIDAD, "Habilitar Extremidad");

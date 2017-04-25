@@ -28,6 +28,7 @@ import javax.swing.JFrame;
 import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
+import recursos.AccionConfig;
 import recursos.Constantes;
 import superrolbattle.Principal;
 import recursos.Recursos;
@@ -81,6 +82,13 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
     }
 
     public void hecho() {
+       
+        if (tipoDeAccion == Constantes.TIPO_ACCION_ATAQUE_CUERPO_A_CUERPO){
+            CombatesCuerpoACuerpo cac = new CombatesCuerpoACuerpo(null, true, principal);
+            cac.setVisible(true);
+        } else{
+             
+        
         if (!accion.isDone()) {
             accion.hecho(this.tipoDeAccion);
             // updDone();
@@ -90,7 +98,7 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
             Evento evt = new Evento(recursos.Recursos.evtAccion(accion, token));
             principal.publicarEvento(evt);
         }
-
+        }
     }
 
     private void verComoDone() {
@@ -473,6 +481,7 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
     private Accion accion;
     private int tipoDeAccion;
     private boolean activo = true;
+    AccionConfig accionConfig;
 
     /*private boolean done = false;
     private boolean accionDeOportunidad = false;
@@ -482,6 +491,17 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
 
     }
      */
+
+    public AccionConfig getAccionConfig() {
+        return accionConfig;
+    }
+
+    public void setAccionConfig(AccionConfig accionConfig) {
+        this.accionConfig = accionConfig;
+    }
+    
+    
+    
     public int compareTo(JPanelFormToken_Accion o) {
         return this.token.compareTo(o.getToken());
     }
@@ -499,5 +519,14 @@ public class JPanelFormToken_Accion extends javax.swing.JPanel {
     public void mostrar() {
         jTextArea_Desc_accion.grabFocus();
     }
+
+    @Override
+    public String toString() {        
+        return token.getNombre()+ "(" +accion.getCombate().getBo_Disponible()+"/"+accion.getCombate().getBd_Disponible()+ ")";
+    }
+
+
+    
+    
 
 }

@@ -13,7 +13,6 @@ import instancias.Sortilegio;
 import instancias.Token;
 import instancias.properties.Arma;
 import instancias.properties.Bo;
-import instancias.properties.Brazo;
 import instancias.properties.Caracteristicas;
 import instancias.properties.Extremidad;
 import instancias.properties.Status;
@@ -247,7 +246,7 @@ public class CargaBase {
         arma18.setIconoUrl("weapIcons\\escudo.png");
         
         Arma arma181 = new Arma("Escudo Rodela", Constantes.CLASE_ESCUDO, 20, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_PELEA);
-        arma18.setIconoUrl("weapIcons\\escudoRodela.png");
+        arma181.setIconoUrl("weapIcons\\escudoRodela.png");
         
         Arma arma182 = new Arma("Escudo Torreon", Constantes.CLASE_ESCUDO, 40, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_PELEA);
         arma182.setIconoUrl("weapIcons\\escudoTorreon.png");
@@ -264,9 +263,9 @@ public class CargaBase {
         Arma arma22 = new Arma("Tridente(2m)", Constantes.CLASE_LANZA_CABALLERIA, 0, Constantes.TIPO_ARMA_NORMAL, true, Constantes.ESTILO_ASTA);
         Arma arma23 = new Arma("Florete", Constantes.CLASE_ESPADA_ANCHA, 5, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_FILO);
         
-        Arma golpeArteMarcial = new Arma("Golpe A.M.", Constantes.CLASE_MANO_DESNUDA, 0, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_GOLPE_ARTE_MARCIAL);
-        Arma golpeArteMarcialBaston = new Arma("Barrido A.M.", Constantes.CLASE_MANO_DESNUDA, 0, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_BARRIDO_ARTE_MARCIAL);
-        Arma bastonArteMarcial = new Arma("Baston A.M.", Constantes.CLASE_BASTON, 0, Constantes.TIPO_ARMA_NORMAL, false, Constantes.ESTILO_GOLPE_ARTE_MARCIAL);
+        Arma golpeArteMarcial = new Arma("Golpe A.M.", Constantes.CLASE_MANO_DESNUDA, 0, Constantes.TIPO_ARMA_NORMAL, true, Constantes.ESTILO_GOLPE_ARTE_MARCIAL);
+        Arma golpeArteMarcialBaston = new Arma("Barrido A.M.", Constantes.CLASE_MANO_DESNUDA, 0, Constantes.TIPO_ARMA_NORMAL, true, Constantes.ESTILO_BARRIDO_ARTE_MARCIAL);
+        Arma bastonArteMarcial = new Arma("Baston A.M.", Constantes.CLASE_BASTON, 0, Constantes.TIPO_ARMA_NORMAL, true, Constantes.ESTILO_GOLPE_ARTE_MARCIAL);
         
         
 
@@ -280,7 +279,7 @@ public class CargaBase {
         Arma EspKyoros = new Arma("Espada Kyoros", Constantes.CLASE_ESPADA_ANCHA, 40, Constantes.TIPO_ARMA_MAGICA, false, Constantes.ESTILO_FILO);
         EspKyoros.setIconoUrl("weapIcons\\chafarote.png");
         
-        Arma EspKyoros2M = new Arma("Espada Kyoros 2M", Constantes.CLASE_ESPADA_ANCHA, 40, Constantes.TIPO_ARMA_MAGICA, false, Constantes.ESTILO_DOS_MANOS);
+        Arma EspKyoros2M = new Arma("Espada Kyoros 2M", Constantes.CLASE_ESPADA_ANCHA, 40, Constantes.TIPO_ARMA_MAGICA, true, Constantes.ESTILO_DOS_MANOS);
         EspKyoros2M.setIconoUrl("weapIcons\\chafarote.png");
         
         Arma lanzaFeros = new Arma("Lanza Feroz", Constantes.CLASE_LANZA_CABALLERIA, 30, Constantes.TIPO_ARMA_MAGICA, false, Constantes.ESTILO_ASTA);

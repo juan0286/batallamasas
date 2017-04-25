@@ -56,7 +56,7 @@ public class Status implements Serializable {
     private int armadura_puesta;
     
     private Caracteristicas c;
-    private ArrayList<Extremidad> ext = new ArrayList<Extremidad>();
+    private ArrayList<Extremidad> ext;
 
     private int id_sortilegioCargado;
     private int cargasDelSortilegio;
@@ -827,5 +827,6 @@ public class Status implements Serializable {
             }
         }
     }
+  
 
 }

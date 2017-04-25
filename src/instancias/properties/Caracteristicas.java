@@ -107,6 +107,7 @@ public class Caracteristicas implements Serializable {
     public int getBd() {
         int da = (hm_habilidades.containsKey(Constantes.HABILIDAD_BD_DEFENSA_ADRENAL)) ? hm_habilidades.get(Constantes.HABILIDAD_BD_DEFENSA_ADRENAL) : 0;
         return hm_habilidades.get(Constantes.HABILIDAD_CAR_AGI) + da;
+        
     }
 
     /**
