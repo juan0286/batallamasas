@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="SpringMVC4_SpringMVC4_war_1.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>Entidades.HabGenerales</class>
+    <class>Entidades.HabMagicas</class>
+    <class>Entidades.HabArmadura</class>
+    <class>Entidades.Personaje</class>
+    <class>Entidades.Habilidades</class>
+    <class>Entidades.HabSecundariaDesarrollo</class>
+    <class>Entidades.HabSecundaria</class>
+    <class>Entidades.Resistencias</class>
+    <class>Entidades.Caracteristicas</class>
+    <class>Entidades.Employee</class>
+    <class>Entidades.HabArmas</class>
+    <class>Entidades.Objeto</class>
+    <class>Entidades.Jugador</class>
+    <class>Entidades.Bonoexp</class>
+    <class>Entidades.HabSubterfugio</class>
+    <class>Entidades.IdiomaDesarrollo</class>
+    <class>Entidades.Idioma</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/rol276?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="rol"/>
+    </properties>
+  </persistence-unit>
+</persistence>
